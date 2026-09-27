@@ -70,7 +70,7 @@ input[type="number"]{width:100%;border:1px solid var(--rule);padding:6px 9px;bac
 .toggle-row{display:flex;gap:6px}
 .toggle-btn{flex:1;border:1px solid var(--rule);background:var(--room);color:var(--ink-2);padding:6px 10px;font:inherit;font-size:.82rem;cursor:pointer}
 .toggle-btn.active{background:var(--accent);border-color:var(--accent);color:var(--sheet);font-weight:600}
-.price-lever{grid-column:1/-1}.bd-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.bd-head .toggle-row{min-width:220px}
+.price-lever{grid-column:1/-1}.p2-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;align-items:end;margin:10px 0}.p2-grid label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--ink-2)}@media(max-width:640px){.p2-grid{grid-template-columns:1fr}}.bd-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.bd-head .toggle-row{min-width:220px}
 .price-custom{display:grid;grid-template-columns:1fr 150px;gap:12px;align-items:center}
 @media (max-width:520px){.price-custom{grid-template-columns:1fr}}
 .presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -136,9 +136,15 @@ fr: {
   usesNote:'Les frais d’achat se paient avec les fonds propres : la banque ne les finance pas et ils n’augmentent pas la valeur retenue du bien.',
   levers:'Leviers', leversSub:'Tout se recalcule en direct · les valeurs restent dans ce navigateur',
   price:'Prix d’achat', pAsk:'Prix demandé · 2’050’000', pNeg:'Prix négocié', pHint:'Vente de succession, déjà ~16 % sous la moyenne au m² de Corseaux : la marge de négociation est sans doute limitée.', disc:'{x} % vs prix demandé',
-  eq:'Fonds propres apportés', eqHint:'Cash + titres vendus + 3a + 2e pilier. Les frais d’achat en sortent d’abord.',
+  eq:'Fonds propres apportés', eqHint:'Cash + titres vendus + 3a, sans le 2e pilier (réglé juste en dessous). Les frais d’achat en sortent d’abord.',
   reno:'Budget de rénovation (2027–2028)', renoHint:'Travaux + honoraires + réserve, TTC.',
   nk:'Travaux en nature (prestations propres)', nkHint:'Ce qu’on fait nous-mêmes (ex. électricité), compté au prix du marché et inclus dans le budget de rénovation. Réduit le cash et le crédit ; ne compte pas dans les 10 % de fonds propres « durs » ; notre main-d’œuvre n’est pas déductible.',
+  p2L:'2e pilier', p2M:[['none','Pas utilisé'],['wd','Retrait anticipé'],['pl','Mise en gage']], p2Cap:'Capital disponible (CHF)', p2Age:[['u50','Moins de 50 ans'],['o50','50 ans ou plus']], p2At50:'Capital à 50 ans (CHF)', p2Amt:'Montant utilisé',
+  p2Hint:'Maximum : tout le capital avant 50 ans ; dès 50 ans, le plus élevé entre le capital à 50 ans et la moitié du capital actuel. Minimum 20 000 CHF, un retrait tous les 5 ans, accord écrit du conjoint, rachats des 3 dernières années exclus.',
+  p2Max:'max {x}', p2Tx:'Impôt sur le retrait du 2e pilier ({r} %)', p2E:'2e pilier (retrait anticipé)', p2None:'pas utilisé',
+  p2Fwd:'Retrait du 2e pilier de {x} : impôt d’environ {y} (taux réduit, à vérifier avec le simulateur de l’ACI). Il ne compte pas dans les 10 % de fonds propres « durs » et réduit la rente et la couverture invalidité / décès : prévoir une assurance risque.',
+  p2Fpl:'2e pilier mis en gage pour {x} : pas d’impôt et la retraite reste intacte ; la banque accepte un crédit jusqu’à 80 % de la valeur plus le montant gagé, mais on paie plus d’intérêts.',
+  p2Fmin:'Retrait du 2e pilier de {x} : sous le minimum légal de 20 000 CHF.',
   ded:'Part fiscalement déductible', dedHint:'Entretien + énergie (PAC, isolation, PV, salles de bain refaites). Garage, piscine, agrandissement : 0 %.',
   split:'Part payée en 2027', splitHint:'Le reste est payé en 2028. Tout doit être payé avant le 31.12.2028.',
   presets:'Préréglages :',
@@ -162,7 +168,7 @@ fr: {
   eqCols:['Fonds propres','Crédit','Avance','Rénovation max','Coût / mois 2027–28','Coût / mois dès 2029','Économie d’impôt 27+28','Revenu requis'],
   asm:'Hypothèses',
   g:{buy:'Achat', bank:'Banque', tax:'Impôts', own:'Coûts de propriétaire'},
-  a:{price:'Prix d’achat (CHF)', mutC:'Droit de mutation cantonal (%)', mutCH:'Fixé par la loi.', mutCom:'Droit de mutation communal (%)', mutComH:'Au plus 1,1 % ; le taux exact de Corseaux est à confirmer.', rf:'Registre foncier (% du prix)', notary:'Notaire, acte de vente (% du prix)', notaryH:'Négociable : c’est l’acheteur qui choisit le notaire.', cedule:'Cédule hypothécaire (% du crédit)', ceduleH:'Nouvelle cédule nécessaire : aucune n’est inscrite sur la parcelle.', misc:'Divers (CHF)', p2:'dont 2e pilier dans les fonds propres (CHF)',
+  a:{price:'Prix d’achat (CHF)', mutC:'Droit de mutation cantonal (%)', mutCH:'Fixé par la loi.', mutCom:'Droit de mutation communal (%)', mutComH:'Au plus 1,1 % ; le taux exact de Corseaux est à confirmer.', rf:'Registre foncier (% du prix)', notary:'Notaire, acte de vente (% du prix)', notaryH:'Négociable : c’est l’acheteur qui choisit le notaire.', cedule:'Cédule hypothécaire (% du crédit)', ceduleH:'Nouvelle cédule nécessaire : aucune n’est inscrite sur la parcelle.', misc:'Divers (CHF)', p2tax:'Impôt sur le retrait du 2e pilier (%)', p2taxH:'Imposé à part, à taux réduit : ordre de grandeur 5–7 % pour ~90k dans le canton de Vaud.',
      rate:'Taux hypothécaire effectif (%)', rateH:'Sept. 2026 : SARON ~1,2 %, fixe 10 ans ~2,0 %.', bankPct:'Part des travaux reconnue dans la valeur (%)', bankPctH:'La banque ajoute à la valeur la part des travaux qui crée de la valeur.', k1:'Remboursement du 1er rang, après le 2e rang (CHF / an)', k1H:'Vide = on garde le même montant que l’amortissement du 2e rang.', nkBank:'Travaux en nature comptés dans la valeur (%)', nkBankH:'100 % si la banque les reconnaît comme des travaux facturés ; 0 % sinon. À confirmer avec la banque.', income:'Revenu brut du ménage (CHF / an)', incomeH:'Vide = test de revenu ignoré.',
      marg:'Taux marginal d’imposition (%)', margH:'Fédéral + canton + commune. ~36 % supposé pour ~80k d’impôts.', curTax:'Impôts actuels (CHF / an)', vl:'Valeur locative (CHF / an)', vlH:'~65–70 % du loyer du marché tel quel. Le chiffre réel vient de l’estimation fiscale.',
      upkeep:'Entretien courant dès 2029 (% de la valeur / an)', charges:'Charges annuelles (CHF)', ref:'Loyer de comparaison (CHF / mois)', refH:'Villa rénovée comparable à Corseaux : 5 350 net.', opp:'Rendement alternatif des fonds propres (%)'},
@@ -221,12 +227,15 @@ en: {
 }}[LANG];
 
 const ASK = 2050000;
-const DEF = {pMode:'ask', E:600000, R:154000, ded:75, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
+const DEF = {pMode:'ask', E:600000, R:154000, ded:75, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
 const KEY = 'galatry-financement-v1';
 let S = Object.assign({}, DEF);
 try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) Object.assign(S, s); } catch(e) {}
 const PP = () => S.pMode === 'custom' ? +S.P : ASK;
 const RATES = {saron:1.2, mix:1.6, fix10:2.0};
+// pillar 2: before 50 all the capital, from 50 the higher of the capital at 50 and half of today's capital
+const P2MAX = () => S.p2Age === 'o50' ? Math.max(+S.p2At50, S.p2Cap/2) : +S.p2Cap;
+const P2 = () => { const a = Math.max(0, Math.min(+S.p2Amt, P2MAX())); return {w: S.p2Mode === 'wd' ? a : 0, g: S.p2Mode === 'pl' ? a : 0}; };
 if (S.rMode !== 'custom' && RATES[S.rMode] !== +S.rate) S.rMode = Object.keys(RATES).find(k => RATES[k] === +S.rate) || 'custom';
 const save = () => { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {} };
 
@@ -243,14 +252,15 @@ function model(E, R){
   const N = Math.min(+S.N, R), Rc = R - N;   // work in kind: part of the renovation value, not paid in cash
   const V = P + (Rc + N * S.nkBank/100) * S.bankPct/100;
   // The mortgage-note fee depends on the mortgage, which depends on the fees: solve M = P + base + c·M + R − E.
-  const M = Math.max(0, (P + base + Rc - E) / (1 - c));
-  fx.ced = M * c;
-  const fees = base + fx.ced;
+  const {w: W, g: G} = P2(), tx = W * S.p2tax/100;   // pillar-2 withdrawal (taxed) or pledge
+  const M = Math.max(0, (P + base + tx + Rc - E - W) / (1 - c));
+  fx.ced = M * c; fx.tx = tx;
+  const fees = base + fx.ced + tx;
   const ltv = M / V;
   const amort = Math.max(0, M - V*2/3) / 15;
   const theo = M*0.05 + V*0.01 + amort;
   const reqInc = theo / 0.33;
-  const hard = E - S.p2 - fees;
+  const hard = E - (fees - tx);   // the withdrawal tax is paid out of the pillar-2 money
   const interest = M * r;
   const yrs = [S.split/100, 1 - S.split/100].map(sh => {
     const works = Rc * sh, dedW = works * S.ded/100;
@@ -262,10 +272,10 @@ function model(E, R){
   });
   const up = V * S.upkeep/100;
   const cost29 = interest + amort + up + +S.charges;
-  return {P, fx, fees, V, M, ltv, amort, theo, reqInc, hard, interest, yrs, up, cost29, taxSaved: -(yrs[0].dTax + yrs[1].dTax), E, R, N};
+  return {P, fx, fees, V, M, ltv, amort, theo, reqInc, hard, interest, yrs, up, cost29, taxSaved: -(yrs[0].dTax + yrs[1].dTax), E, R, N, W, G, tx};
 }
 function ok(m){
-  if (m.ltv > 0.8 + 1e-9) return false;
+  if (m.M > 0.8*m.V + m.G + 1e-6) return false;
   if (m.hard < 0.1*m.V) return false;
   if (S.income !== '' && +S.income > 0 && m.theo > 0.33 * S.income) return false;
   return true;
@@ -312,6 +322,18 @@ app.innerHTML = `
       ${fieldRange('E', T.eq, T.eqHint, 200000, 1500000, 10000)}
       ${fieldRange('R', T.reno, T.renoHint, 0, 2500000, 5000)}
       ${fieldRange('N', T.nk, T.nkHint, 0, 300000, 5000)}
+      <div class="field price-lever">
+        <div class="field-row"><label>${T.p2L}</label><span class="val" id="p2-v"></span></div>
+        <div class="toggle-row" role="group" aria-label="${T.p2L}">${T.p2M.map(([v,l]) => `<button type="button" class="toggle-btn" data-p2m="${v}">${l}</button>`).join('')}</div>
+        <div id="p2-body">
+          <div class="p2-grid"><label>${T.p2Cap}<input type="number" id="p2Cap" step="1000" inputmode="numeric"></label>
+            <div class="toggle-row" role="group">${T.p2Age.map(([v,l]) => `<button type="button" class="toggle-btn" data-p2a="${v}">${l}</button>`).join('')}</div>
+            <label id="p2At50-w">${T.p2At50}<input type="number" id="p2At50" step="1000" inputmode="numeric"></label></div>
+          <div class="field-row"><label for="p2Amt">${T.p2Amt}</label><span class="val" id="p2Amt-v"></span></div>
+          <input type="range" id="p2Amt" min="0" max="90000" step="1000">
+        </div>
+        <span class="hint">${T.p2Hint}</span>
+      </div>
       ${fieldRange('ded', T.ded, T.dedHint, 0, 100, 5)}
       ${fieldRange('split', T.split, T.splitHint, 0, 100, 5)}
     </div>
@@ -339,7 +361,7 @@ app.innerHTML = `
 <details class="assumptions" id="assumptions">
   <summary>${T.asm}</summary>
   <div class="assumption-groups">
-    <div class="assumption-group"><h3>${T.g.buy}</h3>${fieldNum('mutC', A.mutC, A.mutCH, 0.1)}${fieldNum('mutCom', A.mutCom, A.mutComH, 0.1)}${fieldNum('rf', A.rf, '', 0.05)}${fieldNum('notary', A.notary, A.notaryH, 0.05)}${fieldNum('cedule', A.cedule, A.ceduleH, 0.05)}${fieldNum('misc', A.misc, '', 500)}${fieldNum('p2', A.p2, '', 10000)}</div>
+    <div class="assumption-group"><h3>${T.g.buy}</h3>${fieldNum('mutC', A.mutC, A.mutCH, 0.1)}${fieldNum('mutCom', A.mutCom, A.mutComH, 0.1)}${fieldNum('rf', A.rf, '', 0.05)}${fieldNum('notary', A.notary, A.notaryH, 0.05)}${fieldNum('cedule', A.cedule, A.ceduleH, 0.05)}${fieldNum('misc', A.misc, '', 500)}${fieldNum('p2tax', A.p2tax, A.p2taxH, 0.5)}</div>
     <div class="assumption-group"><h3>${T.g.bank}</h3>${fieldNum('bankPct', A.bankPct, A.bankPctH, 5)}${fieldNum('nkBank', A.nkBank, A.nkBankH, 10)}${fieldNum('k1', A.k1, A.k1H, 1000)}${fieldNum('income', A.income, A.incomeH, 10000)}</div>
     <div class="assumption-group"><h3>${T.g.tax}</h3>${fieldNum('marg', A.marg, A.margH, 1)}${fieldNum('curTax', A.curTax, '', 1000)}${fieldNum('vl', A.vl, A.vlH, 1000)}</div>
     <div class="assumption-group"><h3>${T.g.own}</h3>${fieldNum('upkeep', A.upkeep, '', 0.1)}${fieldNum('charges', A.charges, '', 500)}${fieldNum('ref', A.ref, A.refH, 50)}${fieldNum('opp', A.opp, '', 0.5)}</div>
@@ -360,11 +382,18 @@ function syncInputs(){
   document.querySelectorAll('[data-rmode]').forEach(b => { const on = b.dataset.rmode === S.rMode; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
   document.getElementById('rate-custom').hidden = S.rMode !== 'custom';
   document.getElementById('rateR').value = S.rate; if (document.activeElement !== document.getElementById('rateN')) document.getElementById('rateN').value = S.rate;
+  document.querySelectorAll('[data-p2m]').forEach(b => { const on = b.dataset.p2m === S.p2Mode; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+  document.querySelectorAll('[data-p2a]').forEach(b => { const on = b.dataset.p2a === S.p2Age; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
+  document.getElementById('p2-body').hidden = S.p2Mode === 'none'; document.getElementById('p2At50-w').hidden = S.p2Age !== 'o50';
+  const am = document.getElementById('p2Amt'); am.max = Math.max(0, P2MAX()); am.value = Math.min(+S.p2Amt, P2MAX());
   document.querySelectorAll('[data-per]').forEach(b => { const on = b.dataset.per === S.per; b.classList.toggle('active', on); b.setAttribute('aria-pressed', on); });
 }
 document.querySelectorAll('[data-pmode]').forEach(b => b.addEventListener('click', () => { S.pMode = b.dataset.pmode; save(); syncInputs(); update(); }));
 document.querySelectorAll('[data-rmode]').forEach(b => b.addEventListener('click', () => { S.rMode = b.dataset.rmode; if (RATES[S.rMode]) S.rate = RATES[S.rMode]; save(); syncInputs(); update(); }));
 ['rateR', 'rateN'].forEach(id => document.getElementById(id).addEventListener('input', e => { const v = +e.target.value; if (e.target.value !== '' && v >= 0) { S.rate = v; save(); syncInputs(); update(); } }));
+document.querySelectorAll('[data-p2m]').forEach(b => b.addEventListener('click', () => { S.p2Mode = b.dataset.p2m; save(); syncInputs(); update(); }));
+document.querySelectorAll('[data-p2a]').forEach(b => b.addEventListener('click', () => { S.p2Age = b.dataset.p2a; save(); syncInputs(); update(); }));
+['p2Cap', 'p2At50'].forEach(id => document.getElementById(id).addEventListener('change', () => { const am = document.getElementById('p2Amt'); am.max = Math.max(0, P2MAX()); if (+S.p2Amt > P2MAX()) S.p2Amt = P2MAX(); save(); syncInputs(); update(); }));
 document.querySelectorAll('[data-per]').forEach(b => b.addEventListener('click', () => { S.per = b.dataset.per; save(); syncInputs(); update(); }));
 document.getElementById('Pn').addEventListener('change', e => { const v = +e.target.value; if (v > 0) { S.P = v; save(); syncInputs(); update(); } });
 IDS.forEach(id => {
@@ -374,7 +403,7 @@ IDS.forEach(id => {
 });
 document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => {
   const p = b.dataset.preset;
-  if (p === 'credit') { const fees = PP()*(S.mutC + S.mutCom + S.rf + S.notary)/100 + +S.misc + 1700000*S.cedule/100; S.R = Math.max(0, Math.round((1700000 - PP() - fees + S.E + +S.N)/1000)*1000); S.ded = 75; }
+  if (p === 'credit') { const fees = PP()*(S.mutC + S.mutCom + S.rf + S.notary)/100 + +S.misc + 1700000*S.cedule/100; const p = P2(); S.R = Math.max(0, Math.round((1700000 - PP() - fees - p.w*S.p2tax/100 + S.E + +S.N + p.w)/1000)*1000); S.ded = 75; }
   if (p === 'energy') { S.R = 500000; S.ded = 65; }
   if (p === 'a') { S.R = 1036400; S.ded = 40; }   // costs.py mid, simple variant, envelope incl.; deductible = roof, insulation, windows, heat pump, PV, glazing, half the lower-floor refit
   if (p === 'b') { S.R = 1818700; S.ded = 23; }   // costs.py mid, luxury variant
@@ -387,6 +416,8 @@ function update(){
   document.getElementById('P-v').textContent = 'CHF ' + chf(PP()) + (S.pMode === 'custom' ? ' · ' + fill(T.disc, {x: ((PP()/ASK - 1)*100).toFixed(1).replace(/^(\d)/, '+$1').replace('-', '−')}) : '');
   if (document.activeElement !== document.getElementById('Pn')) document.getElementById('Pn').value = S.P;
   document.getElementById('rate-v').textContent = (+S.rate).toFixed(2).replace(/0$/, '') + ' %' + (m.M > 0 ? ' · CHF ' + chf(m.interest) + ' / ' + (LANG === 'en' ? 'yr' : 'an') : '');
+  { const p = P2(), a = p.w || p.g; document.getElementById('p2-v').textContent = S.p2Mode === 'none' ? T.p2None : 'CHF ' + chf(a) + ' · ' + fill(T.p2Max, {x: chf(P2MAX())});
+    document.getElementById('p2Amt-v').textContent = 'CHF ' + chf(a); }
   document.getElementById('E-v').textContent = 'CHF ' + chf(S.E);
   document.getElementById('R-v').textContent = 'CHF ' + chf(S.R);
   document.getElementById('N-v').textContent = 'CHF ' + chf(m.N) + (+S.N > S.R ? ' (max = budget)' : '');
@@ -397,7 +428,7 @@ function update(){
   const m27 = (m.yrs[0].cost + m.yrs[1].cost) / 24, m29 = m.cost29 / 12;
   const incOK = S.income === '' || !(+S.income > 0) ? null : m.theo <= 0.33 * S.income;
   const C = T.c, cl = [
-    [C.mort, 'CHF ' + chf(m.M), pct(m.ltv) + ' % ' + C.ltv, m.ltv > 0.8 ? 'bad' : 'good'],
+    [C.mort, 'CHF ' + chf(m.M), pct(m.ltv) + ' % ' + C.ltv, m.M > 0.8*m.V + m.G + 1e-6 ? 'bad' : 'good'],
     [C.maxR, 'CHF ' + chf(maxR), C.maxRs, S.R > maxR ? 'bad' : 'good'],
     [C.m27, 'CHF ' + chf(m27), C.m27s, ''],
     [C.m29, 'CHF ' + chf(m29), C.m29s, ''],
@@ -407,8 +438,11 @@ function update(){
 
   const F = T.f, fl = [];
   if (m.M === 0) fl.push(['ok', F.neg]);
-  else if (m.ltv > 0.8) { const V = m.V, short = m.M - 0.8*V; fl.push(['bad', fill(F.ltv, {x: pct(m.ltv), y: 'CHF ' + chf(short), z: 'CHF ' + chf(maxR)})]); }
+  else if (m.M > 0.8*m.V + m.G + 1e-6) { const V = m.V, short = m.M - 0.8*V - m.G; fl.push(['bad', fill(F.ltv, {x: pct(m.ltv), y: 'CHF ' + chf(short), z: 'CHF ' + chf(maxR)})]); }
   else fl.push(['ok', fill(F.ltvOk, {x: pct(m.ltv)})]);
+  if (m.W > 0 && m.W < 20000) fl.push(['bad', fill(T.p2Fmin, {x: 'CHF ' + chf(m.W)})]);
+  else if (m.W > 0) fl.push(['warn', fill(T.p2Fwd, {x: 'CHF ' + chf(m.W), y: 'CHF ' + chf(m.tx)})]);
+  if (m.G > 0) fl.push(['warn', fill(T.p2Fpl, {x: 'CHF ' + chf(m.G)})]);
   if (m.N > 0) fl.push(['warn', fill(T.nkF, {x: 'CHF ' + chf(m.N)})]);
   if (m.hard < 0.1*m.V) fl.push(['bad', fill(F.hard, {x: 'CHF ' + chf(m.hard), y: 'CHF ' + chf(0.1*m.V)})]);
   if (incOK === null) fl.push(['warn', F.noInc]);
@@ -419,9 +453,9 @@ function update(){
   const ur = (l, v, cls='', p=true) => `<tr class="${cls}"><td>${l}</td><td>${chf(v)}</td><td>${p ? pp(v) : ''}</td></tr>`;
   document.getElementById('uses').innerHTML = `<thead><tr>${T.usesCols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>` +
     ur(U.price, PP()) + ur(U.mutC, x.mutC, 'sub') + ur(U.mutCom, x.mutCom, 'sub') + ur(U.rf, x.rf, 'sub') + ur(U.notary, x.notary, 'sub') +
-    ur(fill(U.ced, {x: 'CHF ' + chf(m.M)}), x.ced, 'sub') + ur(U.misc, x.misc, 'sub') + ur(U.fees, m.fees) +
+    ur(fill(U.ced, {x: 'CHF ' + chf(m.M)}), x.ced, 'sub') + ur(U.misc, x.misc, 'sub') + (m.tx > 0 ? ur(fill(T.p2Tx, {r: S.p2tax}), m.tx, 'sub') : '') + ur(U.fees, m.fees) +
     ur(U.buy, PP() + m.fees, 'total') + ur(U.reno, S.R) + (m.N > 0 ? ur(T.nkU, m.N, 'sub') : '') + ur(U.tot, PP() + m.fees + S.R, 'total') +
-    `<tr class="sub"><td colspan="3">${U.fin}</td></tr>` + ur(U.eq, S.E, '', false) + (m.N > 0 ? ur(T.nkE, m.N, '', false) : '') + ur(U.mort, m.M, '', false) + '</tbody>';
+    `<tr class="sub"><td colspan="3">${U.fin}</td></tr>` + ur(U.eq, S.E, '', false) + (m.W > 0 ? ur(T.p2E, m.W, '', false) : '') + (m.N > 0 ? ur(T.nkE, m.N, '', false) : '') + ur(U.mort, m.M, '', false) + '</tbody>';
   const Rw = T.rows, y = m.yrs, dash = '–';
   const dv = S.per === 'm' ? 12 : 1, mo = S.per === 'm';
   document.getElementById('bd-h').textContent = mo ? T.bdM : T.bd;

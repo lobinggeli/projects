@@ -339,7 +339,7 @@ button:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
     <p class="eyebrow">Où loger</p>
     <h2>Les quartiers</h2>
   </div>
-  <div class="alert" style="background:var(--marigold-soft)"><b style="color:var(--marigold)">Bureau</b><p>Ton bureau est à l'Hipódromo de las Américas (Lomas de Sotelo), au nord-ouest de Polanco. En semaine, <strong>Polanco</strong> est de loin le plus pratique : environ 2,5 km. Roma Norte et Condesa sont à 5,5–6,5 km à vol d'oiseau, soit souvent 25 à 45 min d'Uber aux heures de pointe (estimation, à vérifier). Option : Polanco pendant la semaine, puis Roma/Condesa pour le week-end.</p></div>
+  <div class="alert" style="background:var(--marigold-soft)"><b style="color:var(--marigold)">Bureau</b><p>Ton bureau est au Periférico Blvd. Manuel Ávila Camacho 137 (Lomas de Chapultepec, juste à l'ouest de Polanco). En semaine, <strong>Polanco</strong> est de loin le plus pratique : environ 1,2 km, faisable à pied. Condesa et Roma Norte sont à 4,5–5,5 km à vol d'oiseau, soit souvent 20 à 40 min d'Uber aux heures de pointe (estimation, à vérifier). Option : Polanco pendant la semaine, puis Roma/Condesa pour le week-end.</p></div>
   <div class="hoods">
     <div class="hood pick">
       <span class="badge">Recommandé</span>
@@ -349,7 +349,7 @@ button:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
     </div>
     <div class="hood">
       <h3>Polanco</h3>
-      <p class="muted">Le plus proche du bureau (≈2,5 km). Plus luxe et calme, près de Chapultepec et du musée d'anthropologie.</p>
+      <p class="muted">Le plus proche du bureau (≈1,2 km, à pied). Plus luxe et calme, près de Chapultepec et du musée d'anthropologie.</p>
       <dl><dt>Bémol</dt><dd>Plus cher, moins d'âme</dd></dl>
     </div>
     <div class="hood">
@@ -442,7 +442,7 @@ button:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
   ];
   var ROUTE=[[19.42294,-99.17585],[19.42512,-99.17163],[19.42700,-99.16767],[19.42883,-99.16373],[19.43309,-99.15475],[19.43605,-99.14906],[19.4357,-99.1450],[19.4355,-99.14126],[19.4340,-99.1405],[19.4336,-99.1350],[19.43265,-99.1332]];
   var P=[
-    {cat:"work",n:"Bureau : Hipódromo de las Américas",lat:19.4412,lon:-99.2180,d:"Ton lieu de travail, à Lomas de Sotelo (Miguel Hidalgo), au nord-ouest de Polanco. Environ 2,5 km de Polanco, 5,5 km de Condesa, 6,5 km de Roma Norte à vol d'oiseau.",w:"Semaine du 26 oct."},
+    {cat:"work",n:"Bureau",lat:19.43362,lon:-99.20944,d:"Periférico Blvd. Manuel Ávila Camacho 137, Lomas de Chapultepec III Secc. (Miguel Hidalgo), à l'ouest de Polanco. À vol d'oiseau : environ 1,2 km du cœur de Polanco, 4,4 km de Condesa, 5,3 km de Roma Norte.",w:"Semaine du 26 oct.",q:"https://maps.app.goo.gl/8oLFNGTd6kdySyGT8"},
     {cat:"fest",n:"Zócalo : méga-ofrenda",lat:19.43265,lon:-99.1332,d:"Immense autel public et arrivée du défilé.",w:"28 oct. – 4 nov., le soir"},
     {cat:"fest",n:"Ángel de la Independencia",lat:19.4270,lon:-99.16767,d:"Meilleur point pour voir le défilé, moins bondé que le Zócalo. Alebrijes exposés sur Reforma.",w:"Sam. 31 oct., 1 à 2 h en avance"},
     {cat:"fest",n:"Mercado de Jamaica",lat:19.4086,lon:-99.1227,d:"Marché aux fleurs, montagnes de cempasúchil.",w:"Le matin"},
@@ -471,7 +471,7 @@ button:focus-visible{outline:2px solid var(--marigold);outline-offset:2px}
     {cat:"visit",n:"Castillo de Chapultepec",lat:19.42046,lon:-99.18209,d:"Château sur la colline, vue sur Reforma.",w:"En journée"},
     {cat:"visit",n:"Casa Azul (Frida Kahlo)",lat:19.35514,lon:-99.16236,d:"À combiner avec Coyoacán. Réservation obligatoire.",w:"Réserver en avance"}
   ];
-  P.forEach(function(p,i){p.id=i+1;p.q="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.n.replace(/ :.*$/,"").replace(/ \(.*\)$/,"")+", Ciudad de México");});
+  P.forEach(function(p,i){p.id=i+1;if(!p.q)p.q="https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.n.replace(/ :.*$/,"").replace(/ \(.*\)$/,"")+", Ciudad de México");});
   var state={view:"centre",on:{work:true,fest:true,event:true,club:true,hotel:true,visit:true},sel:3};
 
   function gp(lat,lon,z){var n=256*Math.pow(2,z),s=Math.sin(lat*Math.PI/180);return[(lon+180)/360*n,(0.5-Math.log((1+s)/(1-s))/(4*Math.PI))*n];}

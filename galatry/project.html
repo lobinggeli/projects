@@ -208,6 +208,14 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 #costs .notes{margin-top:20px}
 
 .pp-fit{fill:var(--c-stone);stroke:var(--ink);stroke-width:5}.pp-zone{font-size:50px;letter-spacing:.08em;text-anchor:middle;fill:var(--ink);font-weight:600;opacity:.75}
+.zoom-open{border:1px solid var(--rule);background:transparent;color:var(--ink-2);font:inherit;font-size:.78rem;padding:4px 10px;cursor:pointer}.zoom-open:hover{color:var(--ink);border-color:var(--ink-2)}
+#lower figure svg,#upper figure svg{cursor:zoom-in}
+.zoom-ov{position:fixed;inset:0;z-index:1000;background:var(--paper);display:flex;flex-direction:column}
+.zoom-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+.zoom-hint{color:var(--ink-2);font-size:.78rem;flex:1}
+.zoom-btns{display:flex;gap:6px}.zoom-btns button{border:1px solid var(--rule);background:transparent;color:var(--ink);font:inherit;min-width:36px;height:34px;padding:0 10px;cursor:pointer}.zoom-btns button:hover{border-color:var(--ink-2)}
+.zoom-stage{flex:1;min-height:0;touch-action:none;cursor:grab}.zoom-stage.drag{cursor:grabbing}.zoom-stage svg{width:100%;height:100%;display:block}
+@media(max-width:640px){.zoom-hint{display:none}}
 </style>
 </head>
 <body>
@@ -1207,6 +1215,76 @@ const retheme = () => { mats(); Object.values(sites).forEach(s => s.paint()); la
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change', retheme);
 new MutationObserver(retheme).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { labels.forEach(drawLabel); Object.values(sites).forEach(s => s.paint()); render(); });
+})();
+</script>
+<script>// Full-screen zoom for the floor plans: wheel / pinch to zoom, drag to pan, +/−/reset buttons, Esc to close.
+(function(){
+  const fr = document.documentElement.lang !== 'en';
+  const L = fr ? {open:'Agrandir', close:'Fermer', zin:'Zoom avant', zout:'Zoom arrière', reset:'Vue entière', hint:'molette ou pincement pour zoomer · glisser pour déplacer'}
+               : {open:'Enlarge', close:'Close', zin:'Zoom in', zout:'Zoom out', reset:'Whole plan', hint:'scroll or pinch to zoom · drag to pan'};
+  const ov = document.createElement('div');
+  ov.className = 'zoom-ov'; ov.hidden = true; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true');
+  ov.innerHTML = `<div class="zoom-bar"><span class="fig-title" id="zoom-title"></span><span class="zoom-hint">${L.hint}</span>
+    <span class="zoom-btns"><button type="button" data-z="in" aria-label="${L.zin}">+</button><button type="button" data-z="out" aria-label="${L.zout}">−</button>
+    <button type="button" data-z="reset">${L.reset}</button><button type="button" data-z="close" aria-label="${L.close}">✕</button></span></div><div class="zoom-stage"></div>`;
+  document.body.appendChild(ov);
+  const stage = ov.querySelector('.zoom-stage');
+  let svg = null, vb0 = null, vb = null, back = null;
+  const set = () => svg.setAttribute('viewBox', vb.join(' '));
+  const toSvg = (cx, cy) => { const p = svg.createSVGPoint(); p.x = cx; p.y = cy; return p.matrixTransform(svg.getScreenCTM().inverse()); };
+  function zoomAt(f, cx, cy){
+    const w = Math.min(vb0[2] * 1.5, Math.max(vb0[2] / 14, vb[2] * f)); f = w / vb[2];
+    const p = toSvg(cx, cy);
+    vb = [p.x - (p.x - vb[0]) * f, p.y - (p.y - vb[1]) * f, vb[2] * f, vb[3] * f]; set();
+  }
+  const centre = () => { const r = svg.getBoundingClientRect(); return [r.left + r.width/2, r.top + r.height/2]; };
+  function open(fig){
+    back = document.activeElement;
+    svg = fig.querySelector('svg').cloneNode(true);
+    svg.removeAttribute('style'); svg.querySelectorAll('[id]').forEach(n => n.removeAttribute('id'));
+    stage.replaceChildren(svg);
+    vb0 = svg.getAttribute('viewBox').split(/[ ,]+/).map(Number); vb = vb0.slice();
+    ov.querySelector('#zoom-title').textContent = fig.querySelector('.fig-title').textContent;
+    ov.hidden = false; document.documentElement.style.overflow = 'hidden';
+    ov.querySelector('[data-z="close"]').focus();
+  }
+  function close(){ ov.hidden = true; stage.replaceChildren(); svg = null; document.documentElement.style.overflow = ''; if (back) back.focus(); }
+  ov.querySelectorAll('[data-z]').forEach(b => b.addEventListener('click', () => {
+    const z = b.dataset.z;
+    if (z === 'close') return close();
+    if (z === 'reset') { vb = vb0.slice(); return set(); }
+    zoomAt(z === 'in' ? 0.7 : 1/0.7, ...centre());
+  }));
+  document.addEventListener('keydown', e => {
+    if (ov.hidden) return;
+    if (e.key === 'Escape') close();
+    else if (e.key === '+' || e.key === '=') zoomAt(0.7, ...centre());
+    else if (e.key === '-') zoomAt(1/0.7, ...centre());
+  });
+  stage.addEventListener('wheel', e => { if (!svg) return; e.preventDefault(); zoomAt(Math.exp(e.deltaY * 0.0015), e.clientX, e.clientY); }, {passive: false});
+  // drag to pan, two fingers to pinch
+  const pts = new Map(); let pinch = 0;
+  stage.addEventListener('pointerdown', e => { if (!svg) return; stage.setPointerCapture(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]); stage.classList.add('drag'); });
+  stage.addEventListener('pointermove', e => {
+    if (!svg || !pts.has(e.pointerId)) return;
+    const prev = pts.get(e.pointerId); pts.set(e.pointerId, [e.clientX, e.clientY]);
+    if (pts.size === 1){
+      const k = 1 / svg.getScreenCTM().a;
+      vb[0] -= (e.clientX - prev[0]) * k; vb[1] -= (e.clientY - prev[1]) * k; set();
+    } else if (pts.size === 2){
+      const [a, b] = [...pts.values()], d = Math.hypot(a[0]-b[0], a[1]-b[1]);
+      if (pinch) zoomAt(pinch / d, (a[0]+b[0])/2, (a[1]+b[1])/2);
+      pinch = d;
+    }
+  });
+  const up = e => { pts.delete(e.pointerId); if (pts.size < 2) pinch = 0; if (!pts.size) stage.classList.remove('drag'); };
+  stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+  // a zoom button on every floor plan
+  document.querySelectorAll('#lower figure, #upper figure').forEach(fig => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'zoom-open'; b.textContent = '⤢ ' + L.open;
+    b.addEventListener('click', () => open(fig)); fig.querySelector('.fig-bar').appendChild(b);
+    fig.querySelector('svg').addEventListener('dblclick', () => open(fig));
+  });
 })();
 </script>
 </body>

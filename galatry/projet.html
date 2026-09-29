@@ -813,7 +813,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <g class="north" transform="translate(2200,400)"><circle r="54"/><path d="M0,-44 L19,24 L0,10 L-19,24 Z"/><text y="126" style="font-size:64px">N</text></g>
 </svg></figure></div>
   <div class="legend"><span><i style="background:var(--c-sleep)"></i>Chambres</span><span><i style="background:var(--c-living)"></i>Séjour, cuisine, bureau</span><span><i style="background:var(--c-wet)"></i>Salle d’eau</span><span><i style="background:var(--c-well)"></i>Bien-être</span><span><i style="background:var(--c-tech)"></i>Technique, rangement</span><span><i style="background:var(--c-circ)"></i>Circulation</span><span><i style="background:var(--c-garage)"></i>Garage</span></div>
-  <p class="muted">L’étage de l’entrée devient l’étage de la nuit. La chambre parentale (15.7 m²) prend la place de la cuisine et garde sa porte vitrée sur la terrasse ; sa salle de bain (5.4 m²) occupe l’angle nord-est de l’ancienne salle à manger. À l’ouest, les deux chambres des enfants partagent les bains existants, avec le W-C à côté. Au milieu, pas de nouveaux murs : le hall, l’ancien séjour et le reste de la salle à manger forment un espace ouvert (32 m² plus le hall), vitré au sud. Une nouvelle fenêtre de 2.9 m est percée dans le mur plein de l’ancienne salle à manger, entre la cheminée et la baie de la terrasse, avec l’allège et le linteau de la fenêtre du séjour. Mur porteur de façade : linteau à dimensionner par l’ingénieur, et modification de façade à autoriser. Au total : trois chambres en haut, deux en bas.</p>
+  <p class="muted">L’étage de l’entrée devient l’étage de la nuit. La chambre parentale (15.7 m²) prend la place de la cuisine et garde sa porte vitrée sur la terrasse ; sa salle de bain (5.4 m²) occupe l’angle nord-est de l’ancienne salle à manger. À l’ouest, les deux chambres des enfants partagent les bains existants, avec le W-C à côté. Au milieu, pas de nouveaux murs : le hall, l’ancien séjour et le reste de la salle à manger forment un espace ouvert (32 m² plus le hall), vitré au sud. Une nouvelle fenêtre de 2.9 m est percée dans le mur plein de l’ancienne salle à manger, entre l’ancienne cheminée et la baie de la terrasse, avec l’allège et le linteau de la fenêtre du séjour. Mur porteur de façade : linteau à dimensionner par l’ingénieur, et modification de façade à autoriser. La cheminée du séjour est démontée, ainsi que le conduit de l’ancienne chaudière à gaz, remplacée par une pompe à chaleur : les deux souches disparaissent du toit. Au total : trois chambres en haut, deux en bas.</p>
   <p class="muted"><b>Variante D</b> : au rez-de-chaussée, toutes les cloisons tombent entre le hall d’entrée, la cuisine, le séjour et la salle à manger : une seule pièce de vie d’environ 72 m², avec la cuisine le long de la façade nord et un îlot. Dans l’aile ouest, le bureau prend la pièce sud (17 m²) et sa fenêtre sur le lac, avec le plan de travail dessous et sa propre porte sur la pièce de vie. La suite parentale passe dans l’ancienne chambre nord-ouest (15 m²) : le lit fait face à la fenêtre du décrochement, orientée sud-ouest ; on y entre par un dressing-sas (5 m²) depuis la pièce de vie, qui dessert aussi la salle de bain, restée à sa place (6 m², eau en place, douche, vasque sous la fenêtre nord). Aucune plomberie déplacée ; la porte du mur de refend est simplement refermée.</p>
 </section>
 
@@ -1121,7 +1121,9 @@ house.add(prism(D.terrace, () => -64, () => 0, M.band));
 D.parapet.forEach(s => house.add(wallSeg(...s, 18, -64, 85, M.band)));
 house.add(prism([[802,1252],[1609,1255],[1609,1272],[802,1269]], () => -64, () => 85, M.band));
 D.roof.forEach(([poly, d]) => roofG.add(prism(offset(poly, d), (x,z) => roofTop(z) - RT, (x,z) => roofTop(z), M.roof)));
-D.chimneys.forEach(([x0,z0,x1,z1,top]) => roofG.add(prism([[x0,z0],[x1,z0],[x1,z1],[x0,z1]], (x,z) => roofTop(z) - 30, () => top, M.wall)));
+// the fireplace stack and the gas-boiler flue (first two) come down in the variants; the small vent stays
+const chimEx = new THREE.Group(); scene.add(chimEx);
+D.chimneys.forEach(([x0,z0,x1,z1,top], i) => (i < 2 ? chimEx : roofG).add(prism([[x0,z0],[x1,z0],[x1,z1],[x0,z1]], (x,z) => roofTop(z) - 30, () => top, M.wall)));
 const addWin = (grp, list) => list.forEach(([x1,z1,x2,z2,y0,y1,kind='glass',out=3]) => {
   const top = y1 === 'roof' ? ((x,z) => roofTop(z) - RT - 6) : y1;
   grp.add(panel(x1,z1,x2,z2,y0,top, kind === 'wood' ? M.wood : M.glass, out));
@@ -1285,7 +1287,7 @@ function apply(){
   Object.keys(lows).forEach(k => { lows[k].visible = low && k === lay; ups[k].visible = up && k === lay; });
   Object.keys(projs).forEach(k => { projs[k].visible = k === mode; siteLabels[k].visible = k === mode && !low && !up; });
   house.visible = !low && !up; upperMass.visible = roofG.visible = upWins.visible = !low && !up;
-  newWins.visible = mode !== 'ex' && !low && !up;
+  newWins.visible = mode !== 'ex' && !low && !up; chimEx.visible = mode === 'ex' && !low && !up;
   render();
 }
 const views = { se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700] };

@@ -813,7 +813,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <g class="north" transform="translate(2200,400)"><circle r="54"/><path d="M0,-44 L19,24 L0,10 L-19,24 Z"/><text y="126" style="font-size:64px">N</text></g>
 </svg></figure></div>
   <div class="legend"><span><i style="background:var(--c-sleep)"></i>Bedrooms</span><span><i style="background:var(--c-living)"></i>Living, kitchen, study</span><span><i style="background:var(--c-wet)"></i>Bathroom</span><span><i style="background:var(--c-well)"></i>Wellness</span><span><i style="background:var(--c-tech)"></i>Plant, storage</span><span><i style="background:var(--c-circ)"></i>Circulation</span><span><i style="background:var(--c-garage)"></i>Garage</span></div>
-  <p class="muted">The entrance floor becomes the sleeping floor. The main bedroom (15.7 m²) takes the place of the kitchen and keeps its glass door onto the terrace; its bathroom (5.4 m²) sits in the north-east corner of the old dining room. To the west, the two children’s bedrooms share the existing bathroom, with the WC next door. In the middle there are no new walls: the hall, the old living room and the rest of the dining room make one open space (32 m² plus the hall), glazed to the south. A new 2.9 m window is cut into the solid wall of the old dining room, between the fireplace and the terrace glazing, with the same sill and head as the living-room window. This is a load-bearing façade wall: the engineer sizes the lintel, and the façade change needs a permit. In all: three bedrooms upstairs, two downstairs.</p>
+  <p class="muted">The entrance floor becomes the sleeping floor. The main bedroom (15.7 m²) takes the place of the kitchen and keeps its glass door onto the terrace; its bathroom (5.4 m²) sits in the north-east corner of the old dining room. To the west, the two children’s bedrooms share the existing bathroom, with the WC next door. In the middle there are no new walls: the hall, the old living room and the rest of the dining room make one open space (32 m² plus the hall), glazed to the south. A new 2.9 m window is cut into the solid wall of the old dining room, between the old fireplace and the terrace glazing, with the same sill and head as the living-room window. This is a load-bearing façade wall: the engineer sizes the lintel, and the façade change needs a permit. The living-room fireplace comes out, and so does the flue of the old gas boiler, which a heat pump replaces: both stacks disappear from the roof. In all: three bedrooms upstairs, two downstairs.</p>
   <p class="muted"><b>Variant D</b>: on the ground floor every partition goes between the entrance hall, kitchen, living and dining room: one living space of about 72 m², with the kitchen along the north wall and an island. In the west wing the study takes the south room (17 m²) and its lake window, with the desk under it and its own door onto the living space. The parents’ suite moves to the old north-west bedroom (15 m²): the bed faces the jog window, facing south-west; you enter through a dressing lobby (5 m²) off the living space, which also serves the bathroom, kept in its place (6 m², water in place, shower, basin under the north window). No plumbing moves; the door in the spine wall is simply closed.</p>
 </section>
 
@@ -1121,7 +1121,9 @@ house.add(prism(D.terrace, () => -64, () => 0, M.band));
 D.parapet.forEach(s => house.add(wallSeg(...s, 18, -64, 85, M.band)));
 house.add(prism([[802,1252],[1609,1255],[1609,1272],[802,1269]], () => -64, () => 85, M.band));
 D.roof.forEach(([poly, d]) => roofG.add(prism(offset(poly, d), (x,z) => roofTop(z) - RT, (x,z) => roofTop(z), M.roof)));
-D.chimneys.forEach(([x0,z0,x1,z1,top]) => roofG.add(prism([[x0,z0],[x1,z0],[x1,z1],[x0,z1]], (x,z) => roofTop(z) - 30, () => top, M.wall)));
+// the fireplace stack and the gas-boiler flue (first two) come down in the variants; the small vent stays
+const chimEx = new THREE.Group(); scene.add(chimEx);
+D.chimneys.forEach(([x0,z0,x1,z1,top], i) => (i < 2 ? chimEx : roofG).add(prism([[x0,z0],[x1,z0],[x1,z1],[x0,z1]], (x,z) => roofTop(z) - 30, () => top, M.wall)));
 const addWin = (grp, list) => list.forEach(([x1,z1,x2,z2,y0,y1,kind='glass',out=3]) => {
   const top = y1 === 'roof' ? ((x,z) => roofTop(z) - RT - 6) : y1;
   grp.add(panel(x1,z1,x2,z2,y0,top, kind === 'wood' ? M.wood : M.glass, out));
@@ -1285,7 +1287,7 @@ function apply(){
   Object.keys(lows).forEach(k => { lows[k].visible = low && k === lay; ups[k].visible = up && k === lay; });
   Object.keys(projs).forEach(k => { projs[k].visible = k === mode; siteLabels[k].visible = k === mode && !low && !up; });
   house.visible = !low && !up; upperMass.visible = roofG.visible = upWins.visible = !low && !up;
-  newWins.visible = mode !== 'ex' && !low && !up;
+  newWins.visible = mode !== 'ex' && !low && !up; chimEx.visible = mode === 'ex' && !low && !up;
   render();
 }
 const views = { se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700] };

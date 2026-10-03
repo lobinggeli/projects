@@ -175,9 +175,9 @@ fr: {
   eqCols:['Fonds propres','Crédit','Avance','Rénovation max','Coût / mois 2026–28','Coût / mois dès 2029','Économie d’impôt 26–28','Revenu requis'],
   asm:'Hypothèses',
   g:{buy:'Achat', bank:'Banque', tax:'Impôts', own:'Coûts de propriétaire'},
-  a:{price:'Prix d’achat (CHF)', mutC:'Droit de mutation cantonal (%)', mutCH:'Fixé par la loi.', mutCom:'Droit de mutation communal (%)', mutComH:'Au plus 1,1 % ; le taux exact de Corseaux est à confirmer.', rf:'Registre foncier (% du prix)', notary:'Notaire, acte de vente (% du prix)', notaryH:'Négociable : c’est l’acheteur qui choisit le notaire.', cedule:'Cédule hypothécaire (% du crédit)', ceduleH:'Nouvelle cédule nécessaire : aucune n’est inscrite sur la parcelle.', misc:'Divers (CHF)', p2tax:'Impôt sur le retrait du 2e pilier (%)', p2taxH:'Imposé à part, à taux réduit : ordre de grandeur 5–7 % pour ~90k dans le canton de Vaud.',
+  a:{price:'Prix d’achat (CHF)', mutC:'Droit de mutation cantonal (%)', mutCH:'Fixé par la loi.', mutCom:'Droit de mutation communal (%)', mutComH:'Au plus 1,1 % ; le taux exact de Corseaux est à confirmer.', rf:'Registre foncier (% du prix)', notary:'Notaire, acte de vente (% du prix)', notaryH:'Négociable : c’est l’acheteur qui choisit le notaire.', cedule:'Cédule hypothécaire (% du crédit)', ceduleH:'Nouvelle cédule nécessaire : aucune n’est inscrite sur la parcelle.', misc:'Divers (CHF)', p2tax:'Impôt sur le retrait du 2e pilier (%)', p2taxH:'Imposé à part, à taux réduit : ordre de grandeur 5–7 % dans le canton de Vaud.',
      rate:'Taux hypothécaire effectif (%)', rateH:'Sept. 2026 : SARON ~1,2 %, fixe 10 ans ~2,0 %.', bankPct:'Part des travaux reconnue dans la valeur (%)', bankPctH:'La banque ajoute à la valeur la part des travaux qui crée de la valeur.', k1:'Remboursement du 1er rang, après le 2e rang (CHF / an)', k1H:'Vide = on garde le même montant que l’amortissement du 2e rang.', nkBank:'Travaux en nature comptés dans la valeur (%)', nkBankH:'100 % si la banque les reconnaît comme des travaux facturés ; 0 % sinon. À confirmer avec la banque.', income:'Revenu brut du ménage (CHF / an)', incomeH:'Vide = test de revenu ignoré.',
-     marg:'Taux marginal d’imposition (%)', margH:'Fédéral + canton + commune. ~36 % supposé pour ~80k d’impôts.', curTax:'Impôts actuels (CHF / an)', vl:'Valeur locative (CHF / an)', vlH:'~65–70 % du loyer du marché tel quel. Le chiffre réel vient de l’estimation fiscale.',
+     marg:'Taux marginal d’imposition (%)', margH:'Fédéral + canton + commune.', curTax:'Impôts actuels (CHF / an)', vl:'Valeur locative (CHF / an)', vlH:'~65–70 % du loyer du marché tel quel. Le chiffre réel vient de l’estimation fiscale.',
      upkeep:'Entretien courant dès 2029 (% de la valeur / an)', charges:'Charges annuelles (CHF)', ref:'Loyer de comparaison (CHF / mois)', refH:'Villa rénovée comparable à Corseaux : 5 350 net.', opp:'Rendement alternatif des fonds propres (%)'},
   nkF:'Travaux en nature de {x} : la banque demande en général un devis et la preuve d’une qualification (ex. électricien). Ils réduisent le crédit mais ne comptent pas dans les fonds propres « durs ».', nkU:'dont travaux en nature', nkE:'Travaux en nature',
   rp:'Remboursement du crédit', rpCols:['','Montant','Remboursé par an','Durée','Période','Coût / mois pendant','Coût / mois après'],
@@ -224,7 +224,7 @@ en: {
   g:{buy:'Purchase', bank:'Bank', tax:'Tax', own:'Owner costs'},
   a:{price:'Purchase price (CHF)', mutC:'Cantonal transfer duty (%)', mutCH:'Set by law.', mutCom:'Communal transfer duty (%)', mutComH:'At most 1.1%; Corseaux’s exact rate to be confirmed.', rf:'Land registry (% of price)', notary:'Notary, deed of sale (% of price)', notaryH:'Negotiable: the buyer chooses the notary.', cedule:'Mortgage note (% of mortgage)', ceduleH:'A new note is needed: none is registered on the parcel.', misc:'Other (CHF)', p2:'of which pillar 2 in equity (CHF)',
      rate:'Effective mortgage rate (%)', rateH:'Sept 2026: SARON ~1.2%, 10-yr fixed ~2.0%.', bankPct:'Share of works counted in value (%)', bankPctH:'The bank adds the value-creating part of the works to the collateral value.', income:'Gross household income (CHF / yr)', incomeH:'Empty = affordability test skipped.',
-     marg:'Marginal tax rate (%)', margH:'Federal + canton + commune. ~36% assumed for ~80k tax.', curTax:'Current tax (CHF / yr)', vl:'Imputed rental value (CHF / yr)', vlH:'~65–70% of market rent as-is. The real figure comes from the tax valuation.',
+     marg:'Marginal tax rate (%)', margH:'Federal + canton + commune.', curTax:'Current tax (CHF / yr)', vl:'Imputed rental value (CHF / yr)', vlH:'~65–70% of market rent as-is. The real figure comes from the tax valuation.',
      upkeep:'Ongoing upkeep from 2029 (% of value / yr)', charges:'Annual charges (CHF)', ref:'Comparison rent (CHF / month)', refH:'Comparable renovated villa in Corseaux: 5,350 net.', opp:'Alternative return on equity (%)'},
   reset:'Reset to defaults',
   notesH:'Notes',
@@ -400,7 +400,7 @@ function renoSubs(ur){
   return CATS.map(c => ur('· ' + RT.cats[c][0], Math.round(v.cat[c][1] * (1 + extra) * f / 1000) * 1000, 'sub')).join('');
 }
 
-const DEF = {split26:20, buyM:11, permitFirst:0, permitM:8, worksM:12, rent:3500, overlap:1, wMode:0, pMode:'ask', E:600000, R:Math.round(RENO.v.r.tot[1] / 5000) * 5000, ded:RENO.v.r.ded, split:40, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
+const DEF = {split26:20, buyM:11, permitFirst:0, permitM:8, worksM:12, rent:0, overlap:1, wMode:0, pMode:'ask', E:0, R:Math.round(RENO.v.r.tot[1] / 5000) * 5000, ded:RENO.v.r.ded, split:40, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:0, p2Age:'u50', p2At50:0, p2Amt:0, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:0, curTax:0, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
 const KEY = 'galatry-financement-v4';   // v3: renovation default and presets come from the cost model (RENO)
 let S = Object.assign({}, DEF);
 try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) Object.assign(S, s); } catch(e) {}
@@ -497,7 +497,7 @@ app.innerHTML = `
         <div class="price-custom" id="rate-custom"><input type="range" id="rateR" min="0.5" max="4" step="0.05" aria-label="${T.rateL}"><input type="number" id="rateN" min="0" max="8" step="0.05" inputmode="decimal" aria-label="${T.rateL}"></div>
         <span class="hint">${T.rateHint}</span>
       </div>
-      ${fieldRange('E', T.eq, T.eqHint, 200000, 1500000, 10000)}
+      ${fieldRange('E', T.eq, T.eqHint, 0, 1500000, 10000)}
       ${fieldRange('R', T.reno, T.renoHint, 0, 2500000, 5000)}
       ${fieldRange('N', T.nk, T.nkHint, 0, 300000, 5000)}
       <div class="field price-lever">
@@ -508,7 +508,7 @@ app.innerHTML = `
             <div class="toggle-row" role="group">${T.p2Age.map(([v,l]) => `<button type="button" class="toggle-btn" data-p2a="${v}">${l}</button>`).join('')}</div>
             <label id="p2At50-w">${T.p2At50}<input type="number" id="p2At50" step="1000" inputmode="numeric"></label></div>
           <div class="field-row"><label for="p2Amt">${T.p2Amt}</label><span class="val" id="p2Amt-v"></span></div>
-          <input type="range" id="p2Amt" min="0" max="90000" step="1000">
+          <input type="range" id="p2Amt" min="0" max="0" step="1000">
         </div>
         <span class="hint">${T.p2Hint}</span>
       </div>

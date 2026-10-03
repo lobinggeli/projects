@@ -227,7 +227,7 @@ en: {
 }}[LANG];
 
 const ASK = 2050000;
-const DEF = {pMode:'ask', E:600000, R:1140000, ded:50, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
+const DEF = {pMode:'ask', E:600000, R:1130000, ded:50, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
 const KEY = 'galatry-financement-v2';   // v2: the realistic variant is the default renovation
 let S = Object.assign({}, DEF);
 try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) Object.assign(S, s); } catch(e) {}
@@ -405,9 +405,9 @@ document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('clic
   const p = b.dataset.preset;
   if (p === 'credit') { const fees = PP()*(S.mutC + S.mutCom + S.rf + S.notary)/100 + +S.misc + 1700000*S.cedule/100; const p = P2(); S.R = Math.max(0, Math.round((1700000 - PP() - fees - p.w*S.p2tax/100 + S.E + +S.N + p.w)/1000)*1000); S.ded = 75; }
   if (p === 'energy') { S.R = 500000; S.ded = 65; }
-  if (p === 'r') { S.R = 1140000; S.ded = 50; }   // costs.py mid (tot), realistic variant; deductible = roof, insulation, slab, windows, heat pump, PV, glazing, terrace waterproofing, half the lower-floor refit
-  if (p === 'a') { S.R = 1340000; S.ded = 45; }   // costs.py mid (tot), simple variant (parking at the bottom), same rule
-  if (p === 'b') { S.R = 2035000; S.ded = 30; }   // costs.py mid (tot), luxury variant (parking at the top, pool and deck kept), same rule
+  if (p === 'r') { S.R = 1130000; S.ded = 50; }   // costs.py mid (tot), realistic variant; deductible = roof, insulation, slab, windows, heat pump, PV, glazing, terrace waterproofing, half the lower-floor refit
+  if (p === 'a') { S.R = 1330000; S.ded = 40; }   // costs.py mid (tot), simple variant (parking at the bottom), same rule
+  if (p === 'b') { S.R = 2025000; S.ded = 30; }   // costs.py mid (tot), luxury variant (parking at the top, pool and deck kept), same rule
   save(); syncInputs(); update();
 }));
 document.getElementById('reset').addEventListener('click', () => { S = Object.assign({}, DEF); save(); syncInputs(); update(); });

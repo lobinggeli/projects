@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>À clarifier · Galatry 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4;
+  --room:#E6ECEE; --accent:#2F6690;
+  --good:#0C7A3D; --good-soft:rgba(12,122,61,.12); --critical:#B3402A; --critical-soft:rgba(179,64,42,.12); --warning:#B8860B; --warning-soft:rgba(184,134,11,.16);
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+    --room:#1C262E; --accent:#7DB4E0;
+    --good:#3FBE72; --good-soft:rgba(63,190,114,.16); --critical:#E2725B; --critical-soft:rgba(226,114,91,.16); --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+  --room:#1C262E; --accent:#7DB4E0;
+  --good:#3FBE72; --good-soft:rgba(63,190,114,.16); --critical:#E2725B; --critical-soft:rgba(226,114,91,.16); --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18);
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);line-height:1.08}
+h2{font-size:21px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+p{margin:0;max-width:70ch}
+.muted{color:var(--ink-2)}
+.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.kicker{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--accent);margin-bottom:6px}
+.cartouche{display:grid;grid-template-columns:auto auto;border:1.5px solid var(--ink);font-family:var(--f-draw);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.cartouche div{padding:5px 12px;border-bottom:1px solid var(--rule)}
+.cartouche div:nth-child(odd){color:var(--ink-2);border-right:1px solid var(--rule)}
+.cartouche div:nth-last-child(-n+2){border-bottom:0}
+.lede{display:flex;flex-direction:column;gap:10px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--rule);padding:6px 12px;border-radius:2px;background:var(--sheet)}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+@media (max-width:720px){header{grid-template-columns:1fr}}
+
+section{display:flex;flex-direction:column;gap:16px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
+
+.panel{background:var(--sheet);border:1px solid var(--rule);padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.levers{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px 28px}
+.field{display:flex;flex-direction:column;gap:4px}
+.field-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.field label{font-size:.82rem;color:var(--ink-2)}
+.field .val{font-family:var(--f-mono);font-variant-numeric:tabular-nums;font-size:.9rem;color:var(--ink);font-weight:600}
+.field .hint{font-size:.74rem;color:var(--ink-2)}
+input[type="range"]{width:100%;accent-color:var(--accent)}
+input[type="number"]{width:100%;border:1px solid var(--rule);padding:6px 9px;background:var(--room);color:var(--ink);font:inherit;font-variant-numeric:tabular-nums}
+.toggle-row{display:flex;gap:6px}
+.toggle-btn{flex:1;border:1px solid var(--rule);background:var(--room);color:var(--ink-2);padding:6px 10px;font:inherit;font-size:.82rem;cursor:pointer}
+.toggle-btn.active{background:var(--accent);border-color:var(--accent);color:var(--sheet);font-weight:600}
+.price-lever{grid-column:1/-1}.p2-grid{display:grid;grid-template-columns:1fr 1.2fr 1fr;gap:12px;align-items:end;margin:10px 0}.p2-grid label{display:flex;flex-direction:column;gap:4px;font-size:.8rem;color:var(--ink-2)}@media(max-width:640px){.p2-grid{grid-template-columns:1fr}}.bd-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.bd-head .toggle-row{min-width:220px}
+.price-custom{display:grid;grid-template-columns:1fr 150px;gap:12px;align-items:center}
+@media (max-width:520px){.price-custom{grid-template-columns:1fr}}
+.presets{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.presets span{font-size:.8rem;color:var(--ink-2);margin-right:4px}
+.presets button{border:1px solid var(--rule);background:var(--room);color:var(--ink);padding:5px 10px;font:inherit;font-size:.8rem;cursor:pointer}
+.presets button:hover,.presets button:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+.callouts{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.callout{background:var(--room);padding:10px 14px;display:flex;flex-direction:column;gap:2px;border-left:3px solid transparent}
+.callout.good{border-left-color:var(--good)}
+.callout.bad{border-left-color:var(--critical)}
+.callout .k{font-family:var(--f-draw);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2)}
+.callout .n{font-family:var(--f-mono);font-size:1.15rem;font-weight:600;font-variant-numeric:tabular-nums}
+.callout .s{font-size:.8rem;color:var(--ink-2)}
+.flags{display:flex;flex-direction:column;gap:6px}
+.flag{font-size:.86rem;padding:8px 12px}
+.flag.bad{background:var(--critical-soft);color:var(--critical)}
+.flag.warn{background:var(--warning-soft);color:color-mix(in srgb,var(--warning) 60%,var(--ink) 40%)}
+.flag.ok{background:var(--good-soft);color:var(--good)}
+
+.tbl-wrap{overflow-x:auto;background:var(--sheet);border:1px solid var(--rule)}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{padding:7px 12px;text-align:right;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,td:first-child{text-align:left;white-space:normal}
+thead th{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:.74rem;color:var(--ink-2);font-weight:600;vertical-align:bottom}
+td{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+td:first-child{font-family:var(--f-body)}
+tr.total td{font-weight:600;border-top:1.5px solid var(--ink)}
+tr.sub td{color:var(--ink-2);font-size:.8rem}
+tr.cur td{background:var(--room);font-weight:600}
+.rb th.on,.rb td.on{background:var(--room)}
+.rb th{white-space:normal;min-width:7.5em}
+.rb td small{display:block;color:var(--ink-2);font-size:.74rem;font-family:var(--f-body);font-weight:400}
+.rb tr.cat td{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;color:var(--accent);font-weight:600;padding-top:14px}
+td.bad{color:var(--critical)}
+td.good{color:var(--good)}
+
+details.assumptions{background:var(--sheet);border:1px solid var(--rule);padding:4px 20px}
+details.assumptions summary{cursor:pointer;padding:14px 0;font-family:var(--f-draw);font-weight:600;font-size:1rem;text-transform:uppercase;letter-spacing:.04em;color:var(--accent)}
+details.assumptions[open] summary{border-bottom:1px solid var(--rule);margin-bottom:16px}
+.assumption-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;padding-bottom:18px}
+.assumption-group{display:flex;flex-direction:column;gap:10px}
+.assumption-group h3{color:var(--accent)}
+.reset{align-self:flex-start;border:1px solid var(--rule);background:var(--room);color:var(--ink-2);padding:5px 10px;font:inherit;font-size:.8rem;cursor:pointer;margin-bottom:16px}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+.note{background:var(--sheet);border:1px solid var(--rule);padding:14px 18px}
+.note h3{margin-bottom:6px}
+.note ul{margin:0;padding-left:18px;font-size:.86rem;color:var(--ink-2);display:flex;flex-direction:column;gap:5px}
+.note a{color:var(--accent)}
+
+.qs{display:flex;flex-direction:column;gap:22px}
+.q{background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.q-head{display:flex;gap:14px;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--rule)}
+.q-num{font-family:var(--f-draw);font-weight:700;font-size:26px;line-height:1;color:var(--accent);min-width:1.2em}
+.q-head h2{font-size:18px}
+.q-who{margin-left:auto;font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:var(--ink-2);white-space:nowrap}
+.q ol{margin:0;padding:14px 18px 14px 40px;display:flex;flex-direction:column;gap:9px}
+.q ol li{padding-left:4px}
+.q ul.sub{margin:6px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:3px;color:var(--ink-2);font-size:.92rem}
+.ctx{border-top:1px solid var(--rule);padding:12px 18px;background:var(--room);font-size:.88rem;color:var(--ink-2);display:flex;flex-direction:column;gap:4px}
+.ctx b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:12px;color:var(--ink)}
+.how{background:var(--sheet);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:12px 18px;font-size:.92rem}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+@media (max-width:560px){.q-head{flex-wrap:wrap}.q-who{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="lede"><div class="kicker">Chemin de Galatry 3 · Corseaux VD</div><h1>À clarifier · variante réaliste</h1><p class="muted">Les questions à poser à la commune avant l’offre, pour la variante réaliste : rénovation complète, façade sud vitrée, terrasse côté lac, sans garage neuf. Sous chaque bloc, ce qu’on sait déjà.</p></div></header>
+<nav><a href="index.html">&#8617; Plans &amp; modèle 3D</a><a href="projet.html">Projet de rénovation</a><a href="financement.html">Financement</a><a href="to-clarify.html">EN</a></nav>
+<p class="how"><b>Comment s’en servir</b> : envoyer les questions par écrit au BTI (Bureau technique intercommunal, qui instruit les permis pour Corseaux), avec un croquis des ouvertures, et garder la réponse écrite. Les questions sur la valeur locative et l’assurance vont à l’ACI et à l’ECA.</p>
+<section class="qs"><article class="q"><div class="q-head"><span class="q-num">1</span><h2>Garage transformé en pièce de vie : surface habitable</h2><span class="q-who">Pour · BTI · ACI · ECA</span></div><ol><li>La transformation du garage (environ 28 m² intérieurs, 4.98 × 5.60 m) en pièce de vie compte-t-elle dans un indice ou une limite du règlement (COS du PEP, ISB du PACom), ou seule l’emprise au sol compte-t-elle ?</li><li>Est-ce un changement d’affectation soumis à permis ? Quelles conditions d’habitabilité s’appliquent (hauteur minimale de 2,40 m, surface vitrée d’au moins 1/8 du sol) ? Une hauteur d’environ 2,35–2,40 m après isolation du sol est-elle acceptée ?</li><li>La surface habitable déclarée change-t-elle quelque chose pour la commune (taxes, raccordements) ?</li><li>ACI et ECA : de combien la valeur locative, l’estimation fiscale et la valeur d’assurance augmentent-elles ?</li></ol><div class="ctx"><b>Ce qu’on sait</b><span>Le COS (PEP) et l’ISB (PACom) comptent l’emprise au sol, pas la surface de plancher : en principe, aucune capacité n’est consommée.</span><span>La surface habitable passerait d’environ 192 à 220 m². La surface chauffée augmente aussi : le nouveau sol, les murs et la baie doivent respecter les exigences énergétiques actuelles.</span></div></article><article class="q"><div class="q-head"><span class="q-num">2</span><h2>Deux places de parc fermées ailleurs sur la parcelle</h2><span class="q-who">Pour · BTI</span></div><ol><li>Si le garage devient une pièce de vie, peut-on construire un garage fermé de deux places (ou un couvert) ailleurs sur la parcelle, par exemple près de l’accès actuel en haut ? Où exactement, et avec quelle taille ?</li><li>Est-il accepté comme dépendance de peu d’importance (RLATC art. 39, environ 40 m²) dans les distances aux limites, ou jusqu’à la limite avec l’accord écrit du voisin (PACom art. 3.3.4) ? Quelle hauteur maximale ? Un toit plat est-il admis (PACom art. 8.6.2) ?</li><li>Combien de places la commune exige-t-elle pour cette maison (normes VSS, PACom art. 5.2) ? Les places extérieures existantes suffisent-elles, ou faut-il payer une taxe compensatoire sans places couvertes ?</li><li>Peut-on transformer le garage maintenant et construire les places couvertes plus tard, avec un permis séparé ?</li></ol><div class="ctx"><b>Ce qu’on sait</b><span>Avec les deux règlements, un garage indépendant d’environ 40 m² est plausible, mais c’est une autorisation de la Municipalité, pas un droit.</span><span>Limites à garder en tête : au moins 50 % de pleine terre (PACom), la limite des constructions routières au coin sud, le secteur LLavaux.</span></div></article><article class="q"><div class="q-head"><span class="q-num">3</span><h2>Permis : lesquels, et quelle procédure</h2><span class="q-who">Pour · BTI</span></div><ol><li>Un seul permis pour l’ensemble (façades, changement d’affectation du garage, murs porteurs intérieurs, isolation extérieure, pompe à chaleur, panneaux solaires, terrasse), ou plusieurs demandes ?</li><li>Enquête publique ou dispense d’enquête (RLATC art. 72d) ? Le projet passe-t-il devant la Commission consultative de Lavaux (LLavaux art. 5a) ?</li><li>Panneaux solaires : simple annonce (LAT art. 18a) ou permis, dans le secteur LLavaux ? Pompe à chaleur air-eau : quel justificatif bruit faut-il ?</li><li>Quels documents faut-il : plans d’architecte, diagnostic amiante (bâtiment d’avant 1991), CECB ou justificatif énergétique, avis d’ingénieur ? Quels délais compter ?</li><li>Peut-on commencer les travaux intérieurs sans permis (cuisine, salles de bain, sols) pendant l’instruction ?</li></ol><div class="ctx"><b>Ce qu’on sait</b><span>Par défaut, enquête publique : environ 6–9 mois, 12–18 mois en cas d’opposition.</span><span>Les subventions (Programme Bâtiments) doivent être demandées avant le début des travaux.</span></div></article><article class="q"><div class="q-head"><span class="q-num">4</span><h2>Ouvertures : peut-on les faire comme on veut ?</h2><span class="q-who">Pour · BTI · Commission de Lavaux</span></div><ol><li>Y a-t-il des règles sur le nombre, la taille ou les proportions des nouvelles ouvertures en façade (PEP, PACom art. 3.9 sur l’intégration) ? Concrètement, la commune accepte-t-elle :<ul class="sub"><li>deux portes-fenêtres jusqu’au sol dans la pièce de vie (2.85 et 2.9 m), en découpant l’allège du bandeau béton ;</li><li>une porte-fenêtre dans la chambre parentale ;</li><li>une baie vitrée à la place de la porte du garage, dans l’ouverture existante ;</li><li>des garde-corps en verre, y compris à la place du muret de la terrasse du haut ?</li></ul></li><li>Y a-t-il des exigences sur les matériaux et teintes des cadres, et sur les vitrages réfléchissants (vue depuis le lac et le vignoble) ?</li><li>Façades ouest et sud-ouest, à 4.0–4.8 m des limites (moins que les 6 m réglementaires) : peut-on y agrandir des ouvertures dans le volume existant (LATC art. 80) ?</li></ol><div class="ctx"><b>Ce qu’on sait</b><span>Aucune règle trouvée n’interdit ces ouvertures. Les risques sont la clause d’intégration et la commission de Lavaux, qui pourrait vouloir garder le bandeau horizontal comme une ligne continue.</span><span>Côté structure, le bandeau est peut-être porteur : faire un sondage avant la demande.</span></div></article></section>
+<footer>Questions d’orientation, pas un avis juridique. Règlements : PEP « Vignoble de Corseaux » (en vigueur), PACom adopté le 02.03.2026 (en attente d’approbation cantonale), LATC / RLATC, LLavaux.</footer>
+</div>
+</body>
+</html>

@@ -101,6 +101,10 @@ td:first-child{font-family:var(--f-body)}
 tr.total td{font-weight:600;border-top:1.5px solid var(--ink)}
 tr.sub td{color:var(--ink-2);font-size:.8rem}
 tr.cur td{background:var(--room);font-weight:600}
+.rb th.on,.rb td.on{background:var(--room)}
+.rb th{white-space:normal;min-width:7.5em}
+.rb td small{display:block;color:var(--ink-2);font-size:.74rem;font-family:var(--f-body);font-weight:400}
+.rb tr.cat td{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:.74rem;color:var(--accent);font-weight:600;padding-top:14px}
 td.bad{color:var(--critical)}
 td.good{color:var(--good)}
 
@@ -129,7 +133,7 @@ fr: {
   kicker:'Chemin de Galatry 3 · Corseaux VD',
   h1:'Financement bottom-up',
   lede:'On part de ce qu’on met : les fonds propres fixent le crédit, le crédit fixe la rénovation que la banque accepte, et le tout donne le « loyer » réel qu’on paie chaque mois, avant et après la fin de la valeur locative en 2029.',
-  nav:[['index.html','&#8617; Plans &amp; modèle 3D'],['projet.html','Projet de rénovation'],['scenarios-fr.html','Scénarios'],['#levers','Leviers'],['#result','Résultat'],['#equity','Selon les fonds propres'],['#notes','Notes'],['financing.html','EN']],
+  nav:[['index.html','&#8617; Plans &amp; modèle 3D'],['projet.html','Projet de rénovation'],['scenarios-fr.html','Scénarios'],['#levers','Leviers'],['#reno','Rénovation'],['#result','Résultat'],['#equity','Selon les fonds propres'],['#notes','Notes'],['a-clarifier.html','À clarifier'],['financing.html','EN']],
   cart:['Prix d’achat','Prix + frais','Fonds propres','Crédit','Rénovation'],
   uses:'Coût total du projet', usesCols:['','CHF','% du prix'],
   u:{price:'Prix d’achat', mutC:'Droit de mutation cantonal', mutCom:'Droit de mutation communal (Corseaux)', rf:'Registre foncier (transfert)', notary:'Notaire (acte de vente)', ced:'Cédule hypothécaire (notaire + RF, sur {x})', misc:'Divers (expertise, dossier bancaire)', fees:'Frais d’achat', buy:'Prix + frais', reno:'Rénovation', tot:'Coût total', fin:'Financé par', eq:'Fonds propres', mort:'Crédit hypothécaire'},
@@ -186,7 +190,7 @@ en: {
   kicker:'Chemin de Galatry 3 · Corseaux VD',
   h1:'Bottom-up financing',
   lede:'Start from what we put in: equity sets the mortgage, the mortgage sets how much renovation the bank will accept, and together they give the real monthly “rent” we pay, before and after imputed rental value ends in 2029.',
-  nav:[['en.html','&#8617; Plans &amp; 3D model'],['project.html','Renovation project'],['scenarios.html','Scenarios'],['#levers','Levers'],['#result','Result'],['#equity','By equity'],['#notes','Notes'],['financement.html','FR']],
+  nav:[['en.html','&#8617; Plans &amp; 3D model'],['project.html','Renovation project'],['scenarios.html','Scenarios'],['#levers','Levers'],['#reno','Renovation'],['#result','Result'],['#equity','By equity'],['#notes','Notes'],['to-clarify.html','To clarify'],['financement.html','FR']],
   cart:['Purchase price','Price + costs','Equity','Mortgage','Renovation'],
   uses:'Total project cost', usesCols:['','CHF','% of price'],
   u:{price:'Purchase price', mutC:'Cantonal transfer duty', mutCom:'Communal transfer duty (Corseaux)', rf:'Land registry (transfer)', notary:'Notary (deed of sale)', ced:'Mortgage note (notary + registry, on {x})', misc:'Other (valuation, bank file)', fees:'Purchase costs', buy:'Price + costs', reno:'Renovation', tot:'Total cost', fin:'Financed by', eq:'Equity', mort:'Mortgage'},
@@ -227,8 +231,55 @@ en: {
 }}[LANG];
 
 const ASK = 2050000;
-const DEF = {pMode:'ask', E:600000, R:1130000, ded:50, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
-const KEY = 'galatry-financement-v2';   // v2: the realistic variant is the default renovation
+/*RENO*/const RENO = {"v":{"r":{"cat":{"energy":[173100.0,238100.0,324000.0],"open":[129500.0,209000.0,315400.0],"int":[198700.0,325200.0,534600.0],"ext":[31700.0,58600.0,99400.0]},"fees":[79000.0,150000.0,269000.0],"cont":[61000.0,147000.0,308000.0],"tot":[673000.0,1127900.0,1850400.0],"subs":41000,"net":[632000.0,1086900.0,1809400.0],"ded":50},"a":{"cat":{"energy":[167600.0,229300.0,310800.0],"open":[65500.0,100000.0,143500.0],"int":[198700.0,325200.0,534600.0],"ext":[222800.0,328200.0,471200.0]},"fees":[94000.0,172000.0,303000.0],"cont":[75000.0,173000.0,353000.0],"tot":[823600.0,1327700.0,2116100.0],"subs":41000,"net":[782600.0,1286700.0,2075100.0],"ded":40},"b":{"cat":{"energy":[173100.0,238100.0,324000.0],"open":[129500.0,209000.0,315400.0],"int":[198700.0,325200.0,534600.0],"ext":[464200.0,735400.0,1102200.0]},"fees":[131000.0,251000.0,450000.0],"cont":[110000.0,264000.0,545000.0],"tot":[1206500.0,2022700.0,3271200.0],"subs":41000,"net":[1165500.0,1981700.0,3230200.0],"ded":30}},"items":[{"cat":"energy","fr":"Toiture refaite : couverture neuve, sous-couverture, isolation U ≤ 0,15, ferblanterie","en":"Roof redone: new covering, underlay, insulation U ≤ 0.15, flashings","v":{"r":85200,"a":85200,"b":85200}},{"cat":"energy","fr":"Pompe à chaleur (remplace le gaz), avant subventions","en":"Heat pump (replaces gas), before subsidies","v":{"r":50000.0,"a":50000.0,"b":50000.0}},{"cat":"energy","fr":"Isolation périphérique crépie, U ≤ 0,15, sur toutes les façades","en":"External wall insulation, rendered, U ≤ 0.15, on all façades","v":{"r":43200,"a":43200,"b":43200}},{"cat":"energy","fr":"Panneaux solaires ~10 kWc sur le pan sud du toit","en":"Solar panels ~10 kWp on the south roof slope","v":{"r":26000.0,"a":26000.0,"b":26000.0}},{"cat":"energy","fr":"Dalle du rez-inférieur isolée sous la nouvelle chape (ancien garage et pièces sur terre-plein, U ≤ 0,25)","en":"Lower-floor slab insulated under the new screed (old garage and rooms on the ground, U ≤ 0.25)","v":{"r":12900,"a":12900,"b":12900}},{"cat":"energy","fr":"Échafaudage (toiture et façades)","en":"Scaffolding (roof and façades)","v":{"r":12000.0,"a":12000.0,"b":12000.0}},{"cat":"energy","fr":"Étanchéité de la terrasse du haut refaite avec le nouveau bord","en":"Upper terrace waterproofing redone with the new edge","v":{"r":8800,"b":8800}},{"cat":"open","fr":"Façade sud : 2 portes-fenêtres jusqu’au sol (2.85 + 2.9 m) au lieu des fenêtres, allège du bandeau découpée, seuils, renfort si le bandeau est porteur","en":"South façade: 2 French doors down to the floor (2.85 + 2.9 m) instead of the windows, band sill cut, thresholds, strengthening if the band is load-bearing","v":{"r":60000.0,"b":60000.0}},{"cat":"open","fr":"Baie vitrée levante-coulissante à la place de la porte du garage, dans l’ouverture existante (4.4 × 2.1 m)","en":"Lift-and-slide glazing in place of the garage door, in the existing opening (4.4 × 2.1 m)","v":{"r":40000.0,"a":40000.0,"b":40000.0}},{"cat":"open","fr":"Fenêtres et portes remplacées, triple vitrage (hors baie du garage)","en":"Windows and doors replaced, triple glazing (garage glazing excluded)","v":{"r":35000,"a":35000,"b":35000}},{"cat":"open","fr":"Terrasse du haut : muret démoli jusqu’au bord de dalle, bord repris, garde-corps en verre h 1.00 m","en":"Upper terrace: parapet cut down to the slab edge, edge redone, glass guard h 1.00 m","v":{"r":23800.0,"b":23800.0}},{"cat":"open","fr":"Chambre parentale : porte-fenêtre (cuisine en haut : allège de la fenêtre sud-ouest abaissée, garde-corps en verre ; cuisine en bas : porte vitrée sur la terrasse élargie à 1.7 m, linteau)","en":"Main bedroom: French door (kitchen upstairs: south-west window sill lowered, glass guard; kitchen downstairs: glass door onto the terrace widened to 1.7 m, lintel)","v":{"r":18000.0,"b":18000.0}},{"cat":"open","fr":"Nouveaux percements : fenêtre de 2.9 m au rez-de-chaussée, porte de 1.2 m de l’atelier (linteaux)","en":"New openings: 2.9 m ground-floor window, 1.2 m workshop door (lintels)","v":{"r":15000.0,"a":15000.0,"b":15000.0}},{"cat":"open","fr":"Fenêtres de toit (Velux), 3 pièces posées","en":"Roof windows (Velux), 3 fitted","v":{"r":10000.0,"a":10000.0,"b":10000.0}},{"cat":"open","fr":"Garde-corps en verre feuilleté devant les portes-fenêtres, h 1.00 m","en":"Laminated glass guard in front of the French doors, h 1.00 m","v":{"r":7200,"b":7200}},{"cat":"int","fr":"Rez-inférieur : transformation intérieure (cloisons, chapes, sols, électricité, 2 salles d’eau)","en":"Lower floor: interior refit (partitions, screeds, floors, electrics, 2 bathrooms)","v":{"r":200200,"a":200200,"b":200200}},{"cat":"int","fr":"Nouvelle cuisine, en bas ou en haut selon l’aménagement (agencement, appareils, hotte, raccordements)","en":"New kitchen, downstairs or upstairs depending on the layout (units, appliances, extraction, connections)","v":{"r":55000.0,"a":55000.0,"b":55000.0}},{"cat":"int","fr":"Rez-de-chaussée : réaménagement, suite parentale avec salle de bain neuve, sols","en":"Ground floor: refit, main suite with a new bathroom, floors","v":{"r":50000.0,"a":50000.0,"b":50000.0}},{"cat":"int","fr":"Ouverture hall / buanderie / garage (et bureau) en une pièce (poutres si murs porteurs)","en":"Opening hall / laundry / garage (and study) into one room (beams if walls are load-bearing)","v":{"r":20000.0,"a":20000.0,"b":20000.0}},{"cat":"ext","fr":"Garage double enterré au bord du chemin, béton armé étanche, dalle sous terre, 2 portes","en":"Double garage dug in beside the road, waterproof reinforced concrete, slab under soil, 2 doors","v":{"a":201600,"b":230400}},{"cat":"ext","fr":"Murs de soutènement (bords de la terrasse)","en":"Retaining walls (terrace edges)","v":{"r":6000,"a":13000,"b":110000}},{"cat":"ext","fr":"Piscine béton 9 × 4 m (fouille, structure, filtration, PAC piscine, traitement)","en":"Concrete pool 9 × 4 m (dig, shell, filtration, pool heat pump, treatment)","v":{"b":110000.0}},{"cat":"ext","fr":"Terrassement de la terrasse : déblai et évacuation","en":"Terrace earthworks: dig and haul away","v":{"r":400,"a":7300,"b":45600}},{"cat":"ext","fr":"Chauffage de rampe (hors gel)","en":"Ramp heating (anti-ice)","v":{"b":43400}},{"cat":"ext","fr":"Accès 3.5 m à ~21 % (fondation, béton rainuré ou enrobé)","en":"Access 3.5 m at ~21% (sub-base, grooved concrete or asphalt)","v":{"b":34700}},{"cat":"ext","fr":"Terrasse côté lac et ouest, nivelée (dallage ou bois)","en":"Lake-side and west terrace, levelled (stone or timber)","v":{"r":32200,"a":32200}},{"cat":"ext","fr":"Jardin : démolition de l’ancien accès, remise en état, plantations","en":"Garden: remove old drive, reinstate, planting","v":{"b":30000.0}},{"cat":"ext","fr":"Plage de piscine et terrasse ouest (dallage ou bois)","en":"Pool deck and west terrace (stone or timber)","v":{"b":22100}},{"cat":"ext","fr":"Escalier extérieur de la terrasse vers la terrasse du bas (16 marches, murets)","en":"Outdoor stair from the terrace down to the lower terrace (16 steps, low walls)","v":{"a":22000.0,"b":8000.0}},{"cat":"ext","fr":"Chemin piéton du garage à l’entrée, 1.2 m, avec marches","en":"Footpath from the garage to the front door, 1.2 m, with steps","v":{"a":21400}},{"cat":"ext","fr":"Drainage, raccordements, éclairage","en":"Drainage, connections, lighting","v":{"r":10000.0,"a":12000.0,"b":20000.0}},{"cat":"ext","fr":"Aire de manœuvre, cour d’entrée et place de parc (revêtement)","en":"Turning area, entrance forecourt and parking space (paving)","v":{"b":18000}},{"cat":"ext","fr":"Clôture sur la limite de la parcelle","en":"Fence on the parcel boundary","v":{"b":15600}},{"cat":"ext","fr":"Entrée : six marches et palier en pierre, garde-corps","en":"Entrance: six stone steps and landing, railing","v":{"b":15000.0}},{"cat":"ext","fr":"Préparation piscine : gaines, évacuation, alimentation électrique en attente","en":"Pool preparation: ducts, drain and power left ready","v":{"r":10000.0,"a":10000.0}},{"cat":"ext","fr":"Portail à deux battants à l’entrée, piliers","en":"Two-leaf gate at the entrance, posts","v":{"b":10000.0}},{"cat":"ext","fr":"Végétalisation du remblai","en":"Planting over the backfill","v":{"b":10000.0}},{"cat":"ext","fr":"Haie plantée le long de la clôture","en":"Hedge planted along the fence","v":{"b":9700}},{"cat":"ext","fr":"Pavés devant les portes, grille d’évacuation","en":"Paving in front of the doors, drainage grate","v":{"a":4800}},{"cat":"ext","fr":"Remblai et végétalisation sur le garage","en":"Backfill and planting over the garage","v":{"a":3900,"b":2900}}]};/*/RENO*/
+const RT = {
+fr: {nav:'Rénovation', h2:'Budget de rénovation par poste', sub:'Milieu de fourchette, TTC, depuis le modèle de coûts du projet · pas des devis',
+  cols:['Réaliste (base)','Parking en bas (simple)','Parking en haut (luxe)'],
+  cats:{energy:['Énergie et enveloppe','toiture, isolation des façades et de la dalle, pompe à chaleur, solaire, étanchéité'],
+        open:['Fenêtres et ouvertures','fenêtres triple vitrage, Velux, baie du garage, portes-fenêtres, garde-corps en verre'],
+        int:['Intérieur','cuisine, salles de bain, sols, cloisons'],
+        ext:['Extérieurs','terrasse, préparation ou piscine, garage, accès, clôture']},
+  works:'Travaux', fees:'Honoraires, géomètre, géotechnique, permis', cont:'Imprévus', tot:'Total rénovation', range:'fourchette bas – haut',
+  subs:'Subventions estimées', net:'Total après subventions', ded:'Part fiscalement déductible (estimation)',
+  detail:'Détail des postes', item:'Poste', active:'variante choisie',
+  note:'La colonne surlignée est la variante choisie avec les préréglages ci-dessus. Les honoraires (12–18 %) et les imprévus (10–20 %) s’appliquent à tous les travaux. Le garage, l’accès, la piscine et les agrandissements ne sont pas déductibles ; l’énergie et l’entretien le sont. Dans « Coût total du projet », la rénovation est répartie par poste avec sa part d’honoraires et d’imprévus.'},
+en: {nav:'Renovation', h2:'Renovation budget by item', sub:'Mid range, VAT incl., from the project cost model · not quotes',
+  cols:['Realistic (base)','Parking at the bottom (simple)','Parking at the top (luxury)'],
+  cats:{energy:['Energy and envelope','roof, wall and slab insulation, heat pump, solar, waterproofing'],
+        open:['Windows and openings','triple-glazed windows, Velux, garage glazing, French doors, glass guards'],
+        int:['Interior','kitchen, bathrooms, floors, partitions'],
+        ext:['Outside','terrace, pool or pool preparation, garage, access, fence']},
+  works:'Works', fees:'Fees, surveyor, geotechnical, permit', cont:'Contingency', tot:'Total renovation', range:'low – high range',
+  subs:'Estimated subsidies', net:'Total after subsidies', ded:'Tax-deductible share (estimate)',
+  detail:'Item detail', item:'Item', active:'chosen variant',
+  note:'The highlighted column is the variant chosen with the presets above. Fees (12–18%) and contingency (10–20%) apply to all works. Garage, access, pool and extensions are not deductible; energy and upkeep are. In “Total project cost”, the renovation is split by item including its share of fees and contingency.'}}[LANG];
+const VK = ['r', 'a', 'b'], CATS = ['energy', 'open', 'int', 'ext'];
+const r5 = v => Math.round(v / 5000) * 5000;
+const activeV = () => VK.find(k => r5(RENO.v[k].tot[1]) === +S.R);
+function renderReno(){
+  const on = activeV(), cl = k => k === on ? ' class="on"' : '';
+  const k$ = v => chf(Math.round(v / 1000) * 1000);
+  const head = `<thead><tr><th></th>${VK.map((k, i) => `<th${cl(k)}>${RT.cols[i]}</th>`).join('')}</tr></thead>`;
+  const row = (l, f, cls='') => `<tr class="${cls}"><td>${l}</td>${VK.map(k => `<td${cl(k)}>${f(RENO.v[k])}</td>`).join('')}</tr>`;
+  document.getElementById('rb').innerHTML = head + '<tbody>' +
+    CATS.map(c => row(`<b>${RT.cats[c][0]}</b><small>${RT.cats[c][1]}</small>`, v => k$(v.cat[c][1]))).join('') +
+    row(RT.works, v => k$(CATS.reduce((a, c) => a + v.cat[c][1], 0)), 'total') +
+    row(RT.fees, v => k$(v.fees[1]), 'sub') + row(RT.cont, v => k$(v.cont[1]), 'sub') +
+    row(RT.tot, v => k$(v.tot[1]), 'total') + row(RT.range, v => k$(v.tot[0]) + ' – ' + k$(v.tot[2]), 'sub') +
+    row(RT.subs, v => '−' + k$(v.subs), 'sub') + row(RT.net, v => k$(v.net[1])) + row(RT.ded, v => v.ded + ' %') + '</tbody>';
+  document.getElementById('rbd').innerHTML = `<thead><tr><th>${RT.item}</th>${VK.map((k, i) => `<th${cl(k)}>${RT.cols[i]}</th>`).join('')}</tr></thead><tbody>` +
+    CATS.map(c => `<tr class="cat"><td colspan="4">${RT.cats[c][0]}</td></tr>` + RENO.items.filter(it => it.cat === c).map(it =>
+      `<tr><td>${it[LANG]}</td>${VK.map(k => `<td${cl(k)}>${it.v[k] ? k$(it.v[k]) : '–'}</td>`).join('')}</tr>`).join('')).join('') + '</tbody>';
+}
+// renovation split by category in the project-cost table, when the budget is one of the variants
+function renoSubs(ur){
+  const k = activeV(); if (!k) return '';
+  const v = RENO.v[k], f = +S.R / v.tot[1], works = CATS.reduce((a, c) => a + v.cat[c][1], 0), extra = (v.fees[1] + v.cont[1]) / works;
+  return CATS.map(c => ur('· ' + RT.cats[c][0], Math.round(v.cat[c][1] * (1 + extra) * f / 1000) * 1000, 'sub')).join('');
+}
+
+const DEF = {pMode:'ask', E:600000, R:Math.round(RENO.v.r.tot[1] / 5000) * 5000, ded:RENO.v.r.ded, split:50, P:1950000, mutC:2.2, mutCom:1.1, rf:0.3, notary:0.6, cedule:0.4, misc:3000, p2:0, p2Mode:'none', p2Cap:90000, p2Age:'u50', p2At50:0, p2Amt:90000, p2tax:6, N:0, nkBank:100, k1:'', rate:1.6, rMode:'mix', per:'y', bankPct:80, income:'', marg:36, curTax:80000, vl:36000, upkeep:0.8, charges:4000, ref:5350, opp:3};
+const KEY = 'galatry-financement-v3';   // v3: renovation default and presets come from the cost model (RENO)
 let S = Object.assign({}, DEF);
 try { const s = JSON.parse(localStorage.getItem(KEY) || 'null'); if (s) Object.assign(S, s); } catch(e) {}
 const PP = () => S.pMode === 'custom' ? +S.P : ASK;
@@ -340,6 +391,12 @@ app.innerHTML = `
     <div class="presets"><span>${T.presets}</span>${T.pr.map(([l,v]) => `<button type="button" data-preset="${v}">${l}</button>`).join('')}</div>
   </div>
 </section>
+<section id="reno">
+  <div class="sec-head"><h2>${RT.h2}</h2><span class="muted" style="font-size:.84rem">${RT.sub}</span></div>
+  <div class="tbl-wrap"><table id="rb" class="rb"></table></div>
+  <details class="assumptions"><summary>${RT.detail}</summary><div class="tbl-wrap" style="margin-bottom:16px"><table id="rbd" class="rb"></table></div></details>
+  <p class="muted" style="font-size:.8rem">${RT.note}</p>
+</section>
 <section id="result">
   <div class="sec-head"><h2>${T.result}</h2><span class="muted" style="font-size:.84rem">${T.resultSub}</span></div>
   <div class="callouts" id="callouts"></div>
@@ -405,14 +462,13 @@ document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('clic
   const p = b.dataset.preset;
   if (p === 'credit') { const fees = PP()*(S.mutC + S.mutCom + S.rf + S.notary)/100 + +S.misc + 1700000*S.cedule/100; const p = P2(); S.R = Math.max(0, Math.round((1700000 - PP() - fees - p.w*S.p2tax/100 + S.E + +S.N + p.w)/1000)*1000); S.ded = 75; }
   if (p === 'energy') { S.R = 500000; S.ded = 65; }
-  if (p === 'r') { S.R = 1130000; S.ded = 50; }   // costs.py mid (tot), realistic variant; deductible = roof, insulation, slab, windows, heat pump, PV, glazing, terrace waterproofing, half the lower-floor refit
-  if (p === 'a') { S.R = 1330000; S.ded = 40; }   // costs.py mid (tot), simple variant (parking at the bottom), same rule
-  if (p === 'b') { S.R = 2025000; S.ded = 30; }   // costs.py mid (tot), luxury variant (parking at the top, pool and deck kept), same rule
+  if (RENO.v[p]) { S.R = r5(RENO.v[p].tot[1]); S.ded = RENO.v[p].ded; }   // variant presets: mid total and deductible share from the cost model
   save(); syncInputs(); update();
 }));
 document.getElementById('reset').addEventListener('click', () => { S = Object.assign({}, DEF); save(); syncInputs(); update(); });
 
 function update(){
+  renderReno();
   const m = model(S.E, S.R), maxR = maxReno(S.E);
   document.getElementById('P-v').textContent = 'CHF ' + chf(PP()) + (S.pMode === 'custom' ? ' · ' + fill(T.disc, {x: ((PP()/ASK - 1)*100).toFixed(1).replace(/^(\d)/, '+$1').replace('-', '−')}) : '');
   if (document.activeElement !== document.getElementById('Pn')) document.getElementById('Pn').value = S.P;
@@ -455,7 +511,7 @@ function update(){
   document.getElementById('uses').innerHTML = `<thead><tr>${T.usesCols.map(c => `<th>${c}</th>`).join('')}</tr></thead><tbody>` +
     ur(U.price, PP()) + ur(U.mutC, x.mutC, 'sub') + ur(U.mutCom, x.mutCom, 'sub') + ur(U.rf, x.rf, 'sub') + ur(U.notary, x.notary, 'sub') +
     ur(fill(U.ced, {x: 'CHF ' + chf(m.M)}), x.ced, 'sub') + ur(U.misc, x.misc, 'sub') + (m.tx > 0 ? ur(fill(T.p2Tx, {r: S.p2tax}), m.tx, 'sub') : '') + ur(U.fees, m.fees) +
-    ur(U.buy, PP() + m.fees, 'total') + ur(U.reno, S.R) + (m.N > 0 ? ur(T.nkU, m.N, 'sub') : '') + ur(U.tot, PP() + m.fees + S.R, 'total') +
+    ur(U.buy, PP() + m.fees, 'total') + ur(U.reno, S.R) + renoSubs(ur) + (m.N > 0 ? ur(T.nkU, m.N, 'sub') : '') + ur(U.tot, PP() + m.fees + S.R, 'total') +
     `<tr class="sub"><td colspan="3">${U.fin}</td></tr>` + ur(U.eq, S.E, '', false) + (m.W > 0 ? ur(T.p2E, m.W, '', false) : '') + (m.N > 0 ? ur(T.nkE, m.N, '', false) : '') + ur(U.mort, m.M, '', false) + '</tbody>';
   const Rw = T.rows, y = m.yrs, dash = '–';
   const dv = S.per === 'm' ? 12 : 1, mo = S.per === 'm';

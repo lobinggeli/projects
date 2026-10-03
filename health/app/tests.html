@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Test Providers | Health Biomarker Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #004C99;
+            --secondary: #00B894;
+            --accent: #6C5CE7;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --gray: #636E72;
+            --red: #E74C3C;
+            --orange: #F39C12;
+            --green: #27AE60;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Region Filter */
+        .region-filter {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 30px 0;
+            background: white;
+            border-bottom: 1px solid #eee;
+        }
+
+        .region-filter a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            padding: 10px 25px;
+            border-radius: 25px;
+            border: 2px solid var(--primary);
+            transition: all 0.3s;
+        }
+
+        .region-filter a:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 1100px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 0.92rem;
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 15px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 15px 0 0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison-table .region-row td {
+            background: var(--accent);
+            color: white;
+            font-weight: 700;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .check {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .cross {
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* Provider Cards */
+        .providers-section {
+            padding: 60px 0;
+        }
+
+        .providers-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .providers-section .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+        }
+
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .provider-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .provider-header {
+            padding: 25px;
+            color: white;
+        }
+
+        .provider-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .provider-header .location {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Provider header colors - Europe */
+        .provider-header.thriva { background: linear-gradient(135deg, #1a73e8, #4285f4); }
+        .provider-header.forth { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .provider-header.medichecks { background: linear-gradient(135deg, #E91E63, #F06292); }
+        .provider-header.lykon { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .provider-header.aware { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .provider-header.lucis { background: linear-gradient(135deg, #E91E63, #FF4081); }
+        .provider-header.aro { background: linear-gradient(135deg, #009688, #4DB6AC); }
+        .provider-header.zoi { background: linear-gradient(135deg, #F39C12, #F1C40F); }
+        .provider-header.biostarks { background: linear-gradient(135deg, #2C3E50, #34495E); }
+        .provider-header.vitall { background: linear-gradient(135deg, #3498DB, #5DADE2); }
+        .provider-header.bluehorizon { background: linear-gradient(135deg, #2980B9, #3498DB); }
+        .provider-header.numan { background: linear-gradient(135deg, #1ABC9C, #16A085); }
+        .provider-header.london { background: linear-gradient(135deg, #8E44AD, #9B59B6); }
+        /* US / Global */
+        .provider-header.function { background: linear-gradient(135deg, #0D47A1, #1565C0); }
+        .provider-header.insidetracker { background: linear-gradient(135deg, #FF5722, #FF7043); }
+        .provider-header.siphox { background: linear-gradient(135deg, #00BCD4, #26C6DA); }
+        .provider-header.superpower { background: linear-gradient(135deg, #7C4DFF, #B388FF); }
+        .provider-header.selfdecode { background: linear-gradient(135deg, #43A047, #66BB6A); }
+        .provider-header.mito { background: linear-gradient(135deg, #EF6C00, #FB8C00); }
+        .provider-header.lifeforce { background: linear-gradient(135deg, #C62828, #E53935); }
+
+        .provider-body {
+            padding: 25px;
+        }
+
+        .provider-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .stat-item .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .key-features {
+            margin-bottom: 20px;
+        }
+
+        .key-features h4 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .key-features ul {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .key-features li {
+            padding: 5px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .key-features li::before {
+            content: '+';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .pricing-comparison {
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .pricing-comparison h4 {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .price-range .from,
+        .price-range .to {
+            text-align: center;
+        }
+
+        .price-range .amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-range .desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .price-range .arrow {
+            color: var(--gray);
+            font-size: 1.5rem;
+        }
+
+        .provider-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--primary);
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .provider-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Sample Testing Section */
+        .sample-section {
+            padding: 60px 0;
+        }
+
+        .sample-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .sample-section .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 40px;
+            font-size: 1.05rem;
+            max-width: 750px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .method-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .method-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .method-card .method-tag {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+
+        .method-tag.gold { background: #FFF3CD; color: #856404; }
+        .method-tag.home { background: #D4EDDA; color: #155724; }
+        .method-tag.dried { background: #D1ECF1; color: #0C5460; }
+
+        .method-card p {
+            font-size: 0.95rem;
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .method-card .detail-list {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .method-card .detail-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid #f0f0f0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .method-card .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .method-card .detail-list .label {
+            color: var(--gray);
+        }
+
+        .method-card .detail-list .value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .volume-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 800px;
+        }
+
+        .volume-table th,
+        .volume-table td {
+            padding: 14px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 0.92rem;
+        }
+
+        .volume-table th {
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+        }
+
+        .volume-table th:first-child {
+            border-radius: 15px 0 0 0;
+        }
+
+        .volume-table th:last-child {
+            border-radius: 0 15px 0 0;
+        }
+
+        .volume-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .device-compat {
+            margin-top: 50px;
+        }
+
+        .device-compat h3 {
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .device-compat .subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 30px;
+            font-size: 1rem;
+        }
+
+        .compat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .compat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--secondary);
+        }
+
+        .compat-card.limited {
+            border-left-color: var(--orange);
+        }
+
+        .compat-card.no {
+            border-left-color: var(--red);
+        }
+
+        .compat-card h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: var(--dark);
+        }
+
+        .compat-card p {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 10px;
+        }
+
+        .compat-badge {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .compat-badge.yes { background: #D4EDDA; color: #155724; }
+        .compat-badge.partial { background: #FFF3CD; color: #856404; }
+        .compat-badge.not-viable { background: #F8D7DA; color: #721C24; }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .providers-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .provider-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .region-filter {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="competitors.html" class="nav-link">Competitors</a>
+                <a href="devices.html" class="nav-link">Devices</a>
+                <a href="tests.html" class="nav-link">Tests</a>
+                <a href="segmentation.html" class="nav-link">Segments</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Blood Test Providers</h1>
+            <p>A comprehensive overview of biomarker testing companies worldwide &mdash; from at-home finger-prick kits to full clinic assessments.</p>
+        </div>
+    </header>
+
+    <div class="region-filter">
+        <a href="#comparison">All Providers</a>
+        <a href="#sample-testing">Sample Testing</a>
+        <a href="#europe">Europe</a>
+        <a href="#us-global">US &amp; Global</a>
+    </div>
+
+    <section class="comparison-section" id="comparison">
+        <div class="container">
+            <h2>Quick Comparison</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Country</th>
+                            <th>Biomarkers</th>
+                            <th>Sample Type</th>
+                            <th>Price Range</th>
+                            <th>Turnaround</th>
+                            <th>App / AI</th>
+                            <th>Key Feature</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="region-row"><td colspan="8">EUROPE</td></tr>
+                        <tr>
+                            <td><strong>Thriva</strong></td>
+                            <td>UK</td>
+                            <td>70+</td>
+                            <td>At-home finger prick</td>
+                            <td>&pound;70&ndash;150</td>
+                            <td>66h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Wearable data integration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forth</strong></td>
+                            <td>UK</td>
+                            <td>70+</td>
+                            <td>At-home finger prick</td>
+                            <td>&pound;40&ndash;249</td>
+                            <td>72h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>10-area health scoring app</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Medichecks</strong></td>
+                            <td>UK</td>
+                            <td>49+</td>
+                            <td>At-home finger prick</td>
+                            <td>&pound;39&ndash;199</td>
+                            <td>2 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Longevity-focused biomarkers</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lykon</strong></td>
+                            <td>Germany</td>
+                            <td>25</td>
+                            <td>At-home finger prick</td>
+                            <td>&euro;89&ndash;149</td>
+                            <td>N/A</td>
+                            <td>Basic</td>
+                            <td>Lifesum nutrition integration</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aware</strong></td>
+                            <td>Netherlands</td>
+                            <td>76</td>
+                            <td>Lab visit (venous)</td>
+                            <td>&euro;99&ndash;179/yr</td>
+                            <td>48h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Comprehensive panel, fast results</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lucis</strong></td>
+                            <td>France</td>
+                            <td>60&ndash;110+</td>
+                            <td>Lab visit (blood, urine, saliva)</td>
+                            <td>&euro;190&ndash;490/yr</td>
+                            <td>~5 weeks</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Biological age, AI coaching</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aro</strong></td>
+                            <td>France</td>
+                            <td>66</td>
+                            <td>Lab visit</td>
+                            <td>&euro;499/yr</td>
+                            <td>7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>24/7 AI wellness coach</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zo&imacr;</strong></td>
+                            <td>France (Paris)</td>
+                            <td>200+</td>
+                            <td>In-clinic (full assessment)</td>
+                            <td>&euro;3,000/yr</td>
+                            <td>4h (same day)</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Premium: imaging + 38 assessments</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biostarks</strong></td>
+                            <td>Switzerland</td>
+                            <td>30+</td>
+                            <td>At-home (capillary)</td>
+                            <td>Varies</td>
+                            <td>~7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Mass spectrometry precision</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Vitall</strong></td>
+                            <td>UK</td>
+                            <td>40+</td>
+                            <td>At-home finger prick</td>
+                            <td>&pound;40&ndash;150</td>
+                            <td>24h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Fastest UK results (24h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Blue Horizon</strong></td>
+                            <td>UK</td>
+                            <td>50+</td>
+                            <td>At-home / 80+ clinic locations</td>
+                            <td>&pound;50&ndash;200</td>
+                            <td>2&ndash;5 days</td>
+                            <td>Basic</td>
+                            <td>15+ years experience, Superdrug partnership</td>
+                        </tr>
+                        <tr>
+                            <td><strong>London Health Co.</strong></td>
+                            <td>UK</td>
+                            <td>30+</td>
+                            <td>At-home finger prick</td>
+                            <td>&pound;30&ndash;120</td>
+                            <td>24&ndash;48h</td>
+                            <td>Basic</td>
+                            <td>Affordable entry point</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Numan</strong></td>
+                            <td>UK</td>
+                            <td>40+</td>
+                            <td>At-home letterbox kit</td>
+                            <td>&pound;49&ndash;149</td>
+                            <td>48h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Free 48h delivery, deficiency treatment</td>
+                        </tr>
+                        <tr class="region-row"><td colspan="8">US &amp; GLOBAL</td></tr>
+                        <tr>
+                            <td><strong>Function Health</strong></td>
+                            <td>US</td>
+                            <td>100+</td>
+                            <td>Lab visit (Quest/LabCorp)</td>
+                            <td>$499/yr</td>
+                            <td>5&ndash;7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>5x more markers than annual physical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>InsideTracker</strong></td>
+                            <td>US</td>
+                            <td>48</td>
+                            <td>At-home / lab visit</td>
+                            <td>$149&ndash;489</td>
+                            <td>5&ndash;7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>AI engine, 10 healthspan pillars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SiPhox Health</strong></td>
+                            <td>US</td>
+                            <td>Up to 60</td>
+                            <td>At-home finger prick</td>
+                            <td>Subscription</td>
+                            <td>7&ndash;10 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>9 health categories, longevity panel</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Superpower</strong></td>
+                            <td>US</td>
+                            <td>100+</td>
+                            <td>Lab visit</td>
+                            <td>$199/yr</td>
+                            <td>5&ndash;7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Most affordable 100+ panel, HSA/FSA</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SelfDecode Labs</strong></td>
+                            <td>US</td>
+                            <td>100+</td>
+                            <td>Lab visit</td>
+                            <td>$499</td>
+                            <td>5&ndash;10 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Optimization scoring (not pass/fail)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mito Health</strong></td>
+                            <td>Singapore/US</td>
+                            <td>100+</td>
+                            <td>Lab visit</td>
+                            <td>Varies</td>
+                            <td>5&ndash;7 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>10x more than standard physical</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lifeforce</strong></td>
+                            <td>US</td>
+                            <td>40+</td>
+                            <td>At-home / lab visit</td>
+                            <td>$349+</td>
+                            <td>5&ndash;10 days</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Concierge MD creates personalized plan</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="sample-section" id="sample-testing">
+        <div class="container">
+            <h2>Understanding Sample Testing</h2>
+            <p class="subtitle">How blood is collected, how much is needed, and whether at-home devices can replace a lab visit.</p>
+
+            <!-- Collection Methods -->
+            <div class="method-grid">
+                <div class="method-card">
+                    <h3>Venous Blood Draw</h3>
+                    <span class="method-tag gold">Gold Standard</span>
+                    <p>A trained phlebotomist draws blood from a vein in your arm using a needle and vacuum tubes. Used by lab-visit providers like Lucis, Aro, Zoi, Function Health.</p>
+                    <ul class="detail-list">
+                        <li><span class="label">Volume</span><span class="value">5&ndash;40 mL (2&ndash;8 tubes)</span></li>
+                        <li><span class="label">Biomarkers possible</span><span class="value">200+ (unlimited)</span></li>
+                        <li><span class="label">Accuracy</span><span class="value">Highest (reference standard)</span></li>
+                        <li><span class="label">Where</span><span class="value">Lab or clinic visit required</span></li>
+                        <li><span class="label">Who uses this</span><span class="value">Lucis, Aro, Zoi, Function Health, Aware</span></li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>Capillary / Finger Prick</h3>
+                    <span class="method-tag home">At-Home Friendly</span>
+                    <p>A small lancet pricks your fingertip to collect capillary blood into a microtube. Studies show results are clinically equivalent to venous draws for most general chemistry analytes.</p>
+                    <ul class="detail-list">
+                        <li><span class="label">Volume</span><span class="value">0.1&ndash;0.9 mL</span></li>
+                        <li><span class="label">Biomarkers possible</span><span class="value">Up to 70&ndash;80</span></li>
+                        <li><span class="label">Accuracy</span><span class="value">Equivalent for most markers*</span></li>
+                        <li><span class="label">Where</span><span class="value">At home (self-collection)</span></li>
+                        <li><span class="label">Who uses this</span><span class="value">Thriva, Forth, Medichecks, SiPhox</span></li>
+                    </ul>
+                </div>
+                <div class="method-card">
+                    <h3>Dried Blood Spot (DBS)</h3>
+                    <span class="method-tag dried">Microsampling</span>
+                    <p>Blood drops are collected onto filter paper or absorbent tips, then dried and mailed. Excellent for storage and transport, but supports fewer biomarkers.</p>
+                    <ul class="detail-list">
+                        <li><span class="label">Volume</span><span class="value">0.01&ndash;0.1 mL (a few drops)</span></li>
+                        <li><span class="label">Biomarkers possible</span><span class="value">Up to 20&ndash;40</span></li>
+                        <li><span class="label">Accuracy</span><span class="value">Good for targeted markers</span></li>
+                        <li><span class="label">Where</span><span class="value">At home (mail-in)</span></li>
+                        <li><span class="label">Who uses this</span><span class="value">Some Lykon panels, research studies</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Volume Requirements Table -->
+            <h3 style="text-align: center; font-size: 1.5rem; margin-bottom: 30px; color: var(--dark);">Blood Volume by Provider</h3>
+            <div class="table-wrapper" style="margin-bottom: 50px;">
+                <table class="volume-table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th>Biomarkers</th>
+                            <th>Collection Method</th>
+                            <th>Est. Blood Volume</th>
+                            <th>Est. Tubes</th>
+                            <th>Fasting Required</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Lucis (Care)</strong></td>
+                            <td>110+</td>
+                            <td>Lab venous draw + urine + saliva</td>
+                            <td>~25&ndash;40 mL</td>
+                            <td>5&ndash;8</td>
+                            <td>Yes (8&ndash;12h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lucis (Discovery)</strong></td>
+                            <td>60+</td>
+                            <td>Lab venous draw</td>
+                            <td>~15&ndash;25 mL</td>
+                            <td>3&ndash;5</td>
+                            <td>Yes (8&ndash;12h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zo&imacr;</strong></td>
+                            <td>200+</td>
+                            <td>In-clinic full assessment</td>
+                            <td>~40&ndash;60 mL</td>
+                            <td>8&ndash;12</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Function Health</strong></td>
+                            <td>100+</td>
+                            <td>Lab venous draw (Quest/LabCorp)</td>
+                            <td>~25&ndash;40 mL</td>
+                            <td>5&ndash;8</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aware</strong></td>
+                            <td>76</td>
+                            <td>Lab venous draw</td>
+                            <td>~15 mL</td>
+                            <td>~4</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aro</strong></td>
+                            <td>66</td>
+                            <td>Lab venous draw</td>
+                            <td>~15&ndash;20 mL</td>
+                            <td>3&ndash;5</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Thriva</strong></td>
+                            <td>70+</td>
+                            <td>At-home finger prick (autodraw)</td>
+                            <td>~0.4&ndash;0.8 mL</td>
+                            <td>N/A (microtube)</td>
+                            <td>Depends on test</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forth</strong></td>
+                            <td>70+</td>
+                            <td>At-home finger prick</td>
+                            <td>~0.5&ndash;0.8 mL</td>
+                            <td>N/A (microtube)</td>
+                            <td>Depends on test</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Medichecks</strong></td>
+                            <td>49+</td>
+                            <td>At-home finger prick</td>
+                            <td>~0.4&ndash;0.6 mL</td>
+                            <td>N/A (microtube)</td>
+                            <td>Depends on test</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SiPhox Health</strong></td>
+                            <td>Up to 60</td>
+                            <td>At-home finger prick (EasyDraw)</td>
+                            <td>~0.5 mL</td>
+                            <td>N/A (microtube)</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Superpower</strong></td>
+                            <td>100+</td>
+                            <td>Lab venous draw</td>
+                            <td>~25&ndash;40 mL</td>
+                            <td>5&ndash;8</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>InsideTracker</strong></td>
+                            <td>48</td>
+                            <td>At-home or lab venous draw</td>
+                            <td>~10&ndash;20 mL</td>
+                            <td>3&ndash;5</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biostarks</strong></td>
+                            <td>30+</td>
+                            <td>At-home capillary (mass spec)</td>
+                            <td>~0.2&ndash;0.5 mL</td>
+                            <td>N/A (capillary tube)</td>
+                            <td>Yes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <p style="font-size: 0.85rem; color: var(--gray); text-align: center; margin-bottom: 50px;">
+                * BD studies confirm finger-prick collection is clinically equivalent to venous draws for general chemistry analytes (liver, kidney, cardiac markers). However, some markers (hemoglobin, platelets, pharmacokinetics) may vary. Improper technique (milking the puncture site) can cause hemolysis and false results.
+            </p>
+
+            <!-- Device Compatibility -->
+            <div class="device-compat">
+                <h3>Can At-Home Devices Replace a Lab Visit?</h3>
+                <p class="subtitle">Mapping the devices from <a href="devices.html" style="color: var(--primary);">our devices page</a> to what providers actually need.</p>
+
+                <div class="compat-grid">
+                    <div class="compat-card">
+                        <h4>Basic Panels (25&ndash;50 markers)</h4>
+                        <span class="compat-badge yes">Fully viable at home</span>
+                        <p>Panels like Lykon, Medichecks, Biostarks, and basic Forth/Thriva tests need &lt;1 mL of blood. Any at-home device works.</p>
+                        <ul class="detail-list">
+                            <li><span class="label">Devices</span><span class="value">Tasso+, TAP, SiPhox EasyDraw, Thriva Autodraw</span></li>
+                            <li><span class="label">Volume needed</span><span class="value">0.2&ndash;0.8 mL</span></li>
+                            <li><span class="label">Covers</span><span class="value">CBC, lipids, metabolic, thyroid, vitamins</span></li>
+                        </ul>
+                    </div>
+                    <div class="compat-card limited">
+                        <h4>Mid-Range Panels (50&ndash;80 markers)</h4>
+                        <span class="compat-badge partial">Partially viable</span>
+                        <p>Thriva (70+), Forth (70+), and Aware (76) panels push the limits of finger-prick collection. Some advanced markers may require venous draw or multiple collections.</p>
+                        <ul class="detail-list">
+                            <li><span class="label">Devices</span><span class="value">Tasso+ (0.6 mL), TAP Micro Select (0.9 mL), Onflow (1.5 mL)</span></li>
+                            <li><span class="label">Volume needed</span><span class="value">0.5&ndash;1.5 mL</span></li>
+                            <li><span class="label">Limitation</span><span class="value">Some hormones and specialized markers need more volume</span></li>
+                        </ul>
+                    </div>
+                    <div class="compat-card no">
+                        <h4>Comprehensive Panels (100+ markers)</h4>
+                        <span class="compat-badge not-viable">Lab visit required</span>
+                        <p>Lucis Care (110+), Function Health (100+), Zoi (200+), and Superpower (100+) require 15&ndash;60 mL of blood across multiple tube types. No at-home device can handle this.</p>
+                        <ul class="detail-list">
+                            <li><span class="label">Volume needed</span><span class="value">15&ndash;60 mL (multiple tubes)</span></li>
+                            <li><span class="label">Why</span><span class="value">Different anticoagulants per test group (EDTA, heparin, serum)</span></li>
+                            <li><span class="label">Also needs</span><span class="value">Urine, saliva (Lucis Care), imaging (Zoi)</span></li>
+                        </ul>
+                    </div>
+                    <div class="compat-card limited">
+                        <h4>Dried Blood Spot (DBS) Panels</h4>
+                        <span class="compat-badge partial">Limited scope only</span>
+                        <p>Devices like Mitra, Capitainer B, and HemaXis collect micro-volumes onto absorbent material. Great for targeted testing but only supports a subset of biomarkers.</p>
+                        <ul class="detail-list">
+                            <li><span class="label">Devices</span><span class="value">Mitra (VAMS), Capitainer B50, HemaXis DB</span></li>
+                            <li><span class="label">Volume</span><span class="value">0.01&ndash;0.1 mL</span></li>
+                            <li><span class="label">Best for</span><span class="value">HbA1c, vitamin D, thyroid, specific hormones</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="providers-section" id="europe">
+        <div class="container">
+            <h2>European Providers</h2>
+            <p class="subtitle">At-home kits, lab networks, and premium clinics across Europe</p>
+            <div class="providers-grid">
+
+                <!-- Thriva -->
+                <div class="provider-card">
+                    <div class="provider-header thriva">
+                        <h3>Thriva</h3>
+                        <div class="location">London, UK | Founded 2016</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">70+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">66h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.8 stars</div>
+                                <div class="label">App Rating</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Painless autodraw finger-prick device</li>
+                                <li>Wearable and fitness app data integration</li>
+                                <li>NHS-validated lab testing</li>
+                                <li>Tracks longevity biomarkers (ApoB)</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;70</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;150+</div>
+                                    <div class="desc">Premium Panel</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://thriva.co" class="provider-link" target="_blank">Visit thriva.co &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Forth -->
+                <div class="provider-card">
+                    <div class="provider-header forth">
+                        <h3>Forth</h3>
+                        <div class="location">Bristol, UK | Founded 2016</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">70+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">72h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.5 stars</div>
+                                <div class="label">App Rating</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Build-your-own custom test panel</li>
+                                <li>10 health area scoring in app</li>
+                                <li>NHS-validated testing</li>
+                                <li>Affordable subscription plans</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;40</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;249</div>
+                                    <div class="desc">Comprehensive</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.forthwithlife.co.uk" class="provider-link" target="_blank">Visit forthwithlife.co.uk &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Medichecks -->
+                <div class="provider-card">
+                    <div class="provider-header medichecks">
+                        <h3>Medichecks</h3>
+                        <div class="location">UK | Established</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">49+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">2 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Trusted</div>
+                                <div class="label">Reputation</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Advanced Well Woman/Man panels</li>
+                                <li>Longevity biomarkers (ApoB, TG:HDL)</li>
+                                <li>Doctor's comment included</li>
+                                <li>Gender-specific ultimate tests</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;39</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;199</div>
+                                    <div class="desc">Ultimate Test</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.medichecks.com" class="provider-link" target="_blank">Visit medichecks.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Lykon -->
+                <div class="provider-card">
+                    <div class="provider-header lykon">
+                        <h3>Lykon</h3>
+                        <div class="location">Berlin, Germany | Founded 2015</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">25</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Acquired</div>
+                                <div class="label">By Lifesum</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.2 stars</div>
+                                <div class="label">App Rating</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Lifesum integration (65M users)</li>
+                                <li>Nutrition and food intolerance focus</li>
+                                <li>Personalized meal plans</li>
+                                <li>German market leader</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&euro;89</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&euro;149</div>
+                                    <div class="desc">Premium Panel</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://lykon.de" class="provider-link" target="_blank">Visit lykon.de &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Aware -->
+                <div class="provider-card">
+                    <div class="provider-header aware">
+                        <h3>Aware</h3>
+                        <div class="location">Amsterdam, NL | Founded 2021</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">76</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">48h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.6 stars</div>
+                                <div class="label">App Rating</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Most comprehensive EU at-price panel</li>
+                                <li>Lab testing for higher accuracy</li>
+                                <li>Fast 48h turnaround</li>
+                                <li>Wearable integration planned</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&euro;99</div>
+                                    <div class="desc">Basic / Year</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&euro;179</div>
+                                    <div class="desc">Standard / Year</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://aware.com" class="provider-link" target="_blank">Visit aware.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Lucis -->
+                <div class="provider-card">
+                    <div class="provider-header lucis">
+                        <h3>Lucis</h3>
+                        <div class="location">France | Founded 2025 | YC-backed</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">60&ndash;110+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">~5 wks</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Blood + Urine + Saliva</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$8.5M</div>
+                                <div class="label">Funding</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Biological age calculation</li>
+                                <li>AI coaching and insights</li>
+                                <li>400+ labs across 4 EU countries</li>
+                                <li>Wearable integrations</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&euro;190</div>
+                                    <div class="desc">Discovery / Year</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&euro;490</div>
+                                    <div class="desc">Care / Year</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.lucis.life" class="provider-link" target="_blank">Visit lucis.life &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Aro -->
+                <div class="provider-card">
+                    <div class="provider-header aro">
+                        <h3>Aro</h3>
+                        <div class="location">France | Founded 2024</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">66</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">70 labs in France</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">2x/yr</div>
+                                <div class="label">Test Frequency</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>24/7 AI wellness coach</li>
+                                <li>Biannual testing included</li>
+                                <li>Personalized nutrition + exercise plans</li>
+                                <li>Fast results for lab-based service</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&euro;499</div>
+                                    <div class="desc">Annual Plan</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">2x</div>
+                                    <div class="desc">Tests / Year</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zoi -->
+                <div class="provider-card">
+                    <div class="provider-header zoi">
+                        <h3>Zo&imacr;</h3>
+                        <div class="location">Paris, France | Founded 2021</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">200+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4h</div>
+                                <div class="label">Same Day Results</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">In-clinic</div>
+                                <div class="label">Full Assessment</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">$23M</div>
+                                <div class="label">Seed Funding</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Most comprehensive (200+ markers + imaging)</li>
+                                <li>38 clinical assessments in one visit</li>
+                                <li>Premium luxury health experience</li>
+                                <li>Backed by Moderna CEO</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&euro;3,000</div>
+                                    <div class="desc">Annual Membership</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">38</div>
+                                    <div class="desc">Assessments</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Biostarks -->
+                <div class="provider-card">
+                    <div class="provider-header biostarks">
+                        <h3>Biostarks</h3>
+                        <div class="location">Switzerland</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">30+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">~7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Capillary Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Swiss</div>
+                                <div class="label">Engineered</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>High-resolution mass spectrometry</li>
+                                <li>Intracellular NAD+ testing</li>
+                                <li>Longevity and cellular health panels</li>
+                                <li>5-minute sample collection</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">Varies</div>
+                                    <div class="desc">Per Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">Premium</div>
+                                    <div class="desc">Positioning</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://biostarks.com" class="provider-link" target="_blank">Visit biostarks.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Vitall -->
+                <div class="provider-card">
+                    <div class="provider-header vitall">
+                        <h3>Vitall</h3>
+                        <div class="location">UK</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">40+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">24h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Fast</div>
+                                <div class="label">Results</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Fastest UK results (within 24 hours)</li>
+                                <li>Online blood test platform</li>
+                                <li>Trusted health checks</li>
+                                <li>Simple at-home collection</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;40</div>
+                                    <div class="desc">Basic</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;150</div>
+                                    <div class="desc">Comprehensive</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://vitall.co.uk" class="provider-link" target="_blank">Visit vitall.co.uk &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Blue Horizon -->
+                <div class="provider-card">
+                    <div class="provider-header bluehorizon">
+                        <h3>Blue Horizon</h3>
+                        <div class="location">UK | Since 2009</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">50+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">2&ndash;5 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Both</div>
+                                <div class="label">Home + 80 Clinics</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">15+ yrs</div>
+                                <div class="label">Experience</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>15+ years in home blood testing</li>
+                                <li>Superdrug and Tuli partnerships</li>
+                                <li>80+ phlebotomy locations UK-wide</li>
+                                <li>GP referral included</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;50</div>
+                                    <div class="desc">Basic</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;200</div>
+                                    <div class="desc">Comprehensive</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://bluehorizonbloodtests.co.uk" class="provider-link" target="_blank">Visit bluehorizonbloodtests.co.uk &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Numan -->
+                <div class="provider-card">
+                    <div class="provider-header numan">
+                        <h3>Numan</h3>
+                        <div class="location">UK</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">40+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">48h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Letterbox Kit</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Free</div>
+                                <div class="label">48h Delivery</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Free 48-hour letterbox delivery</li>
+                                <li>Sleep, energy, and long-term health focus</li>
+                                <li>Deficiency treatment available</li>
+                                <li>All-in-one test, treat, track platform</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">&pound;49</div>
+                                    <div class="desc">Basic</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">&pound;149</div>
+                                    <div class="desc">Comprehensive</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.numan.com" class="provider-link" target="_blank">Visit numan.com &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="providers-section" id="us-global" style="background: white;">
+        <div class="container">
+            <h2>US &amp; Global Providers</h2>
+            <p class="subtitle">Comprehensive panels and AI-powered insights from US-based platforms</p>
+            <div class="providers-grid">
+
+                <!-- Function Health -->
+                <div class="provider-card">
+                    <div class="provider-header function">
+                        <h3>Function Health</h3>
+                        <div class="location">US | Founded 2022</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">100+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Quest / LabCorp</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">2x/yr</div>
+                                <div class="label">Test Frequency</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>5x more biomarkers than annual physical</li>
+                                <li>Metabolic, hormonal, organ, heavy metals</li>
+                                <li>Trend tracking over time</li>
+                                <li>US-only (Quest/LabCorp network)</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">$499</div>
+                                    <div class="desc">Annual Membership</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">2x</div>
+                                    <div class="desc">Tests / Year</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.functionhealth.com" class="provider-link" target="_blank">Visit functionhealth.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- InsideTracker -->
+                <div class="provider-card">
+                    <div class="provider-header insidetracker">
+                        <h3>InsideTracker</h3>
+                        <div class="location">US | Founded 2009</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">48</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Both</div>
+                                <div class="label">Home + Lab</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">AI</div>
+                                <div class="label">Recommendations</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Proprietary AI recommendation engine</li>
+                                <li>10 pillars of healthspan analysis</li>
+                                <li>Science-backed personalized action plans</li>
+                                <li>InnerAge biological age calculation</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">$149</div>
+                                    <div class="desc">Membership / Year</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">$489</div>
+                                    <div class="desc">Ultimate Bundle</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.insidetracker.com" class="provider-link" target="_blank">Visit insidetracker.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- SiPhox Health -->
+                <div class="provider-card">
+                    <div class="provider-header siphox">
+                        <h3>SiPhox Health</h3>
+                        <div class="location">US</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">Up to 60</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">7&ndash;10 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">At-home</div>
+                                <div class="label">Finger Prick</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">9</div>
+                                <div class="label">Health Categories</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>9 health categories covered</li>
+                                <li>Longevity essentials panel</li>
+                                <li>Targeted hormone and thyroid panels</li>
+                                <li>Ultimate 360 comprehensive option</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">Sub</div>
+                                    <div class="desc">Subscription Model</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">Varies</div>
+                                    <div class="desc">By Panel</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://siphoxhealth.com" class="provider-link" target="_blank">Visit siphoxhealth.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Superpower -->
+                <div class="provider-card">
+                    <div class="provider-header superpower">
+                        <h3>Superpower</h3>
+                        <div class="location">US</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">100+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Annual Draw</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">HSA/FSA</div>
+                                <div class="label">Eligible</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Most affordable 100+ biomarker panel</li>
+                                <li>HSA/FSA eligible payments</li>
+                                <li>Cardio-metabolic, hormones, inflammation</li>
+                                <li>Price dropped from $499 to $199</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">$199</div>
+                                    <div class="desc">Annual Plan</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">100+</div>
+                                    <div class="desc">Biomarkers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://superpower.com" class="provider-link" target="_blank">Visit superpower.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- SelfDecode Labs -->
+                <div class="provider-card">
+                    <div class="provider-header selfdecode">
+                        <h3>SelfDecode Labs</h3>
+                        <div class="location">US</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">100+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;10 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Optimized</div>
+                                <div class="label">Scoring</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Optimization scoring (not just pass/fail)</li>
+                                <li>Degree of optimization shown per marker</li>
+                                <li>Two comprehensive panels included</li>
+                                <li>Genetics + blood test integration</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">$499</div>
+                                    <div class="desc">Two Panels</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">100+</div>
+                                    <div class="desc">Biomarkers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://selfdecode.com" class="provider-link" target="_blank">Visit selfdecode.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Mito Health -->
+                <div class="provider-card">
+                    <div class="provider-header mito">
+                        <h3>Mito Health</h3>
+                        <div class="location">Singapore / US</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">100+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Lab visit</div>
+                                <div class="label">Collection</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">AI</div>
+                                <div class="label">Powered</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>10x more markers than standard physical</li>
+                                <li>AI-powered health insights</li>
+                                <li>Curated biomarker selection</li>
+                                <li>Comprehensive health view</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">Varies</div>
+                                    <div class="desc">Core Panel</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">100+</div>
+                                    <div class="desc">Biomarkers</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://mitohealth.com" class="provider-link" target="_blank">Visit mitohealth.com &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Lifeforce -->
+                <div class="provider-card">
+                    <div class="provider-header lifeforce">
+                        <h3>Lifeforce</h3>
+                        <div class="location">US</div>
+                    </div>
+                    <div class="provider-body">
+                        <div class="provider-stats">
+                            <div class="stat-item">
+                                <div class="value">40+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">5&ndash;10 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">Both</div>
+                                <div class="label">Home + Lab</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">MD</div>
+                                <div class="label">Concierge Doctor</div>
+                            </div>
+                        </div>
+                        <div class="key-features">
+                            <h4>Key Features</h4>
+                            <ul>
+                                <li>Concierge MD creates personalized plan</li>
+                                <li>Clinical report with action items</li>
+                                <li>At-home or lab visit options</li>
+                                <li>Ongoing physician support</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">$349+</div>
+                                    <div class="desc">Starting Price</div>
+                                </div>
+                                <div class="arrow">&rarr;</div>
+                                <div class="to">
+                                    <div class="amount">MD</div>
+                                    <div class="desc">Included</div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="https://www.mylifeforce.com" class="provider-link" target="_blank">Visit mylifeforce.com &rarr;</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Research data collected January 2025. Prices and features may have changed.</p>
+        </div>
+    </footer>
+</body>
+</html>

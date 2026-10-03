@@ -881,7 +881,7 @@ function painter(kind){
     } else {
       const PR = PRS[kind];
       if (PR.ROAD){ ctx.fillStyle = C.road; path(PR.ROAD); ctx.fill(); }
-      if (PR.KEEP_PAVE){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); }   // simple variant: existing drive and paths stay
+      if (PR.KEEP_PAVE){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); } else if (PR.CONC){ ctx.fillStyle = C.pave; path(PR.CONC); ctx.fill(); }   // the concrete area by the road stays in every option   // simple variant: existing drive and paths stay
       ctx.fillStyle = C.pave; if (PR.PLAT){ path(PR.PLAT); ctx.fill(); } if (PR.DRIVE){ path(PR.DRIVE); ctx.fill(); } if (PR.BAY){ path(PR.BAY); ctx.fill(); }
       ctx.fillStyle = C.stone; path(PR.DECK); ctx.fill();
       if (PR.PATH){   // footpath up to the front door, with the step nosings
@@ -1069,6 +1069,11 @@ function buildProj(PR, gz){
     if (PR.GAR_TOP){          // roof terrace: paved roof at the terrace level, glass guard over the doors
       proj.add(prism(PR.GAR, () => PR.GAR_TOP, () => PR.GAR_TOP + 3, M.stone, false));
       if (PR.HOLE) proj.add(prism(PR.HOLE, () => PR.GAR_TOP + 3, () => PR.GAR_TOP + 5, M.road, false));   // stair opening in the roof
+      if (PR.SAS){   // glazed lobby over the top of the stair, against the façade: glass walls and a thin roof
+        const [sp, top] = PR.SAS;
+        sp.forEach((p, i) => { const q = sp[(i + 1) % sp.length]; if (!(p[1] < 1215 && q[1] < 1215 && Math.max(p[0], q[0]) <= 2110)) proj.add(panel(p[0], p[1], q[0], q[1], PR.GAR_TOP, top - 12, M.rail, 0)); });
+        proj.add(prism(sp, () => top - 12, () => top, M.band));
+      }
       PR.GUARD.slice(1).forEach(([gx2, gz2], i) => { const [gx1, gz1] = PR.GUARD[i]; proj.add(panel(gx1, gz1, gx2, gz2, PR.GAR_TOP, PR.GAR_TOP + 100, M.rail, 0)); });
     }
     PR.GAR_DOORS.forEach(([x1,z1,x2,z2]) => proj.add(panel(x1,z1,x2,z2,f,f + 225,M.wood,3,PR.DOOR_N)));

@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthBio | Affordable At-Home Biomarker Testing with AI Insights</title>
+    <meta name="description" content="Affordable at-home biomarker testing with AI-powered insights. 30-40% lower pricing than competitors. Track your health with certified lab testing.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #004C99;
+            --secondary: #00B894;
+            --accent: #6C5CE7;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --gray: #636E72;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        nav .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo::before {
+            content: '🧬';
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-links a {
+            color: var(--dark);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 160px 0 120px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.03)"/></svg>');
+            opacity: 0.5;
+        }
+
+        header .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+
+        header p {
+            font-size: 1.4rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            line-height: 1.7;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.15rem;
+            transition: all 0.3s;
+            box-shadow: 0 8px 25px rgba(0, 184, 148, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 184, 148, 0.4);
+        }
+
+        /* Features */
+        .features {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 45px 35px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary);
+            box-shadow: 0 12px 40px rgba(0, 102, 204, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 18px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: var(--gray);
+            line-height: 1.7;
+        }
+
+        /* Competitor Comparison */
+        .competitors {
+            padding: 100px 0;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .competitors h2 {
+            text-align: center;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+        }
+
+        .competitors-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 50px;
+            font-size: 1.2rem;
+        }
+
+        .price-highlight {
+            background: linear-gradient(135deg, #e8f4ff 0%, #f0f7ff 100%);
+            border-left: 5px solid var(--secondary);
+            padding: 35px;
+            margin-bottom: 50px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .price-highlight h3 {
+            color: var(--primary);
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .savings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .savings-item {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .savings-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .savings-item .test-name {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .savings-item .old-price {
+            text-decoration: line-through;
+            color: var(--gray);
+            font-size: 1.15rem;
+        }
+
+        .savings-item .new-price {
+            color: var(--secondary);
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 8px 0;
+        }
+
+        .savings-item .save-amount {
+            color: var(--secondary);
+            font-weight: 600;
+            font-size: 1.05rem;
+        }
+
+        .competitor-table {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .competitor-table thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+        }
+
+        .competitor-table thead th {
+            padding: 25px 18px;
+            text-align: left;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.3px;
+        }
+
+        .competitor-table tbody tr {
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.2s;
+        }
+
+        .competitor-table tbody tr:hover {
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f7ff 100%);
+        }
+
+        .competitor-table tbody tr:last-child {
+            border-bottom: none;
+        }
+
+        .competitor-table td {
+            padding: 30px 18px;
+            vertical-align: top;
+        }
+
+        .competitor-name {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .competitor-logo {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            padding: 6px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .competitor-name-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .competitor-name-text strong {
+            font-size: 1.15rem;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .competitor-name-text em {
+            font-size: 0.9rem;
+            color: var(--gray);
+            font-style: normal;
+            margin-top: 2px;
+        }
+
+        .competitor-table .price-cell {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.05rem;
+        }
+
+        .competitor-table .price-note {
+            font-size: 0.88rem;
+            color: var(--gray);
+            display: block;
+            margin-top: 5px;
+            font-weight: 400;
+        }
+
+        .competitor-table ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .competitor-table ul li {
+            padding: 6px 0;
+            font-size: 0.95rem;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .competitor-table ul li::before {
+            content: '• ';
+            color: var(--primary);
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .competitor-table .weaknesses li::before {
+            content: '⚠ ';
+            margin-right: 8px;
+        }
+
+        .market-gap {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 25px;
+            padding: 50px 40px;
+            margin-top: 60px;
+            text-align: center;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            color: white;
+            box-shadow: 0 15px 50px rgba(0, 102, 204, 0.3);
+        }
+
+        .market-gap h3 {
+            color: white;
+            margin-bottom: 25px;
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .market-gap p {
+            color: white;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            opacity: 0.95;
+            margin-bottom: 15px;
+        }
+
+        .market-gap strong {
+            color: var(--secondary);
+            font-weight: 700;
+        }
+
+        .market-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .market-stat-item {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .market-stat-item .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .market-stat-item .stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .how-it-works h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 70px;
+            font-weight: 800;
+        }
+
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+
+        .step {
+            text-align: center;
+            flex: 1;
+            min-width: 220px;
+            max-width: 260px;
+        }
+
+        .step-number {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin: 0 auto 25px;
+            box-shadow: 0 5px 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .step h3 {
+            margin-bottom: 12px;
+            color: var(--dark);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .step p {
+            color: var(--gray);
+            font-size: 1rem;
+            line-height: 1.7;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .pricing h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .pricing-subtitle {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 60px;
+            font-size: 1.15rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 35px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid var(--primary);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured:hover {
+            transform: scale(1.08) translateY(-8px);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 8px 25px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 102, 204, 0.3);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            color: var(--dark);
+            font-weight: 700;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .price span {
+            font-size: 1.1rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .pricing-card ul {
+            list-style: none;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .pricing-card li {
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: var(--gray);
+        }
+
+        .pricing-card li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-card li::before {
+            content: '✓';
+            color: var(--secondary);
+            font-weight: 700;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        /* Market Info */
+        .market-info {
+            padding: 100px 0;
+        }
+
+        /* Business Plan */
+        .business-plan {
+            padding: 100px 0;
+            background: white;
+        }
+
+        .business-plan h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            color: var(--dark);
+            font-weight: 800;
+        }
+
+        .business-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .business-content h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 50px 0 25px;
+            padding-top: 30px;
+            border-top: 2px solid var(--light);
+            font-weight: 700;
+        }
+
+        .business-content h3:first-of-type {
+            border-top: none;
+            margin-top: 0;
+        }
+
+        .business-content h4 {
+            font-size: 1.4rem;
+            color: var(--dark);
+            margin: 30px 0 20px;
+            font-weight: 700;
+        }
+
+        .business-content p, .business-content ul, .business-content ol {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .business-content ul, .business-content ol {
+            margin-left: 30px;
+        }
+
+        .business-content li {
+            margin-bottom: 12px;
+        }
+
+        .business-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            background: white;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .business-content th, .business-content td {
+            padding: 18px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .business-content th {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            font-weight: 700;
+        }
+
+        .business-content tr:hover {
+            background: var(--light);
+        }
+
+        .business-content code {
+            background: var(--light);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        .business-content pre {
+            background: var(--light);
+            padding: 25px;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 25px 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #f0f7ff 0%, #e8f4ff 100%);
+            border-left: 5px solid var(--primary);
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 10px;
+        }
+
+        .highlight-box strong {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .market-info h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 70px;
+            font-weight: 800;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 35px;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+
+        .stat p {
+            color: var(--gray);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        /* Waitlist */
+        .waitlist {
+            padding: 120px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .waitlist::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" fill="rgba(255,255,255,0.03)"/></svg>');
+            opacity: 0.5;
+        }
+
+        .waitlist .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .waitlist h2 {
+            font-size: 2.8rem;
+            margin-bottom: 25px;
+            font-weight: 800;
+        }
+
+        .waitlist p {
+            opacity: 0.95;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 1.2rem;
+            line-height: 1.7;
+        }
+
+        .waitlist-form {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .waitlist-form input {
+            flex: 1;
+            min-width: 280px;
+            padding: 18px 30px;
+            border: none;
+            border-radius: 35px;
+            font-size: 1.05rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .waitlist-form button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 18px 45px;
+            border-radius: 35px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.3);
+        }
+
+        .waitlist-form button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 184, 148, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .competitor-table {
+                font-size: 0.9rem;
+            }
+
+            .competitor-table thead th,
+            .competitor-table td {
+                padding: 20px 12px;
+            }
+
+            .competitor-logo {
+                width: 32px;
+                height: 32px;
+            }
+
+            .savings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .market-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            header p {
+                font-size: 1.15rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            #segments > .container > div[style*="grid-template-columns: 1fr 2fr"] {
+                display: block !important;
+            }
+
+            #segments > .container > div > div {
+                margin-bottom: 30px;
+            }
+
+            .competitors h2,
+            .features h2,
+            .how-it-works h2,
+            .pricing h2,
+            .market-info h2 {
+                font-size: 2rem;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .steps {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .competitor-table thead {
+                display: none;
+            }
+
+            .competitor-table,
+            .competitor-table tbody,
+            .competitor-table tr,
+            .competitor-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .competitor-table tr {
+                margin-bottom: 25px;
+                border: 2px solid #f0f0f0;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            .competitor-table td {
+                padding: 20px;
+                border-bottom: 1px solid #f0f0f0;
+            }
+
+            .competitor-table td:last-child {
+                border-bottom: none;
+            }
+
+            .competitor-table td::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: var(--primary);
+                display: block;
+                margin-bottom: 10px;
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">HealthBio</a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#competitors">Competitors</a>
+                <a href="#segments">Customer Segments</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#how-it-works">How It Works</a>
+                <a href="#business-plan">Business Plan</a>
+                <a href="#waitlist">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Take Control of Your Health</h1>
+            <p>Affordable at-home biomarker testing with AI-powered insights. Understand your body like never before.</p>
+            <a href="#waitlist" class="cta-button">Join the Waitlist</a>
+        </div>
+    </header>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Why Choose Us?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>30-40% Lower Pricing</h3>
+                    <p>Premium biomarker testing at a fraction of the cost. We partner with certified labs in cost-effective regions without compromising quality.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI-Powered Insights</h3>
+                    <p>Go beyond raw numbers. Our AI analyzes your results and provides personalized, actionable recommendations for your health journey.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Test From Home</h3>
+                    <p>No clinic visits required. Receive your kit, collect a simple sample, and mail it back. Results delivered to your app within 72 hours.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Track Your Progress</h3>
+                    <p>Monitor your biomarkers over time with beautiful visualizations. See trends, improvements, and areas that need attention.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="competitors" id="competitors">
+        <div class="container">
+            <h2>How We Compare</h2>
+            <p class="competitors-subtitle">See how we stack up against established European competitors</p>
+
+            <div class="price-highlight">
+                <h3>💰 Save 30-40% on Your Health Testing</h3>
+                <p>Compare our pricing to competitors and see the real difference</p>
+                <div class="savings-grid">
+                    <div class="savings-item">
+                        <div class="test-name">Basic Panel</div>
+                        <div class="old-price">€58-89</div>
+                        <div class="new-price">€39</div>
+                        <div class="save-amount">Save up to €50</div>
+                    </div>
+                    <div class="savings-item">
+                        <div class="test-name">Comprehensive</div>
+                        <div class="old-price">€149-199</div>
+                        <div class="new-price">€89</div>
+                        <div class="save-amount">Save up to €110</div>
+                    </div>
+                    <div class="savings-item">
+                        <div class="test-name">Premium</div>
+                        <div class="old-price">€210-299</div>
+                        <div class="new-price">€159</div>
+                        <div class="save-amount">Save up to €140</div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="competitor-table">
+                <thead>
+                    <tr>
+                        <th width="20%">Competitor</th>
+                        <th width="15%">Market</th>
+                        <th width="18%">Pricing Range</th>
+                        <th width="22%">Key Strengths</th>
+                        <th width="25%">Weaknesses / Gaps</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td data-label="Competitor">
+                            <div class="competitor-name">
+                                <img src="https://www.thriva.co/favicon.ico" alt="Thriva logo" class="competitor-logo">
+                                <div class="competitor-name-text">
+                                    <strong>Thriva</strong>
+                                    <em>UK Leader</em>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Market">🇬🇧 United Kingdom</td>
+                        <td data-label="Pricing Range" class="price-cell">
+                            £49-199
+                            <span class="price-note">(€58-235)</span>
+                        </td>
+                        <td data-label="Key Strengths">
+                            <ul>
+                                <li>Established brand</li>
+                                <li>NHS partnerships</li>
+                                <li>Strong marketing</li>
+                            </ul>
+                        </td>
+                        <td data-label="Weaknesses / Gaps">
+                            <ul class="weaknesses">
+                                <li>UK-only focus</li>
+                                <li>Basic AI insights</li>
+                                <li>Limited personalization</li>
+                                <li>No EU expansion</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="Competitor">
+                            <div class="competitor-name">
+                                <img src="https://www.lykon.com/favicon.ico" alt="Lykon logo" class="competitor-logo">
+                                <div class="competitor-name-text">
+                                    <strong>Lykon</strong>
+                                    <em>German Market</em>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Market">🇩🇪 Germany</td>
+                        <td data-label="Pricing Range" class="price-cell">
+                            €89-199
+                            <span class="price-note">Premium tier</span>
+                        </td>
+                        <td data-label="Key Strengths">
+                            <ul>
+                                <li>German quality focus</li>
+                                <li>Good test variety</li>
+                                <li>DNA analysis option</li>
+                            </ul>
+                        </td>
+                        <td data-label="Weaknesses / Gaps">
+                            <ul class="weaknesses">
+                                <li>Germany-only</li>
+                                <li>High pricing</li>
+                                <li>Complex UX</li>
+                                <li>Limited AI features</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="Competitor">
+                            <div class="competitor-name">
+                                <img src="https://biostarks.com/favicon.ico" alt="Biostarks logo" class="competitor-logo">
+                                <div class="competitor-name-text">
+                                    <strong>Biostarks</strong>
+                                    <em>Swiss Premium</em>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Market">🇨🇭 Switzerland</td>
+                        <td data-label="Pricing Range" class="price-cell">
+                            CHF 200+
+                            <span class="price-note">(€210+)</span>
+                        </td>
+                        <td data-label="Key Strengths">
+                            <ul>
+                                <li>Longevity focus</li>
+                                <li>High-end positioning</li>
+                                <li>Comprehensive panels</li>
+                            </ul>
+                        </td>
+                        <td data-label="Weaknesses / Gaps">
+                            <ul class="weaknesses">
+                                <li>Very expensive</li>
+                                <li>Small market only</li>
+                                <li>Inaccessible pricing</li>
+                                <li>Luxury niche</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td data-label="Competitor">
+                            <div class="competitor-name">
+                                <img src="https://www.letsgetchecked.com/favicon.ico" alt="LetsGetChecked logo" class="competitor-logo">
+                                <div class="competitor-name-text">
+                                    <strong>LetsGetChecked</strong>
+                                    <em>US-backed</em>
+                                </div>
+                            </div>
+                        </td>
+                        <td data-label="Market">🇮🇪 Ireland<br><small>(US-focused)</small></td>
+                        <td data-label="Pricing Range" class="price-cell">
+                            €49-299
+                            <span class="price-note">Wide range</span>
+                        </td>
+                        <td data-label="Key Strengths">
+                            <ul>
+                                <li>US market success</li>
+                                <li>Clinical validation</li>
+                                <li>Wide test catalog</li>
+                            </ul>
+                        </td>
+                        <td data-label="Weaknesses / Gaps">
+                            <ul class="weaknesses">
+                                <li>Generic UX/design</li>
+                                <li>US-first approach</li>
+                                <li>Limited EU focus</li>
+                                <li>No AI insights</li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="market-gap">
+                <h3>🎯 The Market Opportunity</h3>
+                <p>No established player is focused on France with an affordable, AI-powered offering. We're positioned to capture this underserved market with superior UX and dramatically lower pricing.</p>
+
+                <div class="market-stats">
+                    <div class="market-stat-item">
+                        <div class="stat-value">€53B</div>
+                        <div class="stat-label">EU Market by 2035</div>
+                    </div>
+                    <div class="market-stat-item">
+                        <div class="stat-value">67M</div>
+                        <div class="stat-label">France Population</div>
+                    </div>
+                    <div class="market-stat-item">
+                        <div class="stat-value">30-40%</div>
+                        <div class="stat-label">Price Advantage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 80px;">
+                <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 25px; color: var(--dark); font-weight: 800;">Competitive Analysis by Customer Segment</h2>
+                <p style="text-align: center; color: var(--gray); margin-bottom: 60px; font-size: 1.15rem; max-width: 800px; margin-left: auto; margin-right: auto;">We've identified 7 distinct customer segments and analyzed how we compete in each market.</p>
+
+                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+                    <h3 style="color: var(--primary); font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; text-align: center;">7 Key Customer Segments</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px;">
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid var(--primary);">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">1. Curious Starter (25-35)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">First-time biomarker testers seeking baseline health insights.</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.9rem;">Our price: €39 vs. Lucis €190 (80% cheaper)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid var(--secondary);">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">2. Health-Conscious Parent (30-45)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">Time-poor families needing convenient comprehensive testing.</p>
+                            <p style="color: var(--secondary); font-weight: 600; font-size: 0.9rem;">Our price: €89 vs. Lucis €490/yr (82% cheaper)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid var(--accent);">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">3. Performance Optimizer (28-42)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">Athletes and biohackers tracking optimization metrics.</p>
+                            <p style="color: var(--accent); font-weight: 600; font-size: 0.9rem;">Our price: €89 vs. Function Health €235/test (62% cheaper)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid #e74c3c;">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">4. Proactive Professional (35-55)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">Executives seeking comprehensive health monitoring.</p>
+                            <p style="color: #e74c3c; font-weight: 600; font-size: 0.9rem;">Our price: €159 vs. Zoī €3,000/yr (95% cheaper)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid #f39c12;">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">5. Longevity Seeker (45-65)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">Aging-conscious individuals investing in healthspan.</p>
+                            <p style="color: #f39c12; font-weight: 600; font-size: 0.9rem;">Our price: €159 vs. Biostarks €210+/test (25% cheaper)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid #9b59b6;">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">6. Chronic Manager (30-60)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">Managing ongoing conditions with regular monitoring.</p>
+                            <p style="color: #9b59b6; font-weight: 600; font-size: 0.9rem;">Our price: €29-39/mo (No direct French competitor)</p>
+                        </div>
+                        <div style="background: white; padding: 25px; border-radius: 12px; border-left: 4px solid #e91e63;">
+                            <h4 style="color: var(--dark); font-size: 1.2rem; margin-bottom: 10px; font-weight: 700;">7. Menopausal Woman (45-58)</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 10px;">8-10M French women needing hormonal tracking.</p>
+                            <p style="color: #e91e63; font-weight: 600; font-size: 0.9rem;">Our price: €69-79 (No French competitor targets this)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: white; border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08);">
+                    <h3 style="color: var(--primary); font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; text-align: center;">Key Competitive Gaps We Fill</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px;">
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">🇫🇷 France-Focused Player</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> Only Lucis (€490/yr) and Zoī (€3,000/yr) in France</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">We target €39-159 with superior UX</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">💰 Entry-Level Pricing</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> Lucis Discovery €190/yr is cheapest option</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Essential panel at €39 (80% cheaper)</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">🏥 Home-Based Chronic Monitoring</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> Requires GP prescription + lab visits</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Subscription €29-39/mo, condition-specific</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">👩 Menopause-Specific Testing</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> No French player; UK competitors don't serve France</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Dedicated panel €69-79 with symptom tracking</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">🚀 Affordable Longevity</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> Zoī €3,000/yr and Biostarks €210+/test</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Premium panel €159 (95% cheaper than Zoī)</p>
+                        </div>
+                        <div style="border-left: 4px solid var(--secondary); padding-left: 20px;">
+                            <h4 style="color: var(--dark); font-size: 1.15rem; margin-bottom: 12px; font-weight: 700;">🤖 AI-Powered French Insights</h4>
+                            <p style="color: var(--gray); font-size: 0.95rem; line-height: 1.6; margin-bottom: 8px;"><strong>Market state:</strong> Most offer basic insights in English</p>
+                            <p style="color: var(--primary); font-weight: 600; font-size: 0.95rem;">Advanced AI with French personalization</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; padding: 50px 40px; color: white; text-align: center;">
+                    <h3 style="color: white; font-size: 2rem; margin-bottom: 25px; font-weight: 800;">Our Strategic Positioning</h3>
+                    <p style="font-size: 1.15rem; line-height: 1.8; margin-bottom: 15px; opacity: 0.95;">We're not just another biomarker testing company. We've identified specific underserved segments in the French market and built our offering to address their unique needs.</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 25px; margin-top: 40px;">
+                        <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">🎯</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">7</div>
+                            <div style="font-size: 0.95rem; opacity: 0.95;">Targeted Segments</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">💪</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">6</div>
+                            <div style="font-size: 0.95rem; opacity: 0.95;">Major Market Gaps</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">📉</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">60-95%</div>
+                            <div style="font-size: 0.95rem; opacity: 0.95;">Price Savings vs. Competitors</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.15); padding: 25px; border-radius: 15px; backdrop-filter: blur(10px);">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">🇫🇷</div>
+                            <div style="font-size: 1.8rem; font-weight: 800; margin-bottom: 8px;">20M+</div>
+                            <div style="font-size: 0.95rem; opacity: 0.95;">Addressable Market in France</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="segments">
+        <div class="container">
+            <h2>Detailed Customer Segments</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 60px; font-size: 1.15rem; max-width: 800px; margin-left: auto; margin-right: auto;">We've analyzed the French market and identified 7 distinct customer segments. Here's who we serve and how we meet their unique needs.</p>
+
+            <!-- Segment 1: Curious Starter -->
+            <div style="background: white; border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid var(--primary);">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start;">
+                    <div>
+                        <h3 style="color: var(--primary); font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;">Curious Starter</h3>
+                        <div style="background: linear-gradient(135deg, #e8f4ff 0%, #f0f7ff 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: var(--dark);"><strong>Age:</strong> 25-35</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Market Size:</strong> ~2.5M in France</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Income:</strong> €30,000-50,000</p>
+                        </div>
+                        <div style="background: var(--secondary); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Our Price</div>
+                            <div style="font-size: 2.5rem; font-weight: 800;">€39</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">vs. Lucis €190</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-top: 10px;">80% Cheaper</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Profile</h4>
+                        <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">Health-curious but not yet committed. Follows wellness content on Instagram/TikTok. First-time biomarker testers seeking baseline health snapshot.</p>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Health Needs</h4>
+                        <ul style="color: var(--gray); line-height: 1.7;">
+                            <li>Baseline health snapshot (first-time testing)</li>
+                            <li>Nutritional deficiency check (iron, vitamin D, B12)</li>
+                            <li>Simple, digestible insights (not data overload)</li>
+                        </ul>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Our Advantage</h4>
+                        <p style="color: var(--gray); line-height: 1.7;">Most affordable entry point for first-time biomarker testing in France. Essential panel (€39) includes AI insights that competitors charge premium for. No subscription lock-in.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment 2: Health-Conscious Parent -->
+            <div style="background: white; border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid var(--secondary);">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start;">
+                    <div>
+                        <h3 style="color: var(--secondary); font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;">Health-Conscious Parent</h3>
+                        <div style="background: linear-gradient(135deg, #e8fff8 0%, #f0fff9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: var(--dark);"><strong>Age:</strong> 30-45</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Market Size:</strong> ~3M in France</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Income:</strong> €50,000-80,000</p>
+                        </div>
+                        <div style="background: var(--primary); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Our Price</div>
+                            <div style="font-size: 2.5rem; font-weight: 800;">€89</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">vs. Lucis €490/yr</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-top: 10px;">82% Cheaper</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Profile</h4>
+                        <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">Time-poor but health-aware. Buys organic regularly. Interested in family health but lacks time for GP visits. Values convenience and peace of mind.</p>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Health Needs</h4>
+                        <ul style="color: var(--gray); line-height: 1.7;">
+                            <li>Comprehensive health check (thyroid, hormones, metabolic)</li>
+                            <li>Energy/fatigue investigation (iron, B12, vitamin D, thyroid)</li>
+                            <li>Cholesterol and cardiovascular risk tracking</li>
+                            <li>Biannual tracking over time</li>
+                        </ul>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Our Advantage</h4>
+                        <p style="color: var(--gray); line-height: 1.7;">Only comprehensive home-based biomarker testing in France that saves time-poor parents from GP visits and lab appointments. Hospital-grade accuracy at 82% lower cost than Lucis Care.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment 3: Performance Optimizer -->
+            <div style="background: white; border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid var(--accent);">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start;">
+                    <div>
+                        <h3 style="color: var(--accent); font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;">Performance Optimizer</h3>
+                        <div style="background: linear-gradient(135deg, #f0ecff 0%, #f8f5ff 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: var(--dark);"><strong>Age:</strong> 28-42</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Market Size:</strong> ~1M in France</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Income:</strong> €50,000-100,000+</p>
+                        </div>
+                        <div style="background: var(--accent); color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Our Price</div>
+                            <div style="font-size: 2.5rem; font-weight: 800;">€89</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">vs. Function Health €235/test</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-top: 10px;">62% Cheaper</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Profile</h4>
+                        <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">Data-driven, self-optimizing. Gym members (France's 6M). Follows longevity content (Bryan Johnson, Andrew Huberman, Peter Attia). Part of growing French biohacking community (€1.09B market).</p>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Health Needs</h4>
+                        <ul style="color: var(--gray); line-height: 1.7;">
+                            <li>Comprehensive biomarker panel (40+ markers)</li>
+                            <li>Testosterone, cortisol, DHEA-S for performance</li>
+                            <li>Recovery markers (CRP, ferritin, creatine kinase)</li>
+                            <li>Longitudinal tracking (quarterly)</li>
+                        </ul>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Our Advantage</h4>
+                        <p style="color: var(--gray); line-height: 1.7;">France's answer to Function Health. Comprehensive biomarker tracking for the optimization community at 62% lower cost with European data privacy and AI-powered actionable insights.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Segment 7: Menopausal Woman -->
+            <div style="background: white; border-radius: 20px; padding: 50px 40px; margin-bottom: 40px; box-shadow: 0 8px 30px rgba(0,0,0,0.08); border-top: 5px solid #e91e63;">
+                <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 40px; align-items: start;">
+                    <div>
+                        <h3 style="color: #e91e63; font-size: 1.8rem; margin-bottom: 15px; font-weight: 700;">Menopausal Woman</h3>
+                        <div style="background: linear-gradient(135deg, #ffeef5 0%, #fff5f9 100%); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                            <p style="margin: 0; color: var(--dark);"><strong>Age:</strong> 45-58</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Market Size:</strong> 8-10M in France</p>
+                            <p style="margin: 8px 0 0 0; color: var(--dark);"><strong>Income:</strong> €30,000-80,000</p>
+                        </div>
+                        <div style="background: #e91e63; color: white; padding: 20px; border-radius: 12px; text-align: center;">
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-bottom: 5px;">Our Price</div>
+                            <div style="font-size: 2.5rem; font-weight: 800;">€69-79</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9; margin-top: 5px;">Hertility (UK) €176+</div>
+                            <div style="font-size: 1.2rem; font-weight: 700; margin-top: 10px;">No French Competitor</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Profile</h4>
+                        <p style="color: var(--gray); line-height: 1.7; margin-bottom: 20px;">87% experience symptoms but 44% never discuss with doctor. Cultural taboo breaking (2025 French parliamentary report). 70%+ use supplements. Looking for evidence-based tools.</p>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Health Needs</h4>
+                        <ul style="color: var(--gray); line-height: 1.7;">
+                            <li>Hormonal panel: FSH, estradiol, LH, progesterone, testosterone</li>
+                            <li>Thyroid function (symptoms mimic menopause)</li>
+                            <li>Cardiovascular risk (rises 50% post-menopause)</li>
+                            <li>Symptom tracking integration</li>
+                        </ul>
+
+                        <h4 style="color: var(--dark); font-size: 1.3rem; margin-bottom: 15px; margin-top: 25px; font-weight: 700;">Our Advantage</h4>
+                        <p style="color: var(--gray); line-height: 1.7;">France's first at-home comprehensive menopause biomarker testing with AI-powered insights. Filling a massive gap where UK competitors don't serve France and gynecologists are scarce in medical deserts.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); border-radius: 20px; padding: 50px 40px; color: white; text-align: center; margin-top: 60px;">
+                <h3 style="color: white; font-size: 2rem; margin-bottom: 20px; font-weight: 800;">Addressable Market: 20M+ French Consumers</h3>
+                <p style="font-size: 1.15rem; line-height: 1.8; opacity: 0.95; max-width: 800px; margin: 0 auto;">We've identified specific underserved segments across France and built our product, pricing, and marketing strategy to address their unique needs. Each segment represents a significant market opportunity.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Order Your Kit</h3>
+                    <p>Choose the biomarker panel that fits your health goals. Kit arrives in 2-3 days.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Collect Sample</h3>
+                    <p>Simple finger-prick collection at home. Takes less than 5 minutes.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Mail It Back</h3>
+                    <p>Use the prepaid envelope to send your sample to our certified lab partner.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Get Insights</h3>
+                    <p>Receive your results and personalized AI recommendations within 72 hours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2>Simple, Transparent Pricing</h2>
+            <p class="pricing-subtitle">No hidden fees. No subscriptions required.</p>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Essential</h3>
+                    <div class="price">€39 <span>/ test</span></div>
+                    <ul>
+                        <li>15 key biomarkers</li>
+                        <li>Basic health overview</li>
+                        <li>AI-powered insights</li>
+                        <li>PDF report</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Comprehensive</h3>
+                    <div class="price">€89 <span>/ test</span></div>
+                    <ul>
+                        <li>40 biomarkers</li>
+                        <li>Metabolic + hormonal health</li>
+                        <li>Advanced AI insights</li>
+                        <li>Trend tracking</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <h3>Premium</h3>
+                    <div class="price">€159 <span>/ test</span></div>
+                    <ul>
+                        <li>60+ biomarkers</li>
+                        <li>Longevity markers</li>
+                        <li>DNA insights (optional)</li>
+                        <li>Priority support</li>
+                    </ul>
+                    <a href="#waitlist" class="cta-button">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="market-info">
+        <div class="container">
+            <h2>The Future of Preventive Healthcare</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">€53B</div>
+                    <p>Projected European home testing market by 2035</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">22%</div>
+                    <p>Annual growth rate of digital health in Europe</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">220+</div>
+                    <p>Digital biomarker solutions in development globally</p>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">72h</div>
+                    <p>Average time from sample to results</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="business-plan" id="business-plan">
+        <div class="container">
+            <h2>Business Plan</h2>
+            <div class="business-content">
+                <h3>Executive Summary</h3>
+                <p>A consumer health app offering affordable at-home biomarker testing with AI-powered insights, targeting the European market starting with France.</p>
+                <div class="highlight-box">
+                    <strong>Differentiators:</strong>
+                    <ul>
+                        <li>Superior UX/design compared to existing solutions</li>
+                        <li>Lower pricing through low-cost lab partnerships</li>
+                        <li>AI-powered personalized health recommendations</li>
+                    </ul>
+                </div>
+
+                <h3>Market Analysis</h3>
+                <h4>European Landscape</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Competitor</th>
+                            <th>Market</th>
+                            <th>Pricing</th>
+                            <th>Weaknesses</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Thriva</td>
+                            <td>UK</td>
+                            <td>£49-199</td>
+                            <td>UK-focused, basic AI</td>
+                        </tr>
+                        <tr>
+                            <td>Lykon</td>
+                            <td>Germany</td>
+                            <td>€89-199</td>
+                            <td>Germany only</td>
+                        </tr>
+                        <tr>
+                            <td>Biostarks</td>
+                            <td>Switzerland</td>
+                            <td>Premium</td>
+                            <td>Expensive</td>
+                        </tr>
+                        <tr>
+                            <td>LetsGetChecked</td>
+                            <td>Ireland</td>
+                            <td>€49-299</td>
+                            <td>Generic UX</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>Market Size:</strong> €20B (2025) → €53B (2035)</p>
+
+                <h4>Target Market: France</h4>
+                <p><strong>Why France:</strong></p>
+                <ul>
+                    <li>"Most healthtech-friendly major market in Europe"</li>
+                    <li>PECAN pathway for digital health reimbursement</li>
+                    <li>67M population, less saturated than UK/Germany</li>
+                    <li>Single-payer system enables easier national rollout</li>
+                    <li>Gateway to French-speaking markets (Belgium, Switzerland, Luxembourg)</li>
+                </ul>
+                <p><strong>Preventive Healthcare Spending:</strong></p>
+                <ul>
+                    <li>Germany: €458/inhabitant</li>
+                    <li>Austria: €411/inhabitant</li>
+                    <li>Netherlands: €312/inhabitant</li>
+                    <li>France: €189/inhabitant (growing post-COVID)</li>
+                </ul>
+
+                <h3>Business Model</h3>
+                <h4>Revenue Streams</h4>
+                <ol>
+                    <li><strong>Test Kit Sales</strong> - Individual biomarker test kits</li>
+                    <li><strong>Subscription Plans</strong> - Monthly/quarterly monitoring packages</li>
+                    <li><strong>Premium AI Insights</strong> - Advanced personalization tier</li>
+                    <li><strong>B2B Partnerships</strong> - Corporate wellness programs</li>
+                </ol>
+
+                <h4>Pricing Strategy (Undercut Competition by 30-40%)</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tier</th>
+                            <th>Price</th>
+                            <th>Includes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Panel</td>
+                            <td>€35-45</td>
+                            <td>10-15 biomarkers</td>
+                        </tr>
+                        <tr>
+                            <td>Comprehensive</td>
+                            <td>€79-99</td>
+                            <td>30-40 biomarkers</td>
+                        </tr>
+                        <tr>
+                            <td>Premium/Longevity</td>
+                            <td>€149-179</td>
+                            <td>60+ biomarkers + DNA</td>
+                        </tr>
+                        <tr>
+                            <td>Subscription</td>
+                            <td>€29-39/month</td>
+                            <td>Quarterly tests + AI insights</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Unit Economics (Target)</h4>
+                <ul>
+                    <li>Test kit cost: €5-8</li>
+                    <li>Lab processing (low-cost partner): €15-25</li>
+                    <li>Shipping: €5-8</li>
+                    <li><strong>COGS per test:</strong> €25-40</li>
+                    <li><strong>Gross margin target:</strong> 50-60%</li>
+                </ul>
+
+                <h3>Operations</h3>
+                <h4>Lab Partnership Strategy</h4>
+                <p><strong>Target Regions for Lab Partners:</strong></p>
+                <ol>
+                    <li><strong>Poland</strong> - EU member, growing lab industry, competitive pricing</li>
+                    <li><strong>Czech Republic</strong> - Strong healthcare infrastructure, EU compliant</li>
+                    <li><strong>Portugal</strong> - Lower Western European costs, EU member</li>
+                    <li><strong>Turkey</strong> - Very competitive pricing (but logistics challenges)</li>
+                </ol>
+                <p><strong>Requirements:</strong></p>
+                <ul>
+                    <li>ISO 15189 accreditation</li>
+                    <li>GDPR compliance</li>
+                    <li>48-72 hour turnaround</li>
+                    <li>API integration capability</li>
+                </ul>
+
+                <h4>Logistics Flow</h4>
+                <pre>User orders kit → Ship from EU warehouse → User collects sample
+→ User mails to partner lab → Lab processes (48-72h)
+→ Results to app → AI generates insights → User views in app</pre>
+
+                <h3>Product Roadmap</h3>
+                <h4>Phase 1: MVP (Months 1-4)</h4>
+                <ul>
+                    <li>Landing page + waitlist</li>
+                    <li>Basic mobile app (React Native)</li>
+                    <li>Single lab partner integration</li>
+                    <li>Core biomarker panel (20-30 markers)</li>
+                    <li>Basic result visualization</li>
+                </ul>
+
+                <h4>Phase 2: Growth (Months 5-8)</h4>
+                <ul>
+                    <li>AI insights engine (OpenAI integration)</li>
+                    <li>Subscription model</li>
+                    <li>Additional test panels</li>
+                    <li>French language localization</li>
+                </ul>
+
+                <h4>Phase 3: Expansion (Months 9-12)</h4>
+                <ul>
+                    <li>Additional EU markets (Belgium, Germany)</li>
+                    <li>B2B corporate wellness</li>
+                    <li>Wearable integrations</li>
+                    <li>Advanced AI recommendations</li>
+                </ul>
+
+                <h3>Financial Projections</h3>
+                <h4>Year 1 Targets</h4>
+                <ul>
+                    <li>Users: 5,000-10,000</li>
+                    <li>Revenue: €300K-600K</li>
+                    <li>Gross margin: 45-55%</li>
+                </ul>
+
+                <h4>Year 2 Targets</h4>
+                <ul>
+                    <li>Users: 25,000-50,000</li>
+                    <li>Revenue: €1.5M-3M</li>
+                    <li>Gross margin: 55-60%</li>
+                </ul>
+
+                <h4>Funding Requirements</h4>
+                <ul>
+                    <li><strong>Seed round:</strong> €200K-400K</li>
+                    <li>Use of funds:
+                        <ul>
+                            <li>Product development: 40%</li>
+                            <li>Marketing/acquisition: 30%</li>
+                            <li>Operations/legal: 20%</li>
+                            <li>Reserve: 10%</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>Regulatory & Compliance</h3>
+                <h4>Requirements</h4>
+                <ul>
+                    <li>GDPR compliance (data protection)</li>
+                    <li>CE marking for test kits (if custom)</li>
+                    <li>French health data hosting (HDS certification)</li>
+                    <li>Medical device classification (if applicable)</li>
+                </ul>
+
+                <h4>Risk Mitigation</h4>
+                <ul>
+                    <li>Partner with already-certified labs</li>
+                    <li>Use CE-marked collection devices</li>
+                    <li>Legal review of health claims</li>
+                    <li>Insurance for medical advice liability</li>
+                </ul>
+
+                <h3>Competitive Advantages</h3>
+                <ol>
+                    <li><strong>Price Leadership</strong> - 30-40% below competitors</li>
+                    <li><strong>Superior UX</strong> - Modern, intuitive app design</li>
+                    <li><strong>AI Differentiation</strong> - Personalized, actionable insights</li>
+                    <li><strong>Market Focus</strong> - France-first vs scattered approach</li>
+                    <li><strong>Lean Operations</strong> - Low-cost lab partnerships</li>
+                </ol>
+
+                <h3>Next Steps</h3>
+                <ol>
+                    <li><strong>Validate demand</strong> - Landing page + waitlist campaign</li>
+                    <li><strong>Identify lab partners</strong> - Research Poland/Czech labs</li>
+                    <li><strong>Define MVP scope</strong> - Core features and biomarker panel</li>
+                    <li><strong>Legal consultation</strong> - French healthcare regulations</li>
+                    <li><strong>Brand development</strong> - Name, visual identity</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section class="waitlist" id="waitlist">
+        <div class="container">
+            <h2>Be the First to Know</h2>
+            <p>Join our waitlist and get early access when we launch. Plus, receive an exclusive 20% discount on your first test.</p>
+            <form class="waitlist-form" onsubmit="event.preventDefault(); alert('Thank you for joining our waitlist!');">
+                <input type="email" placeholder="Enter your email" required>
+                <button type="submit">Join Waitlist</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 HealthBio. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.95rem;">Targeting launch in France | GDPR Compliant | ISO 15189 Certified Labs</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor News | Health Biomarker Monitoring</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0066CC; --primary-dark: #004C99; --secondary: #00B894;
+            --accent: #6C5CE7; --dark: #2D3436; --light: #F8F9FA;
+            --gray: #636E72; --red: #E74C3C; --orange: #F39C12; --green: #27AE60;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        nav { background: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; padding: 10px 20px; border-radius: 20px; transition: background 0.3s; }
+        .nav-link:hover { background: var(--light); }
+        header { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; padding: 60px 0; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 15px; font-weight: 700; }
+        header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .section { padding: 60px 0; }
+        .section-alt { background: white; }
+        .section h2 { font-size: 1.8rem; margin-bottom: 30px; color: var(--dark); text-align: center; }
+
+        /* News Timeline */
+        .news-timeline { max-width: 900px; margin: 0 auto; }
+        .news-item { display: flex; gap: 25px; margin-bottom: 30px; padding-bottom: 30px; border-bottom: 1px solid #eee; }
+        .news-item:last-child { border-bottom: none; }
+        .news-date { min-width: 100px; text-align: right; }
+        .news-date .month { font-size: 0.85rem; color: var(--gray); text-transform: uppercase; }
+        .news-date .year { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+        .news-content { flex: 1; }
+        .news-company { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; color: white; margin-bottom: 10px; }
+        .news-company.thriva { background: linear-gradient(135deg, #1a73e8, #4285f4); }
+        .news-company.lykon { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .news-company.forth { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .news-company.aware { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .news-company.zoi { background: linear-gradient(135deg, #F39C12, #F1C40F); }
+        .news-company.lucis { background: linear-gradient(135deg, #E91E63, #FF4081); }
+        .news-company.aro { background: linear-gradient(135deg, #009688, #4DB6AC); }
+        .news-company.cerascreen { background: linear-gradient(135deg, #2D3436, #636E72); }
+        .news-headline { font-size: 1.2rem; font-weight: 600; color: var(--dark); margin-bottom: 8px; }
+        .news-details { color: var(--gray); font-size: 0.95rem; margin-bottom: 10px; }
+        .news-tag { display: inline-block; padding: 3px 10px; background: var(--light); border-radius: 15px; font-size: 0.75rem; color: var(--gray); margin-right: 8px; }
+        .news-tag.funding { background: #e8f5e9; color: #2e7d32; }
+        .news-tag.product { background: #e3f2fd; color: #1565c0; }
+        .news-tag.partnership { background: #fff3e0; color: #ef6c00; }
+        .news-tag.expansion { background: #f3e5f5; color: #7b1fa2; }
+        .news-tag.acquisition { background: #ffebee; color: #c62828; }
+
+        /* Company Filter */
+        .filter-section { text-align: center; margin-bottom: 40px; }
+        .filter-btn { display: inline-block; padding: 8px 16px; margin: 5px; border: 2px solid #ddd; border-radius: 25px; background: white; color: var(--gray); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.3s; }
+        .filter-btn:hover, .filter-btn.active { border-color: var(--primary); color: var(--primary); background: #e8f4fd; }
+
+        /* Key Insights */
+        .insights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; margin-top: 30px; }
+        .insight-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); border-left: 4px solid var(--primary); }
+        .insight-card h3 { font-size: 1.1rem; color: var(--dark); margin-bottom: 10px; }
+        .insight-card p { color: var(--gray); font-size: 0.9rem; }
+
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: white; padding: 25px 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .stat-card .value { font-size: 1.8rem; font-weight: 700; color: var(--primary); }
+        .stat-card .label { font-size: 0.85rem; color: var(--gray); margin-top: 5px; }
+
+        footer { background: var(--dark); color: white; padding: 40px 0; text-align: center; }
+        footer p { opacity: 0.7; }
+
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .news-item { flex-direction: column; gap: 10px; }
+            .news-date { text-align: left; display: flex; gap: 8px; }
+            .filter-btn { padding: 6px 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="competitors.html" class="nav-link">Competitors</a>
+                <a href="segmentation.html" class="nav-link">Segments</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Competitor News &amp; Updates</h1>
+            <p>Latest developments from biomarker testing companies in the European market (2024-2026)</p>
+        </div>
+    </header>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Market Overview</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="value">$8.5M</div>
+                    <div class="label">Lucis seed round (Dec 2025)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">65M</div>
+                    <div class="label">Lifesum users (post-Lykon)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">400+</div>
+                    <div class="label">Lucis lab network (EU)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">1</div>
+                    <div class="label">Acquisition (Lykon by Lifesum)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Latest News</h2>
+
+            <div class="filter-section">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="lucis">Lucis</button>
+                <button class="filter-btn" data-filter="thriva">Thriva</button>
+                <button class="filter-btn" data-filter="lykon">Lykon</button>
+                <button class="filter-btn" data-filter="forth">Forth</button>
+                <button class="filter-btn" data-filter="zoi">Zoi</button>
+                <button class="filter-btn" data-filter="aware">Aware</button>
+                <button class="filter-btn" data-filter="cerascreen">Cerascreen</button>
+            </div>
+
+            <div class="news-timeline">
+
+                <!-- December 2025 -->
+                <div class="news-item" data-company="lucis">
+                    <div class="news-date">
+                        <div class="month">Dec</div>
+                        <div class="year">2025</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company lucis">Lucis</span>
+                        <div class="news-headline">Lucis raises $8.5M seed funding from General Catalyst</div>
+                        <div class="news-details">Y Combinator-backed preventive health startup Lucis closed $8.5M seed round led by General Catalyst, with participation from Kima Ventures, Motier Ventures, and Circle.Co. The round closed just 5 days after YC Demo Day (X25 batch). The company has served 3,000 customers with 500,000+ clinical tests across 400+ European labs.</div>
+                        <span class="news-tag funding">Funding</span>
+                        <span class="news-tag expansion">Expansion</span>
+                    </div>
+                </div>
+
+                <!-- August 2025 -->
+                <div class="news-item" data-company="thriva">
+                    <div class="news-date">
+                        <div class="month">Aug</div>
+                        <div class="year">2025</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company thriva">Thriva</span>
+                        <div class="news-headline">Survey: 90% of users change lifestyle after blood tests</div>
+                        <div class="news-details">Thriva survey of nearly 500 UK adults found that 9 in 10 users changed their lifestyle and habits after taking an at-home blood test and receiving personalized clinical guidance. Strong validation for the DTC preventive testing market.</div>
+                        <span class="news-tag product">Research</span>
+                    </div>
+                </div>
+
+                <!-- April 2025 -->
+                <div class="news-item" data-company="thriva">
+                    <div class="news-date">
+                        <div class="month">Apr</div>
+                        <div class="year">2025</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company thriva">Thriva</span>
+                        <div class="news-headline">Thriva partners with Tasso for needle-free blood testing</div>
+                        <div class="news-details">Partnership with medical device manufacturer Tasso to tackle needle phobia (affects 1 in 10 adults). The Tasso+ device painlessly collects blood samples without traditional needles or finger pricks, with results available in 48 hours via the Thriva app.</div>
+                        <span class="news-tag partnership">Partnership</span>
+                        <span class="news-tag product">Product</span>
+                    </div>
+                </div>
+
+                <!-- February 2025 -->
+                <div class="news-item" data-company="lykon">
+                    <div class="news-date">
+                        <div class="month">Feb</div>
+                        <div class="year">2025</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company lykon">Lykon / Lifesum</span>
+                        <div class="news-headline">Lifesum launches AI-Powered Multimodal Tracker</div>
+                        <div class="news-details">Following the Lykon acquisition, Lifesum launched an AI-powered tracker as part of its transformation into a comprehensive wellness ecosystem. Combines nutrition tracking from Lifesum's 65M users with Lykon's biomarker testing capabilities.</div>
+                        <span class="news-tag product">Product Launch</span>
+                    </div>
+                </div>
+
+                <!-- October 2024 -->
+                <div class="news-item" data-company="forth">
+                    <div class="news-date">
+                        <div class="month">Oct</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company forth">Forth</span>
+                        <div class="news-headline">Forth launches B2B service "Forth Connect"</div>
+                        <div class="news-details">New SaaS solution offered to practitioners, clinics, and enterprise organizations. Partners include Ministry of Defence and NHS. Marks Forth's expansion from D2C into the B2B market.</div>
+                        <span class="news-tag product">Product Launch</span>
+                        <span class="news-tag expansion">B2B</span>
+                    </div>
+                </div>
+
+                <!-- June 2024 -->
+                <div class="news-item" data-company="lykon">
+                    <div class="news-date">
+                        <div class="month">Jun</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company lykon">Lykon</span>
+                        <div class="news-headline">Lifesum acquires Lykon for undisclosed sum</div>
+                        <div class="news-details">Swedish nutrition app Lifesum acquired Germany's #1 biomarker-based personalized nutrition company. Lykon had raised EUR 16M in venture funding. The acquisition integrates Lykon's at-home blood/DNA testing with Lifesum's 65 million-user platform.</div>
+                        <span class="news-tag acquisition">Acquisition</span>
+                    </div>
+                </div>
+
+                <!-- March 2024 -->
+                <div class="news-item" data-company="forth">
+                    <div class="news-date">
+                        <div class="month">Mar</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company forth">Forth</span>
+                        <div class="news-headline">Forth launches HealthCoach AI platform</div>
+                        <div class="news-details">Next-gen personal health platform that converts complex biomarker results into easy-to-understand health scores. First home testing platform to offer sophisticated algorithms that mathematically pinpoint key areas for maximum health impact.</div>
+                        <span class="news-tag product">Product Launch</span>
+                    </div>
+                </div>
+
+                <!-- 2024 Ongoing -->
+                <div class="news-item" data-company="aware">
+                    <div class="news-date">
+                        <div class="month">H1</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company aware">Aware</span>
+                        <div class="news-headline">Aware expands to Netherlands and Austria</div>
+                        <div class="news-details">Lakestar-backed startup expanded from four cities in Germany to include labs in Austria and Amsterdam. Plans to roll out in one-to-two more European countries. Building "Europe's largest health database" for personalized medicine.</div>
+                        <span class="news-tag expansion">Expansion</span>
+                    </div>
+                </div>
+
+                <div class="news-item" data-company="zoi">
+                    <div class="news-date">
+                        <div class="month">H1</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company zoi">Zoi</span>
+                        <div class="news-headline">Zoi announces London expansion plans</div>
+                        <div class="news-details">Premium health assessment company (EUR 3,000/year) planning new London location designed by Sala Hars architecture. Currently operates ~12 check-ups/day at Paris Vendome clinic with ~1,000 members. US expansion also under consideration.</div>
+                        <span class="news-tag expansion">Expansion</span>
+                    </div>
+                </div>
+
+                <div class="news-item" data-company="cerascreen">
+                    <div class="news-date">
+                        <div class="month">FY</div>
+                        <div class="year">2024</div>
+                    </div>
+                    <div class="news-content">
+                        <span class="news-company cerascreen">Cerascreen</span>
+                        <div class="news-headline">Cerascreen generates $10M revenue in Germany</div>
+                        <div class="news-details">German DTC testing leader generated $10M revenue on cerascreen.de in 2024, with 0-5% growth projected for 2025. Operates across 19 European countries. US operations permanently closed December 2022.</div>
+                        <span class="news-tag">Revenue</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Key Market Insights</h2>
+            <div class="insights-grid">
+                <div class="insight-card">
+                    <h3>Consolidation Underway</h3>
+                    <p>Lifesum's acquisition of Lykon signals consolidation in the European market. Large user bases (65M) are acquiring biomarker capabilities rather than building from scratch.</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Technology Differentiation</h3>
+                    <p>Needle-free testing (Thriva + Tasso) and AI-powered health scoring (Forth HealthCoach) are key differentiators. Companies investing in UX innovation.</p>
+                </div>
+                <div class="insight-card">
+                    <h3>New Well-Funded Entrant</h3>
+                    <p>Y Combinator-backed Lucis is the newest threat with $8.5M funding, aggressive EU expansion (4 countries), and competitive pricing at EUR 490/year.</p>
+                </div>
+                <div class="insight-card">
+                    <h3>B2B Expansion</h3>
+                    <p>Forth and Cerascreen expanding into B2B/SaaS to complement D2C. NHS and Ministry of Defence partnerships validate enterprise opportunity.</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Premium vs Accessible</h3>
+                    <p>Market splitting: Zoi at EUR 3,000/year vs Lucis at EUR 490/year vs Aware at EUR 179/year. Room for multiple price points.</p>
+                </div>
+                <div class="insight-card">
+                    <h3>Our Opportunity</h3>
+                    <p>No competitor offers home testing + AI insights + EUR 39 entry price in France. UK players (Thriva, Forth) don't serve EU. French players require lab visits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">News compiled January 2026</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                document.querySelectorAll('.news-item').forEach(item => {
+                    if (filter === 'all' || item.dataset.company === filter) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

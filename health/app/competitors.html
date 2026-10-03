@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competitor Analysis | Health Biomarker Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #004C99;
+            --secondary: #00B894;
+            --accent: #6C5CE7;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --gray: #636E72;
+            --red: #E74C3C;
+            --orange: #F39C12;
+            --green: #27AE60;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Quick Comparison Cards */
+        .comparison-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .comparison-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .comparison-card.ours {
+            border: 2px solid var(--primary);
+        }
+
+        .comparison-card-header {
+            padding: 20px 25px;
+            color: white;
+        }
+
+        .comparison-card-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
+
+        .comparison-card-header .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .comparison-card-header.thriva { background: linear-gradient(135deg, #1a73e8, #4285f4); }
+        .comparison-card-header.lykon { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .comparison-card-header.forth { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .comparison-card-header.aware { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .comparison-card-header.zoi { background: linear-gradient(135deg, #F39C12, #F1C40F); }
+        .comparison-card-header.lucis { background: linear-gradient(135deg, #E91E63, #FF4081); }
+        .comparison-card-header.aro { background: linear-gradient(135deg, #009688, #4DB6AC); }
+        .comparison-card-header.us { background: linear-gradient(135deg, var(--primary), var(--accent)); }
+
+        .comparison-card-body {
+            padding: 20px 25px;
+        }
+
+        .comparison-card-body .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.92rem;
+        }
+
+        .comparison-card-body .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-row .detail-label {
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .detail-row .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .check {
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .cross {
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* Comparison Table */
+        .table-section {
+            padding: 60px 0;
+            background: var(--light);
+        }
+
+        .table-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 900px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 15px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 15px 0 0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison-table .highlight {
+            background: #e8f4fd;
+            font-weight: 600;
+        }
+
+        /* Competitor Cards */
+        .competitors-section {
+            padding: 60px 0;
+        }
+
+        .competitors-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .competitors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .competitor-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .competitor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .competitor-header {
+            padding: 25px;
+            color: white;
+            position: relative;
+        }
+
+        .competitor-header.thriva { background: linear-gradient(135deg, #1a73e8, #4285f4); }
+        .competitor-header.lykon { background: linear-gradient(135deg, #FF6B6B, #FF8E8E); }
+        .competitor-header.forth { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .competitor-header.aware { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .competitor-header.zoi { background: linear-gradient(135deg, #F39C12, #F1C40F); }
+        .competitor-header.lucis { background: linear-gradient(135deg, #E91E63, #FF4081); }
+        .competitor-header.aro { background: linear-gradient(135deg, #009688, #4DB6AC); }
+
+        .competitor-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+
+        .competitor-header .location {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .competitor-body {
+            padding: 25px;
+        }
+
+        .competitor-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: var(--light);
+            border-radius: 10px;
+        }
+
+        .stat-item .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-item .label {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .strengths-weaknesses {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .strengths h4,
+        .weaknesses h4 {
+            font-size: 0.95rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .strengths h4 { color: var(--green); }
+        .weaknesses h4 { color: var(--red); }
+
+        .strengths ul,
+        .weaknesses ul {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--gray);
+        }
+
+        .strengths li,
+        .weaknesses li {
+            padding: 5px 0;
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .strengths li::before {
+            content: '+';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .weaknesses li::before {
+            content: '-';
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        /* Pricing Section */
+        .pricing-comparison {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .pricing-comparison h4 {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .price-range {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .price-range .from,
+        .price-range .to {
+            text-align: center;
+        }
+
+        .price-range .amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .price-range .desc {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .price-range .arrow {
+            color: var(--gray);
+            font-size: 1.5rem;
+        }
+
+        /* Market Gaps */
+        .gaps-section {
+            padding: 60px 0;
+            background: white;
+        }
+
+        .gaps-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        .gaps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .gap-card {
+            background: linear-gradient(135deg, var(--secondary) 0%, #55efc4 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .gap-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        .gap-card p {
+            opacity: 0.95;
+            font-size: 0.95rem;
+        }
+
+        /* Our Advantage */
+        .advantage-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .advantage-section h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .advantage-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .advantage-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .advantage-item p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .competitors-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .strengths-weaknesses {
+                grid-template-columns: 1fr;
+            }
+
+            .competitor-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="competitor-news.html" class="nav-link">News</a>
+                <a href="segmentation.html" class="nav-link">Segments</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Competitor Analysis</h1>
+            <p>A comprehensive overview of the European biomarker testing market and how we differentiate ourselves.</p>
+        </div>
+    </header>
+
+    <section style="padding: 30px 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="container" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+            <div style="color: white;">
+                <h3 style="font-size: 1.4rem; margin-bottom: 5px;">Competitor News &amp; Updates</h3>
+                <p style="opacity: 0.9; font-size: 0.95rem;">Latest funding rounds, product launches, and market moves (2024-2026)</p>
+            </div>
+            <a href="competitor-news.html" style="display: inline-block; background: white; color: #667eea; padding: 12px 28px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s;">View News Timeline &rarr;</a>
+        </div>
+    </section>
+
+    <section class="comparison-section">
+        <div class="container">
+            <h2>Quick Comparison</h2>
+            <div class="comparison-grid">
+
+                <!-- Thriva -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header thriva">
+                        <h3>Thriva</h3>
+                        <div class="card-subtitle">UK | Founded 2016</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">~£70 (~€82)</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">70+</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Finger-prick</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">66h</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value check">Yes</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Basic</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">4.8 stars</span></div>
+                    </div>
+                </div>
+
+                <!-- Lykon -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header lykon">
+                        <h3>Lykon</h3>
+                        <div class="card-subtitle">Germany | Founded 2015</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">~€89</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">25</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Finger-prick</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">N/A</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value check">Yes</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Basic</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">4.2 stars</span></div>
+                    </div>
+                </div>
+
+                <!-- Forth -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header forth">
+                        <h3>Forth</h3>
+                        <div class="card-subtitle">UK | Founded 2016</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">£40 (~€47)</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">70+</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Finger-prick</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">72h</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value check">Yes</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Basic</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">4.5 stars</span></div>
+                    </div>
+                </div>
+
+                <!-- Aware -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header aware">
+                        <h3>Aware</h3>
+                        <div class="card-subtitle">NL/DE/AT | Founded 2021</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">€99/year</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">76</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Venous (lab)</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">48h</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value cross">No (lab visit)</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Basic</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">4.6 stars</span></div>
+                    </div>
+                </div>
+
+                <!-- Zoi -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header zoi">
+                        <h3>Zoī</h3>
+                        <div class="card-subtitle">France (Paris) | Founded 2021</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">€3,000/year</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">200+</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">In-person (full)</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">4h (same day)</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value cross">No (Paris only)</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Life Journal app</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">New</span></div>
+                    </div>
+                </div>
+
+                <!-- Lucis -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header lucis">
+                        <h3>Lucis</h3>
+                        <div class="card-subtitle">FR/UK/IE/PT | Founded 2025</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">€190/year</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">110+</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Lab blood draw</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">~5 weeks</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value cross">No (400+ labs)</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">AI coaching</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">New</span></div>
+                    </div>
+                </div>
+
+                <!-- Aro -->
+                <div class="comparison-card">
+                    <div class="comparison-card-header aro">
+                        <h3>Aro</h3>
+                        <div class="card-subtitle">France | Founded 2024</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">€499/year</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">66</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Lab blood draw</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">7 days</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value cross">No (70 labs)</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">24/7 AI coach</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">New</span></div>
+                    </div>
+                </div>
+
+                <!-- Us -->
+                <div class="comparison-card ours">
+                    <div class="comparison-card-header us">
+                        <h3>Us (HealthBio)</h3>
+                        <div class="card-subtitle">France (all) | Founded 2025</div>
+                    </div>
+                    <div class="comparison-card-body">
+                        <div class="detail-row"><span class="detail-label">Min Price</span><span class="detail-value">€39</span></div>
+                        <div class="detail-row"><span class="detail-label">Biomarkers</span><span class="detail-value">60+</span></div>
+                        <div class="detail-row"><span class="detail-label">Sample</span><span class="detail-value">Finger-prick</span></div>
+                        <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">72h</span></div>
+                        <div class="detail-row"><span class="detail-label">Home Testing</span><span class="detail-value check">Yes</span></div>
+                        <div class="detail-row"><span class="detail-label">AI Insights</span><span class="detail-value">Advanced</span></div>
+                        <div class="detail-row"><span class="detail-label">App Rating</span><span class="detail-value">Coming soon</span></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="table-section">
+        <div class="container">
+            <h2>Full Comparison Table</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Company</th>
+                            <th>Country</th>
+                            <th>Founded</th>
+                            <th>Min Price</th>
+                            <th>Biomarkers</th>
+                            <th>Sample Type</th>
+                            <th>Turnaround</th>
+                            <th>Home Testing</th>
+                            <th>AI Insights</th>
+                            <th>App Rating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Thriva</strong></td>
+                            <td>UK</td>
+                            <td>2016</td>
+                            <td>~£70 (~€82)</td>
+                            <td>70+</td>
+                            <td>Finger-prick</td>
+                            <td>66h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Basic</td>
+                            <td>4.8 stars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lykon</strong></td>
+                            <td>Germany</td>
+                            <td>2015</td>
+                            <td>~€89</td>
+                            <td>25</td>
+                            <td>Finger-prick</td>
+                            <td>N/A</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Basic</td>
+                            <td>4.2 stars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Forth</strong></td>
+                            <td>UK</td>
+                            <td>2016</td>
+                            <td>£40 (~€47)</td>
+                            <td>70+</td>
+                            <td>Finger-prick</td>
+                            <td>72h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Basic</td>
+                            <td>4.5 stars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aware</strong></td>
+                            <td>NL/DE/AT</td>
+                            <td>2021</td>
+                            <td>€99/year</td>
+                            <td>76</td>
+                            <td>Venous (lab)</td>
+                            <td>48h</td>
+                            <td><span class="cross">No (lab visit)</span></td>
+                            <td>Basic</td>
+                            <td>4.6 stars</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Zoī</strong></td>
+                            <td>France (Paris)</td>
+                            <td>2021</td>
+                            <td>€3,000/year</td>
+                            <td>200+</td>
+                            <td>In-person (full)</td>
+                            <td>4h (same day)</td>
+                            <td><span class="cross">No (Paris only)</span></td>
+                            <td>Life Journal app</td>
+                            <td>New</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lucis</strong></td>
+                            <td>FR/UK/IE/PT</td>
+                            <td>2025</td>
+                            <td>€190/year</td>
+                            <td>110+</td>
+                            <td>Lab blood draw</td>
+                            <td>~5 weeks</td>
+                            <td><span class="cross">No (400+ labs)</span></td>
+                            <td>AI coaching</td>
+                            <td>New</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Aro</strong></td>
+                            <td>France</td>
+                            <td>2024</td>
+                            <td>€499/year</td>
+                            <td>66</td>
+                            <td>Lab blood draw</td>
+                            <td>7 days</td>
+                            <td><span class="cross">No (70 labs)</span></td>
+                            <td>24/7 AI coach</td>
+                            <td>New</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>Us (HealthBio)</strong></td>
+                            <td>France (all)</td>
+                            <td>2025</td>
+                            <td>€39</td>
+                            <td>60+</td>
+                            <td>Finger-prick</td>
+                            <td>72h</td>
+                            <td><span class="check">Yes</span></td>
+                            <td>Advanced</td>
+                            <td>Coming soon</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="competitors-section">
+        <div class="container">
+            <h2>Detailed Competitor Profiles</h2>
+            <div class="competitors-grid">
+
+                <!-- Thriva -->
+                <div class="competitor-card">
+                    <div class="competitor-header thriva">
+                        <h3>Thriva</h3>
+                        <div class="location">London, UK | Founded 2016</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">$17.1M</div>
+                                <div class="label">Funding</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">70+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">66h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.8 stars</div>
+                                <div class="label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Painless autodraw device</li>
+                                    <li>Fast results</li>
+                                    <li>NHS-validated</li>
+                                    <li>Strong reviews</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>UK only</li>
+                                    <li>No phone support</li>
+                                    <li>Rising prices</li>
+                                    <li>Missing biomarkers</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing Range</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">£90</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">£150+</div>
+                                    <div class="desc">Premium Panel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lykon -->
+                <div class="competitor-card">
+                    <div class="competitor-header lykon">
+                        <h3>Lykon</h3>
+                        <div class="location">Berlin, Germany | Founded 2015</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">Acquired</div>
+                                <div class="label">By Lifesum</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">25</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">66</div>
+                                <div class="label">Employees</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.2 stars</div>
+                                <div class="label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Lifesum integration (65M users)</li>
+                                    <li>Nutrition focus</li>
+                                    <li>Food intolerance tests</li>
+                                    <li>Personalized meals</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>Germany only</li>
+                                    <li>Limited biomarkers</li>
+                                    <li>Post-acquisition uncertainty</li>
+                                    <li>Less comprehensive</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing Range</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">€89</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">€149</div>
+                                    <div class="desc">Premium Panel</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forth -->
+                <div class="competitor-card">
+                    <div class="competitor-header forth">
+                        <h3>Forth (ForthWithLife)</h3>
+                        <div class="location">Bristol, UK | Founded 2016</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">Unknown</div>
+                                <div class="label">Funding</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">70+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">72h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.5 stars</div>
+                                <div class="label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>NHS-validated tests</li>
+                                    <li>Build-your-own test</li>
+                                    <li>10 health area scoring</li>
+                                    <li>Affordable subscriptions</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>UK only</li>
+                                    <li>Basic app</li>
+                                    <li>Less brand recognition</li>
+                                    <li>No autodraw device</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing Range</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">£40</div>
+                                    <div class="desc">Basic Panel</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">£249</div>
+                                    <div class="desc">Comprehensive</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aware -->
+                <div class="competitor-card">
+                    <div class="competitor-header aware">
+                        <h3>Aware</h3>
+                        <div class="location">Amsterdam, NL | Founded 2021</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">Lakestar</div>
+                                <div class="label">VC Backed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">76</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">48h</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4.6 stars</div>
+                                <div class="label">Rating</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Most comprehensive (76 markers)</li>
+                                    <li>Lab testing (accurate)</li>
+                                    <li>Fast results (48h)</li>
+                                    <li>Wearable integration plans</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>Requires lab visit</li>
+                                    <li>Limited availability</li>
+                                    <li>Newer company</li>
+                                    <li>Higher barrier</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing Range</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">€99</div>
+                                    <div class="desc">Basic/Year</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">€179</div>
+                                    <div class="desc">Standard/Year</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Zoī -->
+                <div class="competitor-card">
+                    <div class="competitor-header zoi">
+                        <h3>Zoī</h3>
+                        <div class="location">Paris, France | Founded 2021</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">$23M</div>
+                                <div class="label">Seed Funding</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">200+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">4h</div>
+                                <div class="label">Same Day</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">New</div>
+                                <div class="label">App Rating</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Most comprehensive (200+ markers)</li>
+                                    <li>Full imaging included</li>
+                                    <li>Premium luxury experience</li>
+                                    <li>Strong investors (Moderna CEO)</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>Very expensive (€3,000)</li>
+                                    <li>Paris only location</li>
+                                    <li>No home testing</li>
+                                    <li>4h time commitment</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">€3,000</div>
+                                    <div class="desc">Annual Membership</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">38</div>
+                                    <div class="desc">Assessments</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lucis -->
+                <div class="competitor-card">
+                    <div class="competitor-header lucis">
+                        <h3>Lucis</h3>
+                        <div class="location">France | Founded 2025</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">$8.5M</div>
+                                <div class="label">YC + GC Backed</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">110+</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">~5 wks</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">400+</div>
+                                <div class="label">Labs in EU</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Y Combinator backed</li>
+                                    <li>Large lab network (4 countries)</li>
+                                    <li>Wearable integrations</li>
+                                    <li>Biological age calculation</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>Very slow (~5 weeks)</li>
+                                    <li>Requires lab visit</li>
+                                    <li>No doctor consultation</li>
+                                    <li>Brand new company</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing Range</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">€190</div>
+                                    <div class="desc">Discovery/Year</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">€490</div>
+                                    <div class="desc">Care/Year</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Aro -->
+                <div class="competitor-card">
+                    <div class="competitor-header aro">
+                        <h3>Aro</h3>
+                        <div class="location">France | Founded 2024</div>
+                    </div>
+                    <div class="competitor-body">
+                        <div class="competitor-stats">
+                            <div class="stat-item">
+                                <div class="value">Unknown</div>
+                                <div class="label">Funding</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">66</div>
+                                <div class="label">Biomarkers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">7 days</div>
+                                <div class="label">Turnaround</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="value">70</div>
+                                <div class="label">Labs in FR</div>
+                            </div>
+                        </div>
+                        <div class="strengths-weaknesses">
+                            <div class="strengths">
+                                <h4>Strengths</h4>
+                                <ul>
+                                    <li>Fast results (7 days)</li>
+                                    <li>24/7 AI wellness coach</li>
+                                    <li>Biannual testing included</li>
+                                    <li>Nutrition + exercise plans</li>
+                                </ul>
+                            </div>
+                            <div class="weaknesses">
+                                <h4>Weaknesses</h4>
+                                <ul>
+                                    <li>France only</li>
+                                    <li>Smaller lab network</li>
+                                    <li>No home testing</li>
+                                    <li>Fewer biomarkers</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="pricing-comparison">
+                            <h4>Pricing</h4>
+                            <div class="price-range">
+                                <div class="from">
+                                    <div class="amount">€499</div>
+                                    <div class="desc">Annual Plan</div>
+                                </div>
+                                <div class="arrow">→</div>
+                                <div class="to">
+                                    <div class="amount">2x</div>
+                                    <div class="desc">Tests/Year</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="gaps-section">
+        <div class="container">
+            <h2>Market Gaps We're Targeting</h2>
+            <div class="gaps-grid">
+                <div class="gap-card">
+                    <h3>True Home Testing</h3>
+                    <p>French competitors (Zoī, Lucis, Aro) all require lab visits. We're the only option with convenient at-home finger-prick testing.</p>
+                </div>
+                <div class="gap-card">
+                    <h3>Lowest Entry Price</h3>
+                    <p>At €39, we're 80% cheaper than Lucis (€190), 92% cheaper than Aro (€499), and 99% cheaper than Zoī (€3,000).</p>
+                </div>
+                <div class="gap-card">
+                    <h3>Fastest Results</h3>
+                    <p>72-hour turnaround vs 7 days (Aro) or 5 weeks (Lucis). Only Zoī is faster but requires €3,000 and a Paris trip.</p>
+                </div>
+                <div class="gap-card">
+                    <h3>No Appointment Needed</h3>
+                    <p>Competitors require scheduling at labs or clinics. We ship to your door - test anytime that works for you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="advantage-section">
+        <div class="container">
+            <h2>Our Competitive Advantages</h2>
+            <div class="advantages-grid">
+                <div class="advantage-item">
+                    <h3>30-40% Lower Pricing</h3>
+                    <p>Partnership with ISO-certified labs in Poland and Czech Republic without compromising quality.</p>
+                </div>
+                <div class="advantage-item">
+                    <h3>Superior AI Insights</h3>
+                    <p>Advanced AI-powered personalization that goes beyond basic number reporting.</p>
+                </div>
+                <div class="advantage-item">
+                    <h3>France-First Strategy</h3>
+                    <p>Targeting an underserved market with localized content, support, and regulatory compliance.</p>
+                </div>
+                <div class="advantage-item">
+                    <h3>Home Testing + AI</h3>
+                    <p>Combining the convenience of home testing with the intelligence of advanced AI analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Research data collected January 2025</p>
+        </div>
+    </footer>
+</body>
+</html>

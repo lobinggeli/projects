@@ -1,0 +1,15 @@
+.DS_Store
+
+# Private: never push to this public repo
+personal/
+investments/
+projects/
+corseaux_rapport.pdf
+health/business-docs/
+dir.html
+# Too large for git
+health/health-intelligence-platform/website/Health-Intelligence-Platform-Complete.pdf
+# Separate git repository
+health/health-intelligence-platform/website/
+# Contains a hardcoded Spotify client secret
+scripts/spotify_setup.py

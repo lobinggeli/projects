@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bilan Ménopause | Test Hormonal à Domicile | HealthBio</title>
+    <meta name="description" content="Comprenez vos hormones avec notre bilan ménopause complet. Test sanguin à domicile, résultats en 72h, insights IA personnalisés. À partir de 69€.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #E91E63;
+            --primary-dark: #C2185B;
+            --primary-light: #FF4081;
+            --secondary: #9C27B0;
+            --dark: #2D3436;
+            --light: #FFF5F8;
+            --white: #FFFFFF;
+            --gray: #636E72;
+            --gray-light: #B2BEC3;
+            --green: #27AE60;
+            --orange: #F39C12;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; color: var(--dark); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Navigation */
+        nav { background: var(--white); padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 10px; align-items: center; }
+        .nav-link { color: var(--dark); text-decoration: none; font-weight: 500; padding: 10px 15px; border-radius: 8px; transition: all 0.3s; }
+        .nav-link:hover { background: var(--light); color: var(--primary); }
+        .nav-cta { background: var(--primary); color: white; padding: 10px 20px; border-radius: 25px; text-decoration: none; font-weight: 600; transition: all 0.3s; }
+        .nav-cta:hover { background: var(--primary-dark); transform: translateY(-2px); }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--secondary) 100%); color: white; padding: 80px 0 100px; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 600px; height: 600px; background: rgba(255,255,255,0.1); border-radius: 50%; }
+        .hero::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 400px; height: 400px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .hero .container { position: relative; z-index: 1; }
+        .hero-content { max-width: 650px; }
+        .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 8px 16px; border-radius: 20px; font-size: 0.9rem; margin-bottom: 20px; backdrop-filter: blur(10px); }
+        .hero h1 { font-size: 3rem; font-weight: 800; margin-bottom: 20px; line-height: 1.2; }
+        .hero p { font-size: 1.25rem; opacity: 0.95; margin-bottom: 30px; }
+        .hero-cta { display: inline-flex; gap: 15px; flex-wrap: wrap; }
+        .btn { display: inline-block; padding: 16px 32px; border-radius: 30px; text-decoration: none; font-weight: 600; font-size: 1.1rem; transition: all 0.3s; }
+        .btn-white { background: white; color: var(--primary); }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .btn-outline { border: 2px solid white; color: white; background: transparent; }
+        .btn-outline:hover { background: white; color: var(--primary); }
+        .hero-stats { display: flex; gap: 40px; margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); }
+        .hero-stat { text-align: center; }
+        .hero-stat .value { font-size: 2rem; font-weight: 700; }
+        .hero-stat .label { font-size: 0.9rem; opacity: 0.85; }
+
+        /* Section Styles */
+        .section { padding: 80px 0; }
+        .section-light { background: var(--light); }
+        .section-white { background: var(--white); }
+        .section-title { text-align: center; margin-bottom: 50px; }
+        .section-title h2 { font-size: 2.2rem; color: var(--dark); margin-bottom: 15px; }
+        .section-title p { color: var(--gray); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Pricing Cards */
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .pricing-card { background: var(--white); border-radius: 20px; padding: 40px 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); position: relative; transition: all 0.3s; }
+        .pricing-card:hover { transform: translateY(-5px); box-shadow: 0 20px 50px rgba(0,0,0,0.12); }
+        .pricing-card.featured { border: 3px solid var(--primary); }
+        .pricing-card.featured::before { content: 'Le plus populaire'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 5px 20px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; }
+        .pricing-card h3 { font-size: 1.4rem; color: var(--dark); margin-bottom: 10px; }
+        .pricing-card .price { font-size: 3rem; font-weight: 800; color: var(--primary); margin: 20px 0; }
+        .pricing-card .price span { font-size: 1rem; color: var(--gray); font-weight: 400; }
+        .pricing-card .biomarkers { background: var(--light); padding: 10px 15px; border-radius: 10px; margin-bottom: 20px; font-weight: 600; color: var(--primary); }
+        .pricing-card ul { list-style: none; margin-bottom: 30px; }
+        .pricing-card li { padding: 10px 0; color: var(--gray); display: flex; align-items: flex-start; gap: 10px; }
+        .pricing-card li::before { content: '✓'; color: var(--green); font-weight: bold; }
+        .pricing-card .btn { width: 100%; text-align: center; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-secondary { background: var(--light); color: var(--primary); }
+        .btn-secondary:hover { background: var(--primary); color: white; }
+
+        /* How It Works */
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; position: relative; }
+        .steps-grid::before { content: ''; position: absolute; top: 50px; left: 12.5%; right: 12.5%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); z-index: 0; }
+        .step { text-align: center; position: relative; z-index: 1; }
+        .step-number { width: 100px; height: 100px; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700; margin: 0 auto 20px; box-shadow: 0 10px 30px rgba(233, 30, 99, 0.3); }
+        .step h3 { font-size: 1.2rem; color: var(--dark); margin-bottom: 10px; }
+        .step p { color: var(--gray); font-size: 0.95rem; }
+        .step-time { display: inline-block; background: var(--light); color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 0.85rem; font-weight: 600; margin-top: 10px; }
+
+        /* Biomarkers Section */
+        .biomarker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 25px; }
+        .biomarker-card { background: var(--white); border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.06); border-left: 4px solid var(--primary); }
+        .biomarker-card h4 { color: var(--primary); font-size: 1.15rem; margin-bottom: 8px; }
+        .biomarker-card .measure { font-size: 0.85rem; color: var(--gray-light); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .biomarker-card p { color: var(--gray); font-size: 0.95rem; margin-bottom: 15px; }
+        .biomarker-card .range { background: var(--light); padding: 10px 15px; border-radius: 8px; font-size: 0.85rem; color: var(--gray); }
+
+        /* Comparison Section */
+        .comparison-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: 15px; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .comparison-table th { background: var(--primary); color: white; padding: 18px 15px; text-align: left; font-weight: 600; }
+        .comparison-table th.us { background: var(--primary-dark); }
+        .comparison-table td { padding: 16px 15px; border-bottom: 1px solid #f0f0f0; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        .comparison-table tr:hover { background: var(--light); }
+        .comparison-table .us { background: #fff0f5; font-weight: 600; }
+        .comparison-table .check { color: var(--green); font-weight: bold; font-size: 1.2rem; }
+        .comparison-table .cross { color: #E74C3C; font-size: 1.2rem; }
+
+        /* Perimenopause vs Menopause */
+        .peri-meno-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .peri-card, .meno-card { background: var(--white); border-radius: 20px; padding: 40px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        .peri-card { border-top: 5px solid var(--secondary); }
+        .meno-card { border-top: 5px solid var(--primary); }
+        .peri-card h3 { color: var(--secondary); }
+        .meno-card h3 { color: var(--primary); }
+        .panel-features { list-style: none; margin: 25px 0; }
+        .panel-features li { padding: 12px 0; border-bottom: 1px solid #f5f5f5; display: flex; align-items: flex-start; gap: 12px; color: var(--gray); }
+        .panel-features li:last-child { border-bottom: none; }
+        .panel-features .icon { font-size: 1.2rem; }
+        .panel-price { font-size: 2rem; font-weight: 700; color: var(--dark); margin-top: 20px; }
+
+        /* Trust Section */
+        .trust-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .trust-card { background: var(--white); border-radius: 15px; padding: 30px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.06); }
+        .trust-icon { font-size: 3rem; margin-bottom: 15px; }
+        .trust-card h4 { color: var(--dark); margin-bottom: 10px; font-size: 1.1rem; }
+        .trust-card p { color: var(--gray); font-size: 0.9rem; }
+
+        /* HRT Section */
+        .hrt-box { background: linear-gradient(135deg, var(--secondary), #7B1FA2); color: white; border-radius: 20px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .hrt-content h2 { font-size: 2rem; margin-bottom: 20px; }
+        .hrt-content p { opacity: 0.9; margin-bottom: 15px; }
+        .hrt-features { list-style: none; }
+        .hrt-features li { padding: 10px 0; display: flex; align-items: center; gap: 10px; }
+        .hrt-features li::before { content: '✓'; background: rgba(255,255,255,0.2); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; }
+        .hrt-price { text-align: center; }
+        .hrt-price .price { font-size: 4rem; font-weight: 800; }
+        .hrt-price .label { font-size: 1.1rem; opacity: 0.85; margin-bottom: 20px; }
+        .btn-white-outline { border: 2px solid white; color: white; background: transparent; }
+        .btn-white-outline:hover { background: white; color: var(--secondary); }
+
+        /* FAQ Section */
+        .faq-grid { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--white); border-radius: 12px; margin-bottom: 15px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.04); }
+        .faq-question { padding: 20px 25px; font-weight: 600; color: var(--dark); cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question:hover { color: var(--primary); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--primary); }
+        .faq-answer { padding: 0 25px 20px; color: var(--gray); display: none; }
+        .faq-item.active .faq-answer { display: block; }
+        .faq-item.active .faq-question::after { content: '−'; }
+
+        /* CTA Section */
+        .cta-section { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%); color: white; padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .cta-section p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        /* Footer */
+        footer { background: var(--dark); color: white; padding: 60px 0 30px; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+        .footer-brand .logo { color: white; font-size: 1.8rem; display: block; margin-bottom: 15px; }
+        .footer-brand p { color: var(--gray-light); font-size: 0.9rem; }
+        .footer-col h4 { margin-bottom: 20px; font-size: 1rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; }
+        .footer-col a { color: var(--gray-light); text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
+        .footer-col a:hover { color: var(--primary-light); }
+        .footer-bottom { border-top: 1px solid #3d4447; padding-top: 30px; display: flex; justify-content: space-between; align-items: center; color: var(--gray-light); font-size: 0.85rem; }
+        .footer-badges { display: flex; gap: 15px; }
+        .footer-badge { background: #3d4447; padding: 8px 15px; border-radius: 8px; font-size: 0.8rem; }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.5rem; }
+            .steps-grid { grid-template-columns: repeat(2, 1fr); }
+            .steps-grid::before { display: none; }
+            .peri-meno-grid { grid-template-columns: 1fr; }
+            .hrt-box { grid-template-columns: 1fr; text-align: center; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { flex-direction: column; gap: 20px; }
+            .nav-links { display: none; }
+            .steps-grid { grid-template-columns: 1fr; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .comparison-table { font-size: 0.85rem; }
+            .comparison-table th, .comparison-table td { padding: 12px 10px; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 20px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div class="nav-links">
+                <a href="#biomarqueurs" class="nav-link">Biomarqueurs</a>
+                <a href="#tarifs" class="nav-link">Tarifs</a>
+                <a href="#comment-ca-marche" class="nav-link">Comment ça marche</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#commander" class="nav-cta">Commander</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge">Bilan hormonal complet à domicile</div>
+                <h1>Comprenez vos hormones, reprenez le contrôle</h1>
+                <p>Le bilan ménopause que votre gynécologue n'a pas le temps de vous prescrire. Test sanguin à domicile, résultats en 72h, insights personnalisés par IA.</p>
+                <div class="hero-cta">
+                    <a href="#commander" class="btn btn-white">Commencer le quiz</a>
+                    <a href="#biomarqueurs" class="btn btn-outline">Découvrir les biomarqueurs</a>
+                </div>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="value">72h</div>
+                    <div class="label">Résultats</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="value">18</div>
+                    <div class="label">Biomarqueurs</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="value">69€</div>
+                    <div class="label">À partir de</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="value">100%</div>
+                    <div class="label">À domicile</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section section-light" id="tarifs">
+        <div class="container">
+            <div class="section-title">
+                <h2>Choisissez votre bilan</h2>
+                <p>Des panels conçus spécifiquement pour la ménopause et la périménopause</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Essential Panel -->
+                <div class="pricing-card">
+                    <h3>Essentiel</h3>
+                    <p style="color: var(--gray);">Premier bilan hormonal</p>
+                    <div class="price">69€</div>
+                    <div class="biomarkers">10 biomarqueurs</div>
+                    <ul>
+                        <li>FSH, LH, Estradiol, Progestérone</li>
+                        <li>TSH, T4 libre (thyroïde)</li>
+                        <li>Vitamine D, Ferritine</li>
+                        <li>HbA1c, Cholestérol total</li>
+                        <li>Résultats en 72h</li>
+                        <li>Insights IA personnalisés</li>
+                        <li>PDF pour votre médecin</li>
+                    </ul>
+                    <a href="#commander" class="btn btn-secondary">Choisir</a>
+                </div>
+
+                <!-- Comprehensive Panel -->
+                <div class="pricing-card featured">
+                    <h3>Complet</h3>
+                    <p style="color: var(--gray);">Bilan ménopause approfondi</p>
+                    <div class="price">89€</div>
+                    <div class="biomarkers">18 biomarqueurs</div>
+                    <ul>
+                        <li>Tout le panel Essentiel +</li>
+                        <li>Testostérone, DHEA-S, SHBG</li>
+                        <li>T3 libre (thyroïde complète)</li>
+                        <li>ApoB, hsCRP (risque cardiovasculaire)</li>
+                        <li>Vitamine B12, Calcium</li>
+                        <li>Score de stade ménopause</li>
+                        <li>Suivi des symptômes intégré</li>
+                    </ul>
+                    <a href="#commander" class="btn btn-primary">Choisir</a>
+                </div>
+
+                <!-- Perimenopause Panel -->
+                <div class="pricing-card">
+                    <h3>Périménopause</h3>
+                    <p style="color: var(--gray);">Double prélèvement J14 + J21</p>
+                    <div class="price">99€</div>
+                    <div class="biomarkers">10 biomarqueurs x 2</div>
+                    <ul>
+                        <li>2 kits de prélèvement</li>
+                        <li>Jour 14 (ovulation) + Jour 21 (lutéal)</li>
+                        <li>Détecte les fluctuations hormonales</li>
+                        <li>Indique si vous ovulez encore</li>
+                        <li>Idéal si cycles irréguliers</li>
+                        <li>Corrélation symptômes-hormones</li>
+                        <li>Guide de timing personnalisé</li>
+                    </ul>
+                    <a href="#commander" class="btn btn-secondary">Choisir</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section section-white" id="comment-ca-marche">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comment ça marche</h2>
+                <p>De la commande aux résultats en quelques étapes simples</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Répondez au quiz</h3>
+                    <p>Quelques questions sur vos symptômes et votre cycle pour vous recommander le bon panel</p>
+                    <span class="step-time">5 min</span>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Recevez votre kit</h3>
+                    <p>Livraison gratuite à domicile sous 2-3 jours ouvrés via Colissimo</p>
+                    <span class="step-time">2-3 jours</span>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Prélevez votre échantillon</h3>
+                    <p>Simple goutte de sang au bout du doigt, guidé par vidéo dans l'app</p>
+                    <span class="step-time">15 min</span>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Consultez vos résultats</h3>
+                    <p>Résultats dans l'app avec insights IA et PDF à partager avec votre médecin</p>
+                    <span class="step-time">72h</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Biomarkers Section -->
+    <section class="section section-light" id="biomarqueurs">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comprendre vos biomarqueurs</h2>
+                <p>Les hormones et marqueurs clés pour comprendre votre transition ménopausique</p>
+            </div>
+
+            <div class="biomarker-grid">
+                <div class="biomarker-card">
+                    <h4>FSH (Hormone Folliculo-Stimulante)</h4>
+                    <div class="measure">Marqueur principal de la ménopause</div>
+                    <p>La FSH augmente quand vos ovaires produisent moins d'œstrogènes. Un taux supérieur à 30 mIU/mL indique généralement la ménopause.</p>
+                    <div class="range">Pré-ménopause: &lt;10 | Périménopause: 10-30 | Ménopause: &gt;30 mIU/mL</div>
+                </div>
+
+                <div class="biomarker-card">
+                    <h4>Estradiol (E2)</h4>
+                    <div class="measure">Principal œstrogène</div>
+                    <p>La baisse d'estradiol cause les symptômes classiques : bouffées de chaleur, troubles du sommeil, sécheresse vaginale, changements d'humeur.</p>
+                    <div class="range">Pré-ménopause: 30-400 pg/mL | Post-ménopause: &lt;30 pg/mL</div>
+                </div>
+
+                <div class="biomarker-card">
+                    <h4>TSH (Thyroïde)</h4>
+                    <div class="measure">Fonction thyroïdienne</div>
+                    <p>Les problèmes thyroïdiens imitent les symptômes de la ménopause : fatigue, prise de poids, troubles de l'humeur. Essentiel à vérifier.</p>
+                    <div class="range">Optimal: 0.4-4.0 mIU/L</div>
+                </div>
+
+                <div class="biomarker-card">
+                    <h4>Vitamine D</h4>
+                    <div class="measure">Santé osseuse</div>
+                    <p>30% des femmes post-ménopause développent l'ostéoporose. La vitamine D est essentielle pour l'absorption du calcium. 70% des Françaises sont carencées.</p>
+                    <div class="range">Optimal: 30-50 ng/mL | Carence: &lt;20 ng/mL</div>
+                </div>
+
+                <div class="biomarker-card">
+                    <h4>HbA1c</h4>
+                    <div class="measure">Glycémie moyenne (3 mois)</div>
+                    <p>La résistance à l'insuline augmente pendant la ménopause. L'HbA1c détecte les risques métaboliques avant le diabète.</p>
+                    <div class="range">Optimal: &lt;5.7% | Prédiabète: 5.7-6.4%</div>
+                </div>
+
+                <div class="biomarker-card">
+                    <h4>Cholestérol & ApoB</h4>
+                    <div class="measure">Risque cardiovasculaire</div>
+                    <p>Le risque CV augmente de 50% après la ménopause. Le LDL augmente typiquement de 10-15%. L'ApoB est un meilleur prédicteur que le LDL seul.</p>
+                    <div class="range">Cholestérol total optimal: &lt;200 mg/dL | ApoB: &lt;90 mg/dL</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Perimenopause vs Menopause -->
+    <section class="section section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Périménopause ou Ménopause ?</h2>
+                <p>L'approche de test diffère selon votre stade</p>
+            </div>
+
+            <div class="peri-meno-grid">
+                <div class="peri-card">
+                    <h3>Périménopause</h3>
+                    <p style="color: var(--gray); margin-top: 10px;">Vous avez encore vos règles mais elles sont irrégulières</p>
+
+                    <ul class="panel-features">
+                        <li><span class="icon">📅</span><div><strong>Âge typique:</strong> 40-52 ans</div></li>
+                        <li><span class="icon">🔄</span><div><strong>Caractéristique:</strong> Hormones fluctuantes</div></li>
+                        <li><span class="icon">🧪</span><div><strong>Approche:</strong> Double prélèvement (J14 + J21)</div></li>
+                        <li><span class="icon">❓</span><div><strong>Question clé:</strong> "Est-ce que j'ovule encore ?"</div></li>
+                        <li><span class="icon">📊</span><div><strong>Résultat:</strong> Pattern de fluctuation hormonale</div></li>
+                    </ul>
+                    <div class="panel-price">99€ <span style="font-size: 1rem; color: var(--gray);">/ 2 kits</span></div>
+                </div>
+
+                <div class="meno-card">
+                    <h3>Ménopause</h3>
+                    <p style="color: var(--gray); margin-top: 10px;">12+ mois sans règles</p>
+
+                    <ul class="panel-features">
+                        <li><span class="icon">📅</span><div><strong>Âge typique:</strong> 45-58 ans</div></li>
+                        <li><span class="icon">📉</span><div><strong>Caractéristique:</strong> Hormones stables (basses)</div></li>
+                        <li><span class="icon">🧪</span><div><strong>Approche:</strong> Prélèvement unique, n'importe quand</div></li>
+                        <li><span class="icon">❓</span><div><strong>Question clé:</strong> "Quel est mon niveau de base ?"</div></li>
+                        <li><span class="icon">📊</span><div><strong>Résultat:</strong> Confirmation + bilan santé complet</div></li>
+                    </ul>
+                    <div class="panel-price">69-89€</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="color: var(--gray); margin-bottom: 15px;"><strong>Pas sûre de votre stade ?</strong></p>
+                <a href="#commander" class="btn btn-primary">Faites le quiz en 5 min</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- HRT Monitoring -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="hrt-box">
+                <div class="hrt-content">
+                    <h2>Suivi du Traitement Hormonal (THM)</h2>
+                    <p>Vous êtes sous traitement hormonal ? Notre add-on de suivi vous aide à vérifier l'efficacité et la sécurité de votre traitement.</p>
+                    <ul class="hrt-features">
+                        <li>Estradiol (niveau trough) pour vérifier l'absorption</li>
+                        <li>Progestérone si THM combiné</li>
+                        <li>Bilan hépatique (ALT, AST)</li>
+                        <li>Triglycérides (surveillance des effets secondaires)</li>
+                        <li>Résultats formatés pour votre médecin</li>
+                    </ul>
+                </div>
+                <div class="hrt-price">
+                    <div class="price">+29€</div>
+                    <div class="label">Add-on à tout panel</div>
+                    <a href="#commander" class="btn btn-white-outline">Ajouter le suivi THM</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="section section-white">
+        <div class="container">
+            <div class="section-title">
+                <h2>Pourquoi nous choisir ?</h2>
+                <p>Comparez les options disponibles sur le marché</p>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Fonctionnalité</th>
+                            <th class="us">HealthBio</th>
+                            <th>Hertility (UK)</th>
+                            <th>Forth (UK)</th>
+                            <th>Clearblue</th>
+                            <th>Lucis (FR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Prix</strong></td>
+                            <td class="us"><strong>69-89€</strong></td>
+                            <td>175-275€</td>
+                            <td>46-200€</td>
+                            <td>~30€</td>
+                            <td>190-490€/an</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Biomarqueurs</strong></td>
+                            <td class="us">10-18</td>
+                            <td>Jusqu'à 10</td>
+                            <td>4-8</td>
+                            <td>1 (FSH seul)</td>
+                            <td>110+</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Prélèvement à domicile</strong></td>
+                            <td class="us"><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span> (urine)</td>
+                            <td><span class="cross">✗</span> Labo</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Délai résultats</strong></td>
+                            <td class="us"><strong>72h</strong></td>
+                            <td>6 jours</td>
+                            <td>2-5 jours</td>
+                            <td>Immédiat</td>
+                            <td>5 semaines</td>
+                        </tr>
+                        <tr>
+                            <td><strong>En français</strong></td>
+                            <td class="us"><span class="check">✓</span> Natif</td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Insights IA</strong></td>
+                            <td class="us"><span class="check">✓</span> Ménopause</td>
+                            <td><span class="check">✓</span></td>
+                            <td>Générique</td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Suivi des symptômes</strong></td>
+                            <td class="us"><span class="check">✓</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                            <td><span class="cross">✗</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Disponible en France</strong></td>
+                            <td class="us"><span class="check">✓</span></td>
+                            <td><span class="cross">✗</span> UK seul</td>
+                            <td><span class="cross">✗</span> UK seul</td>
+                            <td><span class="check">✓</span></td>
+                            <td><span class="check">✓</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Section -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Une approche fondée sur la science</h2>
+                <p>Vos décisions de santé méritent des données fiables</p>
+            </div>
+
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <div class="trust-icon">🏥</div>
+                    <h4>Laboratoires ISO 15189</h4>
+                    <p>Vos échantillons sont analysés par des laboratoires accrédités selon la norme internationale de qualité médicale.</p>
+                </div>
+
+                <div class="trust-card">
+                    <div class="trust-icon">👩‍⚕️</div>
+                    <h4>Revue médicale</h4>
+                    <p>Chaque résultat est revu par des professionnels de santé. Les anomalies sont signalées avec des recommandations de suivi.</p>
+                </div>
+
+                <div class="trust-card">
+                    <div class="trust-icon">🔒</div>
+                    <h4>Hébergement HDS</h4>
+                    <p>Vos données sont stockées sur des serveurs certifiés HDS (Hébergeur de Données de Santé), la norme française la plus stricte.</p>
+                </div>
+
+                <div class="trust-card">
+                    <div class="trust-icon">📋</div>
+                    <h4>Conforme aux recommandations</h4>
+                    <p>Nos panels et valeurs de référence suivent les recommandations NAMS, ACOG et HAS pour la prise en charge de la ménopause.</p>
+                </div>
+
+                <div class="trust-card">
+                    <div class="trust-icon">🛡️</div>
+                    <h4>RGPD</h4>
+                    <p>Droits complets sur vos données : accès, portabilité, suppression. Vos données ne sont jamais vendues.</p>
+                </div>
+
+                <div class="trust-card">
+                    <div class="trust-icon">🤝</div>
+                    <h4>Complément au suivi médical</h4>
+                    <p>Nous vous aidons à avoir de meilleures conversations avec votre médecin, pas à le remplacer.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section section-white" id="faq">
+        <div class="container">
+            <div class="section-title">
+                <h2>Questions fréquentes</h2>
+            </div>
+
+            <div class="faq-grid">
+                <div class="faq-item">
+                    <div class="faq-question">Le prélèvement fait-il mal ?</div>
+                    <div class="faq-answer">Le prélèvement se fait par une petite piqûre au bout du doigt avec une lancette. La sensation est comparable à un test de glycémie. La plupart de nos utilisatrices décrivent une gêne minimale qui dure moins d'une seconde.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">À quel moment du cycle dois-je faire le test ?</div>
+                    <div class="faq-answer">Pour le panel Ménopause (si vous n'avez plus de règles depuis 12+ mois), vous pouvez tester n'importe quand. Pour le panel Périménopause, nous fournissons 2 kits : un pour le jour 14 de votre cycle (ovulation) et un pour le jour 21 (phase lutéale).</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Est-ce que mon médecin acceptera ces résultats ?</div>
+                    <div class="faq-answer">Oui, nos analyses sont réalisées par des laboratoires accrédités ISO 15189, la même norme que les laboratoires hospitaliers. Nous fournissons un PDF formaté avec toutes les valeurs et références pour faciliter la discussion avec votre médecin.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Mes données sont-elles sécurisées ?</div>
+                    <div class="faq-answer">Absolument. Nous utilisons un hébergeur certifié HDS (Hébergeur de Données de Santé), la norme française la plus stricte pour les données médicales. Nous sommes conformes au RGPD et vos données ne sont jamais vendues à des tiers.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Puis-je utiliser ce test si je suis sous THM ?</div>
+                    <div class="faq-answer">Oui ! Nous proposons même un add-on spécifique pour le suivi du THM (+29€) qui inclut des marqueurs supplémentaires pour vérifier l'efficacité et la sécurité de votre traitement. Important : prélevez votre échantillon juste avant votre prochaine application/prise pour mesurer le niveau "trough".</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">En combien de temps reçois-je mes résultats ?</div>
+                    <div class="faq-answer">Vos résultats sont disponibles dans l'app 72 heures après réception de votre échantillon au laboratoire. Vous recevez une notification push dès qu'ils sont prêts.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Quelle est la différence entre ce test et Clearblue ?</div>
+                    <div class="faq-answer">Clearblue teste uniquement la FSH via un test urinaire. Notre panel analyse 10-18 biomarqueurs sanguins, incluant les hormones, la thyroïde, le risque cardiovasculaire et métabolique. Nous fournissons également des insights IA personnalisés et un suivi des symptômes intégré.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="commander">
+        <div class="container">
+            <h2>Prête à comprendre vos hormones ?</h2>
+            <p>Rejoignez les femmes qui reprennent le contrôle de leur santé pendant la ménopause</p>
+            <a href="#" class="btn btn-white">Commencer le quiz gratuit</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">HealthBio</a>
+                    <p>Bilans santé à domicile avec insights IA. Comprenez votre corps, reprenez le contrôle.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Produits</h4>
+                    <ul>
+                        <li><a href="menopause.html">Bilan Ménopause</a></li>
+                        <li><a href="#">Bilan Complet</a></li>
+                        <li><a href="#">Bilan Thyroïde</a></li>
+                        <li><a href="#">Tous les bilans</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Ressources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Guide ménopause</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Légal</h4>
+                    <ul>
+                        <li><a href="#">CGV</a></li>
+                        <li><a href="#">Politique de confidentialité</a></li>
+                        <li><a href="#">Mentions légales</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 HealthBio. Tous droits réservés.</p>
+                <div class="footer-badges">
+                    <span class="footer-badge">🔒 HDS Certifié</span>
+                    <span class="footer-badge">🇫🇷 Made in France</span>
+                    <span class="footer-badge">🏥 ISO 15189</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La Première Année de Bébé — Guide Mois par Mois</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --clr-bg: #fdf6f0;
+  --clr-text: #3a3a3a;
+  --clr-accent: #e8a0bf;
+  --clr-timeline: #d4a5c7;
+  --clr-dev: #a8d8ea;
+  --clr-tummy: #f9e79f;
+  --clr-feed: #abebc6;
+  --clr-sleep: #d2b4de;
+  --clr-stim: #f5cba7;
+  --clr-screen: #f1948a;
+  --clr-pedi: #85c1e9;
+  --clr-travel: #82e0aa;
+  --clr-train: #f7dc6f;
+  --clr-growth: #ffb3ba;
+  --clr-trigger: #c9b3d4;
+  --clr-routine: #b4e7ce;
+  --clr-teething: #ffd9b3;
+  --clr-highlights: #fff4e6;
+  --clr-card: #ffffff;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08);
+  --radius: 12px;
+}
+
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 3rem 1.5rem 2rem;
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5, #e8eaf6);
+}
+.header h1 {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  color: #6a3d6a;
+  margin-bottom: .5rem;
+}
+.header p {
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  color: #7d5a7d;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Legend */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: .5rem;
+  padding: 1.5rem 1rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.legend-item {
+  font-size: .78rem;
+  padding: .25rem .65rem;
+  border-radius: 20px;
+  font-weight: 600;
+}
+
+/* Timeline */
+.timeline-wrap {
+  position: relative;
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+.timeline-wrap::before {
+  content: '';
+  position: absolute;
+  left: 28px;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: linear-gradient(to bottom, var(--clr-timeline), #e8a0bf, var(--clr-timeline));
+  border-radius: 2px;
+}
+
+/* Month card */
+.month-card {
+  position: relative;
+  margin-left: 60px;
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.month-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.month-dot {
+  position: absolute;
+  left: -46px;
+  top: 14px;
+  width: 24px;
+  height: 24px;
+  background: var(--clr-accent);
+  border: 4px solid var(--clr-bg);
+  border-radius: 50%;
+  z-index: 1;
+  box-shadow: 0 0 0 3px var(--clr-timeline);
+  transition: transform .3s;
+}
+.month-card:hover .month-dot { transform: scale(1.2); }
+
+.card-header {
+  background: var(--clr-card);
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: box-shadow .2s;
+}
+.card-header:hover { box-shadow: 0 4px 18px rgba(0,0,0,0.12); }
+.card-header h2 {
+  font-size: 1.15rem;
+  color: #5a3e6a;
+}
+.card-header .arrow {
+  font-size: 1.2rem;
+  transition: transform .3s;
+  color: #9b7aaa;
+}
+.month-card.open .card-header .arrow { transform: rotate(180deg); }
+
+.card-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .4s ease;
+  background: var(--clr-card);
+  border-radius: 0 0 var(--radius) var(--radius);
+  box-shadow: var(--shadow);
+  margin-top: -6px;
+}
+.card-body-inner { padding: 1rem 1.25rem 1.25rem; }
+
+/* Badges / sections inside card */
+.section {
+  margin-bottom: .85rem;
+}
+.section:last-child { margin-bottom: 0; }
+.badge {
+  display: inline-block;
+  padding: .2rem .6rem;
+  border-radius: 20px;
+  font-size: .75rem;
+  font-weight: 700;
+  margin-bottom: .3rem;
+  text-transform: uppercase;
+  letter-spacing: .3px;
+}
+.badge-dev  { background: var(--clr-dev); color: #1a5276; }
+.badge-tummy { background: var(--clr-tummy); color: #7d6608; }
+.badge-feed { background: var(--clr-feed); color: #1e8449; }
+.badge-sleep { background: var(--clr-sleep); color: #6c3483; }
+.badge-stim { background: var(--clr-stim); color: #935116; }
+.badge-screen { background: var(--clr-screen); color: #78281f; }
+.badge-pedi { background: var(--clr-pedi); color: #1a5276; }
+.badge-travel { background: var(--clr-travel); color: #1a5230; }
+.badge-train { background: var(--clr-train); color: #7d6608; }
+.badge-growth { background: var(--clr-growth); color: #8b0000; }
+.badge-trigger { background: var(--clr-trigger); color: #4a235a; }
+.badge-routine { background: var(--clr-routine); color: #0d5940; }
+.badge-teething { background: var(--clr-teething); color: #994d00; }
+.section a { color: #6a3d9a; text-decoration: underline; }
+.section a:hover { color: #4a1d7a; }
+
+.section p, .section ul {
+  font-size: .92rem;
+  margin-top: .15rem;
+}
+.section ul {
+  padding-left: 1.2rem;
+}
+.section li { margin-bottom: .15rem; }
+
+/* Month highlights */
+.highlights-box {
+  background: var(--clr-highlights);
+  border-left: 4px solid var(--clr-accent);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+}
+.highlights-box h3 {
+  font-size: 1rem;
+  color: #6a3d6a;
+  margin-bottom: .5rem;
+}
+.highlights-box ul {
+  list-style: none;
+  padding-left: 0;
+}
+.highlights-box li {
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: .4rem;
+  font-size: .9rem;
+}
+.highlights-box li::before {
+  content: '✦';
+  position: absolute;
+  left: 0;
+  color: var(--clr-accent);
+  font-weight: bold;
+}
+
+/* After 12 mois & warning sections */
+.info-section {
+  max-width: 780px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+.info-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.info-box {
+  background: var(--clr-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+.info-box h2 {
+  color: #5a3e6a;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .9rem;
+}
+th, td {
+  text-align: left;
+  padding: .55rem .75rem;
+  border-bottom: 1px solid #eee;
+}
+th { background: #f3e5f5; color: #5a3e6a; }
+tr:last-child td { border-bottom: none; }
+
+.warning-list { padding-left: 1.2rem; }
+.warning-list li { margin-bottom: .4rem; font-size: .92rem; }
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #f3e5f5, #fce4ec);
+  margin-top: 2rem;
+  font-size: .85rem;
+  color: #7d5a7d;
+}
+.footer a { color: #6a3d6a; }
+.footer .disclaimer {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #9b7a9b;
+}
+
+/* Quiz Modal */
+.quiz-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.quiz-overlay.active { display: flex; }
+
+.quiz-modal {
+  background: var(--clr-card);
+  border-radius: var(--radius);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  margin: auto;
+}
+
+.quiz-header {
+  background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+  padding: 2rem 1.5rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  text-align: center;
+}
+.quiz-header h2 {
+  color: #6a3d6a;
+  font-size: 1.5rem;
+  margin-bottom: .5rem;
+}
+.quiz-header p {
+  color: #7d5a7d;
+  font-size: .95rem;
+}
+
+.quiz-body {
+  padding: 2rem 1.5rem;
+}
+
+.quiz-field {
+  margin-bottom: 1.5rem;
+}
+.quiz-field label {
+  display: block;
+  font-weight: 600;
+  color: #5a3e6a;
+  margin-bottom: .5rem;
+  font-size: .95rem;
+}
+.quiz-field input[type="text"],
+.quiz-field input[type="date"] {
+  width: 100%;
+  padding: .7rem;
+  border: 2px solid #e8e8e8;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-family: inherit;
+  transition: border-color .2s;
+}
+.quiz-field input:focus {
+  outline: none;
+  border-color: var(--clr-accent);
+}
+
+.quiz-field-description {
+  font-size: .85rem;
+  color: #7d5a7d;
+  margin-top: .25rem;
+}
+
+.checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: .6rem;
+  margin-top: .5rem;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: .5rem;
+  border-radius: 6px;
+  transition: background .2s;
+}
+.checkbox-label:hover {
+  background: #f9f9f9;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin-right: .7rem;
+  cursor: pointer;
+  accent-color: var(--clr-accent);
+}
+.checkbox-label span {
+  font-size: .9rem;
+  color: var(--clr-text);
+}
+
+.quiz-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.btn {
+  padding: .75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: .95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  font-family: inherit;
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--clr-accent), #d4a5c7);
+  color: white;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 160, 191, 0.4);
+}
+.btn-secondary {
+  background: #f0f0f0;
+  color: #5a3e6a;
+}
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* Settings button */
+.settings-btn {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--clr-accent), #d4a5c7);
+  color: white;
+  border: none;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  transition: all .2s;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.settings-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.personalized-name {
+  color: var(--clr-accent);
+  font-weight: 600;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .timeline-wrap::before { left: 16px; }
+  .month-card { margin-left: 42px; }
+  .month-dot { left: -36px; width: 20px; height: 20px; top: 16px; }
+  .card-header { padding: .85rem 1rem; }
+  .card-body-inner { padding: .85rem 1rem 1rem; }
+
+  .quiz-body { padding: 1.5rem 1rem; }
+  .quiz-header { padding: 1.5rem 1rem; }
+  .settings-btn { bottom: 1rem; right: 1rem; width: 45px; height: 45px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Quiz Modal -->
+<div class="quiz-overlay" id="quizOverlay">
+  <div class="quiz-modal">
+    <div class="quiz-header">
+      <h2>Personnalisons Votre Expérience !</h2>
+      <p>Parlez-nous de votre bébé afin que nous puissions adapter le contenu pour vous</p>
+    </div>
+    <div class="quiz-body">
+      <form id="quizForm">
+        <!-- Baby's Name -->
+        <div class="quiz-field">
+          <label for="babyName">Prénom de bébé</label>
+          <input type="text" id="babyName" name="babyName" placeholder="Entrez le prénom de bébé" required>
+          <p class="quiz-field-description">Nous utiliserons ce prénom pour personnaliser le contenu</p>
+        </div>
+
+        <!-- Birth Date -->
+        <div class="quiz-field">
+          <label for="birthDate">Date de naissance</label>
+          <input type="date" id="birthDate" name="birthDate" value="2025-12-26" required>
+          <p class="quiz-field-description">Nous calculerons son âge actuel et mettrons en évidence les étapes pertinentes</p>
+        </div>
+
+        <!-- Location -->
+        <div class="quiz-field">
+          <label for="location">Lieu (Ville, Pays)</label>
+          <input type="text" id="location" name="location" placeholder="par ex., Paris, France">
+          <p class="quiz-field-description">Optionnel : nous aide à fournir des ressources spécifiques à votre région</p>
+        </div>
+
+        <!-- Development Milestones -->
+        <div class="quiz-field">
+          <label>Que peut actuellement faire votre bébé ?</label>
+          <p class="quiz-field-description">Sélectionnez tout ce qui s'applique</p>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="smile">
+              <span>Sourire social</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="hold-head">
+              <span>Tenir sa tête</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="roll">
+              <span>Se retourner</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="sit">
+              <span>S'asseoir de manière autonome</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="crawl">
+              <span>Ramper</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="stand">
+              <span>Se tenir debout avec soutien</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="milestone" value="walk">
+              <span>Marcher de manière autonome</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Parent Concerns/Interests -->
+        <div class="quiz-field">
+          <label>Quels sujets vous intéressent le plus ?</label>
+          <p class="quiz-field-description">Sélectionnez tout ce qui s'applique</p>
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="feeding">
+              <span>Alimentation & Nutrition</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="sleep">
+              <span>Apprentissage du sommeil</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="development">
+              <span>Développement & Étapes</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="training">
+              <span>Entraînement physique & Activités</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="travel">
+              <span>Conseils de voyage</span>
+            </label>
+            <label class="checkbox-label">
+              <input type="checkbox" name="concern" value="health">
+              <span>Santé & Soins pédiatriques</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="quiz-actions">
+          <button type="submit" class="btn btn-primary">Enregistrer & Continuer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Settings Button -->
+<button class="settings-btn" id="settingsBtn" title="Mettre à jour vos informations" style="display: none;">
+  ⚙️
+</button>
+
+<header class="header">
+  <h1>Grossesse et Première Année de Bébé &mdash; Guide Complet</h1>
+  <p>De la conception à la première année &mdash; Étapes de développement et recommandations fondées sur des preuves scientifiques</p>
+</header>
+
+<nav class="legend" aria-label="Légende des catégories">
+  <span class="legend-item badge-dev">Développement</span>
+  <span class="legend-item badge-pedi">Rendez-vous Médicaux</span>
+  <span class="legend-item badge-feed">Nutrition</span>
+  <span class="legend-item badge-train">Exercices</span>
+  <span class="legend-item badge-stim">Préparation</span>
+  <span class="legend-item badge-sleep">Sommeil</span>
+  <span class="legend-item badge-tummy">Sur le Ventre (Bébé)</span>
+  <span class="legend-item badge-screen">Écrans</span>
+  <span class="legend-item badge-travel">Voyage</span>
+  <span class="legend-item badge-growth">Poussées de Croissance</span>
+  <span class="legend-item badge-trigger">Pleurs & Réconfort</span>
+  <span class="legend-item badge-routine">Routines</span>
+  <span class="legend-item badge-teething">Dentition</span>
+</nav>
+
+<div class="timeline-wrap" id="timeline"></div>
+
+<div class="info-section" id="after12">
+  <div class="info-box">
+    <h2>Après 12 Mois &mdash; Directives sur les Écrans</h2>
+    <table>
+      <thead><tr><th>Tranche d'Âge</th><th>Recommandation (AAP / OMS)</th></tr></thead>
+      <tbody>
+        <tr><td>12 &ndash; 18 mois</td><td>Éviter les écrans sauf pour les appels vidéo</td></tr>
+        <tr><td>18 &ndash; 24 mois</td><td>Si introduction de médias, choisir des programmes de haute qualité ; regarder avec l'enfant</td></tr>
+        <tr><td>2 &ndash; 5 ans</td><td>Limiter à 1 heure/jour de programmes de haute qualité ; regarder et discuter du contenu ensemble</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="info-section" id="travel-essentials">
+  <div class="info-box">
+    <h2>Liste d'Essentiels pour Voyager</h2>
+    <table>
+      <thead><tr><th>Catégorie</th><th>Articles</th></tr></thead>
+      <tbody>
+        <tr><td>Sécurité</td><td>Siège auto dos à la route, lit de voyage/berceau portable, cache-prises, trousse de premiers soins</td></tr>
+        <tr><td>Alimentation</td><td>Biberons/tasses, stockage lait maternel/préparation, chaise haute portable, bavoirs, contenants à collations</td></tr>
+        <tr><td>Sommeil</td><td>Gigoteuse, machine à bruit blanc, doudou/couverture familier, rideau occultant (portable)</td></tr>
+        <tr><td>Santé</td><td>Thermomètre pour bébé, solution saline, analgésique pour bébé, crème solaire (6 mois+), répulsif anti-insectes (2 mois+ pour picaridin, vérifier AAP), carnet de vaccination</td></tr>
+        <tr><td>En déplacement</td><td>Poussette légère, porte-bébé/écharpe, matelas à langer, sac à langer avec extras, sacs imperméables pour vêtements sales</td></tr>
+        <tr><td>Documents</td><td>Passeport (requis pour voyage international à tout âge), carte d'assurance maladie, coordonnées du pédiatre, détails assurance voyage médicale</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="info-section" id="warnings">
+  <div class="info-box">
+    <h2>Quand Consulter Votre Pédiatre</h2>
+    <ul class="warning-list">
+      <li>Absence de sourire social à 2 mois</li>
+      <li>Ne suit pas les objets des yeux à 3 mois</li>
+      <li>Ne babille pas ou n'imite pas les sons à 6 mois</li>
+      <li>Ne s'assoit pas de manière autonome à 9 mois</li>
+      <li>N'utilise pas de gestes (saluer, pointer) à 12 mois</li>
+      <li>Perte de compétences acquises antérieurement à tout âge</li>
+      <li>Ne répond pas à son prénom à 9 mois</li>
+      <li>Absence de mots isolés à 16 mois</li>
+      <li>Absence persistante de contact visuel</li>
+      <li>Difficultés extrêmes avec l'alimentation ou le sommeil qui ne s'améliorent pas</li>
+    </ul>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>
+    Sources :
+    <a href="https://www.cdc.gov/ncbddd/actearly/milestones/index.html" target="_blank" rel="noopener">Étapes CDC</a> &middot;
+    <a href="https://www.aap.org" target="_blank" rel="noopener">Académie Américaine de Pédiatrie</a> &middot;
+    <a href="https://www.who.int/news-room/fact-sheets/detail/physical-activity" target="_blank" rel="noopener">Directives OMS</a> &middot;
+    <a href="https://www.healthychildren.org" target="_blank" rel="noopener">HealthyChildren.org</a>
+  </p>
+  <p class="disclaimer">Cette page fournit des conseils généraux uniquement et ne remplace pas les conseils médicaux professionnels.</p>
+</footer>
+
+<script>
+const mois = [
+  // ===== GROSSESSE =====
+  {
+    title: "🤰 Mois 1 de Grossesse — Début du Voyage (26 mar – 26 avr 2025)",
+    highlights: [
+      "🎯 Semaines 1-4 : Fécondation et implantation",
+      "🧬 L'embryon commence à se développer (taille : 2mm en fin de mois)",
+      "💊 Commencer l'acide folique (400-800 mcg/jour) immédiatement",
+      "🩺 Test de grossesse positif possible dès 10-14 jours après conception",
+      "📋 Prendre rendez-vous avec gynécologue/sage-femme pour première consultation",
+      "🚫 Éviter alcool, tabac, médicaments non prescrits",
+      "🌡️ Température corporelle légèrement élevée possible"
+    ],
+    dev: [
+      "L'embryon mesure environ 2mm à la fin du mois",
+      "Le cœur commence à se former (battra dès semaine 5-6)",
+      "Formation du tube neural (futur cerveau et moelle épinière)",
+      "Développement du sac amniotique et du placenta",
+      "Division cellulaire rapide : de 1 cellule à des millions"
+    ],
+    pedi: "Prendre rendez-vous pour première consultation prénatale (idéalement avant 8 semaines). Confirmer la grossesse, dater la grossesse, prescrire analyses sanguines initiales.",
+    feed: [
+      "<strong>Acide folique :</strong> 400-800 mcg/jour (crucial pour prévenir anomalies du tube neural)",
+      "<strong>Alimentation équilibrée :</strong> Fruits, légumes, protéines, grains entiers",
+      "<strong>Hydratation :</strong> 8-10 verres d'eau par jour",
+      "<strong>À éviter :</strong> Alcool, poissons riches en mercure (espadon, thon), fromages au lait cru, viandes crues/mal cuites, charcuterie",
+      "<strong>Café :</strong> Limiter à 200mg de caféine/jour (environ 1-2 tasses)",
+      "<strong>Calories :</strong> Pas encore besoin de calories supplémentaires ce mois"
+    ],
+    train: [
+      "<strong>Continuer activité physique habituelle</strong> si déjà active (30 min/jour recommandé)",
+      "<strong>Exercices doux :</strong> Marche, natation, yoga prénatal",
+      "<strong>Éviter :</strong> Sports de contact, exercices à risque de chute, échauffement excessif",
+      "<strong>Écouter son corps :</strong> Réduire l'intensité si nécessaire",
+      "<strong>Hydratation importante</strong> pendant l'exercice"
+    ],
+    stim: [
+      "📝 Commencer un journal de grossesse",
+      "📚 Lire sur la grossesse et le développement fœtal",
+      "💑 Partager la nouvelle avec le partenaire (ou attendre selon préférence)",
+      "📸 Prendre première photo de ventre",
+      "🧘‍♀️ Commencer pratiques de relaxation (méditation, respiration)",
+      "💰 Revoir budget et finances pour bébé"
+    ],
+    sleep: "Sommeil peut être perturbé par changements hormonaux. Fatigue intense fréquente (progestérone élevée). Se reposer autant que possible.",
+    travel: [
+      "Voyage généralement sûr ce mois",
+      "Éviter destinations avec Zika ou paludisme",
+      "Rester hydratée pendant vols",
+      "Se lever et marcher toutes les heures en avion",
+      "Emporter certificat médical si voyage international"
+    ]
+  },
+  {
+    title: "🤰 Mois 2 de Grossesse — Confirmation (26 avr – 26 mai 2025)",
+    highlights: [
+      "🩺 Première consultation prénatale : échographie de datation, analyses sanguines",
+      "👂 Le cœur de bébé bat (120-160 bpm) — visible à l'échographie !",
+      "🤢 Nausées matinales possibles (70% des femmes) — souvent tout au long de la journée",
+      "😴 Fatigue intense continue",
+      "💊 Continuer acide folique et vitamines prénatales",
+      "📅 Grossesse de 5-8 semaines",
+      "🧬 Tous les organes majeurs commencent à se former"
+    ],
+    dev: [
+      "L'embryon mesure 1-2 cm (taille d'une framboise)",
+      "Le cœur bat régulièrement (détectable à l'échographie)",
+      "Formation des yeux, oreilles, bouche",
+      "Développement des bras et jambes (petits bourgeons)",
+      "Le cerveau se développe rapidement",
+      "Formation du système digestif",
+      "Début de formation des doigts et orteils"
+    ],
+    pedi: "Première consultation prénatale complète : échographie de datation, analyses sanguines (groupe sanguin, toxoplasmose, rubéole, HIV, hépatites), examen gynécologique, prise de tension.",
+    feed: [
+      "<strong>Acide folique :</strong> Continuer 400-800 mcg/jour",
+      "<strong>Vitamines prénatales :</strong> Commencer si pas déjà fait",
+      "<strong>Fer :</strong> Important pour prévenir anémie (30mg/jour)",
+      "<strong>Petits repas fréquents :</strong> Aide contre les nausées (6-8 petits repas plutôt que 3 gros)",
+      "<strong>Gingembre :</strong> Peut aider avec nausées (tisane, biscuits)",
+      "<strong>Protéines à chaque repas :</strong> Aide à stabiliser glycémie et réduire nausées",
+      "<strong>Éviter estomac vide :</strong> Craqueur/biscuit sec au réveil",
+      "<strong>Vitamine B6 :</strong> 10-25mg 3x/jour peut réduire nausées (consulter médecin)"
+    ],
+    train: [
+      "<strong>Exercice modéré :</strong> 30 min/jour si possible (marche, natation, yoga prénatal)",
+      "<strong>Adapter selon fatigue et nausées :</strong> OK de réduire intensité",
+      "<strong>Test de la parole :</strong> Vous devriez pouvoir parler pendant l'exercice",
+      "<strong>Exercices de Kegel :</strong> Commencer à renforcer plancher pelvien",
+      "<strong>Étirements doux :</strong> Aide avec douleurs musculaires",
+      "<strong>Éviter surchauffe :</strong> Pas de bains chauds prolongés, sauna"
+    ],
+    stim: [
+      "📅 Calculer date d'accouchement prévue",
+      "📚 Lire sur développement fœtal et changements corporels",
+      "💑 Discuter avec partenaire quand annoncer la grossesse",
+      "🏥 Rechercher maternités et options d'accouchement",
+      "💰 Commencer à planifier congé maternité/paternité",
+      "🧘‍♀️ Rejoindre cours de yoga prénatal ou groupe de soutien"
+    ],
+    sleep: "Fatigue extrême fréquente. Faire siestes courtes (20-30 min). Sommeil nocturne peut être perturbé (nausées, besoin fréquent d'uriner). Dormir sur le côté gauche recommandé dès maintenant.",
+    travel: [
+      "Voyage encore généralement sûr",
+      "Éviter destinations exotiques ou à risque sanitaire",
+      "Prévoir pauses fréquentes pour nausées",
+      "Emporter crackers et snacks",
+      "Certificat médical recommandé pour vols"
+    ]
+  },
+  {
+    title: "🤰 Mois 3 de Grossesse — Fin du 1er Trimestre (26 mai – 26 juin 2025)",
+    highlights: [
+      "🎉 Fin du 1er trimestre : risque de fausse couche diminue significativement",
+      "👶 Tous les organes majeurs sont formés (maintenant appelé 'fœtus')",
+      "🩺 Échographie du 1er trimestre (11-13 semaines) : mesure clarté nucale, dépistage trisomies",
+      "😊 Nausées commencent souvent à diminuer en fin de mois",
+      "⚡ Niveau d'énergie commence à s'améliorer",
+      "📢 Beaucoup de parents annoncent la grossesse après 12 semaines",
+      "👗 Vêtements peuvent commencer à être serrés"
+    ],
+    dev: [
+      "Le fœtus mesure 6-8 cm (taille d'une prune)",
+      "Poids : environ 15-20g",
+      "Tous les organes vitaux sont formés",
+      "Les doigts et orteils sont séparés",
+      "Les ongles commencent à pousser",
+      "Le fœtus peut bouger (mais maman ne le sent pas encore)",
+      "Les cordes vocales se forment",
+      "Le système digestif commence à pratiquer",
+      "Les organes génitaux se développent (sexe déterminable bientôt)"
+    ],
+    pedi: "Échographie du 1er trimestre (11-13+6 semaines) : mesure de la clarté nucale, dépistage précoce trisomies 13, 18, 21. Test sanguin combiné possible (PAPP-A et β-HCG).",
+    feed: [
+      "<strong>Vitamines prénatales :</strong> Continuer quotidiennement",
+      "<strong>Calcium :</strong> 1000mg/jour (produits laitiers, légumes verts, amandes)",
+      "<strong>Vitamine D :</strong> 600 UI/jour (exposition soleil modérée, poissons gras)",
+      "<strong>Oméga-3 (DHA) :</strong> 200-300mg/jour (important pour cerveau bébé)",
+      "<strong>Protéines :</strong> 70-75g/jour",
+      "<strong>Appétit :</strong> Peut commencer à augmenter en fin de mois",
+      "<strong>Hydratation :</strong> 10 verres d'eau/jour",
+      "<strong>Calories :</strong> Pas encore besoin d'augmenter significativement"
+    ],
+    train: [
+      "<strong>Activité régulière :</strong> 30 min/jour, 5 jours/semaine",
+      "<strong>Renforcement musculaire :</strong> Léger à modéré, 2x/semaine",
+      "<strong>Exercices de Kegel quotidiens :</strong> 3 séries de 10",
+      "<strong>Yoga prénatal :</strong> Excellent pour flexibilité et relaxation",
+      "<strong>Natation :</strong> Idéale (faible impact, refroidit)",
+      "<strong>Éviter :</strong> Exercices sur le dos après 12 semaines, sports de contact",
+      "<strong>Signe d'arrêt :</strong> Essoufflement excessif, douleur, saignement, contractions"
+    ],
+    stim: [
+      "📢 Annoncer la grossesse à famille/amis (si désiré)",
+      "📱 Télécharger applications de suivi de grossesse",
+      "👶 Commencer à penser aux prénoms",
+      "🏥 Visiter maternités potentielles",
+      "💰 Commencer liste de naissance",
+      "📚 Lire sur accouchement et allaitement",
+      "👗 Investir dans quelques vêtements de maternité confortables"
+    ],
+    sleep: "Énergie commence à revenir. Sommeil s'améliore souvent. Continuer à dormir sur côté gauche. Oreiller de grossesse peut aider le confort.",
+    travel: [
+      "Meilleur moment pour voyager (2e trimestre approche)",
+      "Énergie revenue, nausées diminuent",
+      "Ventre pas encore trop gros",
+      "Toujours éviter destinations à risque sanitaire",
+      "Prévoir certificat médical pour vols"
+    ]
+  },
+  {
+    title: "🤰 Mois 4 de Grossesse — 2e Trimestre Commence (26 juin – 26 juil 2025)",
+    highlights: [
+      "🎊 Début du 2e trimestre : 'lune de miel' de la grossesse !",
+      "⚡ Retour de l'énergie — nausées généralement terminées",
+      "👶 Bébé bouge beaucoup (vous ne sentez probablement pas encore)",
+      "🩺 Possibilité de connaître le sexe à l'échographie (si désiré)",
+      "🤰 Ventre commence à s'arrondir visiblement",
+      "💇‍♀️ Peau et cheveux souvent plus beaux (hormones !)",
+      "❤️ Peut commencer à sentir premiers mouvements en fin de mois (surtout 2e+ grossesse)"
+    ],
+    dev: [
+      "Le fœtus mesure 13-15 cm (taille d'un avocat)",
+      "Poids : environ 100-150g",
+      "Les empreintes digitales se forment",
+      "Bébé peut sucer son pouce",
+      "Les yeux et oreilles à leur position finale",
+      "Le sexe visible à l'échographie",
+      "Bébé entend les sons (votre voix, battements de cœur)",
+      "Fait des mouvements de respiration (pratique)",
+      "Développement rapide du cerveau",
+      "La peau est transparente (vaisseaux sanguins visibles)"
+    ],
+    pedi: "Consultation mensuelle : mesure hauteur utérine, écoute battements cœur bébé (doppler), surveillance poids et tension. Échographie morphologique possible (18-22 semaines) — peut être ce mois ou prochain.",
+    feed: [
+      "<strong>Calories supplémentaires :</strong> +300-350 kcal/jour (total ~2200-2400 kcal)",
+      "<strong>Protéines :</strong> Augmenter à 75-80g/jour",
+      "<strong>Fer :</strong> 27mg/jour (besoins augmentent) — viandes, légumineuses, céréales enrichies",
+      "<strong>Calcium :</strong> 1000mg/jour continue",
+      "<strong>Fibres :</strong> 25-30g/jour (prévenir constipation) — fruits, légumes, grains entiers",
+      "<strong>Collations santé :</strong> Fruits à coque, yaourt, fruits frais",
+      "<strong>Continuer éviter :</strong> Alcool, poissons mercure, fromages lait cru, viandes crues"
+    ],
+    train: [
+      "<strong>Période idéale pour exercice :</strong> Énergie revenue, nausées parties",
+      "<strong>Marche rapide :</strong> 30-45 min/jour",
+      "<strong>Natation :</strong> Excellent pour tout le corps sans impact",
+      "<strong>Yoga prénatal :</strong> 2-3x/semaine",
+      "<strong>Musculation légère :</strong> Poids légers, plus de répétitions",
+      "<strong>Exercices de Kegel :</strong> Quotidiens (essentiels !)",
+      "<strong>Éviter :</strong> Position couchée sur le dos prolongée, torsions profondes",
+      "<strong>Modifications :</strong> Adapter les exercices au ventre qui pousse"
+    ],
+    stim: [
+      "🎵 Commencer à parler et chanter à bébé (il entend !)",
+      "📚 Lire sur accouchement et cours de préparation",
+      "👶 Réfléchir aux options : allaitement vs biberon, cododo, etc.",
+      "🏥 S'inscrire aux cours de préparation à l'accouchement",
+      "🛍️ Commencer shopping bébé (vêtements, équipement basique)",
+      "📸 Séance photo grossesse possible (ou attendre mois 7-8)",
+      "💑 Profiter du regain d'énergie pour sorties en couple"
+    ],
+    sleep: "Sommeil généralement bon ce trimestre. Dormir sur côté gauche optimal (améliore circulation). Oreiller de grossesse entre jambes aide le confort. Besoin d'uriner la nuit diminue souvent.",
+    travel: [
+      "🌟 Meilleur moment pour voyager ('babymoon') !",
+      "Énergie bonne, ventre pas trop gros",
+      "Avion généralement sûr jusqu'à 36 semaines",
+      "Emporter dossier médical et certificat grossesse",
+      "Se lever et marcher toutes les heures en avion",
+      "Rester hydratée",
+      "Choisir destinations sûres avec bons hôpitaux"
+    ]
+  },
+  {
+    title: "🤰 Mois 5 de Grossesse — Mouvements ! (26 juil – 26 août 2025)",
+    highlights: [
+      "👶 Premiers mouvements ressentis ! (16-25 semaines selon grossesse)",
+      "🩺 Échographie morphologique (18-22 sem) : examen détaillé anatomie bébé",
+      "🤰 Ventre bien visible maintenant",
+      "😴 Sommeil peut devenir moins confortable (ventre plus gros)",
+      "💪 Énergie toujours bonne — profitez-en !",
+      "🧘‍♀️ Centre de gravité change : attention à l'équilibre",
+      "❤️ Connexion émotionnelle avec bébé s'intensifie"
+    ],
+    dev: [
+      "Le fœtus mesure 25-27 cm (taille d'une banane)",
+      "Poids : environ 300-400g",
+      "Bébé bouge activement — vous le sentez !",
+      "Développement du vernix (enduit protecteur blanc)",
+      "Pousse du lanugo (duvet fin sur corps)",
+      "Les sens s'affinent (goût, ouïe, toucher)",
+      "Réagit aux sons extérieurs",
+      "Cycles veille-sommeil se développent",
+      "Les cheveux poussent sur la tête",
+      "Graisse brune commence à se former (régulation température)"
+    ],
+    pedi: "Échographie morphologique (18-22 semaines) : examen détaillé de l'anatomie fœtale (cerveau, cœur, reins, colonne, membres, etc.), mesure de croissance, placenta, liquide amniotique. Test de dépistage diabète gestationnel possible (24-28 sem).",
+    feed: [
+      "<strong>Calories :</strong> Continuer +300-350 kcal/jour",
+      "<strong>Protéines :</strong> 80g/jour (croissance rapide bébé)",
+      "<strong>Fer :</strong> 27mg/jour (surveiller anémie) — combiner avec vitamine C pour absorption",
+      "<strong>Calcium :</strong> 1000mg/jour (os de bébé se minéralisent)",
+      "<strong>Vitamine C :</strong> 85mg/jour — agrumes, poivrons, fraises",
+      "<strong>Magnésium :</strong> 350-400mg/jour (crampes musculaires) — noix, légumes verts",
+      "<strong>Eau :</strong> 10-12 verres/jour",
+      "<strong>Petits repas fréquents :</strong> Si reflux/brûlures d'estomac commencent"
+    ],
+    train: [
+      "<strong>Continuer exercice régulier :</strong> 30 min/jour",
+      "<strong>Natation idéale :</strong> Soulage poids du ventre",
+      "<strong>Marche :</strong> Maintenir condition cardiovasculaire",
+      "<strong>Yoga prénatal :</strong> Étirements adaptés, respiration",
+      "<strong>Exercices de Kegel :</strong> Toujours quotidiens !",
+      "<strong>Renforcement dos :</strong> Important car ventre tire vers l'avant",
+      "<strong>Éviter :</strong> Sauts, changements direction rapides, risque chute",
+      "<strong>Porter ceinture de soutien :</strong> Si mal de dos"
+    ],
+    stim: [
+      "🎵 Parler, chanter, lire à bébé quotidiennement",
+      "🎶 Mettre musique douce — bébé réagit aux sons",
+      "📸 Séance photo grossesse (ventre bien rond)",
+      "👶 Finaliser choix du prénom",
+      "🏠 Commencer à planifier chambre bébé",
+      "📚 Continuer cours préparation accouchement",
+      "💑 Baby moon si pas encore fait",
+      "📝 Commencer plan de naissance"
+    ],
+    sleep: "Sommeil peut devenir inconfortable. Oreiller de grossesse essentiel (entre jambes, sous ventre). Dormir sur côté gauche optimal. Éviter liquides 2h avant coucher (limiter réveils pour uriner). Surélever tête de lit si reflux.",
+    travel: [
+      "Encore bon moment pour voyager",
+      "Pas trop fatigué, ventre gérable",
+      "Éviter destinations trop exotiques",
+      "Prévoir pauses fréquentes si voiture",
+      "Certificat médical obligatoire pour avion",
+      "Vérifier politique compagnie aérienne (généralement OK jusqu'à 32-36 sem)"
+    ]
+  },
+  {
+    title: "🤰 Mois 6 de Grossesse — Fin du 2e Trimestre (26 août – 26 sep 2025)",
+    highlights: [
+      "🎉 Fin du 2e trimestre — 2/3 du chemin fait !",
+      "👶 Mouvements de bébé bien perceptibles et réguliers",
+      "🩺 Test diabète gestationnel (24-28 semaines)",
+      "🤰 Prise de poids s'accélère (vous et bébé)",
+      "😓 Possibles inconforts : mal de dos, brûlures estomac, jambes lourdes",
+      "🧘‍♀️ Contractions de Braxton Hicks peuvent commencer",
+      "💪 Énergie toujours relativement bonne",
+      "🛍️ Période idéale pour finaliser achats essentiels bébé"
+    ],
+    dev: [
+      "Le fœtus mesure 30-34 cm (taille d'un épi de maïs)",
+      "Poids : environ 600-800g",
+      "Les yeux s'ouvrent et ferment",
+      "Réagit à la lumière à travers paroi abdominale",
+      "Développement des poumons s'accélère (surfactant commence)",
+      "Papilles gustatives fonctionnelles (goûte liquide amniotique)",
+      "Mouvements vigoureux et fréquents",
+      "Rythme veille-sommeil plus régulier",
+      "Peut avoir hoquet (maman le sent)",
+      "Empreintes digitales et plantaires complètes"
+    ],
+    pedi: "Test de dépistage du diabète gestationnel (24-28 semaines) : test O'Sullivan (glycémie 1h après 50g glucose). Si positif, HGPO (100g glucose) pour confirmer. Consultation mensuelle : poids, tension, hauteur utérine, cœur bébé.",
+    feed: [
+      "<strong>Calories :</strong> +300-450 kcal/jour (total ~2300-2500 kcal)",
+      "<strong>Protéines :</strong> 80-85g/jour",
+      "<strong>Fer :</strong> 27mg/jour — crucial (volume sanguin augmente 50%)",
+      "<strong>Calcium :</strong> 1000mg/jour",
+      "<strong>Acides gras oméga-3 :</strong> Important pour développement cerveau",
+      "<strong>Éviter sucres rapides :</strong> Surtout si test diabète limite",
+      "<strong>Fibres :</strong> 30g/jour (constipation fréquente)",
+      "<strong>Petits repas :</strong> 5-6 fois/jour pour gérer reflux et glycémie",
+      "<strong>Brûlures estomac :</strong> Éviter épices, fritures, tomates, chocolat avant coucher"
+    ],
+    train: [
+      "<strong>Adapter exercices :</strong> Ventre plus gros, équilibre modifié",
+      "<strong>Natation :</strong> Toujours excellente (soulage poids)",
+      "<strong>Marche :</strong> 30 min/jour si possible",
+      "<strong>Yoga prénatal :</strong> Focus sur respiration et étirements doux",
+      "<strong>Éviter surmenage :</strong> Écouter son corps",
+      "<strong>Exercices plancher pelvien :</strong> Essentiels quotidiennement",
+      "<strong>Étirements dos :</strong> Plusieurs fois par jour",
+      "<strong>Bander de soutien :</strong> Si douleur ligaments ronds ou dos",
+      "<strong>Jambes lourdes :</strong> Surélever jambes, bas de contention si nécessaire"
+    ],
+    stim: [
+      "🛍️ Finaliser achats essentiels : poussette, siège-auto, lit, vêtements",
+      "🏠 Commencer aménagement chambre bébé",
+      "📚 Continuer cours préparation accouchement",
+      "📝 Rédiger plan de naissance",
+      "🏥 Visiter maternité choisie (si visite proposée)",
+      "👶 Laver vêtements bébé (lessive douce)",
+      "📋 Faire liste valises maternité",
+      "💑 Profiter temps en couple avant 3e trimestre fatiguant"
+    ],
+    sleep: "Sommeil plus difficile (volume ventre, mouvements bébé, besoin uriner). Oreiller de grossesse indispensable. Routine relaxante avant coucher. Sieste courte après-midi si possible. Éviter position sur le dos (compresse veine cave).",
+    travel: [
+      "Dernière opportunité pour longs voyages",
+      "Éviter vols après 28-32 semaines (selon compagnie)",
+      "Privilégier destinations proches",
+      "Certificat médical obligatoire pour avion",
+      "Se lever et marcher fréquemment",
+      "Bas de contention pour longs trajets",
+      "Toujours avoir dossier médical avec soi"
+    ]
+  },
+  {
+    title: "🤰 Mois 7 de Grossesse — 3e Trimestre (26 sep – 26 oct 2025)",
+    highlights: [
+      "🎊 Début du 3e trimestre — dernière ligne droite !",
+      "👶 Bébé viable en cas de naissance prématurée (>90% survie si soins)",
+      "😴 Fatigue revient — le corps travaille dur",
+      "🤰 Ventre très visible, mouvements parfois inconfortables",
+      "🩺 Consultations plus fréquentes bientôt (toutes les 2 semaines dès 32 sem)",
+      "🧘‍♀️ Contractions Braxton Hicks plus fréquentes",
+      "💤 Sommeil difficile — positions inconfortables",
+      "🛍️ Commencer préparatifs finaux (valise maternité, chambre bébé)"
+    ],
+    dev: [
+      "Le fœtus mesure 35-38 cm (taille d'une courge)",
+      "Poids : environ 1000-1200g",
+      "Bébé a 90% de chances de survie si naissance maintenant",
+      "Poumons en développement mais immatures",
+      "Ouvre et ferme les yeux",
+      "Réagit à la lumière, au son, à la douleur",
+      "Cerveau se développe rapidement",
+      "Peau moins transparente (graisse s'accumule)",
+      "Prend position tête en bas (parfois, sinon bientôt)",
+      "Mouvements très actifs"
+    ],
+    pedi: "Consultation mensuelle : poids, tension, hauteur utérine, position bébé, cœur fœtal. Discussion sur congé maternité (commence souvent 6 semaines avant terme). Vaccin coqueluche recommandé (26-32 semaines) pour protéger bébé.",
+    feed: [
+      "<strong>Calories :</strong> +450-500 kcal/jour (total ~2400-2600 kcal)",
+      "<strong>Protéines :</strong> 85-90g/jour (croissance rapide bébé)",
+      "<strong>Fer :</strong> 27mg/jour + vitamine C",
+      "<strong>Calcium :</strong> 1000mg/jour (squelette bébé se solidifie)",
+      "<strong>DHA (oméga-3) :</strong> 200-300mg/jour (cerveau bébé)",
+      "<strong>Repas petits et fréquents :</strong> Estomac comprimé par utérus",
+      "<strong>Éviter aliments provoquant reflux :</strong> Épices, fritures, chocolat",
+      "<strong>Hydratation :</strong> 10-12 verres/jour (mais pas trop avant coucher)",
+      "<strong>Dattes :</strong> 6 par jour à partir 36 semaines (facilite accouchement selon études)"
+    ],
+    train: [
+      "<strong>Ralentir l'intensité :</strong> Écouter son corps",
+      "<strong>Marche douce :</strong> 20-30 min/jour si possible",
+      "<strong>Natation/aquagym :</strong> Idéal (soulage poids)",
+      "<strong>Yoga prénatal :</strong> Étirements doux, respiration",
+      "<strong>Exercices de Kegel :</strong> Toujours essentiels",
+      "<strong>Étirements :</strong> Plusieurs fois par jour",
+      "<strong>Éviter :</strong> Exercices intenses, risque chute, surchauffe",
+      "<strong>Exercices ballon :</strong> Bon pour bassin et confort",
+      "<strong>Repos :</strong> Ne pas hésiter à faire siestes"
+    ],
+    stim: [
+      "🛍️ Finaliser achats bébé essentiels",
+      "🏠 Terminer chambre bébé",
+      "👶 Laver tous vêtements et draps bébé",
+      "📋 Préparer valise maternité (peut être tôt mais sécurisant)",
+      "📚 Finir cours préparation accouchement",
+      "🏥 Visiter maternité si pas encore fait",
+      "📝 Finaliser plan de naissance",
+      "💼 Organiser congé maternité/paternité",
+      "👨‍👩‍👧 Prévoir aide post-partum (famille, amis, doula)"
+    ],
+    sleep: "Sommeil très difficile (ventre, mouvements bébé, besoin uriner 2-3x/nuit, crampes jambes). Oreiller de grossesse essentiel. Surélever jambes pour œdème. Routine relaxante avant coucher. Accepter sommeil fragmenté. Sieste après-midi si possible.",
+    travel: [
+      "🚫 Éviter vols long-courriers",
+      "Trajets voiture courts uniquement (avec pauses)",
+      "Rester proche de maternité choisie",
+      "Risque accouchement prématuré augmente",
+      "Toujours avoir dossier médical",
+      "La plupart des compagnies aériennes refusent après 32-36 semaines"
+    ]
+  },
+  {
+    title: "🤰 Mois 8 de Grossesse — Préparation Finale (26 oct – 26 nov 2025)",
+    highlights: [
+      "🩺 Consultations toutes les 2 semaines maintenant",
+      "👶 Bébé prend beaucoup de poids (250g/semaine)",
+      "😰 Anxiété pré-accouchement normale",
+      "🤰 Inconfort maximal : essoufflement, brûlures, dos, jambes lourdes",
+      "💤 Sommeil très perturbé — normal et temporaire",
+      "🧘‍♀️ Contractions Braxton Hicks fréquentes",
+      "📦 Finir tous préparatifs — congé maternité commence bientôt",
+      "🎓 Pratiquer techniques respiration et relaxation"
+    ],
+    dev: [
+      "Le fœtus mesure 42-46 cm",
+      "Poids : environ 2000-2500g",
+      "Prend environ 250g par semaine maintenant",
+      "Tous les organes matures sauf poumons (continuent maturation)",
+      "Développement important du cerveau",
+      "Graisse s'accumule rapidement (régulation température)",
+      "Vernix plus épais",
+      "Lanugo commence à disparaître",
+      "Position tête en bas normalement (si pas, peut encore tourner)",
+      "Mouvements ralentissent (moins d'espace) mais toujours présents"
+    ],
+    pedi: "Consultations toutes les 2 semaines (32-36 semaines). Surveillance : poids, tension, œdème, hauteur utérine, position bébé, cœur fœtal. Vérifier présentation bébé (tête ou siège). Frottis vaginal Strepto B (35-37 sem). Discussion signes travail.",
+    feed: [
+      "<strong>Calories :</strong> +450-500 kcal/jour",
+      "<strong>Protéines :</strong> 90g/jour",
+      "<strong>Fer :</strong> 27mg/jour (prévenir anémie pour accouchement)",
+      "<strong>Calcium :</strong> 1000mg/jour",
+      "<strong>Petits repas :</strong> 6-8 fois/jour (estomac très comprimé)",
+      "<strong>Hydratation :</strong> 10 verres/jour minimum",
+      "<strong>Dattes :</strong> 6 par jour dès 36 semaines",
+      "<strong>Aliments riches en énergie :</strong> Vous aurez besoin de force pour accouchement",
+      "<strong>Éviter excès sel :</strong> Rétention d'eau déjà présente"
+    ],
+    train: [
+      "<strong>Exercice très doux :</strong> Marche lente, natation",
+      "<strong>Étirements quotidiens :</strong> Dos, jambes, hanches",
+      "<strong>Exercices ballon :</strong> Assouplissement bassin",
+      "<strong>Kegel :</strong> Continuer jusqu'à accouchement",
+      "<strong>Positions accouchement :</strong> Pratiquer accroupi, à quatre pattes",
+      "<strong>Exercices respiration :</strong> Quotidiennement",
+      "<strong>Périnée :</strong> Massage périnéal dès 34 semaines (réduit déchirures)",
+      "<strong>Repos :</strong> Priorité — le corps se prépare"
+    ],
+    stim: [
+      "📦 Valise maternité complète et prête",
+      "🏠 Chambre bébé terminée",
+      "🧊 Préparer repas à congeler pour post-partum",
+      "📋 Liste contacts importants accessible",
+      "🚗 Planifier trajet maternité (+ plan B)",
+      "👶 Installer siège-auto (vérifier installation correcte)",
+      "📝 Plan de naissance finalisé et discuté avec équipe médicale",
+      "📚 Relire notes cours préparation",
+      "🧘‍♀️ Pratiquer techniques relaxation quotidiennement",
+      "💑 Derniers moments en couple — sortie cinéma, resto"
+    ],
+    sleep: "Sommeil très difficile. Accepter que c'est temporaire. Oreiller de grossesse. Surélever haut du corps (reflux). Méditation ou musique douce. Routine relaxante. Accepter lever plusieurs fois pour uriner. Repos diurne important même si pas sommeil.",
+    travel: [
+      "🚫 Ne pas voyager — rester proche maternité",
+      "Accouchement peut survenir dès 37 semaines (à terme)",
+      "Trajets courts locaux uniquement",
+      "Toujours quelqu'un avec vous",
+      "Téléphone chargé",
+      "Savoir reconnaître signes travail"
+    ]
+  },
+  {
+    title: "🤰 Mois 9 de Grossesse — Dernières Semaines (26 nov – 26 déc 2025)",
+    highlights: [
+      "🎉 Dernière ligne droite — bébé arrive bientôt !",
+      "🩺 Consultations hebdomadaires dès 36 semaines",
+      "👶 Bébé à terme à 37 semaines — peut arriver n'importe quand",
+      "😰 Impatience et anxiété normales",
+      "🤰 Ventre peut descendre (bébé s'engage dans bassin)",
+      "⚡ 'Syndrome du nid' : envie soudaine de tout nettoyer/organiser",
+      "🧘‍♀️ Col commence à se préparer (ramollissement, effacement)",
+      "📅 Date prévue : 26 décembre 2025 — mais bébé décide !"
+    ],
+    dev: [
+      "Le fœtus mesure 48-52 cm",
+      "Poids : environ 3000-3800g (varie beaucoup)",
+      "Bébé considéré à terme à 37 semaines",
+      "Prêt à naître — tous organes fonctionnels",
+      "Poumons matures (produisent surfactant)",
+      "Descend dans bassin (tête engagée)",
+      "Vernix diminue",
+      "Lanugo presque disparu",
+      "Graisse bien développée (joues potelées)",
+      "Méconium s'accumule dans intestins",
+      "Crâne flexible pour passage canal naissance"
+    ],
+    pedi: "Consultations hebdomadaires (36-40 semaines). Chaque visite : poids, tension, œdème, hauteur utérine, position bébé, dilatation col (toucher vaginal possible), cœur fœtal. Monitoring fœtal possible. Discussion déclenchement si dépassement terme. Test Strepto B si pas fait.",
+    feed: [
+      "<strong>Calories :</strong> +450-500 kcal/jour",
+      "<strong>Repas légers et fréquents :</strong> Estomac très comprimé",
+      "<strong>Hydratation :</strong> 10-12 verres/jour",
+      "<strong>Dattes :</strong> 6 par jour (études montrent col plus favorable)",
+      "<strong>Aliments énergétiques :</strong> Vous aurez besoin de force",
+      "<strong>Ananas, épices :</strong> Pas de preuve qu'ils déclenchent travail",
+      "<strong>Rester nourrie :</strong> Même si peu d'appétit",
+      "<strong>En début travail :</strong> Repas léger OK, puis liquides clairs uniquement"
+    ],
+    train: [
+      "<strong>Marche quotidienne :</strong> Aide engagement bébé dans bassin",
+      "<strong>Étirements doux :</strong> Ouverture hanches",
+      "<strong>Ballon de naissance :</strong> Cercles hanches, rebonds légers",
+      "<strong>Positions accouchement :</strong> Pratiquer accroupi, à quatre pattes",
+      "<strong>Montées escaliers :</strong> Peut aider engagement (si bébé haut)",
+      "<strong>Massage périnéal :</strong> 5-10 min/jour",
+      "<strong>Exercices respiration :</strong> Essentiels pour accouchement",
+      "<strong>Relations sexuelles :</strong> Sûres et peuvent aider maturation col (prostaglandines)"
+    ],
+    stim: [
+      "🧘‍♀️ Pratiquer techniques relaxation et respiration quotidiennement",
+      "📱 Téléphone toujours chargé",
+      "🚗 Voiture avec plein d'essence",
+      "👜 Valise maternité près de la porte",
+      "📋 Numéros urgence accessibles",
+      "🏥 Savoir reconnaître signes travail (contractions régulières, perte eaux, bouchon muqueux)",
+      "💑 Profiter derniers moments à deux",
+      "📸 Dernières photos ventre",
+      "🧊 Repas congelés prêts pour retour",
+      "🛌 Repos maximal — vous aurez besoin de toute votre énergie"
+    ],
+    sleep: "Sommeil très difficile voire impossible. Repos diurne essentiel. Accepter de dormir assise si plus confortable. Méditation/relaxation si insomnie. Rappel : c'est temporaire, bébé arrive bientôt !",
+    travel: [
+      "🚫 Absolument aucun voyage",
+      "Rester à max 30 min de maternité",
+      "Ne pas être seule",
+      "Téléphone toujours avec vous",
+      "Reconnaître signes travail",
+      "Savoir quand aller à maternité (contractions régulières 5 min pendant 1h, perte eaux, saignements)"
+    ]
+  },
+  // ===== APRÈS LA NAISSANCE — BÉBÉ =====
+  {
+    title: "👶 Naissance ! — Bienvenue Bébé (26 déc 2025)",
+    highlights: [
+      "🎉 Félicitations — votre bébé est là !",
+      "👶 Premier contact peau à peau immédiat (si possible)",
+      "🤱 Première tétée dans l'heure suivant naissance (si allaitement)",
+      "🩺 Examen néonatal complet, score APGAR (1 min et 5 min)",
+      "💉 Vitamine K et pommade antibiotique yeux",
+      "🏥 Surveillance étroite premières 24h (température, glycémie, jaunisse)",
+      "😴 Bébé dort beaucoup premières 24-48h",
+      "👪 Début de la vie en famille — adaptation pour tous"
+    ],
+    dev: [
+      "Poids naissance moyen : 3000-3800g",
+      "Taille moyenne : 48-52 cm",
+      "Réflexes présents : succion, agrippement, Moro, marche automatique",
+      "Vision floue (voit à 20-30 cm)",
+      "Reconnaît voix de maman",
+      "Peut tourner tête vers sons familiers",
+      "Peau peut être rouge, plissée, vernix résiduel",
+      "Cordon ombilical sera clampé"
+    ],
+    pedi: "Examens immédiats : score APGAR (1 et 5 min), examen néonatal complet, poids/taille/périmètre crânien. Vitamine K injection. Test dépistage néonatal (goutte sang talon) avant sortie ou J3. Premier bain retardé 24h si possible.",
+    feed: [
+      "<strong>Allaitement :</strong> Première tétée dans l'heure si possible — contact peau à peau favorise",
+      "<strong>Colostrum :</strong> Premières 48-72h — épais, jaune, petites quantités mais parfait",
+      "<strong>Fréquence :</strong> À la demande, au moins 8-12 fois/24h",
+      "<strong>Couches mouillées :</strong> 1-2 premiers jours (puis augmente)",
+      "<strong>Méconium :</strong> Selles noir-verdâtre épaisses (premières 24-48h)",
+      "<strong>Biberon :</strong> Si formule, 30-60 ml par tétée, toutes les 2-3h",
+      "<strong>Signes bon allaitement :</strong> Bébé déglutit, mâchoires bougent, sein moins plein après",
+      "<strong>Consultante lactation :</strong> Disponible à maternité si besoin aide"
+    ],
+    stim: [
+      "👁️ Contact visuel — regarder bébé dans les yeux",
+      "💑 Contact peau à peau — papa aussi !",
+      "🗣️ Parler doucement à bébé",
+      "🤱 Répondre aux pleurs — impossible de 'gâter' un nouveau-né",
+      "😴 Laisser bébé dormir autant qu'il veut premières 48h",
+      "📸 Premières photos",
+      "👪 Limiter visiteurs — repos prioritaire"
+    ],
+    sleep: "Nouveau-né dort 16-20h/24h par périodes courtes (2-4h). Aucun schéma prévisible. Toujours coucher sur le dos. Peau à peau aide régulation température et sommeil. Maman devrait essayer dormir quand bébé dort.",
+    travel: [
+      "🏥 Séjour maternité : 2-4 jours (accouchement normal) ou 4-6 jours (césarienne)",
+      "Éviter visiteurs excessifs — repos crucial",
+      "Retour maison en siège-auto dos à la route obligatoire",
+      "Prévoir aide à domicile premières semaines"
+    ]
+  },
+  {
+    title: "Mois 1 — Le Nouveau-né (26 déc 2025 – 26 jan 2026)",
+    highlights: [
+      "🍼 Alimentation à la demande toutes les 2-3 heures (8-12 fois/jour) — pas encore d'horaire fixe",
+      "💤 Sommeil de 14-17 heures au total sans schéma prévisible",
+      "👶 Première visite pédiatrique dans les 3-5 jours, suivi à 2 semaines",
+      "🔄 Commencer le temps sur le ventre : 1-2 minutes, 2-3 fois par jour sur votre poitrine",
+      "⚠️ Poussée de croissance autour de 2-3 semaines : tétées groupées, agitation supplémentaire",
+      "🚫 Zéro temps d'écran recommandé (sauf appels vidéo)",
+      "📋 Objectif : Apprendre les rythmes de bébé, établir jour/nuit, pratiques de sommeil sécuritaires"
+    ],
+    dev: ["Mouvements réflexes (agrippement, succion, fouissement)", "Se concentre sur les visages à 20–30 cm de distance", "Sursaute aux bruits forts", "Bouge la tête d'un côté à l'autre sur le ventre"],
+    tummy: "Commencer avec 1–2 minutes, 2–3 fois par jour sur votre poitrine ou une surface ferme. Toujours superviser.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation exclusivement — pas d'eau, de jus ou de solides",
+      "<strong>Fréquence :</strong> Alimentation à la demande, environ 8–12 fois par jour (toutes les 2–3 heures), y compris la nuit",
+      "<strong>Quantité par tétée :</strong> 30–90 ml par tétée, augmentant tout au long du mois",
+      "<strong>Total quotidien :</strong> ~400–650 ml",
+      "<strong>Conseil allaitement :</strong> Viser au moins 8 tétées/jour pour établir la production ; surveiller la bonne prise du sein, déglutition audible et 6+ couches mouillées/jour",
+      "<strong>Conseil préparation :</strong> Utiliser une préparation enrichie en fer pour nourrissons ; ne pas diluer ni concentrer",
+      "<strong>Signes d'apport adéquat :</strong> 6+ couches mouillées/jour, retrouve le poids de naissance vers 10–14 jours, prise de poids régulière après"
+    ],
+    sleep: "14–17 heures au total. Pas encore d'horaire prévisible. Toujours coucher sur le dos (sommeil sécuritaire).",
+    stim: ["Images en noir et blanc à fort contraste", "Parler et chanter doucement", "Contact peau à peau"],
+    screen: "Pas d'écrans. L'AAP et l'OMS recommandent zéro temps d'écran pour les enfants de moins de 18 mois (sauf appels vidéo).",
+    pedi: "Première visite dans les 3–5 jours après la naissance ; suivi à 2 semaines.",
+    train: [
+      "<strong>Temps sur le ventre sur la poitrine :</strong> Allongez bébé sur votre poitrine pendant que vous êtes incliné — la chaleur et les battements de cœur sont réconfortants. Commencer avec 1–2 min, 2–3× par jour. <a href='https://pathways.org/topics-of-development/tummy-time/' target='_blank' rel='noopener'>Pathways.org — Guide temps sur le ventre</a>",
+      "<strong>Jeu sur le côté :</strong> Placez bébé sur le côté (soutenu par une serviette roulée dans le dos) et tenez un jouet à hauteur des yeux — renforce les muscles du cou et du tronc. <a href='https://pathways.org/growth-development/0-3-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Activités 0–3 mois</a>",
+      "<strong>Apaisement et portage sur les genoux :</strong> Placez bébé face vers le bas sur vos genoux et tapotez doucement son dos — cela sert à la fois de temps sur le ventre et de position apaisante",
+      "<strong>Suivi visuel :</strong> Déplacez lentement un objet à fort contraste (carte noir et blanc) à 20–30 cm du visage de bébé en arc — entraîne les muscles oculaires et la concentration",
+      "<strong>Étirements doux :</strong> Pendant les changements de couche, pliez et dépliez doucement les jambes de bébé, ouvrez et fermez les bras — favorise la conscience corporelle"
+    ],
+    travel: ["Siège auto dos à la route obligatoire — maintenir à 45° d'inclinaison pour la sécurité des voies respiratoires", "Éviter les lieux bondés — le système immunitaire est immature", "Limiter les trajets en voiture ; s'arrêter toutes les 1–2 heures pour sortir bébé du siège", "Prendre l'avion est généralement sûr après 1–2 semaines, mais consulter d'abord votre pédiatre", "Emporter du lait maternel/préparation, des couches et des vêtements de rechange supplémentaires au-delà de ce que vous pensez nécessaire", "Allaiter ou offrir une sucette au décollage et à l'atterrissage pour soulager la pression dans les oreilles"],
+    growth: {
+      timing: "2-3 semaines",
+      duration: "2-4 jours",
+      signs: ["Augmentation de la faim et de la fréquence des tétées (tétées groupées)", "Plus d'agitation que d'habitude", "Veut être porté davantage", "Siestes plus courtes ou perturbation du sommeil"],
+      howToHandle: ["Nourrir à la demande — ne pas surveiller l'horloge", "Pour l'allaitement : allaiter aussi souvent que bébé le souhaite pour stimuler la production de lait", "Pour la préparation : peut nécessiter des biberons légèrement plus grands", "Réconfort supplémentaire et contact peau à peau", "Se reposer quand bébé se repose — les poussées de croissance sont épuisantes pour les parents aussi", "Rappel : c'est temporaire et signale un développement sain"],
+      aftermath: ["Bébé peut dormir plus longtemps après la fin de la poussée", "Vous pourriez remarquer que bébé a grandi hors de certains vêtements", "Les mères allaitantes peuvent remarquer une production de lait accrue"]
+    },
+    triggers: {
+      cryingTriggers: ["Faim (le plus courant)", "Couche mouillée ou sale", "Inconfort de température (trop chaud/froid)", "Besoin de réconfort et de proximité", "Gaz ou inconfort digestif", "Surstimulation par les lumières, sons ou activités", "Fatigue excessive — les nouveau-nés se fatiguent rapidement"],
+      soothingTechniques: ["Les 5 S : Emmailloter, Position sur le côté/ventre (en portant), Chuchoter, Balancer, Sucer (sucette)", "Contact peau à peau", "Bruit blanc ou sons de battements de cœur", "Bercement ou marche douce", "Bain tiède", "Massage pour bébé", "Changement d'environnement (sortir, tamiser les lumières)"],
+      excitementTriggers: ["Visage des parents — surtout les yeux et la bouche", "Motifs noir et blanc à fort contraste", "Voix, surtout le 'parentais' aigu", "Mouvements doux (bercement, rebondissement)", "Contact peau à peau"],
+      redFlags: ["Pleurs inconsolables pendant 3+ heures (pourrait être des coliques — consulter le pédiatre)", "Pleurs accompagnés de fièvre (>38°C rectal)", "Pleur faible ou aigu", "Refus de manger", "Léthargie ou difficulté à se réveiller"]
+    },
+    routines: {
+      readiness: "Trop tôt pour des routines strictes — se concentrer sur l'apprentissage des rythmes naturels de bébé",
+      routinesToStart: ["Observer et suivre les schémas d'alimentation et de sommeil pour identifier les rythmes émergents", "Séquence apaisante simple avant le sommeil (emmaillotage, bruit blanc, lumières tamisées)", "Distinguer jour et nuit : lumineux/actif pendant la journée, sombre/calme la nuit", "Même environnement de sommeil sécuritaire pour tous les sommeils (moïse, lit)"],
+      benefits: ["Aide les parents à anticiper les besoins de bébé", "Établit la différenciation jour/nuit", "Crée des associations entre actions et sommeil"],
+      tips: ["Ne pas forcer un horaire — les nouveau-nés ont besoin de manger à la demande", "Noter les schémas dans un journal simple si utile", "Garder les tétées nocturnes calmes avec interaction minimale", "La cohérence du lieu de sommeil renforce les signaux de sécurité"]
+    }
+  },
+  {
+    title: "Mois 2 — Sourires Sociaux (26 jan – 26 fév 2026)",
+    highlights: [
+      "😊 Premier sourire social — étape majeure !",
+      "💉 Vaccins du 2e mois (DTaP, IPV, Hib, PCV13, RV)",
+      "⚠️ PIC des 'pleurs pourpres' vers 6 semaines — période d'agitation la plus intense",
+      "🔄 Poussée de croissance à 6 semaines : tétées groupées intenses pendant 3-7 jours",
+      "🕐 Peut commencer à dormir par périodes de 3-4 heures la nuit",
+      "🏋️ Objectif temps sur le ventre : 15-30 minutes au total/jour en courtes séances",
+      "📋 Objectif : Survivre à l'heure difficile (17h-21h), répondre aux gazouillis, commencer une routine simple du coucher"
+    ],
+    dev: ["Premier sourire social", "Suit brièvement les objets des yeux", "Fait des gazouillis", "Peut tenir sa tête brièvement pendant le temps sur le ventre"],
+    tummy: "Viser 15–30 minutes au total par jour en courtes séances.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation exclusivement",
+      "<strong>Fréquence :</strong> 6–8 tétées par jour ; peut commencer à espacer légèrement les tétées",
+      "<strong>Quantité par tétée :</strong> 120–150 ml",
+      "<strong>Total quotidien :</strong> ~720–900 ml",
+      "<strong>Conseil allaitement :</strong> La production est généralement bien établie ; continuer à la demande mais les tétées peuvent devenir plus efficaces (10–20 min par sein)",
+      "<strong>Conseil préparation :</strong> Bébé peut montrer un schéma d'alimentation plus prévisible ; rester avec la même préparation sauf si le pédiatre conseille un changement",
+      "<strong>Poussée de croissance :</strong> Une poussée de croissance vers 6 semaines peut augmenter temporairement la faim — nourrir plus fréquemment si bébé semble insatisfait"
+    ],
+    sleep: "14–17 heures. Des périodes légèrement plus longues la nuit peuvent commencer (3–4 heures).",
+    stim: ["Parler et lire à bébé fréquemment", "Déplacer lentement des jouets colorés dans son champ de vision", "Répondre aux gazouillis — échanger en 'parlant' à tour de rôle"],
+    screen: "Pas d'écrans (AAP : éviter les médias numériques avant 18 mois sauf appels vidéo).",
+    pedi: "Visite de contrôle à 2 mois : vaccins DTaP, IPV, Hib, PCV13, RV.",
+    train: [
+      "<strong>Temps sur le ventre progression:</strong> Place baby on a flat surface (not your chest) for 3–5 min sessions; use a rolled towel under the chest if needed. <a href='https://pathways.org/topics-of-development/tummy-time/' target='_blank' rel='noopener'>Pathways.org — Tummy Time</a>",
+      "<strong>Tracking exercises:</strong> Hold a colorful rattle and move it slowly left to right, then up and down — baby should begin tracking with both eyes. <a href='https://pathways.org/growth-development/0-3-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Visual tracking</a>",
+      "<strong>Bicycle legs:</strong> Gently cycle baby's legs in a pedaling motion — helps with gas and strengthens hip/leg muscles. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Movement</a>",
+      "<strong>Supported sitting:</strong> Hold baby in a seated position on your lap, supporting the torso — trains neck and back muscles for future sitting",
+      "<strong>Finger grasp exercise:</strong> Place your finger in baby's palm to trigger the grasp reflex — builds hand-eye coordination foundations"
+    ],
+    travel: ["Continue rear-facing car seat; check weight/height limits", "First vaccins at 2 mois give some protection — travel is somewhat safer now", "Maintain feeding schedule on the road; pack a cooler for breast milk/formula", "Sun protection: keep baby in shade, use a stroller canopy — no sunscreen until 6 mois", "Bring a familiar blanket or swaddle to help baby sleep in new environments"],
+    growth: {
+      timing: "6 semaines (around 1.5 mois)",
+      duration: "3-7 jours",
+      signs: ["Cluster feeding, especially in evenings", "May want to nurse/bottle feed every hour", "Crying more than usual, harder to soothe", "Sommeil regression — shorter naps, more night wakings", "May seem unsatisfied after feeds"],
+      howToHandle: ["Feed on demand — this is NOT a sign of low milk supply", "Breastfeeding tip: The frequent nursing is building your supply for baby's next growth phase", "Formula tip: Increase bottle size by 30-60ml (1-2oz) if baby consistently drains bottles", "Babywearing can help comfort a fussy baby while keeping your hands free", "Tag-team with partner if possible — this phase is draining", "Avoid introducing bottles/pacifiers/formula if exclusively breastfeeding, as supply is still stabilizing"],
+      aftermath: ["Baby may sleep 4-6 hour stretches at night after the spurt", "Noticeable weight gain", "May need to size up in clothing and diapers", "Breastfeeding becomes more efficient — feeds may shorten"]
+    },
+    triggers: {
+      cryingTriggers: ["'Purple crying' peaks around 6 semaines — unexplained crying in evenings", "Hunger and cluster feeding", "Overstimulation from visitors or outings", "Digestive discomfort (gas, reflux)", "Tired but fighting sleep", "Poussée de croissance fussiness", "Colic (if crying >3 heures/day, >3 jours/week)"],
+      soothingTechniques: ["Babywearing during 'witching hour' (5-9pm)", "Bicycle legs for gas relief", "Warm compress on belly for colic", "Car ride or stroller walk", "Vacuum cleaner or fan white noise", "Reduce stimulation in the evening", "Take breaks — it's okay to put baby in a safe space and step away for 5 minutes if you're overwhelmed"],
+      excitementTriggers: ["Social smiles start — smiling back is very rewarding for baby", "Animated facial expressions", "Singing and talking", "Moving objects (toys, mobiles)", "Ceiling fans", "Mirrors (starting to show interest)"],
+      redFlags: ["No social smile by end of month 2", "Not making eye contact", "Projectile vomiting after every feed", "Arching back excessively during feeds (possible reflux)", "Blood in stool", "Inconsolable crying with fever or other illness signs"]
+    },
+    routines: {
+      readiness: "Emerging patterns but still too early for rigid schedules — gentle structure begins",
+      routinesToStart: ["Simple bedtime routine (5-10 minutes): bath, massage, pajamas, feed, sleep", "Consistent wake-up routine: curtains open, cheerful greeting, diaper change", "Same order of activities even if timing varies (eat-play-sleep or eat-sleep pattern)", "Begin 'drowsy but awake' practice — put baby down not fully asleep"],
+      benefits: ["Bedtime routine signals sleep is coming", "Predictability reduces evening fussiness", "Teaches self-soothing foundations", "Parents feel more in control"],
+      tips: ["Keep bedtime routine calming and dim", "Same routine for naps (shortened version)", "Flexibility is still key — growth spurts disrupt everything", "Partner involvement in routine strengthens bonding"]
+    }
+  },
+  {
+    title: "Mois 3 — Devenir Plus Fort (26 fév – 26 mar 2026)",
+    highlights: [
+      "🎯 MOIS CRITIQUE : Moment idéal pour établir une routine du coucher et un horaire de sommeil",
+      "😂 Les rires commencent — le jeu interactif devient amusant !",
+      "⚠️ Poussée de croissance à 3 mois : appétit accru, perturbation du sommeil (4-7 jours)",
+      "🦷 Des signes précoces de dentition peuvent apparaître (bave, mains dans la bouche)",
+      "🏋️ Temps sur le ventre : jusqu'à 1 heure/jour — bébé devient plus fort",
+      "💤 Certains bébés dorment par périodes de 5-6 heures — établir une heure de coucher cohérente (19h-20h)",
+      "📋 Objectif : Établir une routine manger-jouer-dormir, heures de réveil/coucher cohérentes"
+    ],
+    dev: ["Ouvre et ferme les mains", "Porte les mains à la bouche", "Se soulève sur les bras pendant le temps sur le ventre", "Sourit aux gens, aime jouer"],
+    tummy: "Viser jusqu'à 1 heure répartie tout au long de la journée.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation uniquement — pas encore de solides",
+      "<strong>Fréquence :</strong> 5–7 tétées par jour, espacées toutes les 3–4 heures",
+      "<strong>Quantité par tétée :</strong> 150–180 ml",
+      "<strong>Total quotidien :</strong> ~750–1 000 ml",
+      "<strong>Conseil allaitement :</strong> Bébé devient plus efficace ; les tétées peuvent raccourcir à 10–15 min mais l'apport augmente",
+      "<strong>Conseil préparation :</strong> Ne pas ajouter de céréales aux biberons — c'est un risque d'étouffement et ajoute des calories inutiles",
+      "<strong>Poussée de croissance :</strong> Autre poussée fréquente vers 3 mois ; augmentation temporaire des tétées est normale"
+    ],
+    sleep: "14–16 heures. Certains bébés dorment par périodes de 5–6 heures la nuit.",
+    stim: ["Hochets et jouets doux à saisir", "Mouvements doux des jambes en bicyclette", "Jeu avec miroir — les bébés adorent les visages"],
+    screen: "Pas d'écrans. Prioriser l'interaction en face-à-face pour le développement langagier et social.",
+    pedi: null,
+    train: [
+      "<strong>Extended tummy time:</strong> Work up to 10–15 min sessions. Place toys just out of reach to encourage mini push-ups. <a href='https://pathways.org/topics-of-development/tummy-time/' target='_blank' rel='noopener'>Pathways.org — Tummy Time</a>",
+      "<strong>Head lift practice:</strong> During tummy time, hold a toy slightly above eye level — baby should push up on forearms and lift head to 45°. <a href='https://pathways.org/growth-development/0-3-mois/milestones/' target='_blank' rel='noopener'>Pathways.org — 0–3 month milestones</a>",
+      "<strong>Hands-to-midline play:</strong> Hold a toy at baby's chest level so both hands can reach for it — develops bilateral coordination",
+      "<strong>Supported pull-to-sit:</strong> Hold baby's hands and gently pull from lying to sitting position — strengthens neck and abdominal muscles. Do slowly, watching that head follows the body",
+      "<strong>Baby massage:</strong> Use gentle strokes on legs, arms, and belly — improves circulation, bonding, and body awareness. <a href='https://www.healthychildren.org/English/ages-stages/baby/bathing-skin-care/Pages/Suitable-for-Framing-Your-Babys-Skin.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Baby care</a>"
+    ],
+    travel: ["Baby may tolerate longer car rides but still stop every 2 heures", "A portable white-noise machine can help maintain sleep routines while traveling", "Avoid high-altitude destinations (above 2,500 m / 8,000 ft) — consult your pediatrician if needed", "Baby carriers/wraps are ideal for hands-free travel in airports and sightseeing", "Keep baby hydrated — offer extra feeds in hot or dry climates"],
+    growth: {
+      timing: "3 mois (12 semaines)",
+      duration: "4-7 jours",
+      signs: ["Sudden increase in appetite", "Fussiness and irritability", "Sommeil disruption — may wake more at night", "Clinginess and wanting more physical contact", "May seem restless during feeds"],
+      howToHandle: ["Continue feeding on demand", "Increase bottle volumes if baby consistently finishes feeds and still seems hungry", "This is a major developmental leap — baby's brain is growing rapidly", "Extra tummy time and floor play can help with restlessness", "Sommeil may be disrupted — maintain bedtime routine consistency", "Some babies may show early signs of 4-month sleep regression during this growth spurt"],
+      aftermath: ["Baby may have better head control and strength after this spurt", "May notice increased alertness and interaction", "Weight and length gain become more apparent", "Sommeil often consolidates after the spurt — some babies start sleeping 5-6 hour stretches"]
+    },
+    triggers: {
+      cryingTriggers: ["Overtiredness — harder to self-soothe now", "Boredom — baby needs more stimulation", "Frustration at physical limitations (wants to reach but can't yet)", "Loneliness — wants interaction", "Teething may begin early for some babies"],
+      soothingTechniques: ["Distraction with toys and movement", "Change of scenery — go to different room or outside", "Predictable routines starting to help", "Gentle bouncing on exercise ball", "Reading books together", "Baby's preferences emerging — notice what works best"],
+      excitementTriggers: ["Laughing starts! — tickles, raspberries on belly", "Grabbing and holding toys", "Peek-a-boo games beginning to register", "Siblings or other children", "Pet animals (supervised)", "Crinkly toys and rattles", "Their own hands and feet", "Music with rhythm"],
+      redFlags: ["Still not tracking objects with eyes", "No response to loud sounds", "Not bringing hands to mouth", "Very stiff or very floppy muscle tone", "Not smiling at people"]
+    },
+    routines: {
+      readiness: "IDEAL time to establish consistent routines — baby's circadian rhythm developing",
+      routinesToStart: ["Bedtime routine 30-45 min before desired sleep time: bath, pajamas, book, song, feed, bed", "Consistent nap routine: darken room, white noise, sleep sack, same location", "Daily rhythm: wake at same time, predictable meal times, regular nap schedule", "Morning 'wake-up' routine to start the day positively"],
+      benefits: ["Supports circadian rhythm development (body clock)", "Reduces bedtime battles and night wakings", "Helps baby learn to self-soothe", "Creates sense of security and predictability", "Parents can plan around baby's schedule"],
+      tips: ["Wake baby at same time each morning to set body clock", "Earlier bedtime than you think — most 3-month-olds need 7-8pm bedtime", "Watch for sleep cues (rubbing eyes, yawning) to time naps", "Consistency matters more than perfection", "Keep routine even when traveling or visiting"]
+    },
+    teething: {
+      status: "⏰ Early teething signs may appear (though teeth usually erupt later)",
+      timeline: "Some babies show signs now, but first tooth typically appears 4-7 mois",
+      teeth: "No teeth yet",
+      signs: ["Increased drooling", "Hands in mouth frequently (also normal development)", "Mild fussiness or irritability", "Possible slight temperature (<100.4°F / 38°C)"],
+      remedies: ["Cold (not frozen) teething rings", "Clean, damp washcloth chilled in fridge", "Gentle gum massage with clean finger", "Extra comfort and cuddles"],
+      avoid: ["Frozen teethers (can damage gums)", "Teething gels with benzocaine (FDA warning - can cause serious issues)", "Amber teething necklaces (choking/strangulation hazard)", "Teething tablets (not FDA-approved)"],
+      important: ["High fever (>100.4°F), diarrhea, rash are NOT teething — see pediatrician", "Not all babies teethe at same time — range is 3-12 mois for first tooth", "Increased drooling alone doesn't mean a tooth is coming soon"]
+    }
+  },
+  {
+    title: "Mois 4 — Attraper & Se Retourner (26 mar – 26 avr 2026)",
+    highlights: [
+      "🔄 Premier retournement possible ! (du ventre au dos)",
+      "💉 Vaccins du 4e mois (DTaP dose 2, IPV, Hib, PCV13, RV dose 2)",
+      "⚠️ RÉGRESSION DU SOMMEIL À 4 MOIS : conscient de l'environnement, plus difficile de s'endormir",
+      "🦷 Première dent peut apparaître (moyenne à 6 mois, mais 4-7 mois est normal)",
+      "💤 Sommeil : 12-16 heures — maintenir la routine malgré la régression",
+      "🏋️ Attrape les jouets, contrôle stable de la tête — prêt pour plus de jeu",
+      "📋 Objectif : Ne pas abandonner la routine de sommeil, envisager l'apprentissage du sommeil si nécessaire"
+    ],
+    dev: ["Attrape et saisit les jouets", "Peut commencer à se retourner (du ventre au dos)", "Rit aux éclats", "Contrôle stable de la tête"],
+    tummy: "Continuer 1+ heure par jour. Bébé peut commencer à apprécier davantage à mesure que sa force augmente.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation; no solids unless pediatrician advises otherwise",
+      "<strong>Fréquence :</strong> 5–6 feedings par jour, every 3–4 heures",
+      "<strong>Quantité par tétée :</strong> 150–210 ml (5–7 oz)",
+      "<strong>Total quotidien :</strong> ~750–1,050 ml (25–35 oz); do not exceed 1,100 ml (36 oz) of formula/day",
+      "<strong>Readiness signs to watch:</strong> Sits with support, shows interest in food, opens mouth when food is near — but most pediatricians recommend waiting until 6 mois",
+      "<strong>Vitamin D:</strong> Breastfed babies should receive 400 IU vitamin D supplement daily (formula-fed babies get it in formula if taking ≥1 L/day)"
+    ],
+    sleep: "12–16 heures. Many babies can sleep 6–8 hour stretches. Consider starting a bedtime routine.",
+    stim: ["Play gyms and activity mats", "Read board books together", "Sing songs with hand motions"],
+    screen: "Pas d'écrans. Real-world play and interaction remain far more beneficial for brain development.",
+    pedi: "4-month visite de contrôle: DTaP (dose 2), IPV, Hib, PCV13, RV (dose 2).",
+    train: [
+      "<strong>Roll encouragement:</strong> During tummy time, place a toy to one side so baby turns their head and body — help them discover rolling. <a href='https://pathways.org/growth-development/4-6-mois/activities/' target='_blank' rel='noopener'>Pathways.org — 4–6 month activities</a>",
+      "<strong>Reaching practice:</strong> Hold toys at varying heights and distances so baby must reach and stretch — builds shoulder and arm strength",
+      "<strong>Play gym workouts:</strong> Let baby bat at hanging toys from a play gym — practices hand-eye coordination and arm control. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-4-to-7-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Movement 4–7 mois</a>",
+      "<strong>Supported standing bounces:</strong> Hold baby upright with feet on your lap — let them push down and 'bounce'. Builds leg strength for future standing",
+      "<strong>Airplane hold:</strong> Hold baby face-down along your forearm (head near your elbow) and gently 'fly' them around — strengthens back extensors"
+    ],
+    travel: ["Ensure vaccins are up to date before any trip — especially the 4-month series", "Bring a portable crib or travel bassinet that meets safe-sleep standards", "Time travel around nap schedules when possible", "Pack a basic first-aid kit: infant thermometer, saline drops, infant acetaminophen (ask pediatrician)", "International travel: check destination-specific vaccine requirements and health advisories"],
+    triggers: {
+      cryingTriggers: ["4-month sleep regression — aware of surroundings, harder to fall asleep", "Post-vaccine fussiness (shots at 4-month visit)", "Teething discomfort may start", "Frustration at wanting to move but can't yet", "Separation awareness beginning", "Overstimulation from new sights and sounds"],
+      soothingTechniques: ["Consistent sleep routine (bath, book, bed)", "Teething toys (cold washcloth, silicone teethers)", "Infant pain reliever 30-45 min before bedtime if teething (consult pediatrician)", "More independent play on play mat", "Routine consistency helps during sleep regression", "Darker room and white noise for sleep"],
+      excitementTriggers: ["Cause-and-effect toys (squeeze = squeak)", "Play gyms with dangling toys", "Rolling over — huge excitement!", "Bath time splashing", "Bouncing in jumper or on lap", "Squealing and making loud sounds themselves", "Tags on toys and clothing", "Treasure basket exploration (safe household items with different textures)"],
+      redFlags: ["Not reaching for toys or objects", "Cannot support head well", "No babbling or vocalizing", "Doesn't respond to affection", "One eye constantly turned in or out"]
+    },
+    routines: {
+      readiness: "Routines are well-established — now refine and maintain through sleep regression",
+      routinesToStart: ["Structured daily schedule: wake, eat, play, sleep pattern (WEPS or EASY)", "Consistent nap times: morning nap (~9am), afternoon nap (~1pm), possible catnap (~4pm)", "Pre-nap wind-down: 5-10 minutes of quiet activity before each nap", "Mealtime routine: same location, calm environment, predictable timing"],
+      benefits: ["Combats 4-month sleep regression", "Reduces overtiredness", "Supports developmental leaps", "Makes sleep training easier if you choose to do it", "Helps baby learn to fall asleep independently"],
+      tips: ["Don't abandon routine during regression — stay consistent", "May need to adjust nap times as sleep consolidates", "Watch wake windows (90-120 minutes at this age)", "Same sleep environment (dark, cool, white noise) for all sleep", "If sleep training, now is an appropriate age (consult pediatrician/sleep consultant)"]
+    },
+    teething: {
+      status: "🦷 First tooth may appear this month or next (average is 6 mois)",
+      timeline: "Lower central incisors (bottom front teeth) typically first — between 4-7 mois",
+      teeth: "0-2 teeth (most babies still have none at 4 mois)",
+      signs: ["Increased drooling and drool rash on chin", "Gnawing on everything", "Swollen, tender gums", "Fussiness, especially at night", "Disrupted sleep", "Decreased appetite", "Ear pulling (referred pain)"],
+      remedies: ["Cold teething toys (refrigerated, not frozen)", "Teething biscuits or frozen fruit in mesh feeder (if started solids)", "Infant pain reliever (acetaminophen or ibuprofen — ask pediatrician for dosing)", "Gentle counter-pressure on gums", "Extra nursing/bottle comfort"],
+      avoid: ["Benzocaine gels (Orajel baby) — FDA black box warning", "Homeopathic teething tablets — FDA warning for safety", "Amber necklaces — AAP warns of strangulation/choking", "Frozen hard objects — can damage gums"],
+      important: ["Fever >100.4°F is NOT from teething — call doctor", "Diarrhea is NOT a teething symptom", "First tooth may come painlessly or with jours of discomfort — varies widely"]
+    }
+  },
+  {
+    title: "Mois 5 — Explorer le Monde (26 avr – 26 mai 2026)",
+    highlights: [
+      "🔄 Se retourne dans les deux sens — ne jamais laisser sans surveillance sur des surfaces élevées !",
+      "👋 Reconnaît les visages familiers vs. les étrangers",
+      "🗣️ Chaînes de babillage : ba-ba-ba, da-da-da",
+      "🦷 Dentition active pour beaucoup — bave, mordille tout",
+      "💤 12-16 heures de sommeil avec 2-3 siestes — certains abandonnent la 3e sieste",
+      "🍼 Peut montrer des signes de préparation aux solides (discuter avec le pédiatre)",
+      "📋 Objectif : Conscience des étrangers commence, maintenir la routine, préparer les solides"
+    ],
+    dev: ["Se retourne dans les deux sens (certains bébés)", "Transfère des objets entre les mains", "Reconnaît les visages familiers", "Babille en chaînes de consonnes (ba-ba-ba)"],
+    tummy: "60–90 minutes par jour en courtes séances de jeu. Bébé peut pivoter ou se soulever sur les bras tendus.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation reste la nutrition principale",
+      "<strong>Fréquence :</strong> 5–6 tétées par jour",
+      "<strong>Quantité par tétée :</strong> 180–210 ml",
+      "<strong>Total quotidien :</strong> ~900–1 050 ml",
+      "<strong>Signes de préparation aux solides :</strong> S'assoit avec soutien, bon contrôle de la tête, montre de l'intérêt pour la nourriture, perte du réflexe d'extrusion — si tous les signes sont présents, discuter avec le pédiatre pour commencer les solides maintenant ou attendre 6 mois",
+      "<strong>NE PAS introduire :</strong> Miel (risque de botulisme jusqu'à 12 mois), lait de vache comme boisson, risques d'étouffement (raisins entiers, noix, pop-corn, bonbons durs)"
+    ],
+    sleep: "12–16 heures incluant 2–3 siestes. Les tétées nocturnes peuvent diminuer.",
+    stim: ["Jeux de coucou et de cache-cache", "Jouets texturés et livres souples", "Jeu assis avec soutien"],
+    screen: "Pas d'écrans. La télévision en arrière-plan peut réduire la qualité de l'interaction parent-enfant.",
+    pedi: null,
+    train: [
+      "<strong>Pratique du pivot :</strong> Pendant le temps sur le ventre, placez des jouets en cercle autour de bébé — il apprendra à pivoter sur son ventre pour les atteindre. <a href='https://pathways.org/growth-development/4-6-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Activités 4–6 mois</a>",
+      "<strong>Retournement dans les deux sens :</strong> Encouragez le retournement du dos au ventre en plaçant un jouet sur le côté et en guidant doucement la hanche. <a href='https://pathways.org/growth-development/4-6-mois/milestones/' target='_blank' rel='noopener'>Pathways.org — Étapes du retournement</a>",
+      "<strong>Équilibre assis :</strong> Asseyez bébé en position 'trépied' (mains devant pour le soutien) et réduisez progressivement votre soutien — renforce la stabilité du tronc",
+      "<strong>Port de poids sur les jambes :</strong> Tenez bébé debout sur vos genoux et laissez-le rebondir et pousser — renforce les jambes pour la future station debout et la marche",
+      "<strong>Pratique du transfert :</strong> Offrez un jouet à une main, puis présentez un deuxième jouet à l'autre — encourage la coordination bilatérale et le croisement de la ligne médiane"
+    ],
+    travel: ["Bébé est plus éveillé et curieux — apportez une variété de petits jouets pour le voyage", "Se retourne maintenant — ne jamais laisser sans surveillance sur les lits d'hôtel ou les tables à langer", "Envisager des options d'alimentation adaptées au voyage : préparation pré-mélangée ou lait maternel congelé", "Pour les vols : demander un siège avec berceau sur les vols long-courriers (généralement pour moins de 10 kg)", "Conseil décalage horaire : décaler progressivement l'horaire de 15–30 min par jour avant le départ"],
+    triggers: {
+      cryingTriggers: ["Douleur de dentition (premières dents apparaissent généralement à 4-7 mois)", "Frustration de ne pas encore pouvoir s'asseoir ou ramper", "Anxiété face aux étrangers qui commence", "Séparation du principal soignant", "Siestes perturbées alors que le schéma de sommeil mûrit", "Vouloir être plus vertical pour voir le monde"],
+      soothingTechniques: ["Jouets de dentition congelés ou fruits froids dans un filet", "Les colliers de dentition en ambre ne sont PAS recommandés (risque d'étouffement/strangulation)", "Position assise soutenue dans un Boppy ou entre les jambes", "Temps à l'extérieur en porte-bébé ou poussette", "Miroir sécuritaire pour bébé pour le jeu au sol", "Livres et jouets texturés"],
+      excitementTriggers: ["Leur propre reflet dans le miroir", "Faire des pétarades avec les lèvres", "Jeux de transfert (se passer des jouets)", "Laisser tomber des choses et les regarder tomber", "Nourriture (si début des solides bientôt)", "Jeux d'eau dans le bain ou petit bassin", "Autres bébés — l'intérêt social augmente", "Exploration de textures — différents tissus"],
+      redFlags: ["Très raide ou mou quand on le prend", "Ne montre pas d'affection envers les soignants", "Ne fait pas de sons de voyelles (ah, eh, oh)", "Ne se retourne pas dans aucune direction à 6 mois", "Asymétrie persistante (tourne toujours la tête d'un côté, utilise seulement une main)"]
+    },
+    routines: {
+      readiness: "Maintenir et renforcer les routines établies — bébé s'épanouit avec la prévisibilité",
+      routinesToStart: ["Horaire de 3 siestes se solidifie : matin, mi-journée, fin d'après-midi", "Introduire une routine d'alimentation pré-solides si début des aliments le mois prochain", "Heure du coucher cohérente entre 18h30-20h", "Temps de jeu au sol quotidien pour le développement moteur", "Temps à l'extérieur à heure régulière de la journée"],
+      benefits: ["Les routines sécurisantes permettent une exploration confiante", "La prévisibilité réduit l'anxiété de séparation", "Meilleur sommeil = développement plus facile de nouvelles compétences", "Horaire régulier facilite la planification des activités"],
+      tips: ["Surveiller les signes de transition de 3 à 2 siestes (généralement 6-9 mois)", "Maintenir la routine même pendant la dentition", "Intégrer de la flexibilité dans la routine (fenêtres de 30 minutes)", "Inclure une routine sociale : groupes de jeu réguliers ou cours pour bébés"]
+    },
+    teething: {
+      status: "🦷 Dentition souvent active — premières dents peuvent émerger",
+      timeline: "Les incisives centrales inférieures peuvent sortir ce mois (si pas déjà)",
+      teeth: "0-2 dents typique",
+      signs: ["Bave constante avec éruption menton/cou", "Tout va dans la bouche", "Gencives rouges et enflées", "Perturbation du sommeil", "Comportement collant", "Diarrhée légère (de la salive avalée, pas un vrai symptôme de dentition)", "Refus du biberon/sein ou morsure pendant la tétée"],
+      remedies: ["Variété de jouets de dentition (différentes textures)", "Aliments froids si début des solides (compote de pommes refroidie, yaourt)", "Biscuits ou biscottes de dentition", "Anneaux de dentition en silicone", "Gant de toilette mouillé noué et congelé", "Analgésique pour bébé avant le coucher (consulter le pédiatre)"],
+      avoid: ["Alcool à friction sur les gencives (dangereux)", "Bijoux de dentition (risque d'étouffement)", "Produits à base de lidocaïne ou benzocaïne", "Huile de clou de girofle (peut causer des problèmes chez les nourrissons)"],
+      important: ["Mordre pendant l'allaitement est comportemental, pas seulement la dentition — détacher et dire 'pas de morsure'", "La douleur de dentition ne dure pas 24h/24 — si bébé est inconsolable, vérifier d'autres problèmes", "Prévenir l'éruption de bave avec une crème barrière (gelée de pétrole)"]
+    }
+  },
+  {
+    title: "Mois 6 — Commencer les Solides (26 mai – 26 jun 2026)",
+    highlights: [
+      "🍎 COMMENCER LES ALIMENTS SOLIDES ! Débuter avec 1 repas/jour, purées à ingrédient unique",
+      "💉 Vaccins du 6e mois (DTaP dose 3, PCV13, IPV si pas à 4 mois, vaccin grippe)",
+      "🪑 S'assoit avec soutien — prêt pour la chaise haute",
+      "⚠️ Poussée de croissance à 6 mois : peut refuser les solides, veut seulement du lait",
+      "🦷 Dents de devant inférieures probablement présentes ; dents supérieures arrivent (2-4 dents typique)",
+      "☀️ Crème solaire maintenant sûre (FPS 30+, large spectre)",
+      "📋 Objectif : Établir routine des repas, introduction précoce des allergènes (arachide, œuf, produits laitiers)"
+    ],
+    dev: ["S'assoit avec peu de soutien", "Commence à passer des objets d'une main à l'autre", "Répond à son prénom", "Montre de la curiosité pour les choses hors de portée"],
+    tummy: "Continuer quotidiennement. Beaucoup de bébés poussent maintenant vers la position à quatre pattes.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation PLUS introduction des solides",
+      "<strong>Tétées de lait :</strong> 4–6 par jour ; ~720–960 ml — le lait reste la source nutritionnelle principale",
+      "<strong>Horaire des solides :</strong> Commencer avec 1 repas/jour, augmenter à 2 d'ici la fin du mois",
+      "<strong>Portions de solides :</strong> 1–2 cuillères à soupe par portion ; augmenter selon l'intérêt",
+      "<strong>Aliments à introduire :</strong> Purées à ingrédient unique (patate douce, avocat, banane, petits pois, carottes) ou aliments mous en morceaux (diversification menée par l'enfant)",
+      "<strong>Introduction des allergènes :</strong> Introduire arachide (beurre d'arachide dilué), œuf, produits laitiers, blé, soja et poisson tôt et souvent — l'AAP recommande une exposition précoce pour réduire le risque d'allergie",
+      "<strong>Aliments riches en fer :</strong> Céréales enrichies pour bébé, viande en purée, lentilles — les réserves de fer de bébé depuis la naissance commencent à s'épuiser vers 6 mois",
+      "<strong>Eau :</strong> Offrir de petites gorgées d'eau (30–60 ml) dans une tasse ouverte ou à bec aux repas"
+    ],
+    sleep: "12–15 heures avec 2–3 siestes. La plupart peuvent dormir toute la nuit (certains se réveillent encore).",
+    stim: ["Gobelets empilables et jouets emboîtables", "Jouets cause-à-effet (appuyer sur bouton → son)", "Nommer fréquemment les objets et parties du corps"],
+    screen: "Pas d'écrans. Utiliser les repas comme moment d'interaction familiale sans écrans.",
+    pedi: "Visite de contrôle à 6 mois : DTaP (dose 3), PCV13, IPV (si pas donné à 4 mois), vaccin grippe possible.",
+    train: [
+      "<strong>Position assise soutenue vers autonome :</strong> Asseyez bébé par terre avec des coussins autour ('anneau de soutien') et retirez progressivement le soutien. <a href='https://pathways.org/growth-development/4-6-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Activités en position assise</a>",
+      "<strong>Balancement pré-rampage :</strong> Quand bébé est à quatre pattes, bercez-le doucement d'avant en arrière — enseigne le transfert de poids nécessaire pour ramper. <a href='https://pathways.org/growth-development/7-9-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Activités 7–9 mois</a>",
+      "<strong>Atteindre en position assise :</strong> Placez des jouets légèrement hors de portée pour que bébé doive se pencher et s'étirer — développe l'équilibre et la force du tronc",
+      "<strong>Pratique cuillère et tasse :</strong> Laissez bébé tenir une cuillère et une petite tasse — entraînement moteur fin qui soutient aussi le développement de l'auto-alimentation",
+      "<strong>Jeux de tape-mains :</strong> Tape-tape petites mains, applaudissements et jeu main sur main — entraîne la coordination bilatérale. <a href='https://www.cdc.gov/ncbddd/actearly/milestones/milestones-6mo.html' target='_blank' rel='noopener'>CDC — Étapes 6 mois</a>"
+    ],
+    travel: ["Commence maintenant les solides — emporter des pochettes ou pots de nourriture pour bébé ; vérifier les règles aériennes pour les liquides", "Crème solaire maintenant sûre (FPS 30+, large spectre) — appliquer 15 min avant l'exposition au soleil", "Une chaise haute portable ou siège à pince facilite les repas au restaurant", "Maillots de bain avec protection UPF 50+ pour destinations plage/piscine", "S'assurer que les vaccins de 6 mois sont complets avant un voyage international", "Emporter une copie du carnet de vaccination lors de voyages à l'étranger"],
+    growth: {
+      timing: "6 mois (environ 26 semaines)",
+      duration: "3-7 jours",
+      signs: ["Appétit accru pour le lait et les solides", "Peut refuser les solides pendant la poussée — veut seulement du lait", "Plus de réveils nocturnes", "Extra collant et veut être porté constamment", "Peut sembler frustré ou grincheux"],
+      howToHandle: ["Prioriser les tétées de lait sur les solides pendant la poussée de croissance — le lait est toujours la nutrition principale", "Si bébé refuse les solides, ne pas forcer — l'appétit reviendra après la poussée", "Offrir des séances supplémentaires d'allaitement/biberon", "Ceci coïncide avec un développement moteur majeur (s'asseoir, se retourner) — bébé a besoin de calories supplémentaires", "La dentition peut aussi commencer à ce moment, ajoutant à l'agitation", "Maintenir des pratiques de sommeil sécuritaires même si bébé se réveille plus — éviter les béquilles de sommeil insoutenables"],
+      aftermath: ["Bébé peut s'asseoir de manière autonome après cette poussée", "Augmentation notable de la taille — peut sauter une taille de vêtement", "L'appétit pour les solides augmente après la fin de la poussée", "Peut montrer de nouvelles compétences physiques comme pivoter ou mouvements pré-rampage"]
+    },
+    triggers: {
+      cryingTriggers: ["Dentition — premières dents sortent souvent maintenant (incisives inférieures de devant)", "Agitation post-vaccins (injections de 6 mois)", "Anxiété de séparation qui s'intensifie", "Frustration de l'immobilité (veut ramper mais ne peut pas)", "Refus de nourriture pendant la dentition", "Perturbation du sommeil due aux bonds de développement"],
+      soothingTechniques: ["Anneaux de dentition froids (pas congelés solides — peuvent endommager les gencives)", "Massage doux des gencives avec un doigt propre", "Distraction avec de nouveaux jouets", "Laisser bébé pratiquer la position assise avec soutien d'oreiller", "Reconnaître verbalement la frustration — 'Je sais que tu veux bouger !'", "Routine du coucher cohérente pour contrer les perturbations du sommeil"],
+      excitementTriggers: ["Aliments solides — nouveaux goûts et textures !", "S'asseoir — toute nouvelle perspective", "Jouets cause-à-effet (appuyer sur boutons)", "Renverser des blocs empilés", "Éclabousser dans le bain", "Coucou (comprend maintenant la permanence de l'objet)", "Articles ménagers (cuillères en bois, contenants en plastique)", "Musique et chansons avec actions (Si tu as d'la joie au cœur)"],
+      redFlags: ["Ne s'assoit pas avec soutien", "Pas de babillage (ba-ba, da-da) à la fin de 6 mois", "N'atteint pas les objets", "Ne montre pas d'affection pour les soignants", "Ne répond pas aux sons ou au prénom", "Un côté du corps beaucoup plus fort que l'autre"]
+    },
+    routines: {
+      readiness: "Ajout des solides — les routines des repas deviennent cruciales pour de saines habitudes alimentaires",
+      routinesToStart: ["Solides à heure régulière de la journée (après la sieste du matin ou déjeuner)", "S'asseoir dans la chaise haute pour les repas, même si juste pour pratiquer", "Routine des repas en famille : bébé rejoint la famille à table", "Routine pré-repas : laver les mains, mettre le bavoir, s'asseoir dans la chaise", "Routine de nettoyage post-repas que bébé peut observer"],
+      benefits: ["Construit des associations positives avec les repas", "Prévient les batailles alimentaires plus tard", "Enseigne que repas = s'asseoir, pas jouer", "Développe un rythme circadien sain pour la digestion", "Compétences sociales de repas se développent tôt"],
+      tips: ["Garder les premiers repas solides détendus et ludiques", "Même heure et lieu pour les repas quotidiennement", "Ne pas forcer à manger — respecter les signaux de bébé", "Tétées de lait toujours à l'horaire, les solides sont de la pratique", "Éviter écrans ou jouets pendant les repas — se concentrer sur nourriture et famille"]
+    },
+    teething: {
+      status: "🦷🦷 Lower central incisors usually present; upper may be coming",
+      timeline: "Upper central incisors (top front teeth) often erupt 7-8 mois",
+      teeth: "2-4 teeth typical by end of month",
+      signs: ["May have gotten easier after first teeth broke through", "New round of symptoms when upper teeth come", "May refuse solids during active teething (normal)", "Increased nursing for comfort", "Waking at night"],
+      remedies: ["Cold foods: frozen banana, chilled cucumber spears, cold watermelon (in mesh feeder)", "Teething crackers/biscuits", "Silicone feeders with frozen fruit", "Gentle brushing of existing teeth with soft brush (good habit to start)", "Pain reliever before naps/bedtime if needed"],
+      avoid: ["Hard, frozen items that don't give", "Small pieces that could break off", "Honey on teether (botulism risk)", "Over-reliance on pain medication (use sparingly)"],
+      important: ["Start dental hygiene now — wipe teeth with damp cloth or soft brush after feeds", "Teething doesn't cause high fever or severe illness", "Some babies get all teeth with minimal fuss, others struggle with each one"]
+    }
+  },
+  {
+    title: "Mois 7 — En Mouvement (26 jun – 26 jul 2026)",
+    highlights: [
+      "🪑 S'ASSOIT DE MANIÈRE AUTONOME — révolution !",
+      "🐛 Peut commencer à ramper ou se déplacer — sécurisation de la maison essentielle",
+      "😰 ANXIÉTÉ DE SÉPARATION commence — pleure quand vous quittez la pièce",
+      "🦷 Dents de devant supérieures sortent (4 dents de devant pour beaucoup)",
+      "🍽️ 2-3 repas solides/jour — passage aux textures écrasées/grumeleuses",
+      "💤 12-15 heures, 2 siestes typique — maintenir la routine du coucher",
+      "📋 Objectif : Rituels d'au revoir, sécuriser la maison, commencer l'hygiène dentaire"
+    ],
+    dev: ["S'assoit de manière autonome", "Peut commencer à ramper ou se déplacer", "Utilise la prise en râteau pour attraper de petits objets", "Comprend 'non' (ton)"],
+    tummy: "Le temps formel sur le ventre se transforme en jeu au sol et pratique du rampage.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation plus expansion des solides",
+      "<strong>Tétées de lait :</strong> 4–5 par jour ; ~720–900 ml",
+      "<strong>Horaire des solides :</strong> 2 repas par jour, visant 3",
+      "<strong>Textures :</strong> Passer de purées lisses aux textures écrasées et grumeleuses — cela aide à développer les compétences de mastication",
+      "<strong>Nouveaux aliments :</strong> Yaourt (entier, nature), fromage mou, pâtes bien cuites, poisson émietté, fruits mous",
+      "<strong>Aliments à manger avec les doigts :</strong> Légumes mous cuits à la vapeur (fleurons de brocoli, bâtonnets de carotte), lanières de pain grillé, morceaux de banane",
+      "<strong>Eau :</strong> Continuer à offrir de l'eau aux repas dans une tasse (60–120 ml par jour)",
+      "<strong>À éviter :</strong> Miel, sel/sucre ajoutés, noix entières, lait de vache comme boisson principale"
+    ],
+    sleep: "12–15 heures, typiquement 2 siestes. L'anxiété de séparation peut causer des réveils nocturnes.",
+    stim: ["Blocs souples et contenants pour remplir/vider", "Chansons interactives (Ainsi font font font)", "Exploration sécuritaire des pièces (sécuriser d'abord !)"],
+    screen: "Pas d'écrans. Le jeu interactif avec les soignants soutient le développement cognitif bien plus que les médias passifs.",
+    pedi: null,
+    train: [
+      "<strong>Parcours d'obstacles pour ramper :</strong> Utiliser des coussins et couvertures roulées pour créer de petits obstacles à franchir en rampant — développe la force et la résolution de problèmes. <a href='https://pathways.org/growth-development/7-9-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Activités 7–9 mois</a>",
+      "<strong>Jeu à genoux :</strong> Placez des jouets sur une table basse ou coussin de canapé pour que bébé doive s'agenouiller pour jouer — renforce les hanches et le tronc pour se tenir debout. <a href='https://pathways.org/growth-development/7-9-mois/milestones/' target='_blank' rel='noopener'>Pathways.org — Étapes 7–9 mois</a>",
+      "<strong>Jeu de contenants :</strong> Donnez à bébé un contenant et des objets mous à mettre dedans et sortir — entraîne la motricité fine et la compréhension cause-effet",
+      "<strong>Position debout assistée :</strong> Laissez bébé se hisser sur vos doigts de la position assise à debout — développe la force des jambes et du tronc. Laissez-le tenir brièvement avant de le guider vers le bas",
+      "<strong>Rouler la balle :</strong> Asseyez-vous face à bébé et roulez une balle vers lui — encourage à atteindre, saisir et enseigne le tour de rôle. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-8-to-12-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Mouvement 8–12 mois</a>"
+    ],
+    travel: ["Bébé est mobile — sécuriser les chambres d'hôtel à l'arrivée (couvrir prises, retirer petits objets, vérifier les cordons)", "Une poussette de voyage légère vaut l'investissement à ce stade", "Apporter articles de sommeil familiers (gigoteuse, doudou) pour faciliter transitions vers nouveaux environnements de sommeil", "Anxiété de séparation commence — garder routines cohérentes même en vacances", "Emporter solution d'électrolytes (ex. Pedialyte) en cas de diarrhée du voyageur"],
+    triggers: {
+      cryingTriggers: ["Anxiété de séparation au pic — pleure quand vous quittez la pièce", "Anxiété face aux étrangers — peur des personnes inconnues", "Dentition continue", "Frustration lors des tentatives de rampage", "Abandon de siestes — sur-fatigue", "Vouloir explorer mais rencontrer des limites"],
+      soothingTechniques: ["Pratiquer de courtes séparations (quitter la pièce 30 secondes, revenir)", "Narrer ce que vous faites en partant ('Maman va à la cuisine, je reviens tout de suite')", "Objet transitionnel (doudou ou petite couverture)", "Barrières pour bébé pour qu'il vous voie tout en restant en sécurité", "Câlins supplémentaires avant et après les séparations", "Rituel d'au revoir prévisible"],
+      excitementTriggers: ["Ramper — même juste quelques 'pas'", "Se hisser debout aux meubles", "Contenants et couvercles", "Mettre des objets dedans et les sortir", "Instruments de musique (maracas, tambours)", "Ouvrir et fermer portes/tiroirs (sécurisé !)", "Jeux de poursuite (ramper après bébé)", "Jeux de tape-mains et ainsi font font font", "Animaux — réels et dans les livres"],
+      redFlags: ["Ne s'assoit pas de manière autonome", "Pas de babillage de consonnes (ba, da, ga)", "Ne montre pas d'intérêt pour les jeux interactifs", "Très passif, n'essaie pas d'obtenir des objets", "Aucun mouvement de rampage à 9 mois (certains sautent le rampage mais devraient montrer de la mobilité)"]
+    },
+    routines: {
+      readiness: "Les routines procurent de la sécurité pendant l'anxiété de séparation — la cohérence est critique",
+      routinesToStart: ["Rituels d'au revoir/bonjour : mêmes mots, signe de la main, bisou en partant/revenant", "Séquence quotidienne prévisible : réveil, déjeuner, jeu, sieste, dîner, jeu, sieste, souper, lit", "Temps de jeu indépendant dans espace sécuritaire pendant que vous êtes visible", "Avertissements de transition : 'Dans 5 minutes on range et on mange'", "Réponse cohérente aux réveils nocturnes"],
+      benefits: ["Réduit l'anxiété de séparation — bébé sait que vous reviendrez", "Prévisibilité = sécurité émotionnelle", "Meilleur sommeil malgré changements développementaux", "Plus facile d'imposer des limites de façon cohérente", "Bébé apprend à faire confiance à son environnement"],
+      tips: ["Maintenir la routine pendant les voyages si possible", "Même routine de soignant quand d'autres gardent bébé", "Ne pas partir en cachette — toujours dire au revoir avec même rituel", "Pratiquer de courtes séparations avec routine cohérente", "La routine aide bébé à prédire et se préparer pour la suite"]
+    },
+    teething: {
+      status: "🦷🦷🦷 Incisives centrales supérieures peuvent sortir ; 4 dents de devant pour beaucoup de bébés maintenant",
+      timeline: "Incisives latérales supérieures (à côté des dents de devant) peuvent commencer 9-11 mois",
+      teeth: "2-4 dents typique (4 dents de devant est la moyenne)",
+      signs: ["Dents supérieures souvent plus douloureuses que inférieures", "Tire les oreilles (douleur référée)", "Sommeil perturbé", "Moins intéressé par les aliments solides", "Mâche tout"],
+      remedies: ["Brosse à dents à poils souples avec un peu de dentifrice fluoré (taille grain de riz)", "Gants de toilette mouillés noués et refroidis", "Anneaux de dentition en silicone de formes variées", "Filets avec fruits congelés", "Biscottes de dentition (superviser pour éviter étouffement)"],
+      avoid: ["Gels engourdissants à la benzocaïne", "Bijoux de dentition", "Objets durs qui pourraient ébrécher dents émergentes", "Donner analgésique automatiquement — seulement quand vraiment nécessaire"],
+      important: ["Réserver première visite dentaire quand première dent sort ou à 1 an", "Nettoyer les dents deux fois par jour pour prévenir caries", "Ne pas mettre bébé au lit avec biberon (cause caries du biberon)"]
+    }
+  },
+  {
+    title: "Mois 8 — Babillage & Attachement (26 jul – 26 aoû 2026)",
+    highlights: [
+      "🧍 Se hisse debout avec soutien — déplacement le long des meubles commence",
+      "👌 Pince se développe — attrape petits objets avec pouce et doigt",
+      "😰 ANXIÉTÉ FACE AUX ÉTRANGERS au pic — très méfiant des personnes inconnues",
+      "🦷 4 dents de devant présentes (2 en haut, 2 en bas) pour la plupart des bébés",
+      "🍽️ 3 repas solides + collation optionnelle ; auto-alimentation avec les doigts",
+      "🗣️ Babille avec intonation — sonne comme une vraie conversation !",
+      "📋 Objectif : 'Réchauffement lent' avec étrangers, sécuriser pour position debout, langage des signes simple"
+    ],
+    dev: ["Se hisse debout avec soutien", "Babille avec intonation variée", "Développe la prise en pince", "L'anxiété face aux étrangers est commune"],
+    tummy: "Le jeu au sol continue. Encourager le déplacement le long des meubles.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation plus 3 repas solides",
+      "<strong>Tétées de lait :</strong> 3–5 par jour ; ~600–900 ml",
+      "<strong>Horaire des solides :</strong> 3 repas par jour + collation optionnelle",
+      "<strong>Aliments à manger avec les doigts :</strong> Morceaux de banane, morceaux d'avocat mûr, petits pois cuits, œuf brouillé, petites formes de pâtes, poulet effiloché",
+      "<strong>Auto-alimentation :</strong> Encourager bébé à utiliser la prise en pince — offrir petits morceaux mous qu'il peut attraper de manière autonome",
+      "<strong>Repas combinés :</strong> Bébé peut maintenant manger des repas à ingrédients multiples (ex. riz avec lentilles et légumes, pâtes avec sauce tomate)",
+      "<strong>Boissons :</strong> Lait maternel/préparation aux tétées ; eau aux repas. Pas de jus, pas de lait de vache comme boisson principale encore"
+    ],
+    sleep: "12–15 heures, 2 siestes. Routine du coucher cohérente aide avec toute régression du sommeil.",
+    stim: ["Ainsi font font font, jeux de tape-mains", "Empiler et renverser des blocs", "Pointer et nommer des objets tout au long de la journée"],
+    screen: "Pas d'écrans. Les bébés apprennent mieux le langage par interaction humaine en direct, pas par enregistrements.",
+    pedi: null,
+    train: [
+      "<strong>Pratique se hisser debout :</strong> Placez jouets favoris sur le bord du canapé pour que bébé soit motivé à se hisser — développe force jambes et bras. <a href='https://pathways.org/growth-development/7-9-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Se hisser debout</a>",
+      "<strong>Déplacement le long des meubles :</strong> Arrangez les meubles pour que bébé puisse se déplacer d'un meuble à l'autre (petits écarts) — entraîne équilibre et pas latéraux. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-8-to-12-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Mouvement 8–12 mois</a>",
+      "<strong>Jeux de pince :</strong> Offrir petits aliments sûrs (petits pois, cheerios) ou pompons dans un moule à muffins — entraîne précision pouce-et-index",
+      "<strong>Empilage et emboîtement :</strong> Montrez à bébé comment empiler 2–3 blocs et les renverser — développe coordination œil-main et compréhension de la gravité",
+      "<strong>Imitation tape-mains et au revoir :</strong> Pratiquer applaudir, saluer de la main et envoyer des bisous — entraîne planification motrice et gestes sociaux"
+    ],
+    travel: ["Se hisse debout — surveiller risques de basculement de meubles dans lieux inconnus", "Aliments pour les doigts facilitent alimentation en voyage ; emporter sacs à collation refermables", "Anxiété face aux étrangers au pic — permettre temps supplémentaire pour que bébé s'habitue aux nouvelles personnes et lieux", "Pour voyages en voiture : planifier arrêts dans parcs ou aires de repos où bébé peut ramper et bouger", "Garder un matelas à langer imperméable dans votre sac de jour pour changements en déplacement"],
+    triggers: {
+      cryingTriggers: ["Stranger danger — very wary of unfamiliar people", "Separation anxiety at peak intensity", "Bedtime battles as sleep awareness increases", "Bonking head while learning to pull up and cruise", "Teething molars may start (though usually 12-16 mois)", "Not being able to communicate needs"],
+      soothingTechniques: ["'Slow warm-up' with new people — don't force interaction", "Stay calm and reassuring during separation anxiety", "Consistent sleep training if you choose to (many methods available)", "Helmet not needed for normal bumps — supervise play area", "Simple sign language can reduce frustration (more, all done, milk)", "Acknowledge emotions: 'You're sad Mama left. She'll come back!'"],
+      excitementTriggers: ["Pulling up to standing — huge pride!", "Cruising along furniture", "Dropping objects and watching you pick them up (repeat 1000x)", "Emptying containers, cabinets, drawers", "Simple shape sorters", "Stacking rings", "Dancing to music", "Imitating actions (waving, clapping)", "Silly faces and funny sounds from adults"],
+      redFlags: ["Doesn't bear weight on legs when supported", "Cannot sit independently", "Doesn't babble or make consonant sounds", "Doesn't play interactive games (peek-a-boo)", "Shows no interest in familiar people", "Loss of skills previously mastered"]
+    },
+    routines: {
+      readiness: "Routines help manage stranger anxiety and sleep disruptions",
+      routinesToStart: ["Consistent nap transition: moving from 3 to 2 naps (morning ~9am, afternoon ~1-2pm)", "Gradual stranger introduction ritual: let baby observe from safe distance first", "Bedtime at same time every night (6:30-7:30pm typically)", "Morning routine: wake, diaper, breakfast, play — same order daily", "Cleanup routine after playtime: sing cleanup song, put toys away together"],
+      benefits: ["Two-nap schedule provides better consolidated sleep", "Routine reduces anxiety around new people", "Consistent bedtime improves night sleep quality", "Cleanup routine teaches responsibility early", "Predictable day = less fussiness"],
+      tips: ["Watch for signs of nap transition (fighting one nap, very tired)", "Keep nap routine identical to bedtime routine (shortened)", "Stranger anxiety will pass — maintain warm but gradual introductions", "Include baby in daily routines (folding laundry, cooking) at same times"]
+    },
+    teething: {
+      status: "🦷🦷🦷🦷 Four front teeth often present (2 top, 2 bottom)",
+      timeline: "May have a teething 'break' before laterals and molars",
+      teeth: "4-6 teeth average",
+      signs: ["If new teeth coming: increased drooling again", "Biting behavior increases (teething + exploration)", "May resist tooth brushing", "Night waking if new teeth emerging"],
+      remedies: ["Continue with cold teethers and foods", "Toothbrush with water to soothe and clean", "Distraction during active teething", "Maintain bedtime routine even with disruptions", "Pain reliever sparingly for really tough nights"],
+      avoid: ["Punishing biting (it's developmental, not malicious)", "Skipping tooth brushing because baby resists", "Over-using medication"],
+      important: ["Teach 'gentle' — when baby bites, say 'gentle' and model soft touch", "Make tooth brushing a game (let baby brush your teeth, then you do theirs)", "Fluoride toothpaste is safe in tiny amounts (rice grain size)"]
+    }
+  },
+  {
+    title: "Mois 9 — Little Explorer (26 aoû – 26 sep 2026)",
+    highlights: [
+      "🐛 CRAWLS WELL — constant supervision needed!",
+      "🚶 Cruises along furniture — walking preparation",
+      "💉 9-month well-visit: developmental screening, anemia check (Hb/Hct)",
+      "⚠️ 9-month growth spurt: increased hunger, sleep regression",
+      "🦷 6-8 teeth typical; lateral incisors may be erupting",
+      "👉 Gestures: points, waves, claps — major communication milestone",
+      "📋 Objectif : Safe exploration spaces, communication via signs, consistent routines"
+    ],
+    dev: ["Rampe well", "May cruise along furniture", "Uses pincer grasp (thumb & forefinger)", "Understands several words; may say 'mama' or 'dada' (non-specific)"],
+    tummy: "N/A — replaced by active floor play, crawling, pulling up, and cruising.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation plus 3 meals and 1–2 snacks",
+      "<strong>Milk feeds:</strong> 3–4 par jour; ~500–800 ml (17–27 oz)",
+      "<strong>Solids schedule:</strong> 3 meals + 1–2 snacks; solids are becoming a significant calorie source",
+      "<strong>Textures:</strong> Soft table foods — minced or small chopped pieces; avoid purees unless needed for variety",
+      "<strong>New foods:</strong> Soft diced fruits, well-cooked beans, hummus, tofu cubes, oatmeal fingers, cheese cubes",
+      "<strong>Self-feeding:</strong> Baby should be practicing with spoon (pre-loaded by parent); let them explore messily",
+      "<strong>Iron check:</strong> Pediatrician may check iron levels at 9-month visit — continue iron-rich foods (meat, fortified cereals, beans)"
+    ],
+    sleep: "12–14 heures, transitioning from 2 naps to 1–2 naps. Separation anxiety can affect sleep.",
+    stim: ["Simple shape sorters", "Reading together — let baby turn pages", "Hide-and-seek with toys"],
+    screen: "Pas d'écrans. The AAP emphasizes that interactive play is the best way to learn at this age.",
+    pedi: "9-month visite de contrôle: developmental screening, anemia check (Hb/Hct).",
+    train: [
+      "<strong>Crawling speed drills:</strong> Crawl alongside baby and playfully 'race' them — increases speed, coordination, and confidence. <a href='https://pathways.org/growth-development/7-9-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Crawling activities</a>",
+      "<strong>Controlled lowering from standing:</strong> Help baby learn to bend their knees and lower to sitting from standing — prevents falling backward. <a href='https://pathways.org/growth-development/10-12-mois/activities/' target='_blank' rel='noopener'>Pathways.org — 10–12 month activities</a>",
+      "<strong>Climbing cushion mountain:</strong> Stack firm cushions or use a couch cushion on the floor — let baby climb up and over (supervised). Builds strength, balance, and spatial awareness",
+      "<strong>Shape sorter introduction:</strong> Guide baby's hand to place shapes into holes — trains fine motor precision and problem-solving",
+      "<strong>Pointing practice:</strong> Point at objects and name them; encourage baby to point too — builds communication and fine motor control. <a href='https://www.cdc.gov/ncbddd/actearly/milestones/milestones-9mo.html' target='_blank' rel='noopener'>CDC — 9 month milestones</a>"
+    ],
+    travel: ["Baby crawls fast — constant supervision in non-baby-proofed spaces", "Self-feeding skills make restaurant travel more feasible; bring a bib and portable placemat", "Consider travel health insurance that covers infants for international trips", "Pool/water safety: arm's-reach supervision at all times; swim diapers required", "Maintain bedtime and nap routines as closely as possible to avoid overtiredness"],
+    growth: {
+      timing: "9 mois (around 37 semaines)",
+      duration: "4-7 jours",
+      signs: ["Increased hunger — may want larger portions of solids and more milk", "Sommeil regression — waking more at night", "Separation anxiety intensifies", "May be extra cranky or easily frustrated", "Constantly on the move, very active"],
+      howToHandle: ["Offer larger portions of solids if baby is consistently finishing meals", "Continue offering 3-4 milk feeds par jour", "Separation anxiety is peaking — practice short separations and quick returns to build trust", "Baby is learning to crawl, cruise, or pull up — burns more calories and needs more food", "Maintain consistent sleep routines despite regressions", "Offer safe spaces for active play to burn energy"],
+      aftermath: ["Major motor milestones often emerge after this spurt (crawling, pulling to stand)", "Language comprehension increases significantly", "May start using gestures like waving or pointing", "Weight gain continues steadily — may need larger diaper size"]
+    },
+    triggers: {
+      cryingTriggers: ["Separation anxiety still very strong", "Frustration at physical limitations", "Can't communicate specific wants yet", "Sommeil disturbances from practicing new skills at night", "Getting into unsafe situations and being redirected", "Teething continues"],
+      soothingTechniques: ["Teaching simple signs (more, all done, milk, help)", "Narrating the day to build vocabulary", "Safe 'yes' spaces where baby can explore freely", "Offering choices when possible (two safe options)", "Consistent responses to limit-setting", "Comfort object for sleep and stress"],
+      excitementTriggers: ["Crawling fast and exploring everywhere", "Pulling to stand and cruising", "Opening and closing things", "Putting small objects in containers", "Knocking things over", "Making things happen (cause-and-effect)", "Climbing (supervised!)", "Books with flaps", "Balls to roll and chase", "Imitating daily activities (cleaning, cooking)"],
+      redFlags: ["Not sitting well independently", "Doesn't crawl, scoot, or show any form of mobility", "No babbling with consonants", "Doesn't respond to own name", "Doesn't recognize familiar people", "Doesn't point or use gestures", "Seems very stiff or floppy"]
+    },
+    routines: {
+      readiness: "Routines crucial for managing separation anxiety and building independence",
+      routinesToStart: ["Independent play routine: start with 5 minutes in safe space while you're visible", "Mealtime participation: baby sits at table for all family meals", "Pre-outing routine: shoes on, jacket, wave goodbye to house/pets", "Bath-book-bed sequence every single night", "Weekend routine different from weekday but still structured"],
+      benefits: ["Independence within safe boundaries", "Baby knows what to expect next — reduces tantrums", "Mealtimes become social learning time", "Consistent sleep despite developmental leaps", "Routine flexibility teaches adaptability"],
+      tips: ["Gradually increase independent play time as baby tolerates", "Non-negotiable bedtime despite protests", "Visual schedule can help (photos of routine steps)", "Same routine in different locations (grandparents, vacation)", "Involve baby in routine choices: 'which pajamas tonight?'"]
+    },
+    teething: {
+      status: "🦷🦷🦷🦷 Upper and lower lateral incisors may be erupting",
+      timeline: "Upper laterals: 9-11 mois; Lower laterals: 10-12 mois",
+      teeth: "4-8 teeth by end of month (wide variation is normal)",
+      signs: ["Renewed teething symptoms after a break", "More drooling", "Finger in mouth constantly", "Fussy during the day, restless at night", "May reject foods that require chewing"],
+      remedies: ["Frozen washcloths", "Cold cucumber or carrot (supervised, large enough not to break)", "Chilled pacifier if baby uses one", "Teething crackers", "Distraction with activity", "Pain reliever if truly uncomfortable"],
+      avoid: ["Forcing solid foods during active teething", "Giving bottle/nursing every time baby fusses (can create sleep association)", "Hard frozen items"],
+      important: ["Lateral incisors can be sharp — may bite more during nursing/feeding", "Continue twice-daily tooth brushing", "If no teeth by 12 mois, mention to pediatrician (usually not concerning, but worth noting)"]
+    }
+  },
+  {
+    title: "Mois 10 — Standing Tall (26 sep – 26 oct 2026)",
+    highlights: [
+      "🧍 Stands briefly without support!",
+      "👋 Waves bye-bye consistently — social gestures mastered",
+      "🦷 6-8 teeth; lateral incisors still coming",
+      "🍽️ Eating family foods (adjusted texture) — ¼ to ⅓ adult portions",
+      "🗣️ Understands simple instructions: 'give me the ball'",
+      "💤 12-14 heures; may transition from 2 naps to 1-2",
+      "📋 Objectif : Self-care routines (tooth brushing), helping with tasks, social play"
+    ],
+    dev: ["Stands briefly without support", "Waves bye-bye", "Imitates gestures and sounds", "Enjoys dropping and throwing objects"],
+    tummy: "Active play replaces tummy time. Encourage standing, stepping, and climbing safely.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation plus family-style meals",
+      "<strong>Milk feeds:</strong> 3–4 par jour; ~500–700 ml (17–24 oz)",
+      "<strong>Solids schedule:</strong> 3 meals + 2 snacks; baby eats many of the same foods as the family (adjusted texture)",
+      "<strong>Portions:</strong> About ¼ to ⅓ of an adult portion; let baby's appetite guide quantity",
+      "<strong>Foods:</strong> Chopped table foods — soft-cooked vegetables, diced fruit, small pieces of meat/fish, whole-grain bread, pasta, rice",
+      "<strong>Cup practice:</strong> Encourage drinking from an open cup (with help) or straw cup",
+      "<strong>Avoid:</strong> Honey (until 12 mois), cow's milk as main drink (until 12 mois), added salt/sugar, choking hazards (whole grapes, hot dogs, raw carrots, popcorn, nuts)"
+    ],
+    sleep: "12–14 heures with 1–2 naps. Consistent routines are key.",
+    stim: ["Nesting cups and stacking rings", "Music and dancing together", "Simple verbal instructions ('give me the ball')"],
+    screen: "Pas d'écrans. Engaging with real-world objects builds better neural connections.",
+    pedi: null,
+    train: [
+      "<strong>Freestanding practice:</strong> Let baby stand holding a toy with both hands, then gently let go for a few seconds — builds balance confidence. <a href='https://pathways.org/growth-development/10-12-mois/activities/' target='_blank' rel='noopener'>Pathways.org — 10–12 month activities</a>",
+      "<strong>Furniture cruising circuits:</strong> Set up a loop of furniture so baby can cruise in a continuous path — trains endurance and coordination. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-8-to-12-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Movement 8–12 mois</a>",
+      "<strong>Squat-to-stand with toys:</strong> Place toys on the floor near a support surface — baby squats to pick them up and stands back up. Excellent for quadriceps and glutes",
+      "<strong>Dropping and throwing:</strong> Give baby soft balls or beanbags to throw — develops arm strength, release control, and spatial awareness",
+      "<strong>Stair climbing (supervised):</strong> Let baby crawl up 2–3 carpeted stairs with you right behind — builds strength and teaches safe navigation. Always supervise closely"
+    ],
+    travel: ["Standing and cruising — watch for sharp edges on hotel furniture and unfamiliar tables", "Shoes with flexible soles help if walking on rough or hot outdoor surfaces", "Toddler-proof any accommodation: lock balcony doors, check stair gates", "Snack cups with lids prevent spills during car rides and flights", "At this age, exploring new environments is stimulating — short outings to local parks, markets, or gardens are great"],
+    triggers: {
+      cryingTriggers: ["Falling while cruising or attempting to stand", "Wanting to walk but can't yet", "Communication frustration — understands more than they can express", "Testing boundaries — upset when told 'no'", "Wanting independence but needing help", "Separation anxiety ongoing"],
+      soothingTechniques: ["Let them practice standing/cruising in safe spaces", "Baby-proof thoroughly to say 'yes' more than 'no'", "Teach gentle touch with 'soft hands' modeling", "Sign language increasingly helpful", "Redirect rather than just saying 'no' — offer alternative", "Extra patience during tantrums — emotion coaching begins"],
+      excitementTriggers: ["Standing independently for a few seconds", "Cruising furniture", "Push toys and walkers", "Throwing and dropping games", "Balls of all sizes", "Stacking blocks higher", "Simple pretend play (feeding doll)", "Books they can 'read' by turning pages", "Finger painting (edible paint)", "Climbing stairs (supervised)", "Dancing and music"],
+      redFlags: ["Doesn't pull to stand with support", "No pincer grasp (thumb and finger)", "Doesn't search for hidden objects", "Doesn't say single words or use gestures", "Doesn't recognize familiar people", "Loses previously acquired skills"]
+    },
+    routines: {
+      readiness: "Routines help toddler-in-training navigate big emotions and new skills",
+      routinesToStart: ["Self-care routines: brush teeth after breakfast and before bed, wash hands before meals", "Two consistent naps with identical pre-nap routine", "Contribution routine: baby 'helps' with age-appropriate tasks (putting things in trash)", "Limit-setting routine: consistent response to 'no' — redirect, explain briefly, distract", "Social routine: regular interaction with other babies/toddlers"],
+      benefits: ["Self-care foundations for toddlerhood", "Helping builds self-esteem and cooperation", "Consistent limits reduce power struggles", "Social exposure supports language and sharing skills", "Two solid naps = better nighttime sleep"],
+      tips: ["Make tooth-brushing fun (sing a song, let baby hold spare brush)", "Let baby 'help' even if it slows you down — builds skills", "Consistent consequences for unsafe behavior (remove from situation)", "Playgroups or library time at same day/time weekly", "Prepare for nap drop to 1 nap around 12-18 mois"]
+    },
+    teething: {
+      status: "🦷🦷🦷🦷🦷🦷 mai have 6-8 teeth; laterals still coming for some",
+      timeline: "First molars may start as early as 12-16 mois (painful!)",
+      teeth: "6-8 teeth average by now",
+      signs: ["If molars starting: significant pain (molars are biggest, most painful teeth)", "Drooling, irritability, sleep disruption", "Ear pulling (referred pain from molars)", "Cheek rubbing", "Loose stools (from swallowed saliva)"],
+      remedies: ["Frozen bagel or teething biscuit", "Cold sippy cup with water", "Gentle cheek/jaw massage", "Pain reliever before sleep if needed (consult pediatrician for dosing)", "Extra patience and comfort"],
+      avoid: ["Neglecting oral hygiene because baby resists", "Assuming all fussiness is teething (could be illness, growth spurt, etc.)", "Teething necklaces or bracelets"],
+      important: ["Molars take WEEKS to fully erupt — long process", "First dental visit should happen by 12 mois or when first tooth appeared", "Keep brushing teeth even when baby protests — cavities can start early"]
+    }
+  },
+  {
+    title: "Mois 11 — Almost Walking (26 oct – 26 nov 2026)",
+    highlights: [
+      "👣 FIRST STEPS may happen!",
+      "🗣️ Says 1-2 words with meaning: 'mama', 'dada', 'uh-oh'",
+      "🦷 6-8 teeth; FIRST MOLARS may start (12-16 mo) — most painful!",
+      "🍼 Begin bottle weaning — goal is no bottles by 12-15 mois",
+      "👉 Points to desired objects — communication improving",
+      "😤 Tantrums emerging — 'me do it!' phase begins",
+      "📋 Objectif : Bottle transition, two-choice routine, pre-transition warnings, first steps support"
+    ],
+    dev: ["May take first steps", "Says 1–2 words with meaning", "Follows simple instructions", "Points to desired objects"],
+    tummy: "Active floor and standing play. Support first steps if baby shows interest.",
+    feed: [
+      "<strong>Type :</strong> Lait maternel ou préparation plus 3 meals and 2 snacks",
+      "<strong>Milk feeds:</strong> 3 par jour; ~500–600 ml (17–20 oz); solids are now the main calorie source",
+      "<strong>Solids schedule:</strong> 3 meals + 2 snacks; baby should be eating a wide variety of foods from all food groups",
+      "<strong>Textures:</strong> Soft chopped/diced table foods; minimal purees",
+      "<strong>Self-feeding:</strong> Baby uses fingers and attempts spoon; provide thick foods (yogurt, porridge) for spoon practice",
+      "<strong>Bottle transition:</strong> Begin reducing bottle feeds; practice with open cup and straw cup — goal is weaned from bottle by 12–15 mois",
+      "<strong>Approaching 12 mois:</strong> Plan the transition from formula to whole cow's milk (or continue breastfeeding) — discuss with pediatrician"
+    ],
+    sleep: "12–14 heures. Most babies are on 1–2 naps. Keep wind-down routine consistent.",
+    stim: ["Push toys and walkers (supervised)", "Simple puzzles (1–2 pieces)", "Narrate your day to build vocabulary"],
+    screen: "Pas d'écrans. Real-time social interaction remains the gold standard for language development.",
+    pedi: null,
+    train: [
+      "<strong>Supported walking:</strong> Hold both of baby's hands and walk together; gradually move to holding just one hand. <a href='https://pathways.org/growth-development/10-12-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Walking activities</a>",
+      "<strong>Push toy walking:</strong> Give baby a sturdy push toy (weighted cart or walker) to push across the room — builds confidence for independent walking. <a href='https://www.healthychildren.org/English/ages-stages/baby/Pages/Movement-8-to-12-Months.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Movement 8–12 mois</a>",
+      "<strong>Standing balance games:</strong> While baby stands supported, hand them toys so they must balance on one hand — trains weight distribution",
+      "<strong>Stepping over obstacles:</strong> Place a pool noodle or rolled towel on the floor and help baby step over it — teaches foot clearance and body planning",
+      "<strong>Crayon scribbling:</strong> Tape paper to the floor and give baby a large crayon — trains fine motor grip (palmar grasp transitioning to a more mature hold)"
+    ],
+    travel: ["Baby may be taking first steps — bring supportive shoes for uneven terrain", "Transition from carry-on bassinet to own seat on flights (FAA recommends car seat on plane)", "Pack comfort items: favorite toy, blanket, sippy cup", "Be flexible with itineraries — overtired toddlers are harder to manage", "Insect repellent with up to 30% DEET is now considered safe by AAP; apply to clothing when possible"],
+    triggers: {
+      cryingTriggers: ["First steps = lots of falls", "Toddler tantrums emerging (can't have what they want)", "Food throwing and mealtime battles", "Asserting independence — 'me do it!'", "Difficulty transitioning between activities", "Molars teething (12-16 mois)", "Hitting/biting exploration (not aggression yet)"],
+      soothingTechniques: ["Natural consequences for safe situations", "Offer choices: 'red cup or blue cup?'", "Transition warnings: '5 more minutes then bath time'", "Name emotions: 'You're angry because we can't play now'", "Physical outlet for energy before quiet time", "Consistent boundaries with empathy", "Model gentle behavior rather than punishing exploration"],
+      excitementTriggers: ["First independent steps!", "Walking with push toys", "Climbing everything", "Opening and closing doors", "Turning light switches on/off", "Flushing toilets", "Simple puzzles (2-3 pieces)", "Pretend play (phone, cooking)", "Helping with tasks (putting things in trash)", "Bubbles", "Playground equipment"],
+      redFlags: ["Not standing with support", "Doesn't use gestures (point, wave)", "Doesn't say any words", "Doesn't understand simple instructions", "Shows no interest in exploring", "Loss of skills", "No eye contact or shared attention"]
+    },
+    routines: {
+      readiness: "Approaching toddlerhood — strong routines prevent 'terrible twos' intensity",
+      routinesToStart: ["Transition from bottle routine: cup at meals, bottle only at wake/sleep (then eliminate)", "Two-choice routine for cooperation: 'Walk to bath or be carried?'", "Calm-down routine for tantrums: safe space, validate feelings, offer comfort when ready", "Pre-transition warnings: '2 more minutes playing, then we clean up'", "Consistent 'no' items: dangerous things get same response every time"],
+      benefits: ["Bottle weaning is easier with routine", "Choices build autonomy without losing boundaries", "Tantrum routine keeps you calm and effective", "Warnings reduce surprise and meltdowns", "Consistency teaches what's truly non-negotiable"],
+      tips: ["Start bottle weaning now — goal is no bottles by 12-15 mois", "Use timer for transitions (visual or auditory cue)", "Stay calm during tantrums — your regulation teaches theirs", "Praise cooperation with choices", "Bedtime stays sacred even as baby tests limits"]
+    },
+    teething: {
+      status: "🦷🦷🦷🦷🦷🦷🦷🦷 Lateral incisors usually present; molars may start",
+      timeline: "First molars typically erupt 12-16 mois (most painful teeth)",
+      teeth: "6-8 teeth typical, some may have up to 10",
+      signs: ["Molar pain is significant — large surface area breaking through", "Increased fussiness, clingy behavior", "Night waking even if previously sleeping through", "May refuse to chew foods", "Drooling, loose stools", "Low-grade fever possible (<100.4°F)"],
+      remedies: ["Frozen washcloth for back gum chewing", "Cold foods: frozen peas in mesh feeder, popsicles", "Teething crackers for back teeth", "Pain reliever before bed if needed", "Extra patience — this is rough!", "Cold sippy cup to drink and chew on spout"],
+      avoid: ["Stopping oral hygiene", "Assuming sleep regression is behavioral (may be molar pain)", "Over-medicating"],
+      important: ["FIRST DENTAL VISIT by age 1 (now!) — establish dental home", "Brush teeth morning and night with tiny smear of fluoride toothpaste", "No bottles in bed — causes tooth decay", "Molars can take 4-6 semaines to fully erupt"]
+    }
+  },
+  {
+    title: "Mois 12 — Happy Birthday! (26 nov – 26 Dec 2026)",
+    highlights: [
+      "🎂 FIRST BIRTHDAY! You made it through year one!",
+      "👣 mai walk independently or cruise confidently",
+      "💉 12-month vaccins: Hep A, MMR, varicella — developmental screening",
+      "🥛 TRANSITION TO WHOLE MILK (or continue breastfeeding)",
+      "🦷 6-12 teeth (avg 8); FIRST MOLARS erupting 12-16 mo — VERY painful!",
+      "🦷 FIRST DENTAL VISIT by age 1 (schedule if not done)",
+      "🗣️ Says 2-3 words; understands much more",
+      "📋 Objectif : Bottle weaning complete, whole milk transition, celebrate milestones, toddler routines"
+    ],
+    dev: ["May walk independently or cruise confidently", "Says 2–3 words ('mama', 'dada', 'uh-oh')", "Follows simple directions", "Shows preferences for people and toys"],
+    tummy: "N/A — replaced by walking, climbing, and active play.",
+    feed: [
+      "<strong>Type :</strong> Transition to whole cow's milk (or continue breastfeeding) + family meals",
+      "<strong>Cow's milk:</strong> 480–720 ml (16–24 oz) par jour of whole (full-fat) milk; do not exceed 720 ml to avoid iron-deficiency anemia",
+      "<strong>Solids schedule:</strong> 3 meals + 2 snacks; baby eats what the family eats (cut appropriately)",
+      "<strong>Daily nutrition goals:</strong> ~900–1,000 calories/day from a mix of grains, proteins, fruits, vegetables, and dairy",
+      "<strong>Bottle weaning:</strong> Wean from bottle entirely by 12–15 mois; switch to open cup or straw cup",
+      "<strong>Now safe:</strong> Honey, whole cow's milk as main drink, pasteurized soft cheeses",
+      "<strong>Still avoid:</strong> Choking hazards (whole grapes — quarter them, hot dogs — slice lengthwise, raw carrots, popcorn, nuts), added sugar and excessive salt, unpasteurized dairy, raw/undercooked meat or eggs"
+    ],
+    sleep: "11–14 heures with 1–2 naps. Most toddlers settle into 1 afternoon nap by 15–18 mois.",
+    stim: ["Shape sorters, simple puzzles", "Coloring with large crayons", "Outdoor play and nature walks", "Parallel play with other children"],
+    screen: "Avoid screen media other than video chatting until 18 mois (AAP). If you choose to introduce at 18–24 mois, co-view high-quality content.",
+    pedi: "12-month visite de contrôle: Hep A, MMR, varicella vaccins. Developmental screening.",
+    train: [
+      "<strong>Independent walking practice:</strong> Create a safe, open space and encourage baby to walk between two adults — gradually increase the distance. <a href='https://pathways.org/growth-development/10-12-mois/activities/' target='_blank' rel='noopener'>Pathways.org — Walking milestones</a>",
+      "<strong>Walking on different surfaces:</strong> Grass, sand, soft mats — different textures challenge balance and sensory integration. Barefoot is best for developing foot muscles. <a href='https://www.healthychildren.org/English/ages-stages/toddler/Pages/default.aspx' target='_blank' rel='noopener'>HealthyChildren.org — Toddler development</a>",
+      "<strong>Bending and picking up:</strong> Scatter toys on the floor and ask baby to pick them up — practices squatting and returning to standing (builds strength and balance)",
+      "<strong>Simple ball kick:</strong> Roll a large, soft ball toward baby's feet and encourage them to kick — early gross motor coordination for legs",
+      "<strong>Stacking towers:</strong> Build 3–4 block towers together — trains fine motor precision, hand-eye coordination, and patience. <a href='https://pathways.org/growth-development/10-12-mois/milestones/' target='_blank' rel='noopener'>Pathways.org — 10–12 month milestones</a>",
+      "<strong>Dance party:</strong> Play music and dance together — moving to rhythm trains balance, bilateral coordination, and is a great bonding activity"
+    ],
+    travel: ["Walking toddlers need sturdy shoes and constant supervision in new environments", "Rear-facing car seat remains the safest option until at least age 2 (AAP recommendation)", "For international travel: ensure MMR and varicella vaccins (given at 12 mois) are administered at least 2 semaines before departure", "A toddler backpack leash can be helpful in airports and crowded tourist areas", "Pack a portable potty seat if toilet training is approaching", "Consider travel medical insurance and know the location of the nearest hospital at your destination"],
+    triggers: {
+      cryingTriggers: ["Full-blown tantrums (normal developmental stage)", "Wanting to do things independently but lacking skills", "Post-vaccine fussiness (12-month shots)", "Molar teething pain", "Frustration at limited vocabulary", "Not getting desired object or activity", "Transitioning from bottle (if weaning)", "Asserting will — the beginning of 'terrible twos'"],
+      soothingTechniques: ["Stay calm during tantrums — your regulation helps theirs", "Safe space for tantrum (not isolation, just safe environment)", "Validate feelings: 'I see you're upset'", "Distraction still works sometimes", "Consistent routines reduce meltdowns", "Ensure adequate sleep and regular meals — hunger/tiredness = tantrums", "Pick battles — not everything needs to be a 'no'", "Offer acceptable choices to give sense of control"],
+      excitementTriggers: ["Walking independently — everywhere!", "Running (more like fast walking)", "Dancing to music with movement", "Stacking multiple blocks", "Shape sorters", "Pretend play (feeding baby, talking on phone)", "Helping with chores (sweeping, wiping)", "Playing with other children (parallel play)", "Animals — petting zoos, books, videos", "Outdoor exploration", "Painting and coloring"],
+      redFlags: ["Not walking with support", "Doesn't say any single words", "Doesn't use gestures (point, wave, shake head)", "Doesn't understand simple commands", "Loses skills they previously had", "Doesn't make eye contact", "Doesn't show interest in people", "By 16 mois: no single words is a concern — early intervention recommended"]
+    },
+    routines: {
+      readiness: "ONE YEAR OLD! — Established routines are foundation for toddler success",
+      routinesToStart: ["Full toddler schedule: wake 6:30-7:30am, breakfast, play, nap 9-10am (if 2 naps) or 12-2pm (if 1 nap), lunch, play, nap (if 2 naps), dinner 5:30pm, bath, bed 7-8pm", "Language-building routine: read books at same times daily (after nap, before bed)", "Social skills routine: regular playdates, classes, or park time", "Responsibility routine: baby has 'jobs' (putting napkins on table, feeding pet)", "Celebration routine: acknowledge milestones and efforts, not just achievements"],
+      benefits: ["Predictable schedule reduces tantrums dramatically", "Regular reading builds vocabulary (crucial 12-18 month language explosion)", "Social exposure teaches sharing, empathy, parallel play", "Responsibilities build competence and self-esteem", "Positive reinforcement encourages trying new things"],
+      tips: ["Most babies transition to 1 nap between 12-18 mois — watch for cues", "Read the same books repeatedly — repetition builds language", "Playmates don't need to be same age — variety is good", "Cheer for attempts, not just success — 'You tried so hard!'", "Keep routines but allow flexibility — rigidity causes stress", "CELEBRATE THIS MILESTONE — you've completed baby's first year together! 🎉"]
+    },
+    teething: {
+      status: "🦷🦷🦷🦷🦷🦷🦷🦷 Most have 8 teeth; molars erupting or coming soon",
+      timeline: "First molars: 12-16 mois (4 molars total); Canines: 16-20 mois; Second molars: 20-30 mois",
+      teeth: "6-12 teeth (average is 8 by first birthday)",
+      signs: ["If molars active: this is the HARDEST teething period", "Significant pain, sleep disruption", "May regress in eating and sleeping", "Irritable during day", "Chewing on everything, including furniture"],
+      remedies: ["All previous remedies still work", "Let baby chew on cold, wet washcloth", "Massage gums with clean finger", "Offer cold foods baby can self-feed", "Pain reliever at bedtime if pediatrician approves", "LOTS of patience and cuddles — this is tough"],
+      avoid: ["Giving up on oral hygiene", "Blaming all behavior on teething (could be development, illness, etc.)", "Using unapproved teething products"],
+      important: ["✅ FIRST DENTAL VISIT NOW if not done yet!", "By 12 mois, baby should see dentist", "Brush twice daily with fluoride toothpaste (rice-grain size)", "Wean from bottle by 12-15 mois to prevent tooth decay", "Full set of 20 baby teeth by age 2.5-3 years", "Teething continues through age 2-3, but molars at 12-16 mois are the hardest"]
+    }
+  }
+];
+
+// Build timeline
+const timeline = document.getElementById('timeline');
+
+mois.forEach((m, i) => {
+  const card = document.createElement('div');
+  card.className = 'month-card';
+
+  let bodyHTML = '';
+
+  // Month Highlights (appears first)
+  if (m.highlights) {
+    bodyHTML += `<div class="highlights-box"><h3>📌 Points Clés du Mois ${i + 1}</h3><ul>${m.highlights.map(h => `<li>${h}</li>`).join('')}</ul></div>`;
+  }
+
+  // Development
+  bodyHTML += `<div class="section"><span class="badge badge-dev">Développement</span><ul>${m.dev.map(d => `<li>${d}</li>`).join('')}</ul></div>`;
+
+  // Tummy Time
+  bodyHTML += `<div class="section"><span class="badge badge-tummy">Sur le Ventre</span><p>${m.tummy}</p></div>`;
+
+  // Feeding
+  if (Array.isArray(m.feed)) {
+    bodyHTML += `<div class="section"><span class="badge badge-feed">Alimentation</span><ul>${m.feed.map(f => `<li>${f}</li>`).join('')}</ul></div>`;
+  } else {
+    bodyHTML += `<div class="section"><span class="badge badge-feed">Alimentation</span><p>${m.feed}</p></div>`;
+  }
+
+  // Sommeil
+  bodyHTML += `<div class="section"><span class="badge badge-sleep">Sommeil</span><p>${m.sleep}</p></div>`;
+
+  // Stimulation
+  bodyHTML += `<div class="section"><span class="badge badge-stim">Stimulation</span><ul>${m.stim.map(s => `<li>${s}</li>`).join('')}</ul></div>`;
+
+  // Screen Time
+  bodyHTML += `<div class="section"><span class="badge badge-screen">Écrans</span><p>${m.screen}</p></div>`;
+
+  // Growth Spurts
+  if (m.growth) {
+    bodyHTML += `<div class="section"><span class="badge badge-growth">Poussée de Croissance</span>`;
+    bodyHTML += `<p><strong>Moment :</strong> ${m.growth.timing} (dure ${m.growth.duration})</p>`;
+    bodyHTML += `<p><strong>Signes à surveiller :</strong></p><ul>${m.growth.signs.map(s => `<li>${s}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>Comment gérer :</strong></p><ul>${m.growth.howToHandle.map(h => `<li>${h}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>À quoi s'attendre après :</strong></p><ul>${m.growth.aftermath.map(a => `<li>${a}</li>`).join('')}</ul>`;
+    bodyHTML += `</div>`;
+  }
+
+  // Crying & Comfort Triggers
+  if (m.triggers) {
+    bodyHTML += `<div class="section"><span class="badge badge-trigger">Pleurs & Réconfort</span>`;
+    bodyHTML += `<p><strong>Ce qui déclenche les pleurs :</strong></p><ul>${m.triggers.cryingTriggers.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>Techniques d'apaisement :</strong></p><ul>${m.triggers.soothingTechniques.map(s => `<li>${s}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>Ce qui excite bébé :</strong></p><ul>${m.triggers.excitementTriggers.map(e => `<li>${e}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>⚠️ Signes d'alerte — consulter le pédiatre :</strong></p><ul>${m.triggers.redFlags.map(r => `<li>${r}</li>`).join('')}</ul>`;
+    bodyHTML += `</div>`;
+  }
+
+  // Routines & Structure
+  if (m.routines) {
+    bodyHTML += `<div class="section"><span class="badge badge-routine">Routines & Structure</span>`;
+    bodyHTML += `<p><strong>Maturité développementale :</strong> ${m.routines.readiness}</p>`;
+    bodyHTML += `<p><strong>Routines à commencer :</strong></p><ul>${m.routines.routinesToStart.map(r => `<li>${r}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>Bénéfices :</strong></p><ul>${m.routines.benefits.map(b => `<li>${b}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>💡 Conseils :</strong></p><ul>${m.routines.tips.map(t => `<li>${t}</li>`).join('')}</ul>`;
+    bodyHTML += `</div>`;
+  }
+
+  // Teething
+  if (m.teething) {
+    bodyHTML += `<div class="section"><span class="badge badge-teething">Dentition</span>`;
+    bodyHTML += `<p><strong>Statut :</strong> ${m.teething.status}</p>`;
+    bodyHTML += `<p><strong>Calendrier :</strong> ${m.teething.timeline}</p>`;
+    bodyHTML += `<p><strong>Nombre de dents :</strong> ${m.teething.teeth}</p>`;
+    bodyHTML += `<p><strong>Signes de dentition :</strong></p><ul>${m.teething.signs.map(s => `<li>${s}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>Remèdes sûrs :</strong></p><ul>${m.teething.remedies.map(r => `<li>${r}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>⚠️ À éviter :</strong></p><ul>${m.teething.avoid.map(a => `<li>${a}</li>`).join('')}</ul>`;
+    bodyHTML += `<p><strong>❗ Important :</strong></p><ul>${m.teething.important.map(i => `<li>${i}</li>`).join('')}</ul>`;
+    bodyHTML += `</div>`;
+  }
+
+  // Training
+  if (m.train) {
+    bodyHTML += `<div class="section"><span class="badge badge-train">Exercices</span><ul>${m.train.map(t => `<li>${t}</li>`).join('')}</ul></div>`;
+  }
+
+  // Travel
+  if (m.travel) {
+    bodyHTML += `<div class="section"><span class="badge badge-travel">Voyage</span><ul>${m.travel.map(t => `<li>${t}</li>`).join('')}</ul></div>`;
+  }
+
+  // Pediatric Visits
+  if (m.pedi) {
+    bodyHTML += `<div class="section"><span class="badge badge-pedi">Visites Pédiatriques</span><p>${m.pedi}</p></div>`;
+  }
+
+  card.innerHTML = `
+    <div class="month-dot"></div>
+    <div class="card-header" role="button" tabindex="0" aria-expanded="false" aria-controls="body-${i}">
+      <h2>${m.title}</h2>
+      <span class="arrow">&#9660;</span>
+    </div>
+    <div class="card-body" id="body-${i}">
+      <div class="card-body-inner">${bodyHTML}</div>
+    </div>`;
+
+  timeline.appendChild(card);
+
+  // Toggle expand/collapse
+  const header = card.querySelector('.card-header');
+  const body = card.querySelector('.card-body');
+
+  function toggle() {
+    const isOpen = card.classList.toggle('open');
+    header.setAttribute('aria-expanded', isOpen);
+    if (isOpen) {
+      body.style.maxHeight = body.scrollHeight + 'px';
+    } else {
+      body.style.maxHeight = '0';
+    }
+  }
+
+  header.addEventListener('click', toggle);
+  header.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+});
+
+// Scroll-reveal with IntersectionObserver
+const revealTargets = document.querySelectorAll('.month-card, .info-section');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+
+revealTargets.forEach(el => observer.observe(el));
+
+// ===== Quiz & Personalization =====
+
+// Get quiz data from localStorage
+function getQuizData() {
+  const data = localStorage.getItem('babyQuizData');
+  return data ? JSON.parse(data) : null;
+}
+
+// Save quiz data to localStorage
+function saveQuizData(data) {
+  localStorage.setItem('babyQuizData', JSON.stringify(data));
+}
+
+// Show/hide quiz modal
+function showQuiz() {
+  document.getElementById('quizOverlay').classList.add('active');
+}
+
+function hideQuiz() {
+  document.getElementById('quizOverlay').classList.remove('active');
+}
+
+// Calculate age in mois from birth date
+function calculateAgeInMonths(birthDate) {
+  const birth = new Date(birthDate);
+  const today = new Date();
+  const mois = (today.getFullYear() - birth.getFullYear()) * 12 + (today.getMonth() - birth.getMonth());
+
+  // If the current day is before the birth day of the month, subtract one
+  if (today.getDate() < birth.getDate()) {
+    return Math.max(0, mois - 1);
+  }
+  return Math.max(0, mois);
+}
+
+// Apply personalization to the page
+function applyPersonalization(data) {
+  if (!data) return;
+
+  // Update header with baby's name
+  const headerTitle = document.querySelector('.header h1');
+  const headerSubtitle = document.querySelector('.header p');
+
+  if (data.babyName) {
+    headerTitle.textContent = `Grossesse et Première Année de ${data.babyName} — Guide Complet`;
+  }
+
+  if (data.birthDate) {
+    const birthDateFormatted = new Date(data.birthDate).toLocaleDateString('fr-FR', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+    const ageInMonths = calculateAgeInMonths(data.birthDate);
+    const locationText = data.location ? ` • ${data.location}` : '';
+    headerSubtitle.innerHTML = `Né(e) le ${birthDateFormatted} • Actuellement ${ageInMonths} mois${locationText}`;
+
+    // Auto-expand the current month card
+    // Note: First 10 cards are pregnancy months (9 months + birth), then baby months start
+    setTimeout(() => {
+      const pregnancyAndBirthCards = 10; // 9 pregnancy months + 1 birth card
+      const currentMonthIndex = pregnancyAndBirthCards + ageInMonths;
+      const currentMonthCard = document.querySelectorAll('.month-card')[currentMonthIndex];
+      if (currentMonthCard) {
+        const header = currentMonthCard.querySelector('.card-header');
+        if (header && !currentMonthCard.classList.contains('open')) {
+          header.click();
+          // Scroll to current month
+          currentMonthCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+    }, 500);
+  }
+
+  // Show settings button after quiz is completed
+  document.getElementById('settingsBtn').style.display = 'flex';
+}
+
+// Handle quiz form submission
+document.getElementById('quizForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  // Collect form data
+  const formData = new FormData(e.target);
+  const data = {
+    babyName: formData.get('babyName'),
+    birthDate: formData.get('birthDate'),
+    location: formData.get('location'),
+    milestones: formData.getAll('milestone'),
+    concerns: formData.getAll('concern'),
+    completedAt: new Date().toISOString()
+  };
+
+  // Save to localStorage
+  saveQuizData(data);
+
+  // Hide quiz
+  hideQuiz();
+
+  // Apply personalization
+  applyPersonalization(data);
+});
+
+// Settings button - retake quiz
+document.getElementById('settingsBtn').addEventListener('click', () => {
+  // Pre-fill form with existing data
+  const data = getQuizData();
+  if (data) {
+    document.getElementById('babyName').value = data.babyName || '';
+    document.getElementById('birthDate').value = data.birthDate || '';
+    document.getElementById('location').value = data.location || '';
+
+    // Check milestone checkboxes
+    data.milestones?.forEach(milestone => {
+      const checkbox = document.querySelector(`input[name="milestone"][value="${milestone}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+
+    // Check concern checkboxes
+    data.concerns?.forEach(concern => {
+      const checkbox = document.querySelector(`input[name="concern"][value="${concern}"]`);
+      if (checkbox) checkbox.checked = true;
+    });
+  }
+
+  showQuiz();
+});
+
+// Initialize on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const quizData = getQuizData();
+
+  if (!quizData) {
+    // First visit - show quiz
+    showQuiz();
+  } else {
+    // Returning visit - apply personalization
+    applyPersonalization(quizData);
+  }
+});
+</script>
+</body>
+</html>

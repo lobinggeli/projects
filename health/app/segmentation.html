@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Segmentation | Health Biomarker Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #004C99;
+            --secondary: #00B894;
+            --accent: #6C5CE7;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --gray: #636E72;
+            --red: #E74C3C;
+            --orange: #F39C12;
+            --green: #27AE60;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .nav-link:hover {
+            background: var(--light);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section styling */
+        .section {
+            padding: 60px 0;
+        }
+
+        .section-alt {
+            background: white;
+        }
+
+        .section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-card .label {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        /* Segment Cards */
+        .segments-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .segment-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .segment-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .segment-card.top-ranked {
+            border: 2px solid var(--secondary);
+        }
+
+        .segment-header {
+            padding: 25px;
+            color: white;
+        }
+
+        .segment-header h3 {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .segment-header .subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .segment-card a.segment-link {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        .segment-card a.segment-link:hover .segment-header {
+            filter: brightness(1.1);
+        }
+
+        .segment-card .view-detail {
+            display: block;
+            text-align: center;
+            padding: 12px;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-top: 1px solid #f0f0f0;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        .segment-card .view-detail:hover {
+            background: #f0f7ff;
+        }
+
+        .segment-header.menopause { background: linear-gradient(135deg, #E91E63, #FF4081); }
+        .segment-header.chronic { background: linear-gradient(135deg, #009688, #4DB6AC); }
+        .segment-header.parent { background: linear-gradient(135deg, #FF9800, #FFB74D); }
+        .segment-header.optimizer { background: linear-gradient(135deg, #1a73e8, #4285f4); }
+        .segment-header.starter { background: linear-gradient(135deg, #00B894, #55EFC4); }
+        .segment-header.professional { background: linear-gradient(135deg, #6C5CE7, #A29BFE); }
+        .segment-header.longevity { background: linear-gradient(135deg, #F39C12, #F1C40F); }
+
+        .segment-body {
+            padding: 25px;
+        }
+
+        .segment-body .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.92rem;
+        }
+
+        .segment-body .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--gray);
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+            text-align: right;
+        }
+
+        .psycho-summary {
+            font-size: 0.9rem;
+            color: var(--gray);
+            line-height: 1.5;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .rank-badge {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            min-width: 900px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px 18px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .comparison-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 15px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 15px 0 0;
+        }
+
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .comparison-table .highlight {
+            background: #e8f4fd;
+            font-weight: 600;
+        }
+
+        .comparison-table .top-score {
+            background: #e8f8f0;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        /* Messaging Cards */
+        .messaging-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .messaging-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .messaging-card-header {
+            padding: 15px 20px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .messaging-card-body {
+            padding: 20px;
+        }
+
+        .messaging-card-body .msg-label {
+            font-size: 0.8rem;
+            color: var(--gray);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .messaging-card-body .msg-text {
+            font-size: 0.95rem;
+            color: var(--dark);
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .messaging-card-body .trust-signal {
+            font-size: 0.85rem;
+            color: var(--green);
+            font-weight: 500;
+        }
+
+        /* Phase Cards */
+        .phase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .phase-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .phase-card-header {
+            padding: 25px;
+            color: white;
+        }
+
+        .phase-card-header h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .phase-card-header .phase-sub {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .phase-card-header.phase1 { background: linear-gradient(135deg, var(--primary), #4285f4); }
+        .phase-card-header.phase2 { background: linear-gradient(135deg, var(--accent), #A29BFE); }
+        .phase-card-header.phase3 { background: linear-gradient(135deg, var(--secondary), #55EFC4); }
+
+        .phase-card-body {
+            padding: 25px;
+        }
+
+        .phase-card-body .phase-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.92rem;
+        }
+
+        .phase-card-body .phase-row:last-child {
+            border-bottom: none;
+        }
+
+        .phase-label {
+            color: var(--gray);
+            font-weight: 500;
+            flex-shrink: 0;
+            margin-right: 10px;
+        }
+
+        .phase-value {
+            font-weight: 600;
+            color: var(--dark);
+            text-align: right;
+        }
+
+        .feature-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .feature-list li {
+            padding: 4px 0;
+            font-size: 0.9rem;
+            color: var(--gray);
+            padding-left: 15px;
+            position: relative;
+        }
+
+        .feature-list li::before {
+            content: '+';
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        .eu-country-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+
+            .segments-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .messaging-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .phase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .eu-country-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="competitors.html" class="nav-link">Competitors</a>
+                <a href="devices.html" class="nav-link">Devices</a>
+                <a href="tests.html" class="nav-link">Tests</a>
+                <a href="segmentation.html" class="nav-link">Segments</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <h1>Customer Segmentation</h1>
+            <p>7 target customer segments for the European biomarker testing market (France, Belgium, Switzerland, Germany), prioritized by market size, willingness to pay, and product-market fit.</p>
+        </div>
+    </header>
+
+    <!-- Market Overview -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>EU-4 Health Consumer Landscape</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="value">172M</div>
+                    <div class="label">Combined population (FR + BE + CH + DE)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">~65M</div>
+                    <div class="label">Total addressable market</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">&euro;292-2,560</div>
+                    <div class="label">OOP per capita range across EU-4</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">14-85%</div>
+                    <div class="label">Health app adoption range across EU-4</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">60+</div>
+                    <div class="label">Germany DiGA reimbursed apps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">2.6x</div>
+                    <div class="label">EU-4 market vs France alone</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Segment Cards -->
+    <section class="section">
+        <div class="container">
+            <h2>7 Target Customer Segments</h2>
+            <div class="segments-grid">
+
+                <!-- Menopausal Woman -->
+                <div class="segment-card top-ranked">
+                    <div class="segment-header menopause">
+                        <h3>Menopausal Woman <span class="rank-badge">#1 Priority</span></h3>
+                        <div class="subtitle">Age 45-58 | &euro;30K-80K income | 100% female</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Experiencing hormonal changes with real daily impact. 87% report symptoms. Frustrated by a healthcare system that largely ignores menopause. Cultural taboo breaking rapidly with 2025 parliamentary report. 70%+ use supplements.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">20-26M EU-4 (8-10M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Hormonal panel, thyroid, cardiovascular risk</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;50-90 / test</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Comprehensive (&euro;89) or Menopause Panel (&euro;69-79)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value" style="color: var(--green);">4.35 / 5</span></div>
+                    </div>
+                    <a href="segment-menopause.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Chronic Manager -->
+                <div class="segment-card">
+                    <div class="segment-header chronic">
+                        <h3>Chronic Manager <span class="rank-badge">#2</span></h3>
+                        <div class="subtitle">Age 30-60 | &euro;25K-80K income | Balanced gender</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Managing ongoing conditions: thyroid, diabetes risk, cholesterol, hormonal imbalances. Faces barriers: no GP (6.7M affected), long wait times. Most underserved by France's healthcare system. Chronic disease management = 41% of wearable revenue.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">11-14M EU-4 (4-5M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Condition-specific monitoring, trend alerts</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;25-45 / month</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Subscription (&euro;29-39/mo)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value" style="color: var(--green);">3.95 / 5</span></div>
+                    </div>
+                    <a href="segment-chronic.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Health-Conscious Parent -->
+                <div class="segment-card">
+                    <div class="segment-header parent">
+                        <h3>Health-Conscious Parent <span class="rank-badge">#3</span></h3>
+                        <div class="subtitle">Age 30-45 | &euro;50K-80K household | 60% female</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Time-poor but health-aware. Buys organic regularly. Takes supplements. Interested in family health but lacks time for GP visits. Trusts healthcare professionals over social media. Values peace of mind and convenience.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">~7.7M EU-4 (~3M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Comprehensive check, fatigue investigation, CV risk</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;50-100 / test</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Essential (&euro;39) or Comprehensive (&euro;89)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value">3.80 / 5</span></div>
+                    </div>
+                    <a href="segment-parent.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Performance Optimizer -->
+                <div class="segment-card">
+                    <div class="segment-header optimizer">
+                        <h3>Performance Optimizer <span class="rank-badge">#4</span></h3>
+                        <div class="subtitle">Age 28-42 | &euro;50K-100K+ | 65% male</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Data-driven, self-optimizing. Gym member, smartwatch owner. Follows longevity content (Huberman, Attia). Part of France's growing biohacking community (USD 1.09B market). Comfortable with technology, early adopter.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">2.4-3.5M EU-4 (0.8-1.2M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Hormones, inflammation, recovery markers</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;80-150 / test</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Comprehensive (&euro;89)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value">3.80 / 5</span></div>
+                    </div>
+                    <a href="segment-optimizer.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Curious Starter -->
+                <div class="segment-card">
+                    <div class="segment-header starter">
+                        <h3>Curious Starter <span class="rank-badge">#5</span></h3>
+                        <div class="subtitle">Age 25-35 | &euro;30K-50K | Slight female skew</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Health-curious but not yet committed. Follows wellness content on Instagram/TikTok. Buys organic occasionally. Takes vitamins sporadically. Values convenience and modern UX. Has never proactively requested blood work.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">~6.3M EU-4 (~2.5M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Baseline snapshot, nutritional deficiencies</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;35-50 / test (one-time)</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Essential (&euro;39)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value">3.65 / 5</span></div>
+                    </div>
+                    <a href="segment-starter.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Proactive Professional -->
+                <div class="segment-card">
+                    <div class="segment-header professional">
+                        <h3>Proactive Professional <span class="rank-badge">#6</span></h3>
+                        <div class="subtitle">Age 35-55 | &euro;60K-100K+ | 55% male</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Successful career but aware of stress toll. Works 50+ hrs/week. Willing to pay premium for convenience. Comparable to Zoi's target but priced out at &euro;3,000/year. The "executive wellness" segment.</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">4-5M EU-4 (1.5-2M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Stress/cortisol, cardiovascular, metabolic</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;100-200 / test</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Comprehensive (&euro;89) or Premium (&euro;159)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value">3.55 / 5</span></div>
+                    </div>
+                    <a href="segment-professional.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+                <!-- Longevity Seeker -->
+                <div class="segment-card">
+                    <div class="segment-header longevity">
+                        <h3>Longevity Seeker <span class="rank-badge">#7</span></h3>
+                        <div class="subtitle">Age 45-65 | &euro;80K+ | 55% male</div>
+                    </div>
+                    <div class="segment-body">
+                        <p class="psycho-summary">Aging concerns becoming real. Influenced by the "healthspan" narrative. French "bien vieillir" philosophy. Willing to invest significantly in prevention. McKinsey's "maximalist optimizers" (25% of consumers, &gt;40% of wellness spend).</p>
+                        <div class="detail-row"><span class="detail-label">Market Size</span><span class="detail-value">1.4-2.2M EU-4 (0.5-0.8M France)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key Needs</span><span class="detail-value">Cancer markers, CV deep dive, biological age</span></div>
+                        <div class="detail-row"><span class="detail-label">WTP</span><span class="detail-value">&euro;150-300+ / test</span></div>
+                        <div class="detail-row"><span class="detail-label">Tier</span><span class="detail-value">Premium (&euro;159)</span></div>
+                        <div class="detail-row"><span class="detail-label">Score</span><span class="detail-value">3.20 / 5</span></div>
+                    </div>
+                    <a href="segment-longevity.html" class="view-detail">View full profile &rarr;</a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- EU Expansion Markets -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Market by Country</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 30px;">Four target markets: France (primary), Belgium, Switzerland, and Germany &mdash; 172M combined population, ~65M total addressable.</p>
+            <div class="stats-grid" style="margin-bottom: 40px;">
+                <div class="stat-card">
+                    <div class="value">11.7M</div>
+                    <div class="label">Belgium population</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">9.0M</div>
+                    <div class="label">Switzerland population</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">84M</div>
+                    <div class="label">Germany population</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">~65M</div>
+                    <div class="label">Total EU-4 addressable</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">&euro;2,560</div>
+                    <div class="label">Switzerland OOP/capita (highest EU)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="value">60+</div>
+                    <div class="label">Germany DiGA reimbursed apps</div>
+                </div>
+            </div>
+
+            <div class="eu-country-grid">
+                <div class="segment-card">
+                    <div class="segment-header" style="background: linear-gradient(135deg, #2D3436, #636E72);">
+                        <h3>Belgium</h3>
+                        <div class="subtitle">~4.3M addressable | 40% French-speaking</div>
+                    </div>
+                    <div class="segment-body">
+                        <div class="detail-row"><span class="detail-label">OOP/capita</span><span class="detail-value">~&euro;320/yr</span></div>
+                        <div class="detail-row"><span class="detail-label">Digital health adoption</span><span class="detail-value">~21%</span></div>
+                        <div class="detail-row"><span class="detail-label">eHealth maturity</span><span class="detail-value">100% (top EU)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key advantage</span><span class="detail-value">French-speaking; lowest-friction entry</span></div>
+                        <div class="detail-row"><span class="detail-label">Key barrier</span><span class="detail-value">Bilingual complexity (FR/NL)</span></div>
+                    </div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-header" style="background: linear-gradient(135deg, #E74C3C, #FF6B6B);">
+                        <h3>Switzerland</h3>
+                        <div class="subtitle">~3.3M addressable | 23% French-speaking</div>
+                    </div>
+                    <div class="segment-body">
+                        <div class="detail-row"><span class="detail-label">OOP/capita</span><span class="detail-value">~&euro;2,560/yr</span></div>
+                        <div class="detail-row"><span class="detail-label">Digital health adoption</span><span class="detail-value">~85%</span></div>
+                        <div class="detail-row"><span class="detail-label">eHealth maturity</span><span class="detail-value">Moderate (low EPR)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key advantage</span><span class="detail-value">Highest OOP; strong self-pay culture</span></div>
+                        <div class="detail-row"><span class="detail-label">Key barrier</span><span class="detail-value">EFTA (not EU); cantonal regulation</span></div>
+                    </div>
+                </div>
+                <div class="segment-card">
+                    <div class="segment-header" style="background: linear-gradient(135deg, #F39C12, #F1C40F);">
+                        <h3>Germany</h3>
+                        <div class="subtitle">~32M addressable | EU's largest market</div>
+                    </div>
+                    <div class="segment-body">
+                        <div class="detail-row"><span class="detail-label">OOP/capita</span><span class="detail-value">~&euro;664/yr</span></div>
+                        <div class="detail-row"><span class="detail-label">Digital health adoption</span><span class="detail-value">~25%</span></div>
+                        <div class="detail-row"><span class="detail-label">eHealth maturity</span><span class="detail-value">High (DiGA pioneer)</span></div>
+                        <div class="detail-row"><span class="detail-label">Key advantage</span><span class="detail-value">84M pop; DiGA reimbursement pathway</span></div>
+                        <div class="detail-row"><span class="detail-label">Key barrier</span><span class="detail-value">Cerascreen, Lykon, Baze compete</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Addressable Market by Country -->
+    <section class="section">
+        <div class="container">
+            <h2>Addressable Market by Country</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Segment</th>
+                            <th>France</th>
+                            <th>Belgium</th>
+                            <th>Switzerland</th>
+                            <th>Germany</th>
+                            <th>EU-4 Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Menopausal Woman</strong></td>
+                            <td>8-10M</td>
+                            <td>1.4-1.7M</td>
+                            <td>1.0-1.3M</td>
+                            <td>10-12.5M</td>
+                            <td class="top-score"><strong>20-26M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chronic Manager</strong></td>
+                            <td>4-5M</td>
+                            <td>0.7-0.9M</td>
+                            <td>0.5-0.7M</td>
+                            <td>5.5-7M</td>
+                            <td class="top-score"><strong>11-14M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Health-Conscious Parent</strong></td>
+                            <td>~3M</td>
+                            <td>~0.5M</td>
+                            <td>~0.4M</td>
+                            <td>~3.8M</td>
+                            <td class="top-score"><strong>~7.7M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance Optimizer</strong></td>
+                            <td>0.8-1.2M</td>
+                            <td>0.15-0.22M</td>
+                            <td>0.15-0.20M</td>
+                            <td>1.3-1.9M</td>
+                            <td class="top-score"><strong>2.4-3.5M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Curious Starter</strong></td>
+                            <td>~2.5M</td>
+                            <td>~0.4M</td>
+                            <td>~0.3M</td>
+                            <td>~3.1M</td>
+                            <td class="top-score"><strong>~6.3M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proactive Professional</strong></td>
+                            <td>1.5-2M</td>
+                            <td>0.25-0.35M</td>
+                            <td>0.25-0.30M</td>
+                            <td>2.0-2.5M</td>
+                            <td class="top-score"><strong>4-5.2M</strong></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Longevity Seeker</strong></td>
+                            <td>0.5-0.8M</td>
+                            <td>0.09-0.14M</td>
+                            <td>0.08-0.12M</td>
+                            <td>0.7-1.1M</td>
+                            <td class="top-score"><strong>1.4-2.2M</strong></td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>Total</strong></td>
+                            <td><strong>~25M</strong></td>
+                            <td><strong>~4.3M</strong></td>
+                            <td><strong>~3.3M</strong></td>
+                            <td><strong>~32M</strong></td>
+                            <td class="top-score"><strong>~65M</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Prioritization Matrix -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Prioritization Matrix</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Criterion (weight)</th>
+                            <th>Menopausal Woman</th>
+                            <th>Chronic Manager</th>
+                            <th>Health Parent</th>
+                            <th>Perf. Optimizer</th>
+                            <th>Curious Starter</th>
+                            <th>Proactive Pro</th>
+                            <th>Longevity Seeker</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Market size (25%)</strong></td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Willingness to pay (20%)</strong></td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Acquisition cost (15%)</strong></td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Product-market fit (20%)</strong></td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Strategic value (20%)</strong></td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr class="highlight">
+                            <td><strong>Weighted Score</strong></td>
+                            <td class="top-score"><strong>4.35</strong></td>
+                            <td><strong>3.95</strong></td>
+                            <td><strong>3.80</strong></td>
+                            <td><strong>3.80</strong></td>
+                            <td><strong>3.65</strong></td>
+                            <td><strong>3.55</strong></td>
+                            <td><strong>3.20</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Channel Matrix -->
+    <section class="section">
+        <div class="container">
+            <h2>Channel Matrix</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Channel</th>
+                            <th>Starter</th>
+                            <th>Parent</th>
+                            <th>Optimizer</th>
+                            <th>Pro</th>
+                            <th>Longevity</th>
+                            <th>Chronic</th>
+                            <th>Menopause</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Instagram / TikTok</strong></td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Google Search / SEO</strong></td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Pharmacy partnerships</strong></td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Influencer / community</strong></td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LinkedIn / B2B</strong></td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Healthcare pro referral</strong></td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Patient associations</strong></td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Premium media</strong></td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Women's media / forums</strong></td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td>&#9733;&#9733;</td>
+                            <td class="top-score">&#9733;&#9733;&#9733;&#9733;&#9733;</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Messaging Framework -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Messaging Framework</h2>
+            <p style="text-align: center; color: var(--gray); margin-bottom: 30px;">Universal value proposition: "Le bilan sanguin le plus accessible de France. Depuis chez vous, en 72h."</p>
+            <div class="messaging-grid">
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header menopause" style="background: linear-gradient(135deg, #E91E63, #FF4081);">Menopausal Woman</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Comprenez vos hormones, reprenez le controle"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Bilan valide par une equipe medicale"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header chronic" style="background: linear-gradient(135deg, #009688, #4DB6AC);">Chronic Manager</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Suivez votre sante quand vous en avez besoin"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Resultats compatibles avec votre dossier medical"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header parent" style="background: linear-gradient(135deg, #FF9800, #FFB74D);">Health-Conscious Parent</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Votre sante, sans rendez-vous"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Partagez vos resultats avec votre medecin"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header optimizer" style="background: linear-gradient(135deg, #1a73e8, #4285f4);">Performance Optimizer</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Les donnees que votre montre ne peut pas voir"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"100+ biomarqueurs, precision laboratoire"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header starter" style="background: linear-gradient(135deg, #00B894, #55EFC4);">Curious Starter</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Votre premiere analyse complete - &euro;39"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Laboratoires certifies ISO 15189"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header professional" style="background: linear-gradient(135deg, #6C5CE7, #A29BFE);">Proactive Professional</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Le bilan cadre, en 15 minutes"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Donnees hebergees en France (HDS)"</div>
+                    </div>
+                </div>
+
+                <div class="messaging-card">
+                    <div class="messaging-card-header longevity" style="background: linear-gradient(135deg, #F39C12, #F1C40F);">Longevity Seeker</div>
+                    <div class="messaging-card-body">
+                        <div class="msg-label">Primary Message</div>
+                        <div class="msg-text">"Comprendre votre biologie pour mieux vieillir"</div>
+                        <div class="msg-label">Trust Signal</div>
+                        <div class="trust-signal">"Encadre par une equipe medicale"</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Roadmap by Phase -->
+    <section class="section">
+        <div class="container">
+            <h2>Product Roadmap by Phase</h2>
+            <div class="phase-grid">
+
+                <div class="phase-card">
+                    <div class="phase-card-header phase1">
+                        <h3>Phase 1: MVP</h3>
+                        <div class="phase-sub">Months 1-4</div>
+                    </div>
+                    <div class="phase-card-body">
+                        <div class="phase-row"><span class="phase-label">Target Segments</span><span class="phase-value">Curious Starter, Health Parent</span></div>
+                        <div class="phase-row"><span class="phase-label">Panel</span><span class="phase-value">Essential (15-20 biomarkers)</span></div>
+                        <div class="phase-row"><span class="phase-label">Price</span><span class="phase-value">&euro;39</span></div>
+                        <div class="phase-row"><span class="phase-label">Target Users</span><span class="phase-value">1,000-2,000</span></div>
+                        <ul class="feature-list">
+                            <li>Mobile-first result visualization</li>
+                            <li>Plain-language insights in French</li>
+                            <li>PDF export for GP sharing</li>
+                            <li>One-time purchase (no subscription required)</li>
+                            <li>72-hour turnaround</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-card-header phase2">
+                        <h3>Phase 2: Growth</h3>
+                        <div class="phase-sub">Months 5-8</div>
+                    </div>
+                    <div class="phase-card-body">
+                        <div class="phase-row"><span class="phase-label">Target Segments</span><span class="phase-value">Optimizer, Chronic, Pro, Menopause</span></div>
+                        <div class="phase-row"><span class="phase-label">Panels</span><span class="phase-value">Comprehensive, Condition-Specific, Menopause</span></div>
+                        <div class="phase-row"><span class="phase-label">Prices</span><span class="phase-value">&euro;49-89 per test / &euro;29-39/mo</span></div>
+                        <div class="phase-row"><span class="phase-label">Target Users</span><span class="phase-value">5,000-8,000 cumulative</span></div>
+                        <ul class="feature-list">
+                            <li>AI-powered insights engine</li>
+                            <li>Subscription model</li>
+                            <li>Longitudinal tracking with trend alerts</li>
+                            <li>Optimal ranges (not just "normal")</li>
+                            <li>Wearable integration (Oura, Apple Watch, Garmin)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="phase-card">
+                    <div class="phase-card-header phase3">
+                        <h3>Phase 3: Expansion</h3>
+                        <div class="phase-sub">Months 9-12</div>
+                    </div>
+                    <div class="phase-card-body">
+                        <div class="phase-row"><span class="phase-label">Target Segments</span><span class="phase-value">Longevity Seeker + all (retention)</span></div>
+                        <div class="phase-row"><span class="phase-label">Panel</span><span class="phase-value">Premium / Longevity (60+ biomarkers)</span></div>
+                        <div class="phase-row"><span class="phase-label">Price</span><span class="phase-value">&euro;159</span></div>
+                        <div class="phase-row"><span class="phase-label">Target</span><span class="phase-value">10K-15K users, &euro;300-600K revenue</span></div>
+                        <ul class="feature-list">
+                            <li>Biological age calculation</li>
+                            <li>Year-over-year comparison reports</li>
+                            <li>Phone/video consultation</li>
+                            <li>B2B corporate wellness platform</li>
+                            <li>Multi-language (FR, EN, DE)</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Validation -->
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Pricing Validation</h2>
+            <div class="table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Segment</th>
+                            <th>Our Price</th>
+                            <th>Next Cheapest Competitor</th>
+                            <th>Price Advantage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Curious Starter</strong></td>
+                            <td>&euro;39</td>
+                            <td>Lucis Discovery &euro;190/yr</td>
+                            <td class="top-score">-80%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Health Parent</strong></td>
+                            <td>&euro;89</td>
+                            <td>Lucis Care &euro;490/yr</td>
+                            <td class="top-score">-82%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Performance Optimizer</strong></td>
+                            <td>&euro;89</td>
+                            <td>Lucis Care &euro;490/yr</td>
+                            <td class="top-score">-82%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proactive Professional</strong></td>
+                            <td>&euro;159</td>
+                            <td>Zoi &euro;3,000/yr</td>
+                            <td class="top-score">-95%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Longevity Seeker</strong></td>
+                            <td>&euro;159</td>
+                            <td>Zoi &euro;3,000/yr</td>
+                            <td class="top-score">-95%</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Chronic Manager</strong></td>
+                            <td>&euro;29-39/mo</td>
+                            <td>No direct competitor</td>
+                            <td class="top-score">Unique</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Menopausal Woman</strong></td>
+                            <td>&euro;69-89</td>
+                            <td>Hertility (UK) &pound;149-349</td>
+                            <td class="top-score">Not in France</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Customer segmentation research - January 2026</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menopause Panel Product Specification | Health Biomarker Monitoring</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0066CC; --primary-dark: #004C99; --secondary: #00B894;
+            --accent: #6C5CE7; --dark: #2D3436; --light: #F8F9FA;
+            --gray: #636E72; --red: #E74C3C; --green: #27AE60;
+            --segment-color: #E91E63; --segment-light: #FF4081;
+            --purple: #9C27B0;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        nav { background: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-links { display: flex; gap: 5px; }
+        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; padding: 10px 15px; border-radius: 20px; transition: background 0.3s; font-size: 0.9rem; }
+        .nav-link:hover { background: var(--light); }
+        .nav-link.active { background: var(--segment-color); color: white; }
+
+        header { background: linear-gradient(135deg, var(--purple) 0%, var(--segment-color) 100%); color: white; padding: 50px 0; }
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; }
+        header p { font-size: 1.1rem; opacity: 0.9; }
+        .header-meta { display: flex; gap: 20px; margin-top: 15px; font-size: 0.9rem; opacity: 0.85; }
+        .version-badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 15px; font-size: 0.85rem; }
+
+        .section { padding: 50px 0; }
+        .section-alt { background: white; }
+        .section h2 { font-size: 1.6rem; margin-bottom: 25px; color: var(--dark); border-bottom: 3px solid var(--segment-color); padding-bottom: 10px; display: inline-block; }
+        .section h3 { font-size: 1.2rem; margin: 25px 0 15px; color: var(--segment-color); }
+
+        .content-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 20px; }
+        .content-card h3 { margin-top: 0; }
+
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        th { background: var(--segment-color); color: white; padding: 12px 15px; text-align: left; font-weight: 600; font-size: 0.9rem; }
+        td { padding: 12px 15px; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover { background: #fafafa; }
+
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .four-col { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+
+        .pricing-card { background: white; border-radius: 15px; padding: 25px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); text-align: center; position: relative; }
+        .pricing-card.featured { border: 3px solid var(--segment-color); }
+        .pricing-card.featured::before { content: 'Recommended'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: var(--segment-color); color: white; padding: 4px 15px; border-radius: 10px; font-size: 0.75rem; font-weight: 600; }
+        .pricing-card h4 { font-size: 1.2rem; margin-bottom: 5px; }
+        .pricing-card .price { font-size: 2.5rem; font-weight: 800; color: var(--segment-color); margin: 15px 0; }
+        .pricing-card .price span { font-size: 1rem; color: var(--gray); font-weight: 400; }
+        .pricing-card .biomarkers { background: var(--light); padding: 8px 15px; border-radius: 8px; display: inline-block; font-weight: 600; color: var(--segment-color); margin-bottom: 15px; }
+        .pricing-card p { color: var(--gray); font-size: 0.9rem; }
+
+        .biomarker-table th { background: var(--purple); }
+        .biomarker-table tr.category { background: #f5f0f7; }
+        .biomarker-table tr.category td { font-weight: 600; color: var(--purple); }
+
+        .flow-diagram { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .flow-step { background: var(--light); border-radius: 12px; padding: 20px; text-align: center; position: relative; }
+        .flow-step::after { content: '→'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-size: 1.5rem; color: var(--segment-color); font-weight: bold; }
+        .flow-step:last-child::after { display: none; }
+        .flow-step .number { width: 40px; height: 40px; background: var(--segment-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: 700; }
+        .flow-step h5 { color: var(--dark); margin-bottom: 5px; }
+        .flow-step p { font-size: 0.8rem; color: var(--gray); }
+
+        .highlight-box { background: linear-gradient(135deg, var(--segment-color), var(--segment-light)); color: white; padding: 25px; border-radius: 15px; margin: 20px 0; }
+        .highlight-box h3 { color: white; margin-top: 0; }
+
+        .info-box { background: #e3f2fd; border-left: 4px solid var(--primary); padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
+        .warning-box { background: #fff3e0; border-left: 4px solid #F39C12; padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
+        .success-box { background: #e8f5e9; border-left: 4px solid var(--green); padding: 20px; border-radius: 0 10px 10px 0; margin: 20px 0; }
+
+        .detail-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: var(--gray); }
+        .detail-value { font-weight: 600; }
+
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 15px; font-size: 0.75rem; font-weight: 600; margin-right: 5px; }
+        .tag-green { background: #e8f5e9; color: var(--green); }
+        .tag-red { background: #ffebee; color: var(--red); }
+        .tag-orange { background: #fff3e0; color: #F39C12; }
+        .tag-pink { background: #fce4ec; color: var(--segment-color); }
+
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+
+        .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .kpi-card { background: white; border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 3px 15px rgba(0,0,0,0.06); }
+        .kpi-card .value { font-size: 1.8rem; font-weight: 700; color: var(--segment-color); }
+        .kpi-card .label { font-size: 0.85rem; color: var(--gray); margin-top: 5px; }
+        .kpi-card .target { font-size: 0.75rem; color: var(--green); margin-top: 5px; }
+
+        .checklist { list-style: none; }
+        .checklist li { padding: 10px 0; border-bottom: 1px solid #f0f0f0; display: flex; align-items: center; gap: 10px; }
+        .checklist li:last-child { border-bottom: none; }
+        .checklist .checkbox { width: 20px; height: 20px; border: 2px solid var(--gray-light); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+        .checklist .checkbox.checked { background: var(--green); border-color: var(--green); color: white; }
+
+        .insight-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 3px 15px rgba(0,0,0,0.06); border-left: 4px solid var(--segment-color); }
+        .insight-card h5 { color: var(--segment-color); margin-bottom: 10px; }
+        .insight-card .example { background: var(--light); padding: 12px; border-radius: 8px; font-size: 0.85rem; color: var(--gray); margin-top: 10px; font-style: italic; }
+
+        .visualization-mockup { background: #1a1a2e; border-radius: 15px; padding: 25px; color: white; }
+        .visualization-mockup h4 { color: var(--segment-light); margin-bottom: 15px; }
+        .mock-element { background: rgba(255,255,255,0.1); border-radius: 10px; padding: 15px; margin-bottom: 10px; }
+        .mock-element h6 { font-size: 0.8rem; color: var(--gray-light); margin-bottom: 10px; }
+
+        footer { background: var(--dark); color: white; padding: 30px 0; text-align: center; }
+        footer p { opacity: 0.7; font-size: 0.9rem; }
+
+        code { background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 0.85rem; }
+        pre { background: #2d2d2d; color: #f8f8f2; padding: 20px; border-radius: 10px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5; }
+
+        @media (max-width: 992px) {
+            .four-col { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.6rem; }
+            .two-col, .three-col, .four-col { grid-template-columns: 1fr; }
+            .header-meta { flex-direction: column; gap: 5px; }
+            .nav-links { display: none; }
+            .flow-step::after { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="segment-menopause.html" class="nav-link">Segment</a>
+                <a href="menopause-market-research.html" class="nav-link">Market Research</a>
+                <a href="menopause-product-spec.html" class="nav-link active">Product Spec</a>
+                <a href="menopause.html" class="nav-link">Landing Page</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <span class="version-badge">Version 1.0 | Draft</span>
+            <h1>Menopause Panel Product Specification</h1>
+            <p>Complete product definition for menopause biomarker panels</p>
+            <div class="header-meta">
+                <span>Date: January 28, 2026</span>
+                <span>Status: Draft</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <a href="segment-menopause.html" class="back-link">&larr; Back to segment overview</a>
+
+            <h2>1. Product Overview</h2>
+
+            <div class="four-col">
+                <div class="pricing-card">
+                    <h4>Essential</h4>
+                    <div class="price">&euro;69</div>
+                    <div class="biomarkers">10 biomarkers</div>
+                    <p>Post-menopause (12+ months no period)</p>
+                    <p style="margin-top: 10px;"><span class="tag tag-pink">Any time</span></p>
+                </div>
+                <div class="pricing-card featured">
+                    <h4>Comprehensive</h4>
+                    <div class="price">&euro;89</div>
+                    <div class="biomarkers">18 biomarkers</div>
+                    <p>Full menopause assessment</p>
+                    <p style="margin-top: 10px;"><span class="tag tag-pink">Any time</span></p>
+                </div>
+                <div class="pricing-card">
+                    <h4>Perimenopause</h4>
+                    <div class="price">&euro;99</div>
+                    <div class="biomarkers">10 x 2 samples</div>
+                    <p>Still menstruating, irregular cycles</p>
+                    <p style="margin-top: 10px;"><span class="tag tag-orange">Day 14 + 21</span></p>
+                </div>
+                <div class="pricing-card">
+                    <h4>HRT Add-on</h4>
+                    <div class="price">+&euro;29</div>
+                    <div class="biomarkers">5 biomarkers</div>
+                    <p>For women on hormone therapy</p>
+                    <p style="margin-top: 10px;"><span class="tag tag-green">Per HRT schedule</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>2. Biomarker Panel Design</h2>
+
+            <h3>Essential Panel (&euro;69) &mdash; 10 Biomarkers</h3>
+            <table class="biomarker-table">
+                <tr>
+                    <th>Biomarker</th>
+                    <th>Clinical Rationale</th>
+                    <th>Optimal Range</th>
+                    <th>Flag Threshold</th>
+                </tr>
+                <tr class="category"><td colspan="4">Reproductive Hormones</td></tr>
+                <tr>
+                    <td><strong>FSH</strong></td>
+                    <td>Primary menopause marker</td>
+                    <td>&lt;10 mIU/mL (pre)</td>
+                    <td>&gt;30 = menopause</td>
+                </tr>
+                <tr>
+                    <td><strong>Estradiol (E2)</strong></td>
+                    <td>Declining levels cause symptoms</td>
+                    <td>30-400 pg/mL (pre)</td>
+                    <td>&lt;30 = post-meno</td>
+                </tr>
+                <tr>
+                    <td><strong>LH</strong></td>
+                    <td>Ovarian function indicator</td>
+                    <td>2-15 mIU/mL (pre)</td>
+                    <td>&gt;30 = menopause</td>
+                </tr>
+                <tr>
+                    <td><strong>Progesterone</strong></td>
+                    <td>Cycle regularity, HRT monitoring</td>
+                    <td>Varies by cycle day</td>
+                    <td>&lt;0.5 ng/mL post-meno</td>
+                </tr>
+                <tr class="category"><td colspan="4">Thyroid Function</td></tr>
+                <tr>
+                    <td><strong>TSH</strong></td>
+                    <td>Thyroid dysfunction mimics menopause</td>
+                    <td>0.4-4.0 mIU/L</td>
+                    <td>&gt;4.0 = investigate</td>
+                </tr>
+                <tr>
+                    <td><strong>Free T4</strong></td>
+                    <td>Thyroid function</td>
+                    <td>0.8-1.8 ng/dL</td>
+                    <td>&lt;0.8 = hypothyroid</td>
+                </tr>
+                <tr class="category"><td colspan="4">Metabolic & Nutritional</td></tr>
+                <tr>
+                    <td><strong>Vitamin D</strong></td>
+                    <td>Bone health (30% osteoporosis post-meno)</td>
+                    <td>30-50 ng/mL</td>
+                    <td>&lt;20 = deficient</td>
+                </tr>
+                <tr>
+                    <td><strong>Ferritin</strong></td>
+                    <td>Fatigue investigation</td>
+                    <td>30-150 ng/mL</td>
+                    <td>&lt;30 = low iron</td>
+                </tr>
+                <tr>
+                    <td><strong>HbA1c</strong></td>
+                    <td>Metabolic risk (insulin resistance rises)</td>
+                    <td>&lt;5.7%</td>
+                    <td>&gt;5.7% = prediabetes</td>
+                </tr>
+                <tr>
+                    <td><strong>Total Cholesterol</strong></td>
+                    <td>CV risk (50% increase post-meno)</td>
+                    <td>&lt;200 mg/dL</td>
+                    <td>&gt;240 = high</td>
+                </tr>
+            </table>
+
+            <h3>Comprehensive Panel (&euro;89) &mdash; 18 Biomarkers</h3>
+            <p style="color: var(--gray); margin-bottom: 15px;">Includes all Essential markers plus:</p>
+            <table class="biomarker-table">
+                <tr>
+                    <th>Biomarker</th>
+                    <th>Clinical Rationale</th>
+                    <th>Optimal Range</th>
+                </tr>
+                <tr>
+                    <td><strong>Free T3</strong></td>
+                    <td>Active thyroid hormone</td>
+                    <td>2.3-4.2 pg/mL</td>
+                </tr>
+                <tr>
+                    <td><strong>Testosterone</strong></td>
+                    <td>Libido, energy, muscle mass</td>
+                    <td>15-70 ng/dL (women)</td>
+                </tr>
+                <tr>
+                    <td><strong>SHBG</strong></td>
+                    <td>Hormone binding; affects free levels</td>
+                    <td>40-120 nmol/L</td>
+                </tr>
+                <tr>
+                    <td><strong>DHEA-S</strong></td>
+                    <td>Adrenal function, energy</td>
+                    <td>65-380 &mu;g/dL</td>
+                </tr>
+                <tr>
+                    <td><strong>ApoB</strong></td>
+                    <td>Advanced CV risk marker</td>
+                    <td>&lt;90 mg/dL</td>
+                </tr>
+                <tr>
+                    <td><strong>hsCRP</strong></td>
+                    <td>Inflammation marker (CV risk)</td>
+                    <td>&lt;1.0 mg/L</td>
+                </tr>
+                <tr>
+                    <td><strong>Vitamin B12</strong></td>
+                    <td>Energy, neurological health</td>
+                    <td>300-900 pg/mL</td>
+                </tr>
+                <tr>
+                    <td><strong>Calcium</strong></td>
+                    <td>Bone health</td>
+                    <td>8.5-10.5 mg/dL</td>
+                </tr>
+            </table>
+
+            <h3>HRT Monitoring Add-on (+&euro;29) &mdash; 5 Biomarkers</h3>
+            <table class="biomarker-table">
+                <tr>
+                    <th>Biomarker</th>
+                    <th>Clinical Rationale</th>
+                </tr>
+                <tr>
+                    <td><strong>Estradiol (trough)</strong></td>
+                    <td>Verify HRT is achieving target levels</td>
+                </tr>
+                <tr>
+                    <td><strong>Progesterone</strong></td>
+                    <td>For combined HRT users</td>
+                </tr>
+                <tr>
+                    <td><strong>ALT</strong></td>
+                    <td>Liver function (oral HRT metabolized by liver)</td>
+                </tr>
+                <tr>
+                    <td><strong>AST</strong></td>
+                    <td>Liver function</td>
+                </tr>
+                <tr>
+                    <td><strong>Triglycerides</strong></td>
+                    <td>Oral estrogen can raise triglycerides</td>
+                </tr>
+            </table>
+
+            <div class="warning-box">
+                <strong>HRT Timing Note:</strong> HRT add-on requires specific timing instructions based on HRT type (oral vs transdermal, continuous vs cyclic). Sample should be taken at trough (just before next dose).
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>3. Perimenopause vs Menopause</h2>
+
+            <div class="info-box">
+                <strong>Why Two Approaches?</strong> Perimenopause is characterized by <strong>fluctuating</strong> hormones &mdash; a single snapshot is often misleading. Menopause has <strong>stable low</strong> hormone levels &mdash; single sample sufficient.
+            </div>
+
+            <div class="two-col">
+                <div class="content-card" style="border-top: 4px solid var(--purple);">
+                    <h3 style="color: var(--purple);">Perimenopause Panel</h3>
+                    <div class="detail-row"><span class="detail-label">Target User</span><span class="detail-value">Still menstruating, irregular, 40-52</span></div>
+                    <div class="detail-row"><span class="detail-label">Sample Timing</span><span class="detail-value">Day 14 + Day 21</span></div>
+                    <div class="detail-row"><span class="detail-label">Kit Contents</span><span class="detail-value">2 kits, 2 envelopes</span></div>
+                    <div class="detail-row"><span class="detail-label">Key Insight</span><span class="detail-value">Hormone fluctuation pattern</span></div>
+                    <div class="detail-row"><span class="detail-label">FSH Interpretation</span><span class="detail-value">Track variation between samples</span></div>
+                    <div class="detail-row"><span class="detail-label">Price</span><span class="detail-value">&euro;99</span></div>
+                </div>
+
+                <div class="content-card" style="border-top: 4px solid var(--segment-color);">
+                    <h3 style="color: var(--segment-color);">Menopause Panel</h3>
+                    <div class="detail-row"><span class="detail-label">Target User</span><span class="detail-value">12+ months no period, 45-58</span></div>
+                    <div class="detail-row"><span class="detail-label">Sample Timing</span><span class="detail-value">Any time</span></div>
+                    <div class="detail-row"><span class="detail-label">Kit Contents</span><span class="detail-value">1 kit</span></div>
+                    <div class="detail-row"><span class="detail-label">Key Insight</span><span class="detail-value">Baseline menopausal levels</span></div>
+                    <div class="detail-row"><span class="detail-label">FSH Interpretation</span><span class="detail-value">Single elevated reading diagnostic</span></div>
+                    <div class="detail-row"><span class="detail-label">Price</span><span class="detail-value">&euro;69-89</span></div>
+                </div>
+            </div>
+
+            <div class="content-card" style="margin-top: 20px;">
+                <h3>Perimenopause Sample Timing Guide</h3>
+                <pre>
+Cycle Day 1 = First day of period
+
+Day 14 (±2 days): Ovulation Sample
+├── FSH should dip if ovulation occurring
+├── E2 should peak
+└── LH surge indicates ovulation
+
+Day 21 (±2 days): Luteal Sample
+├── Progesterone should rise if ovulation occurred
+├── E2 moderately elevated
+└── FSH should be lower than Day 14
+
+If cycles are very irregular (>35 days or <21 days),
+provide alternative timing guidance in quiz flow.
+                </pre>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>4. AI Insights Specifications</h2>
+
+            <div class="three-col">
+                <div class="insight-card">
+                    <h5>1. Menopause Stage Assessment</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Determines where user is in transition: Early Peri → Late Peri → Early Post → Established Post</p>
+                    <div class="example">"Based on your FSH (42 mIU/mL) and estradiol (18 pg/mL), combined with your reported 14 months without a period, your results are consistent with postmenopause."</div>
+                </div>
+
+                <div class="insight-card">
+                    <h5>2. Symptom-Biomarker Correlation</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Links logged symptoms to specific biomarker results</p>
+                    <div class="example">"Your FSH/E2 ratio of 2.3 is associated with more frequent vasomotor symptoms. Women with similar profiles report improvement with lifestyle modifications or HRT."</div>
+                </div>
+
+                <div class="insight-card">
+                    <h5>3. Thyroid Ruling</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Confirms whether symptoms are hormonal or thyroid-related</p>
+                    <div class="example">"Your thyroid function is normal. This suggests your fatigue and mood changes are more likely related to hormonal menopause transition rather than thyroid dysfunction."</div>
+                </div>
+
+                <div class="insight-card">
+                    <h5>4. CV Risk Contextualization</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Compares cardiovascular markers to pre-menopause baseline</p>
+                    <div class="example">"Your total cholesterol has increased from 185 to 218 mg/dL over the past year. This 18% increase is common during menopause due to declining estrogen."</div>
+                </div>
+
+                <div class="insight-card">
+                    <h5>5. HRT Optimization</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">For HRT users: assesses if therapy is effective</p>
+                    <div class="example">"Your estradiol trough level (28 pg/mL) is at the lower end of the therapeutic range. If you're still experiencing symptoms, your doctor may consider adjusting your HRT dose."</div>
+                </div>
+
+                <div class="insight-card">
+                    <h5>6. Lifestyle Recommendations</h5>
+                    <p style="color: var(--gray); font-size: 0.9rem;">Personalized actionable recommendations</p>
+                    <div class="example">"Increase vitamin D intake: 2000-4000 IU daily. Your HbA1c (5.9%) suggests prediabetes. Consider reducing refined carbohydrates."</div>
+                </div>
+            </div>
+
+            <div class="content-card" style="margin-top: 25px;">
+                <h3>AI Model Requirements</h3>
+                <div class="two-col">
+                    <div>
+                        <div class="detail-row"><span class="detail-label">Language</span><span class="detail-value">French (native, not translated)</span></div>
+                        <div class="detail-row"><span class="detail-label">Tone</span><span class="detail-value">Empathetic, clear, empowering</span></div>
+                        <div class="detail-row"><span class="detail-label">Personalization</span><span class="detail-value">Use first name, reference symptoms</span></div>
+                    </div>
+                    <div>
+                        <div class="detail-row"><span class="detail-label">Medical Disclaimer</span><span class="detail-value">Always included</span></div>
+                        <div class="detail-row"><span class="detail-label">Citations</span><span class="detail-value">HAS/NAMS guidelines</span></div>
+                        <div class="detail-row"><span class="detail-label">Reference Ranges</span><span class="detail-value">From lab partner</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>5. UX Flow</h2>
+
+            <div class="flow-diagram">
+                <h3>Complete User Journey</h3>
+                <div class="four-col" style="margin-top: 20px;">
+                    <div class="flow-step">
+                        <div class="number">1</div>
+                        <h5>Quiz</h5>
+                        <p>Age, last period, symptoms, HRT status</p>
+                        <span class="tag tag-pink">5 min</span>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">2</div>
+                        <h5>Order</h5>
+                        <p>Panel + optional HRT add-on + subscription</p>
+                        <span class="tag tag-green">Checkout</span>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">3</div>
+                        <h5>Sample</h5>
+                        <p>Kit arrives 2-3 days, finger-prick, return</p>
+                        <span class="tag tag-orange">15 min</span>
+                    </div>
+                    <div class="flow-step">
+                        <div class="number">4</div>
+                        <h5>Results</h5>
+                        <p>Push notification, dashboard, AI insights, PDF</p>
+                        <span class="tag tag-pink">72h</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card" style="margin-top: 25px;">
+                <h3>Quiz Questions</h3>
+                <table>
+                    <tr><th>#</th><th>Question</th><th>Options</th></tr>
+                    <tr><td>1</td><td>Age</td><td>Numeric input</td></tr>
+                    <tr><td>2</td><td>When was your last period?</td><td>&lt;3 months | 3-12 months | 12+ months | Surgical</td></tr>
+                    <tr><td>3</td><td>Symptoms (multi-select)</td><td>Hot flashes, Sleep, Mood, Fatigue, Brain fog, Joint pain, Vaginal dryness, Weight</td></tr>
+                    <tr><td>4</td><td>Currently on HRT?</td><td>No | Yes-pills | Yes-patches/gel | Yes-other</td></tr>
+                    <tr><td>5</td><td>Thyroid history?</td><td>No | Yes | Not sure</td></tr>
+                </table>
+                <p style="margin-top: 15px; color: var(--gray); font-size: 0.9rem;"><strong>Output:</strong> "Based on your answers, we recommend the Comprehensive Menopause Panel (&euro;89)"</p>
+            </div>
+
+            <div class="content-card">
+                <h3>Subscription Options</h3>
+                <div class="three-col">
+                    <div style="text-align: center; padding: 15px; background: var(--light); border-radius: 10px;">
+                        <h5>One-time</h5>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--dark);">&euro;69/89/99</div>
+                        <p style="font-size: 0.85rem; color: var(--gray);">Full price</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light); border-radius: 10px;">
+                        <h5>Every 6 months</h5>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--segment-color);">-10%</div>
+                        <p style="font-size: 0.85rem; color: var(--gray);">&euro;62 / &euro;80 / &euro;89</p>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: var(--light); border-radius: 10px;">
+                        <h5>Every 3 months</h5>
+                        <div style="font-size: 1.5rem; font-weight: 700; color: var(--green);">-15%</div>
+                        <p style="font-size: 0.85rem; color: var(--gray);">HRT users: &euro;59 / &euro;76 / &euro;84</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>6. Results Visualization</h2>
+
+            <div class="two-col">
+                <div class="visualization-mockup">
+                    <h4>Hormone Wheel</h4>
+                    <div class="mock-element">
+                        <h6>Visual quadrant display</h6>
+                        <pre style="background: transparent; padding: 0; font-size: 0.75rem;">
+        FSH
+         ●
+    ╱         ╲
+Prog ●         ● E2
+    ╲         ╱
+         ●
+        LH
+
+Color: Green (optimal) / Yellow (watch) / Red (action)
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="visualization-mockup">
+                    <h4>Menopause Stage Indicator</h4>
+                    <div class="mock-element">
+                        <h6>Progress indicator</h6>
+                        <pre style="background: transparent; padding: 0; font-size: 0.75rem;">
+YOUR STAGE: Late Perimenopause
+
+○────●────○────○
+Early   Late   Early   Est.
+Peri    Peri   Post    Post
+
+Based on: FSH 28, E2 45, irregular cycles
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="visualization-mockup">
+                    <h4>Traffic Light Cards</h4>
+                    <div class="mock-element">
+                        <h6>Per-biomarker status</h6>
+                        <pre style="background: transparent; padding: 0; font-size: 0.75rem;">
+┌─────────────────────────────────┐
+│ FSH                    42 mIU/mL │
+│ ████████████████░░░░   🟢        │
+│ Optimal for postmenopause        │
+└─────────────────────────────────┘
+
+┌─────────────────────────────────┐
+│ Vitamin D              18 ng/mL  │
+│ ██████░░░░░░░░░░░░░░   🔴        │
+│ Deficient - action recommended   │
+└─────────────────────────────────┘
+                        </pre>
+                    </div>
+                </div>
+
+                <div class="visualization-mockup">
+                    <h4>Trend Chart</h4>
+                    <div class="mock-element">
+                        <h6>Repeat customers</h6>
+                        <pre style="background: transparent; padding: 0; font-size: 0.75rem;">
+FSH Trend (12 months)
+50 │         ●
+40 │    ●         ●
+30 │ ●
+   └──────────────────
+     Jan  Apr  Jul  Oct
+
+"Your FSH has stabilized, indicating
+you've transitioned to postmenopause"
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>7. Success Metrics</h2>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="value">&gt;85%</div>
+                    <div class="label">Panel completion rate</div>
+                    <div class="target">Kit sent → results delivered</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&lt;72h</div>
+                    <div class="label">Time to results</div>
+                    <div class="target">95th percentile</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&gt;40%</div>
+                    <div class="label">Repeat purchase rate</div>
+                    <div class="target">Within 12 months</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&gt;50</div>
+                    <div class="label">NPS</div>
+                    <div class="target">Net Promoter Score</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&gt;25%</div>
+                    <div class="label">Symptom tracker DAU</div>
+                    <div class="target">Daily active users</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&gt;10%</div>
+                    <div class="label">Consultation conversion</div>
+                    <div class="target">Book doctor consult</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&gt;30%</div>
+                    <div class="label">Subscription uptake</div>
+                    <div class="target">vs one-time</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="value">&lt;3%</div>
+                    <div class="label">Sample rejection rate</div>
+                    <div class="target">Quality threshold</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>8. Technical & Regulatory</h2>
+
+            <div class="two-col">
+                <div class="content-card">
+                    <h3>Sample Requirements</h3>
+                    <div class="detail-row"><span class="detail-label">Collection method</span><span class="detail-value">Finger-prick</span></div>
+                    <div class="detail-row"><span class="detail-label">Volume required</span><span class="detail-value">~0.5-1.0 mL</span></div>
+                    <div class="detail-row"><span class="detail-label">Stability</span><span class="detail-value">72h at room temp</span></div>
+                    <div class="detail-row"><span class="detail-label">Container</span><span class="detail-value">EDTA microtainer</span></div>
+                    <div class="detail-row"><span class="detail-label">Return shipping</span><span class="detail-value">La Poste (next-day)</span></div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Lab Partner Requirements</h3>
+                    <div class="detail-row"><span class="detail-label">Accreditation</span><span class="detail-value">ISO 15189</span></div>
+                    <div class="detail-row"><span class="detail-label">Turnaround</span><span class="detail-value">&lt;48h from receipt</span></div>
+                    <div class="detail-row"><span class="detail-label">Processing</span><span class="detail-value">AM/PM batch cutoffs</span></div>
+                    <div class="detail-row"><span class="detail-label">Results API</span><span class="detail-value">HL7 FHIR preferred</span></div>
+                </div>
+
+                <div class="content-card">
+                    <h3>Data Storage</h3>
+                    <div class="detail-row"><span class="detail-label">Hosting</span><span class="detail-value">HDS-certified (France)</span></div>
+                    <div class="detail-row"><span class="detail-label">Compliance</span><span class="detail-value">GDPR</span></div>
+                    <div class="detail-row"><span class="detail-label">Retention</span><span class="detail-value">10 years (French law)</span></div>
+                    <div class="detail-row"><span class="detail-label">Deletion</span><span class="detail-value">Right to be forgotten</span></div>
+                </div>
+
+                <div class="content-card">
+                    <h3>App Requirements</h3>
+                    <div class="detail-row"><span class="detail-label">iOS</span><span class="detail-value">14+</span></div>
+                    <div class="detail-row"><span class="detail-label">Android</span><span class="detail-value">10+</span></div>
+                    <div class="detail-row"><span class="detail-label">Offline mode</span><span class="detail-value">Symptom logging</span></div>
+                    <div class="detail-row"><span class="detail-label">Features</span><span class="detail-value">Push, PDF, barcode scan</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>9. Launch Checklist</h2>
+
+            <div class="content-card">
+                <ul class="checklist">
+                    <li><div class="checkbox"></div>Lab partner contract signed (ISO 15189)</li>
+                    <li><div class="checkbox"></div>HDS certification obtained</li>
+                    <li><div class="checkbox"></div>Kit design finalized (French instructions)</li>
+                    <li><div class="checkbox"></div>AI insight prompts validated by gynecologist</li>
+                    <li><div class="checkbox"></div>App development complete (iOS + Android)</li>
+                    <li><div class="checkbox"></div>Stripe payment integration</li>
+                    <li><div class="checkbox"></div>La Poste return shipping contract</li>
+                    <li><div class="checkbox"></div>GDPR/privacy policy finalized</li>
+                    <li><div class="checkbox"></div>Customer support team trained</li>
+                    <li><div class="checkbox checked">✓</div>Landing page live (menopause.html)</li>
+                    <li><div class="checkbox"></div>Marketing materials ready (French)</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Health Biomarker App. Internal document.</p>
+        </div>
+    </footer>
+</body>
+</html>

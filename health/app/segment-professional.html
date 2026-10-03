@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive Professional Segment | Health Biomarker Monitoring</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #0066CC; --primary-dark: #004C99; --secondary: #00B894;
+            --accent: #6C5CE7; --dark: #2D3436; --light: #F8F9FA;
+            --gray: #636E72; --red: #E74C3C; --green: #27AE60;
+            --segment-color: #6C5CE7; --segment-light: #A29BFE;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif; line-height: 1.6; color: var(--dark); background: var(--light); }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        nav { background: white; padding: 15px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 100; }
+        nav .container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .nav-link { color: var(--primary); text-decoration: none; font-weight: 500; padding: 10px 20px; border-radius: 20px; transition: background 0.3s; }
+        .nav-link:hover { background: var(--light); }
+        header { background: linear-gradient(135deg, var(--segment-color) 0%, var(--segment-light) 100%); color: white; padding: 60px 0; text-align: center; }
+        header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; }
+        header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 0 auto; }
+        .rank-pill { display: inline-block; background: rgba(255,255,255,0.25); padding: 5px 18px; border-radius: 20px; font-size: 0.95rem; font-weight: 600; margin-bottom: 15px; }
+        .section { padding: 60px 0; }
+        .section h2 { font-size: 1.8rem; margin-bottom: 30px; color: var(--dark); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .stat-card { background: white; padding: 25px 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.08); }
+        .stat-card .value { font-size: 1.6rem; font-weight: 700; color: var(--segment-color); }
+        .stat-card .label { font-size: 0.85rem; color: var(--gray); margin-top: 5px; }
+        .content-card { background: white; border-radius: 15px; padding: 30px; box-shadow: 0 5px 20px rgba(0,0,0,0.08); margin-bottom: 25px; }
+        .content-card h3 { font-size: 1.2rem; color: var(--segment-color); margin-bottom: 15px; }
+        .content-card p { color: var(--gray); margin-bottom: 10px; }
+        .content-card ul { list-style: none; }
+        .content-card li { padding: 6px 0; color: var(--gray); padding-left: 18px; position: relative; font-size: 0.95rem; }
+        .content-card li::before { content: '+'; position: absolute; left: 0; color: var(--green); font-weight: bold; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+        .detail-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { color: var(--gray); font-weight: 500; }
+        .detail-value { font-weight: 600; color: var(--dark); text-align: right; }
+        .quote-block { background: linear-gradient(135deg, var(--segment-color), var(--segment-light)); color: white; padding: 30px; border-radius: 15px; margin-bottom: 25px; }
+        .quote-block .quote { font-size: 1.3rem; font-style: italic; margin-bottom: 10px; }
+        .quote-block .attribution { font-size: 0.9rem; opacity: 0.85; }
+        .competitor-note { background: #fff3e0; border-left: 4px solid #F39C12; padding: 20px; border-radius: 0 10px 10px 0; margin-bottom: 25px; }
+        .competitor-note strong { color: var(--dark); }
+        .back-link { display: inline-block; margin-bottom: 20px; color: var(--primary); text-decoration: none; font-weight: 500; }
+        .back-link:hover { text-decoration: underline; }
+        footer { background: var(--dark); color: white; padding: 40px 0; text-align: center; }
+        footer p { opacity: 0.7; }
+        .eu-country-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            .two-col { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .eu-country-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div>
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="competitors.html" class="nav-link">Competitors</a>
+                <a href="segmentation.html" class="nav-link">Segments</a>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="container">
+            <div class="rank-pill">#6 Priority Segment &mdash; Score: 3.55 / 5</div>
+            <h1>Proactive Professional</h1>
+            <p>Age 35-55 | &euro;60K-100K+ income | 55% male | 4-5M addressable across EU-4</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <a href="segmentation.html" class="back-link">&larr; Back to all segments</a>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="value">4-5M</div><div class="label">EU-4 addressable market</div></div>
+                <div class="stat-card"><div class="value">66%</div><div class="label">Ile-de-France telemedicine adoption</div></div>
+                <div class="stat-card"><div class="value">$2.58B</div><div class="label">France corporate wellness market</div></div>
+                <div class="stat-card"><div class="value">97%</div><div class="label">IT decision-makers weight GDPR</div></div>
+            </div>
+
+            <div class="content-card">
+                <h3>Psychographic Profile</h3>
+                <p>Successful career but aware of stress toll. Works 50+ hours/week. Knows they should do more for their health but lacks time. Willing to pay premium for convenience. Values discretion and quality.</p>
+                <p>Comparable to Zoi's target but priced out at &euro;3,000/year. The "executive wellness" segment that McKinsey's "confident enthusiasts" maps to.</p>
+            </div>
+
+            <div class="two-col">
+                <div class="content-card">
+                    <h3>Current Behavior</h3>
+                    <ul>
+                        <li>Annual GP visit (may skip due to schedule)</li>
+                        <li>Mutuelle covers basics but wants more comprehensive testing</li>
+                        <li>Has considered executive health check-ups (expensive/time-consuming)</li>
+                        <li>Uses Doctolib; comfortable with digital health</li>
+                        <li>May have corporate wellness benefits</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Health Needs</h3>
+                    <ul>
+                        <li>Stress and cortisol assessment</li>
+                        <li>Cardiovascular risk (66% have raised cholesterol)</li>
+                        <li>Complete metabolic panel</li>
+                        <li>Sleep-related biomarkers</li>
+                        <li>Executive health check equivalent at 1/20th of Zoi's price</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3>Willingness to Pay</h3>
+                <div class="detail-row"><span class="detail-label">Per test</span><span class="detail-value">&euro;100-200</span></div>
+                <div class="detail-row"><span class="detail-label">Subscription</span><span class="detail-value">Friendly (quarterly or biannual)</span></div>
+                <div class="detail-row"><span class="detail-label">Premium add-ons</span><span class="detail-value">Would pay for AI insights + recommendations</span></div>
+                <div class="detail-row"><span class="detail-label">Tier mapping</span><span class="detail-value">Comprehensive (&euro;89) or Premium (&euro;159)</span></div>
+            </div>
+
+            <div class="quote-block">
+                <div class="quote">"Le bilan cadre, sans le rendez-vous cadre"</div>
+                <div class="attribution">Primary messaging hook</div>
+            </div>
+            <div class="quote-block" style="background: linear-gradient(135deg, #009688, #4DB6AC);">
+                <div class="quote">"Investissez dans votre sante comme dans votre carriere"</div>
+                <div class="attribution">Secondary messaging hook</div>
+            </div>
+
+            <div class="two-col">
+                <div class="content-card">
+                    <h3>Acquisition Channels</h3>
+                    <ul>
+                        <li>LinkedIn thought leadership / corporate wellness content</li>
+                        <li>B2B: corporate wellness partnerships</li>
+                        <li>Executive networks, business clubs</li>
+                        <li>Premium media (Les Echos, Capital, Management)</li>
+                        <li>Referral programs (professional networks)</li>
+                    </ul>
+                </div>
+                <div class="content-card">
+                    <h3>Product Requirements</h3>
+                    <ul>
+                        <li>Premium panel (60+ biomarkers): hormonal, metabolic, CV, inflammatory</li>
+                        <li>AI-powered insights with actionable recommendations</li>
+                        <li>Concierge-style results consultation (Phase 2)</li>
+                        <li>Corporate/team pricing options</li>
+                        <li>GDPR-first, HDS-certified data handling</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="competitor-note">
+                <strong>Competitor Overlap:</strong> Zoi (&euro;3,000/yr) &mdash; we deliver 95% of the biomarker value at 5% of the price, from home. Anti-Zoi positioning: same depth, fraction of the cost.
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-alt">
+        <div class="container">
+            <h2>Market by Country</h2>
+
+            <div class="stats-grid">
+                <div class="stat-card"><div class="value">0.25-0.35M</div><div class="label">Belgium addressable</div></div>
+                <div class="stat-card"><div class="value">0.25-0.30M</div><div class="label">Switzerland addressable</div></div>
+                <div class="stat-card"><div class="value">2.0-2.5M</div><div class="label">Germany addressable</div></div>
+                <div class="stat-card"><div class="value">4-5.2M</div><div class="label">EU-4 total addressable</div></div>
+            </div>
+
+            <div class="eu-country-grid">
+                <div class="content-card">
+                    <h3>Belgium</h3>
+                    <div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">11.7M</span></div>
+                    <div class="detail-row"><span class="detail-label">Segment addressable</span><span class="detail-value">0.25-0.35M</span></div>
+                    <div class="detail-row"><span class="detail-label">OOP spending</span><span class="detail-value">~&euro;320/yr</span></div>
+                    <div class="detail-row"><span class="detail-label">Health app adoption</span><span class="detail-value">~21%</span></div>
+                    <div class="detail-row"><span class="detail-label">Key dynamic</span><span class="detail-value">Brussels EU/corporate hub; B2B opportunity</span></div>
+                    <div class="detail-row"><span class="detail-label">Barrier</span><span class="detail-value">Niche B2B approach needed</span></div>
+                </div>
+                <div class="content-card">
+                    <h3>Switzerland</h3>
+                    <div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">9.0M</span></div>
+                    <div class="detail-row"><span class="detail-label">Segment addressable</span><span class="detail-value">0.25-0.30M</span></div>
+                    <div class="detail-row"><span class="detail-label">OOP spending</span><span class="detail-value">~&euro;2,560/yr</span></div>
+                    <div class="detail-row"><span class="detail-label">Health app adoption</span><span class="detail-value">~85%</span></div>
+                    <div class="detail-row"><span class="detail-label">Key dynamic</span><span class="detail-value">Zurich/Geneva financial sector; highest WTP</span></div>
+                    <div class="detail-row"><span class="detail-label">Barrier</span><span class="detail-value">Regulatory (EFTA, not EU)</span></div>
+                </div>
+                <div class="content-card">
+                    <h3>Germany</h3>
+                    <div class="detail-row"><span class="detail-label">Population</span><span class="detail-value">84M</span></div>
+                    <div class="detail-row"><span class="detail-label">Segment addressable</span><span class="detail-value">2.0-2.5M</span></div>
+                    <div class="detail-row"><span class="detail-label">OOP spending</span><span class="detail-value">~&euro;664/yr</span></div>
+                    <div class="detail-row"><span class="detail-label">Health app adoption</span><span class="detail-value">~25%</span></div>
+                    <div class="detail-row"><span class="detail-label">Key dynamic</span><span class="detail-value">Large Mittelstand; &euro;2.58B corporate wellness market</span></div>
+                    <div class="detail-row"><span class="detail-label">Barrier</span><span class="detail-value">Well-served by German corporate wellness providers</span></div>
+                </div>
+            </div>
+
+            <div class="competitor-note" style="margin-top: 25px;">
+                <strong>EU Professional Landscape:</strong> The B2B corporate wellness angle is strongest in Germany (&euro;2.58B market) and Brussels (EU institutions). Switzerland's financial sector professionals represent the highest-ARPU subsegment in all of Europe.
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

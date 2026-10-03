@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Sampling Devices | Health Biomarker Monitoring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066CC;
+            --primary-dark: #004C99;
+            --secondary: #00B894;
+            --accent: #6C5CE7;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --gray: #636E72;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        nav .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 20px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: #f0f7ff;
+        }
+
+        /* Header */
+        .page-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Table Section */
+        .table-section {
+            padding: 60px 0;
+        }
+
+        .table-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--dark);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 900px;
+        }
+
+        thead {
+            background: var(--primary);
+            color: white;
+        }
+
+        th {
+            padding: 16px 18px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 18px;
+            border-bottom: 1px solid #eef1f3;
+            font-size: 0.95rem;
+        }
+
+        tbody tr:hover {
+            background: #f0f7ff;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .device-name {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .device-name a, td a {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed var(--primary);
+            transition: color 0.2s, border-color 0.2s;
+        }
+
+        .device-name a:hover, td a:hover {
+            color: var(--primary);
+            border-bottom-style: solid;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .badge-liquid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .badge-dried {
+            background: #d6e9f8;
+            color: #0c5294;
+        }
+
+        .badge-research {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .price-known {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .price-unknown {
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        /* Takeaways */
+        .takeaways {
+            padding: 60px 0;
+        }
+
+        .takeaways h2 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .takeaways-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .takeaway-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid var(--primary);
+        }
+
+        .takeaway-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .takeaway-card p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Sources */
+        .sources {
+            padding: 40px 0 60px;
+        }
+
+        .sources h2 {
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .sources-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 8px;
+            list-style: none;
+        }
+
+        .sources-list li a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .sources-list li a:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .sources-list li::before {
+            content: "\2192 ";
+            color: var(--gray);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 1.8rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            th, td {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">HealthBio</a>
+            <div class="nav-links">
+                <a href="competitors.html">Competitors</a>
+                <a href="devices.html">Devices</a>
+                <a href="tests.html">Tests</a>
+                <a href="segmentation.html">Segments</a>
+                <a href="index.html#waitlist">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="page-header">
+        <div class="container">
+            <h1>Blood Sampling Devices Comparison</h1>
+            <p>A comprehensive overview of at-home blood collection devices for biomarker testing — pricing, volumes, and regulatory status.</p>
+        </div>
+    </div>
+
+    <section class="table-section">
+        <div class="container">
+            <h2>Liquid Blood Collection Devices</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Company</th>
+                            <th>Blood Volume</th>
+                            <th>Price / Unit</th>
+                            <th>Pricing Model</th>
+                            <th>Sample Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="device-name"><a href="https://www.tassoinc.com/tasso-plus" target="_blank">Tasso+</a></td>
+                            <td><a href="https://www.tassoinc.com/" target="_blank">Tasso Inc.</a></td>
+                            <td>0.2 - 0.6 mL</td>
+                            <td class="price-known">~&euro;27.50 / ~$25-30</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.tassoinc.com/" target="_blank">Tasso Mini</a></td>
+                            <td><a href="https://www.tassoinc.com/" target="_blank">Tasso Inc.</a></td>
+                            <td>&lt; 0.2 mL</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://yourbiohealth.com/touch-activated-phlebotomy/our-devices/" target="_blank">TAP Micro Select</a></td>
+                            <td><a href="https://yourbiohealth.com/" target="_blank">YourBio Health</a></td>
+                            <td>Up to 0.9 mL</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B), Fisher Scientific</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://yourbiohealth.com/touch-activated-phlebotomy/our-devices/" target="_blank">TAP Micro</a></td>
+                            <td><a href="https://yourbiohealth.com/" target="_blank">YourBio Health</a></td>
+                            <td>&ge; 0.1 mL</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://siphoxhealth.com/" target="_blank">SiPhox EasyDraw</a></td>
+                            <td><a href="https://siphoxhealth.com/" target="_blank">SiPhox Health</a></td>
+                            <td>0.5 mL</td>
+                            <td class="price-known">+$20 add-on / test</td>
+                            <td>Consumer subscription (from $125)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.loop-medical.com/for-professionals" target="_blank">Onflow</a></td>
+                            <td><a href="https://www.loop-medical.com/" target="_blank">Loop Medical (EPFL)</a></td>
+                            <td>Up to 1.5 mL</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Pre-market (Series A funded)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://reddropdx.com/products/reddrop-one" target="_blank">RedDrop One</a></td>
+                            <td><a href="https://reddropdx.com/" target="_blank">RedDrop Dx (US)</a></td>
+                            <td>0.4 - 0.5 mL</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.labonovum.nl/en/healthcare-professionals/" target="_blank">Hem-Col</a></td>
+                            <td><a href="https://www.labonovum.nl/en/healthcare-professionals/" target="_blank">Labonovum (Netherlands)</a></td>
+                            <td>~0.15 mL (6 drops)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://vitestro.com/aletta/" target="_blank">Aletta (ARPD)</a></td>
+                            <td><a href="https://vitestro.com/" target="_blank">Vitestro (Netherlands)</a></td>
+                            <td>Standard venous draw</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>CE marked, robotic phlebotomy device</td>
+                            <td><span class="badge badge-liquid">Liquid (venous)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://thriva.co/sample-collection/device/finger-prick" target="_blank">Thriva Autodraw</a></td>
+                            <td><a href="https://thriva.co/" target="_blank">Thriva (UK)</a></td>
+                            <td>0.4 - 0.8 mL</td>
+                            <td class="price-known">From &pound;59 / test (incl. lab analysis)</td>
+                            <td>DTC subscription (&pound;39/mo) or one-off</td>
+                            <td><span class="badge badge-liquid">Liquid</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.pixcell-medical.com/hemoscreen/" target="_blank">HemoScreen</a></td>
+                            <td><a href="https://www.pixcell-medical.com/" target="_blank">PixCell Medical (Israel/EU)</a></td>
+                            <td>1 drop (~0.02 mL)</td>
+                            <td class="price-unknown">Not public (RFQ)</td>
+                            <td>Analyzer + cartridge consumables</td>
+                            <td><span class="badge badge-liquid">Liquid (POC analyzer)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="table-section" style="padding-top: 0;">
+        <div class="container">
+            <h2>Dried Blood Spot / Microsampling Devices</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Device</th>
+                            <th>Company</th>
+                            <th>Blood Volume</th>
+                            <th>Price / Unit</th>
+                            <th>Pricing Model</th>
+                            <th>Sample Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="device-name"><a href="https://www.neoteryx.com/volumetrically-accurate-micro-sampling-vams-collection-devices" target="_blank">Mitra (VAMS)</a></td>
+                            <td><a href="https://www.neoteryx.com/" target="_blank">Neoteryx / Trajan</a></td>
+                            <td>0.01 - 0.12 mL (tips: 0.01, 0.02, 0.03 mL)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based, free eval samples</td>
+                            <td><span class="badge badge-dried">Dried (VAMS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://hemaxis.com/products/hemaxis-db10/" target="_blank">HemaXis DB10</a></td>
+                            <td><a href="https://hemaxis.com/" target="_blank">DBS System SA (Switzerland)</a></td>
+                            <td>4 &times; 0.005-0.01 mL (0.02-0.04 mL total)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based, 100-packs via CQ Solutions</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.tassoinc.com/tasso-m20" target="_blank">Tasso-M20</a></td>
+                            <td><a href="https://www.tassoinc.com/" target="_blank">Tasso Inc.</a></td>
+                            <td>Dried sample</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.tassoinc.com/tile-t20" target="_blank">Tile-T20</a></td>
+                            <td><a href="https://www.tassoinc.com/" target="_blank">Tasso Inc.</a></td>
+                            <td>4 &times; 0.0175 mL (0.07 mL total)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based, 100-packs via Fisher Scientific</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://capitainer.com/product/capitainerb/" target="_blank">Capitainer B10</a></td>
+                            <td><a href="https://capitainer.com/" target="_blank">Capitainer (Sweden)</a></td>
+                            <td>0.01 mL</td>
+                            <td class="price-known">&euro;7.90 / unit (&euro;395 / 50-pack)</td>
+                            <td>Direct or via distributors</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://capitainer.com/product/capitainerb-50/" target="_blank">Capitainer B50</a></td>
+                            <td><a href="https://capitainer.com/" target="_blank">Capitainer (Sweden)</a></td>
+                            <td>0.05 mL</td>
+                            <td class="price-unknown">Not public (sold in 25-packs)</td>
+                            <td>Direct or via distributors</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://capitainer.com/innovative-capitainersep10-revolutionizes-blood-plasma-sampling/" target="_blank">Capitainer SEP10</a></td>
+                            <td><a href="https://capitainer.com/" target="_blank">Capitainer (Sweden)</a></td>
+                            <td>0.01 mL (plasma separated)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Direct or via distributors</td>
+                            <td><span class="badge badge-dried">Dried (plasma spot)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.labonovum.nl/en/healthcare-professionals/" target="_blank">Ser-Col</a></td>
+                            <td><a href="https://www.labonovum.nl/en/healthcare-professionals/" target="_blank">Labonovum (Netherlands)</a></td>
+                            <td>~0.15 mL (6 drops)</td>
+                            <td class="price-unknown">Not public</td>
+                            <td>Quote-based (B2B)</td>
+                            <td><span class="badge badge-dried">Dried (serum spot)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://www.physikit.com/" target="_blank">Physikit DBS Kit</a></td>
+                            <td><a href="https://www.physikit.com/" target="_blank">Physikit (Germany)</a></td>
+                            <td>Few drops (~0.1 mL)</td>
+                            <td class="price-unknown">Not public (B2B white-label)</td>
+                            <td>White-label B2B solution</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                        <tr>
+                            <td class="device-name"><a href="https://pubs.acs.org/doi/10.1021/acs.analchem.5c05535" target="_blank">HematoCARD</a></td>
+                            <td>Research (2025)</td>
+                            <td>2 &times; 0.01 mL (0.02 mL total)</td>
+                            <td><span class="badge badge-research">Research prototype</span></td>
+                            <td>Not commercially available</td>
+                            <td><span class="badge badge-dried">Dried (DBS)</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="takeaways">
+        <div class="container">
+            <h2>Key Takeaways</h2>
+            <div class="takeaways-grid">
+                <div class="takeaway-card">
+                    <h3>B2B Pricing Dominates</h3>
+                    <p>Most devices use quote-based B2B pricing. Only Tasso+ (~$25-30/unit) and Capitainer B10 (~&euro;7.90/unit) have confirmed public pricing.</p>
+                </div>
+                <div class="takeaway-card">
+                    <h3>Liquid vs. Dried Trade-off</h3>
+                    <p>Liquid blood devices (Tasso+, TAP) collect more volume for full biomarker panels. Dried blood spot devices offer cheaper logistics with no cold chain needed.</p>
+                </div>
+                <div class="takeaway-card">
+                    <h3>EU Regulatory Ready</h3>
+                    <p>Mitra, HemaXis, TAP Micro, Tasso+, Capitainer, Vitestro Aletta, and Thriva all carry CE marking for the European market.</p>
+                </div>
+                <div class="takeaway-card">
+                    <h3>Strong European Ecosystem</h3>
+                    <p>Key EU players include Loop Medical (Switzerland/EPFL), Vitestro (Netherlands), Labonovum (Netherlands), Capitainer (Sweden), HemaXis (Switzerland), Physikit (Germany), and Thriva (UK).</p>
+                </div>
+                <div class="takeaway-card">
+                    <h3>Patient Preference</h3>
+                    <p>50% of patients prefer fingerprick over venipuncture. Upper-arm devices (Tasso, TAP, Thriva Autodraw) report even lower pain — 91% of Thriva users say it's pain-free.</p>
+                </div>
+                <div class="takeaway-card">
+                    <h3>Highest Volume Collectors</h3>
+                    <p>Loop Medical Onflow collects up to 1.5 mL, TAP Micro Select up to 0.9 mL, and Thriva Autodraw up to 0.8 mL — enough for full biomarker panels.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="sources">
+        <div class="container">
+            <h2>Sources</h2>
+            <ul class="sources-list">
+                <li><a href="https://www.tassoinc.com/" target="_blank">Tasso Inc.</a></li>
+                <li><a href="https://www.tassoinc.com/tasso-plus" target="_blank">Tasso+ Specifications</a></li>
+                <li><a href="https://yourbiohealth.com/touch-activated-phlebotomy/our-devices/" target="_blank">YourBio Health Devices</a></li>
+                <li><a href="https://www.neoteryx.com/mitra-pricing" target="_blank">Neoteryx Mitra Pricing</a></li>
+                <li><a href="https://hemaxis.com/products/hemaxis-db10/" target="_blank">HemaXis DB10</a></li>
+                <li><a href="https://www.youdobio.com/product/volumetric-dried-blood-spot-card/" target="_blank">Capitainer B10 (You Do Bio)</a></li>
+                <li><a href="https://siphoxhealth.com/articles/how-much-does-siphox-health-cost" target="_blank">SiPhox Health Pricing</a></li>
+                <li><a href="https://capitainer.com/products/" target="_blank">Capitainer Products</a></li>
+                <li><a href="https://www.loop-medical.com/" target="_blank">Loop Medical (EPFL) — Onflow Device</a></li>
+                <li><a href="https://pubs.acs.org/doi/10.1021/acs.analchem.5c05535" target="_blank">HematoCARD (Analytical Chemistry 2025)</a></li>
+                <li><a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10013775/" target="_blank">Microsampling Tools Review (PMC)</a></li>
+                <li><a href="https://www.grandviewresearch.com/industry-analysis/capillary-blood-collection-devices-market" target="_blank">Capillary Blood Collection Devices Market</a></li>
+                <li><a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/advs.202308809" target="_blank">Bioinspired Device Paper (Tasso pricing estimate)</a></li>
+                <li><a href="https://reddropdx.com/" target="_blank">RedDrop Dx — RedDrop One</a></li>
+                <li><a href="https://www.labonovum.nl/en/healthcare-professionals/" target="_blank">Labonovum — Hem-Col &amp; Ser-Col (Netherlands)</a></li>
+                <li><a href="https://vitestro.com/" target="_blank">Vitestro — Aletta Robotic Phlebotomy (Netherlands)</a></li>
+                <li><a href="https://thriva.co/" target="_blank">Thriva — Home Blood Testing (UK)</a></li>
+                <li><a href="https://www.pixcell-medical.com/" target="_blank">PixCell Medical — HemoScreen (Israel/EU)</a></li>
+                <li><a href="https://www.physikit.com/" target="_blank">Physikit — White-label DBS Kits (Germany)</a></li>
+                <li><a href="https://capitainer.com/innovative-capitainersep10-revolutionizes-blood-plasma-sampling/" target="_blank">Capitainer SEP10 — Plasma Separation (Sweden)</a></li>
+                <li><a href="https://www.degruyterbrill.com/document/doi/10.1515/cclm-2024-0508/html" target="_blank">Blood Self-Sampling Devices Review (CCLM 2024)</a></li>
+                <li><a href="https://www.databridgemarketresearch.com/nucleus/europe-blood-microsampling-and-interstitial-fluid-collection-devices-market" target="_blank">Europe Blood Microsampling Market Report</a></li>
+            </ul>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Health Biomarker App. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Targeting launch in France | GDPR Compliant | ISO 15189 Certified Labs</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1209,6 +1209,7 @@ const EYE = 160, FL = {up: 0, low: -262}, CEIL = {up: (x,z) => roofTop(z) - RT -
 const DOOR = [1415, 386];   // front door, middle of the opening on the north façade
 const walkLight = new THREE.AmbientLight(0xffffff, 0.38); walkLight.visible = false; scene.add(walkLight);
 const wallT = (x1,z1,x2,z2,t,y0,top,mat) => { const dx=x2-x1, dz=z2-z1, L=Math.hypot(dx,dz), nx=-dz/L*t/2, nz=dx/L*t/2;
+  if (L < 1) return new THREE.Group();   // openings that end on a corner leave zero-length pieces
   return prism([[x1+nx,z1+nz],[x2+nx,z2+nz],[x2-nx,z2-nz],[x1-nx,z1-nz]], () => y0, top, mat); };
 function buildInside(L, fk){
   const g = new THREE.Group(), out = fk === 'low' ? D.lower : D.upper, fl = FL[fk], ceil = CEIL[fk], floors = [];
@@ -1220,7 +1221,7 @@ function buildInside(L, fk){
   // façade walls with their openings: sill, glass, lintel; the front door stands open
   const roofW = D.windows.filter(w => w[5] === 'roof'), toRoof = w => roofW.some(e => e[0] === w[0] && e[1] === w[1]);
   const wins = fk === 'low' ? L.win : L.win.concat(roofW.filter(w => !L.win.some(e => e[0] === w[0] && e[1] === w[1])));
-  const n = out.length;
+  const n = out.length, sight = L.walls.slice();   // sight: what blocks the view (walls, doors), not the glass
   for (let e=0;e<n;e++){
     const a = out[e], b = out[(e+1)%n], dx=b[0]-a[0], dz=b[1]-a[1], len=Math.hypot(dx,dz), P = s => [a[0]+dx*s, a[1]+dz*s];
     const ops = wins.map(w => { const t1 = ((w[0]-a[0])*dx+(w[1]-a[1])*dz)/len/len, t2 = ((w[2]-a[0])*dx+(w[3]-a[1])*dz)/len/len, d = Math.abs((w[0]-a[0])*dz-(w[1]-a[1])*dx)/len;
@@ -1228,16 +1229,17 @@ function buildInside(L, fk){
     let t = 0;
     const seg = (s0, s1, y0, top) => { const p0 = P(s0), p1 = P(s1); g.add(wallT(p0[0],p0[1],p1[0],p1[1],25,y0,top,M.iwall)); };
     ops.forEach(([s0, s1, w]) => {
-      if (s0 > t) seg(t, s0, fl, ceil);
+      if (s0 > t){ seg(t, s0, fl, ceil); sight.push([...P(t), ...P(s0)]); }
       const full = toRoof(w) || w[5] === 'roof', p0 = P(s0), p1 = P(s1);
+      if (Math.hypot(p1[0]-p0[0], p1[1]-p0[1]) < 1){ t = Math.max(t, s1); return; }
       if (w[4] > fl) seg(s0, s1, fl, () => w[4]);
       if (!full) seg(s0, s1, w[5], (x,z) => Math.max(w[5], ceil(x,z)));
       const top = full ? ceil : (x,z) => Math.min(w[5], ceil(x,z));
-      if (w[6] === 'wood'){ if (fk === 'low') g.add(panel(p0[0],p0[1],p1[0],p1[1], Math.max(w[4],fl), top, M.wood, 0)); }
+      if (w[6] === 'wood'){ if (fk === 'low'){ sight.push([...p0, ...p1]); g.add(panel(p0[0],p0[1],p1[0],p1[1], Math.max(w[4],fl), top, M.wood, 0)); } }
       else g.add(panel(p0[0],p0[1],p1[0],p1[1], Math.max(w[4],fl), top, M.iglass, 0));
       t = s1;
     });
-    if (t < 1) seg(t, 1, fl, ceil);
+    if (t < 1){ seg(t, 1, fl, ceil); sight.push([...P(t), ...P(1)]); }
   }
   // partitions up to the ceiling, with a lintel over each doorway between two aligned partitions
   L.walls.forEach(w => g.add(wallT(w[0],w[1],w[2],w[3],10,fl,ceil,M.iwall)));
@@ -1255,7 +1257,7 @@ function buildInside(L, fk){
   (L.tags || []).forEach(tg => lab(TX.lang === 'fr' ? tg[2] : tg[3], '', tg[0], tg[1], 0.24));
   const meshes = []; g.traverse(o => { if (o.isMesh) meshes.push(o); });
   g.visible = false; scene.add(g);
-  return {g, L, fk, out, floors, meshes, walls: L.walls.concat(out.map((p,i) => [...p, ...out[(i+1)%n]]))};
+  return {g, L, fk, out, floors, meshes, sight, walls: L.walls.concat(out.map((p,i) => [...p, ...out[(i+1)%n]]))};
 }
 const inside = {}, UPL = {ex: 'up_ex', c: 'up_pr', d: 'up_d', cL: 'up_pr_lux', dL: 'up_d_lux'};
 function walkSet(){   // the interiors of the current option and layout, built on first use
@@ -1320,7 +1322,7 @@ function resize(){
 }
 function render(){ resize(); const s = sites[mode], p = camera.position, hmin = s.gz(p.x + CX, p.z + CZ) + 250; if (!walk && p.y < hmin) p.y = hmin; renderer.render(scene, camera); }
 let raf = null;
-controls.addEventListener('change', () => { if (!raf) raf = requestAnimationFrame(() => { raf = null; controls.update(); render(); }); });
+controls.addEventListener('change', () => { if (!walk && !raf) raf = requestAnimationFrame(() => { raf = null; controls.update(); render(); }); });
 new ResizeObserver(render).observe(canvas);
 controls.update(); apply();
 window.galatryProject = {camera, controls, render};
@@ -1367,9 +1369,9 @@ let saved = null, glide = null, moving = null, last = 0, drag = null;
 const ray = new THREE.Raycaster(), keys = new Set();
 const segD = (x, z, s) => { const dx=s[2]-s[0], dz=s[3]-s[1], l2=dx*dx+dz*dz||1, t=Math.max(0, Math.min(1, ((x-s[0])*dx+(z-s[1])*dz)/l2)); return Math.hypot(x-s[0]-t*dx, z-s[1]-t*dz); };
 const free = (W, x, z) => inPoly(x, z, W.out) && W.walls.every(s => segD(x, z, s) > 22);
-function reach(W, x, z, a){   // free distance from (x, z) looking along yaw a
+function reach(W, x, z, a, segs = W.walls){   // free distance from (x, z) looking along yaw a
   const dx = -Math.sin(a), dz = -Math.cos(a); let best = 3000;
-  W.walls.forEach(s => { const ex = s[2]-s[0], ez = s[3]-s[1], den = dx*ez - dz*ex; if (Math.abs(den) < 1e-9) return;
+  segs.forEach(s => { const ex = s[2]-s[0], ez = s[3]-s[1], den = dx*ez - dz*ex; if (Math.abs(den) < 1e-9) return;
     const t = ((s[0]-x)*ez - (s[1]-z)*ex)/den, u = ((s[0]-x)*dz - (s[1]-z)*dx)/den; if (t > 0 && u >= 0 && u <= 1 && t < best) best = t; });
   return best;
 }
@@ -1390,9 +1392,10 @@ function glideTo(x, z, fk, a = yaw){
   })();
 }
 function atDoor(){ pitch = -0.05; glideTo(DOOR[0], DOOR[1] + 34, 'up', Math.PI); }
-function visit(W, r){   // stand back from the room's middle, facing its longest free view
+function visit(W, r){   // stand back from the room's middle, facing its widest view (through the windows when it has some)
   let [x, z] = r.lab, best = 0, a0 = yaw;
-  for (let i=0;i<24;i++){ const a = i*Math.PI/12, d = reach(W, x, z, a); if (d > best){ best = d; a0 = a; } }
+  const view = a => [-0.26, 0, 0.26].reduce((s, o) => s + Math.min(1500, reach(W, x, z, a + o, W.sight)), 0);
+  for (let i=0;i<36;i++){ const a = i*Math.PI/18, d = view(a); if (d > best){ best = d; a0 = a; } }
   const back = Math.max(0, Math.min(reach(W, x, z, a0 + Math.PI) - 45, 220));
   if (free(W, x + Math.sin(a0)*back, z + Math.cos(a0)*back)){ x += Math.sin(a0)*back; z += Math.cos(a0)*back; }
   pitch = -0.08; glideTo(x, z, W.fk, a0);
@@ -1417,7 +1420,7 @@ function enterWalk(){
   if (low || up) floorCut(null);
   cancelAnimationFrame(anim);
   saved = {pos: camera.position.clone(), target: controls.target.clone()};
-  walk = true; controls.enabled = false; camera.fov = 68; camera.near = 5; camera.updateProjectionMatrix();
+  walk = true; controls.enabled = false; cancelAnimationFrame(raf); raf = null; camera.fov = 68; camera.near = 5; camera.updateProjectionMatrix();
   pitch = -0.05; place(DOOR[0], DOOR[1] + 34, 'up', Math.PI);
   walkBtn.setAttribute('aria-pressed', true); walkUI.hidden = false; canvas.classList.add('walking');
   document.querySelectorAll('.m-ctrl [data-view]').forEach(x => x.setAttribute('aria-pressed', false));

@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Illustrations · Galatry 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4; --accent:#2F6690;
+  --warning:#B8860B; --warning-soft:rgba(184,134,11,.16);
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740; --accent:#7DB4E0; --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18); }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740; --accent:#7DB4E0; --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18); }
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);line-height:1.08}
+h2{font-size:21px;text-transform:uppercase;letter-spacing:.06em}
+p{margin:0;max-width:70ch}
+.muted{color:var(--ink-2)}
+header{border-bottom:2px solid var(--ink);padding-bottom:20px;display:flex;flex-direction:column;gap:10px}
+.kicker{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--accent)}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--ink);text-decoration:none;border:1px solid var(--rule);padding:6px 12px;border-radius:2px;background:var(--sheet)}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+nav a[aria-current]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
+.ba{position:relative;width:100%;aspect-ratio:1280/900;background:var(--sheet);border:1px solid var(--rule);overflow:hidden;user-select:none;touch-action:pan-y}
+.ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
+.ba .after{clip-path:inset(0 0 0 var(--pos,50%))}
+.ba .bar{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
+.ba .knob{position:absolute;top:50%;left:var(--pos,50%);width:38px;height:38px;margin:-19px 0 0 -19px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.4);display:grid;place-items:center;font:600 15px var(--f-draw);color:#1B2530}
+.ba .tag{position:absolute;top:10px;padding:3px 9px;background:rgba(16,22,27,.72);color:#fff;font:600 12px var(--f-draw);text-transform:uppercase;letter-spacing:.08em}
+.ba .tag.l{left:10px}.ba .tag.r{right:10px}
+.ba input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.ba:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+figure{margin:0;display:flex;flex-direction:column;gap:8px}
+figcaption{color:var(--ink-2);font-size:14px;max-width:80ch}
+.plan img{width:100%;height:auto;border:1px solid var(--rule);background:#fff}
+.note{border-left:3px solid var(--warning);background:var(--warning-soft);padding:10px 14px;max-width:80ch}
+ul{margin:0;padding-left:20px;max-width:80ch} li{margin:4px 0}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div class="kicker">Chemin de Galatry 3 · Corseaux VD</div><h1>Illustrations après travaux</h1><p class="muted">La photo drone de l’annonce, avant et après la rénovation de la variante réaliste (base). Glisser le curseur pour comparer. Deux aménagements du jardin : avec la piscine de 7 × 3 m, ou sans piscine, avec une terrasse en bois et du gazon.</p></header>
+<nav aria-label="Sections"><a href="index.html">&#8617; Plans &amp; modèle 3D</a><a href="projet.html">Projet de rénovation</a><a href="illustrations.html" aria-current="page">Illustrations</a><a href="financement.html">Financement</a><a href="illustrations-en.html">EN</a></nav>
+<section id="piscine"><div class="sec-head"><h2>Base + piscine</h2><span class="muted">Terrasse en dalles de pierre, piscine à débordement 7 × 3 m</span></div>
+<figure><div class="ba"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900" loading="lazy"><img class="after" src="img/illustrations/apres-piscine.jpg" alt="Base + piscine" width="1280" height="900" loading="lazy">
+<span class="tag l">Avant</span><span class="tag r">Après</span><span class="bar"></span><span class="knob" aria-hidden="true">&#8596;</span>
+<input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><figcaption>Façades isolées et crépies, toiture neuve en métal avec panneaux solaires, deux portes-fenêtres jusqu’au sol à l’étage avec garde-corps en verre, baie vitrée à la place de la porte du garage. Devant, la terrasse de 115 m² au niveau −2.85 et la piscine, parallèle à la façade, à 4.5 m d’elle et à 3.2 m de la limite. Murs de soutènement bas (30 à 60 cm).</figcaption></figure></section>
+<section id="bois-gazon"><div class="sec-head"><h2>Base · bois et gazon</h2><span class="muted">Sans piscine : terrasse en bois le long de la maison, gazon devant</span></div>
+<figure><div class="ba"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900" loading="lazy"><img class="after" src="img/illustrations/apres-bois-gazon.jpg" alt="Base · bois et gazon" width="1280" height="900" loading="lazy">
+<span class="tag l">Avant</span><span class="tag r">Après</span><span class="bar"></span><span class="knob" aria-hidden="true">&#8596;</span>
+<input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><figcaption>La même maison. Sur la plateforme, une terrasse en lames de bois sur environ 4.5 m de profondeur le long de la façade, puis du gazon au même niveau jusqu’aux murs bas. La piscine peut s’ajouter plus tard à la place du gazon.</figcaption></figure></section>
+<section id="plan"><div class="sec-head"><h2>Plan de masse</h2><span class="muted">Base + piscine 7 × 3 m, nord en haut</span></div>
+<figure class="plan"><img src="img/illustrations/plan-masse-piscine.jpg" alt="Plan de masse" loading="lazy"><figcaption>Rez-inférieur (aménagement « cuisine en haut »), terrasse, piscine cotée, limite de parcelle et direction de la photo drone. Esquisse, non dimensionnée.</figcaption></figure></section>
+<section id="methode"><div class="sec-head"><h2>Comment ces images sont faites</h2></div><ul><li>La caméra du drone est recalculée à partir de 14 points de la maison sur la photo (angles du toit, cheminées, bandeau, ouvertures) : environ 10 pixels d’écart sur 2560.</li><li>La maquette 3D du projet est rendue dans Blender depuis cette caméra, puis incrustée dans la photo : la géométrie (terrasse, piscine, ouvertures) vient des plans.</li><li>Une IA d’édition d’image (Gemini) rend seulement les matériaux et la lumière réalistes, dans la zone modifiée. Le reste est la photo d’origine.</li></ul><p class="note">Ce sont des illustrations, pas des plans. Les proportions viennent de l’esquisse (calée à environ 20–30 cm). Couleurs, matériaux, mobilier et intérieurs visibles sont des hypothèses ou ont été ajoutés par l’IA.</p></section>
+<footer>Photo d’origine : annonce de vente (Riviera Properties). Images retouchées pour un usage privé.</footer>
+</div>
+<script>
+document.querySelectorAll('.ba').forEach(ba => {
+  const r = ba.querySelector('input');
+  const set = v => ba.style.setProperty('--pos', v + '%');
+  r.addEventListener('input', () => set(r.value)); set(r.value);
+});
+</script>
+</body>
+</html>

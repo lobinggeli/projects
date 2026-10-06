@@ -261,6 +261,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
         <button type="button" data-view="se" aria-pressed="true">Côté lac</button>
         <button type="button" data-view="ne">Côté colline</button>
         <button type="button" data-view="top">Dessus</button>
+        <button type="button" data-view="wide">Quartier</button>
         <button type="button" data-view="site">Parcelle</button>
         <span class="sep" aria-hidden="true"></span>
         <button type="button" id="m-low" aria-pressed="false">Rez-inférieur</button>
@@ -269,11 +270,12 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
         <span class="m-iv" role="group" aria-label="Aménagement"><span class="m-iv-l">Aménagement</span><button type="button" data-iv="c" aria-pressed="true">Cuisine en bas</button><button type="button" data-iv="d" aria-pressed="false">Cuisine en haut</button></span>
         <button type="button" id="m-ground" aria-pressed="true">Terrain</button>
         <button type="button" id="m-parcel" aria-pressed="true">Cadastre</button>
+        <button type="button" id="m-real" aria-pressed="false" data-load="Chargement…" data-err="Site réel indisponible">Site réel</button>
       </div></div>
     <div class="m-stage"><canvas id="m-canvas" aria-label="Maquette 3D du projet"></canvas>
       <div class="m-walk" id="m-walk-ui" hidden><div class="m-walk-top"><p class="m-walk-hint">Glisser pour regarder autour · cliquer ou toucher le sol pour s’y rendre · flèches ou WASD (Maj pour aller plus vite) · Échap pour sortir</p><button type="button" id="m-walk-exit">Retour à la maquette</button></div><div class="m-walk-rooms" id="m-walk-rooms" role="group" aria-label="Pièces"></div></div>
       <p class="m-fallback" id="m-fallback" hidden>La vue 3D nécessite WebGL, désactivé dans ce navigateur.</p></div>
-    <figcaption><b>Base</b> : dehors, seule la cour côté lac change : elle devient une terrasse de 115 m² (niveau −2.85), prête pour une piscine (gaines, évacuation, alimentation). On se gare sur la partie bétonnée au bord du chemin, qui reste ; la rampe au-dessus est cassée et rendue au jardin, et un chemin piéton avec des marches rejoint le chemin existant qui monte à l’entrée. La maison a la façade sud vitrée : portes-fenêtres jusqu’au sol dans la pièce de vie et la chambre parentale, garde-corps en verre, muret de la terrasse du haut en verre, et une baie vitrée dans l’ouverture de l’ancien garage. <b>+ Piscine</b> (option) : bassin à débordement de 7 × 3 m au bord de la terrasse côté lac ; l’eau passe par-dessus le bord sud dans une goulotte en contrebas. <b>+ Clôture</b> (option) : clôture sur la limite de la parcelle, haie d’essences mélangées à l’intérieur, portail à deux battants à l’entrée (et un portillon à l’autre entrée quand l’accès actuel est gardé). <b>+ Parking en bas</b> (option) : garage double couvert (6.4 × 6.5 m, deux portes) creusé dans la pente au bord du chemin de Galatry, sol à −5.70, dalle recouverte de terre ; un chemin piéton monte à l’entrée. <b>+ Parking en bas, toit-terrasse</b> (option) : le même garage, mais son toit est une terrasse dallée au niveau de la terrasse (−2.85), reliée à elle : la terrasse passe à 166 m² à côté de la piscine. Garde-corps en verre au-dessus des portes ; un escalier extérieur longe le côté ouest du garage, des portes jusqu’à la terrasse, où l’on entre dans la maison par la baie vitrée. <b>+ Parking sous la terrasse</b> (option) : garage double creusé sous la partie sud-est de la terrasse (sol −5.70), avec un accès en tranchée depuis l’entrée actuelle au coin sud ; la terrasse reste par-dessus. Un escalier intérieur monte dans un petit sas vitré posé sur la terrasse contre la façade, qui ouvre sur l’atelier (ancienne citerne) : on passe du garage à la maison sans sortir. La piscine passe à 5 × 3 m et se décale vers l’ouest, à 3 m de la limite. <b>+ Parking en haut</b> (option) : nouvel accès le long du côté est (35.3 m, pente d’environ 21.2 %), garage creusé dans la colline (7 × 6.8 m, sol à −1.00) et remblayé, aire de manœuvre et cour d’entrée avec une place de parc, six marches jusqu’à la porte. « Rez-inférieur » et « Rez-de-chaussée » ouvrent chaque étage ; « Aménagement » passe de la cuisine en bas à la cuisine en haut. <b>Vue intérieure</b> : vous êtes dans la porte d’entrée ouverte, à hauteur des yeux (1,60 m), face au hall. Glisser pour regarder autour, cliquer le sol pour avancer, ou passer directement à une pièce de l’un ou l’autre étage ; la vue suit l’option et l’aménagement choisis. Les pièces montent jusqu’à la sous-face du toit telle que dessinée dans la maquette (sans faux plafond), et l’escalier entre les étages n’est pas dessiné.</figcaption>
+    <figcaption><b>Base</b> : dehors, seule la cour côté lac change : elle devient une terrasse de 115 m² (niveau −2.85), prête pour une piscine (gaines, évacuation, alimentation). On se gare sur la partie bétonnée au bord du chemin, qui reste ; la rampe au-dessus est cassée et rendue au jardin, et un chemin piéton avec des marches rejoint le chemin existant qui monte à l’entrée. La maison a la façade sud vitrée : portes-fenêtres jusqu’au sol dans la pièce de vie et la chambre parentale, garde-corps en verre, muret de la terrasse du haut en verre, et une baie vitrée dans l’ouverture de l’ancien garage. <b>+ Piscine</b> (option) : bassin à débordement de 7 × 3 m au bord de la terrasse côté lac ; l’eau passe par-dessus le bord sud dans une goulotte en contrebas. <b>+ Clôture</b> (option) : clôture sur la limite de la parcelle, haie d’essences mélangées à l’intérieur, portail à deux battants à l’entrée (et un portillon à l’autre entrée quand l’accès actuel est gardé). <b>+ Parking en bas</b> (option) : garage double couvert (6.4 × 6.5 m, deux portes) creusé dans la pente au bord du chemin de Galatry, sol à −5.70, dalle recouverte de terre ; un chemin piéton monte à l’entrée. <b>+ Parking en bas, toit-terrasse</b> (option) : le même garage, mais son toit est une terrasse dallée au niveau de la terrasse (−2.85), reliée à elle : la terrasse passe à 166 m² à côté de la piscine. Garde-corps en verre au-dessus des portes ; un escalier extérieur longe le côté ouest du garage, des portes jusqu’à la terrasse, où l’on entre dans la maison par la baie vitrée. <b>+ Parking sous la terrasse</b> (option) : garage double creusé sous la partie sud-est de la terrasse (sol −5.70), avec un accès en tranchée depuis l’entrée actuelle au coin sud ; la terrasse reste par-dessus. Un escalier intérieur monte dans un petit sas vitré posé sur la terrasse contre la façade, qui ouvre sur l’atelier (ancienne citerne) : on passe du garage à la maison sans sortir. La piscine passe à 5 × 3 m et se décale vers l’ouest, à 3 m de la limite. <b>+ Parking en haut</b> (option) : nouvel accès le long du côté est (35.3 m, pente d’environ 21.2 %), garage creusé dans la colline (7 × 6.8 m, sol à −1.00) et remblayé, aire de manœuvre et cour d’entrée avec une place de parc, six marches jusqu’à la porte. <strong>Site réel</strong> : 400 × 400 m autour de la parcelle, avec l’orthophoto swisstopo 2023 (10 cm), le relief swissALTI3D, les arbres et les haies (swissSURFACE3D) et les bâtiments voisins (swissBUILDINGS3D) ; la parcelle reste la maquette du projet. « Quartier » cadre l’ensemble. « Rez-inférieur » et « Rez-de-chaussée » ouvrent chaque étage ; « Aménagement » passe de la cuisine en bas à la cuisine en haut. <b>Vue intérieure</b> : vous êtes dans la porte d’entrée ouverte, à hauteur des yeux (1,60 m), face au hall. Glisser pour regarder autour, cliquer le sol pour avancer, ou passer directement à une pièce de l’un ou l’autre étage ; la vue suit l’option et l’aménagement choisis. Les pièces montent jusqu’à la sous-face du toit telle que dessinée dans la maquette (sans faux plafond), et l’escalier entre les étages n’est pas dessiné.</figcaption>
   </figure>
 </section>
 
@@ -925,15 +927,21 @@ function gzH(H, x, z){
 }
 const px = (x, z, W, H) => [((x - CX) - (GX - GW/2)) / GW * W, ((z - CZ) + GH/2) / GH * H];
 let showCad = true;
+const REAL = {img: null, half: 0, lawn: '#7E8F57', on: false};   // wider site: swisstopo orthophoto, terrain, trees and buildings, loaded on demand
 function painter(kind){
   return (ctx, W, Hc, H) => {
     const path = p => { ctx.beginPath(); p.forEach((q, i) => { const [a, b] = px(q[0], q[1], W, Hc); i ? ctx.lineTo(a, b) : ctx.moveTo(a, b); }); ctx.closePath(); };
     const rings = rs => { ctx.beginPath(); rs.forEach(r => { r.forEach((q, i) => { const [a, b] = px(q[0], q[1], W, Hc); i ? ctx.lineTo(a, b) : ctx.moveTo(a, b); }); ctx.closePath(); }); };
-    ctx.globalAlpha = 1; ctx.fillStyle = C.ground; ctx.fillRect(0, 0, W, Hc);
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+    const real = !!REAL.img;
+    const ortho = () => { const [a0, b0] = px(CX - REAL.half, CZ - REAL.half, W, Hc), [a1, b1] = px(CX + REAL.half, CZ + REAL.half, W, Hc); ctx.drawImage(REAL.img, a0, b0, a1 - a0, b1 - b0); };
+    const orthoIn = p => { ctx.save(); path(p); ctx.clip(); ortho(); ctx.restore(); };
+    if (real){ ctx.clearRect(0, 0, W, Hc); ortho(); }
+    else { ctx.fillStyle = C.ground; ctx.fillRect(0, 0, W, Hc); }
     // contour lines every metre, bolder every 5 m
     ctx.strokeStyle = C.edge; ctx.lineCap = 'round';
     const cc = [[0,0],[1,0],[1,1],[0,1]];
-    for (const [step, lw, al] of [[100, 2, 0.16], [500, 3.5, 0.36]]){
+    if (!real) for (const [step, lw, al] of [[100, 2, 0.16], [500, 3.5, 0.36]]){
       ctx.globalAlpha = al; ctx.lineWidth = lw; ctx.beginPath();
       for (let j=0;j<T.nz-1;j++) for (let i=0;i<T.nx-1;i++){
         const k = j*T.nx + i, h = [H[k], H[k+1], H[k+T.nx+1], H[k+T.nx]];
@@ -949,17 +957,19 @@ function painter(kind){
       ctx.stroke();
     }
     ctx.globalAlpha = 1;
-    ctx.fillStyle = C.road; rings(R.road); ctx.fill('evenodd');
+    if (!real){ ctx.fillStyle = C.road; rings(R.road); ctx.fill('evenodd'); }
     const sign = (x, z) => { const [a, b] = px(x, z, W, Hc), s = W / GW * 170; ctx.fillStyle = '#2F6690'; ctx.fillRect(a - s/2, b - s/2, s, s); ctx.fillStyle = '#FFFFFF'; ctx.font = '700 ' + Math.round(s*0.8) + 'px "Archivo Narrow", Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('P', a, b + s*0.05); };
     if (kind === 'ex'){
-      ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd');
+      if (!real){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); }
       sign(R.p[0], R.p[1]);
     } else {
       const PR = PRS[kind];
       if (PR.ROAD){ ctx.fillStyle = C.road; path(PR.ROAD); ctx.fill(); }
-      if (PR.KEEP_PAVE){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); } else if (PR.CONC){ ctx.fillStyle = C.pave; path(PR.CONC); ctx.fill(); }   // the concrete area by the road stays in every option   // simple variant: existing drive and paths stay
+      if (real && !PR.KEEP_PAVE){ ctx.fillStyle = REAL.lawn; rings(R.pave); ctx.fill('evenodd'); if (PR.CONC) orthoIn(PR.CONC); }   // the old drive goes back to lawn, the concrete area by the road stays as it is
+      else if (real){}
+      else if (PR.KEEP_PAVE){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); } else if (PR.CONC){ ctx.fillStyle = C.pave; path(PR.CONC); ctx.fill(); }   // the concrete area by the road stays in every option   // simple variant: existing drive and paths stay
       ctx.fillStyle = C.pave; if (PR.PLAT){ path(PR.PLAT); ctx.fill(); } if (PR.DRIVE){ path(PR.DRIVE); ctx.fill(); } if (PR.BAY){ path(PR.BAY); ctx.fill(); }
-      ctx.fillStyle = C.stone; path(PR.DECK); ctx.fill();
+      ctx.fillStyle = real ? '#C4BCAD' : C.stone; path(PR.DECK); ctx.fill();
       if (PR.PATH){   // footpath up to the front door, with the step nosings
         ctx.fillStyle = C.pave; path(PR.PATH); ctx.fill();
         ctx.strokeStyle = C.edge; ctx.globalAlpha = 0.55; ctx.lineWidth = W / GW * 5; ctx.beginPath();
@@ -984,7 +994,13 @@ function painter(kind){
         ctx.strokeStyle = C.edge; ctx.globalAlpha = 0.7; ctx.lineWidth = W / GW * 10; ctx.setLineDash([W / GW * 60, W / GW * 40]); path(PR.GAR); ctx.stroke(); ctx.setLineDash([]); ctx.globalAlpha = 1;
       }
     }
-    if (showCad){
+    if (real){   // keep the parcel (plus a 1 m margin); the wider site model shows the rest
+      const mk = REAL.mask || (REAL.mask = document.createElement('canvas')); mk.width = W; mk.height = Hc;
+      const mc = mk.getContext('2d'), save = ctx; ctx = mc;   // path() draws on ctx
+      mc.fillStyle = '#000'; mc.strokeStyle = '#000'; mc.lineJoin = 'round'; mc.lineWidth = W / GW * 200; path(D.parcel); mc.fill(); mc.stroke(); ctx = save;
+      ctx.globalCompositeOperation = 'destination-in'; ctx.drawImage(mk, 0, 0); ctx.globalCompositeOperation = 'source-over';
+    }
+    else if (showCad){
       ctx.lineJoin = 'round';
       D.nbpar.concat([D.roads[0]]).forEach(r => { path(r); ctx.strokeStyle = C.nbl; ctx.lineWidth = 3; ctx.stroke(); });
       D.nbld.forEach(r => { path(r); ctx.fillStyle = C.nb; ctx.fill(); ctx.strokeStyle = C.nbl; ctx.lineWidth = 2.5; ctx.stroke(); });
@@ -1012,7 +1028,7 @@ function buildSite(H, kind, kerbLines){
   G.computeVertexNormals();
   const cv = document.createElement('canvas'); cv.width = 4096; cv.height = Math.round(4096 * GH / GW);
   const tex = new THREE.CanvasTexture(cv); tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
-  const ground = new THREE.Mesh(G, new THREE.MeshLambertMaterial({map: tex})); ground.receiveShadow = true; grp.add(ground);
+  const ground = new THREE.Mesh(G, new THREE.MeshLambertMaterial({map: tex, alphaTest: 0.5})); ground.receiveShadow = true; grp.add(ground);
   let tmin = Infinity; for (let k=0;k<H.length;k++) if (H[k] < tmin) tmin = H[k];
   const skBase = tmin - 250, skPos = [];
   const skEdge = pts => { for (let n=0;n+1<pts.length;n++){ const [x1,z1] = pts[n], [x2,z2] = pts[n+1], a = V(x1,z1), b = V(x2,z2), t1 = gz(x1,z1), t2 = gz(x2,z2);
@@ -1024,7 +1040,7 @@ function buildSite(H, kind, kerbLines){
   skEdge(Array.from({length:T.nz}, (_,j) => [nodeX(T.nx-1), nodeZ(j)]));
   const SG = new THREE.BufferGeometry(); SG.setAttribute('position', new THREE.Float32BufferAttribute(skPos, 3)); SG.computeVertexNormals();
   const skirtMat = M.skirt; skirtMat.side = THREE.DoubleSide;
-  grp.add(new THREE.Mesh(SG, skirtMat));
+  const skirt = new THREE.Mesh(SG, skirtMat); grp.add(skirt);
   // parcel 475 ribbon and corner posts
   const cad = new THREE.Group(); grp.add(cad);
   const p = densify(D.parcel, true), pos = [];
@@ -1062,7 +1078,7 @@ function buildSite(H, kind, kerbLines){
   const setPool = on => { if (!poolNodes.length || poolDug === on) return; poolDug = on;
     poolNodes.forEach(([i, y, d]) => gp.setY(i, on ? d : (d < -400 ? Math.max(y, -292) : y))); gp.needsUpdate = true; G.computeVertexNormals(); };
   scene.add(grp);
-  return {grp, cad, paint, gz, setCarve, setPool, ground};
+  return {grp, cad, paint, gz, setCarve, setPool, ground, skirt, kerbs};
 }
 const siteE = buildSite(HE, 'ex', R.kerb), sites = {ex: siteE};
 Object.keys(PRS).forEach(k => { sites[k] = buildSite(dec(HPD[k]), k, PRS[k].kerb); });
@@ -1390,7 +1406,7 @@ function apply(){
   } else carve(low);
   render();
 }
-const views = { se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700] };
+const views = { wide: [9000, 11000, 21000], se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700] };
 let anim = null;
 function go(v){
   const from = camera.position.clone(), to = new THREE.Vector3(...views[v]);
@@ -1452,6 +1468,57 @@ cadBtn.addEventListener('click', () => {
   showCad = cadBtn.getAttribute('aria-pressed') !== 'true'; cadBtn.setAttribute('aria-pressed', showCad);
   Object.values(sites).forEach(s => { s.cad.visible = showCad; s.paint(); }); render();
 });
+// ---- real site: 400 × 400 m of swisstopo data around the parcel (swissALTI3D terrain, swissSURFACE3D trees and hedges,
+// swissBUILDINGS3D neighbours, SWISSIMAGE 2023 orthophoto), all resampled on the plan axes; the parcel itself stays the project's.
+const realBtn = document.getElementById('m-real'), realG = new THREE.Group(); realG.visible = false; scene.add(realG);
+const realLbl = realBtn.textContent;
+function buildReal(S, img){
+  const b64 = s => { const b = atob(s), a = new Int16Array(b.length/2); for (let i=0;i<a.length;i++) a[i] = (b.charCodeAt(2*i) | b.charCodeAt(2*i+1) << 8) << 16 >> 16; return a; };
+  const n = S.n, st = S.step, h = b64(S.h), H = S.half;
+  const tex = new THREE.Texture(img); tex.needsUpdate = true; tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  if (THREE.sRGBEncoding) tex.encoding = THREE.sRGBEncoding;
+  const pos = new Float32Array(n*n*3), uv = new Float32Array(n*n*2);
+  for (let j=0;j<n;j++) for (let i=0;i<n;i++){ const k = j*n + i; pos.set([-H + i*st, h[k], -H + j*st], 3*k); uv.set([i/(n-1), 1 - j/(n-1)], 2*k); }
+  const idx = [];
+  for (let j=0;j<n-1;j++) for (let i=0;i<n-1;i++){
+    if (inPoly(CX - H + (i + 0.5)*st, CZ - H + (j + 0.5)*st, D.parcel)) continue;   // the parcel is drawn by the project's own ground
+    const k = j*n + i; idx.push(k, k+n, k+1, k+1, k+n, k+n+1);
+  }
+  const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+  const mGround = new THREE.MeshLambertMaterial({map: tex, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 4});
+  const ground = new THREE.Mesh(g, mGround); ground.receiveShadow = true; realG.add(ground);
+  // neighbour buildings: roofs take the orthophoto, walls a plain render
+  const tris = (s, roof) => {
+    const a = b64(s), p = new Float32Array(a), q = new Float32Array(a.length/3*2);
+    for (let k=0;k<a.length/3;k++){ q[2*k] = (p[3*k] + H) / (2*H); q[2*k+1] = 1 - (p[3*k+2] + H) / (2*H); }
+    const bg = new THREE.BufferGeometry(); bg.setAttribute('position', new THREE.BufferAttribute(p, 3)); if (roof) bg.setAttribute('uv', new THREE.BufferAttribute(q, 2)); bg.computeVertexNormals();
+    const m = new THREE.Mesh(bg, roof ? new THREE.MeshLambertMaterial({map: tex, side: THREE.DoubleSide}) : new THREE.MeshLambertMaterial({color: 0xE6E1D8, side: THREE.DoubleSide}));
+    m.castShadow = m.receiveShadow = true; realG.add(m);
+  };
+  tris(S.roof, true); tris(S.wall, false);
+  REAL.half = H; REAL.img = img;
+}
+function setReal(on){
+  REAL.on = on; realBtn.setAttribute('aria-pressed', on); realG.visible = on && groundBtn.getAttribute('aria-pressed') === 'true';
+  if (!on) REAL.img = null; else REAL.img = REAL.loaded;
+  Object.values(sites).forEach(s => { s.skirt.visible = !on; s.kerbs.visible = !on; s.paint(); });
+  scene.fog = on ? new THREE.Fog(isDark() ? 0x1D2A35 : 0xDCE6EC, 30000, 70000) : null;
+  camera.far = on ? 90000 : 40000; camera.updateProjectionMatrix(); controls.maxDistance = on ? 40000 : 14000;
+  render();
+}
+realBtn.addEventListener('click', () => {
+  if (REAL.on){ setReal(false); return; }
+  if (REAL.loaded){ setReal(true); return; }
+  realBtn.textContent = realBtn.dataset.load; realBtn.disabled = true;
+  const done = ok => { realBtn.textContent = ok ? realLbl : realBtn.dataset.err; realBtn.disabled = false; };
+  const sc = document.createElement('script'); sc.src = 'data/site-ctx.js';
+  sc.onerror = () => done(false);
+  sc.onload = () => { const S = window.GALATRY_SITE, img = new Image();
+    img.onload = () => { buildReal(S, img); REAL.loaded = img; done(true); setReal(true); exitWalk(); document.querySelectorAll('.m-ctrl [data-view]').forEach(x => x.setAttribute('aria-pressed', x.dataset.view === 'wide')); go('wide'); };
+    img.onerror = () => done(false); img.src = S.ortho; };
+  document.head.appendChild(sc);
+});
+groundBtn.addEventListener('click', () => { realG.visible = REAL.on && groundBtn.getAttribute('aria-pressed') === 'true'; render(); });
 // ---- walking: drag to look, click the floor to go there, arrows / WASD to move, room buttons to jump
 const walkBtn = document.getElementById('m-walk'), walkUI = document.getElementById('m-walk-ui'), roomsUI = document.getElementById('m-walk-rooms');
 let saved = null, glide = null, moving = null, last = 0, drag = null;

@@ -37,7 +37,7 @@ nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);o
 nav a[aria-current]{border-color:var(--ink);background:var(--ink);color:var(--paper)}
 section{display:flex;flex-direction:column;gap:14px;scroll-margin-top:16px}
 .sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
-.ba{position:relative;width:100%;aspect-ratio:1280/900;background:var(--sheet);border:1px solid var(--rule);overflow:hidden;user-select:none;touch-action:pan-y}
+.ba{position:relative;width:100%;aspect-ratio:1600/899;background:var(--sheet);border:1px solid var(--rule);overflow:hidden;user-select:none;touch-action:pan-y}
 .ba img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}
 .ba .after{clip-path:inset(0 0 0 var(--pos,50%))}
 .ba .bar{position:absolute;top:0;bottom:0;left:var(--pos,50%);width:2px;margin-left:-1px;background:#fff;box-shadow:0 0 0 1px rgba(0,0,0,.35)}
@@ -52,31 +52,114 @@ figcaption{color:var(--ink-2);font-size:14px;max-width:80ch}
 .note{border-left:3px solid var(--warning);background:var(--warning-soft);padding:10px 14px;max-width:80ch}
 ul{margin:0;padding-left:20px;max-width:80ch} li{margin:4px 0}
 footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+
+.pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pick .lab{font:600 12px var(--f-draw);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin-right:4px;min-width:64px}
+.pick button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pick button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumbs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.thumbs button{padding:0;border:2px solid transparent;background:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:left;font:500 12px var(--f-body);color:var(--ink-2)}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent)}
+.thumbs img{width:100%;aspect-ratio:1600/899;object-fit:cover;display:block}
+.thumbs span{padding:0 4px 4px}
+@media (max-width:640px){.thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:1px solid var(--rule);background:var(--sheet);padding:14px 16px}
+.cta a{font:600 13px var(--f-draw);text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--ink);text-decoration:none;padding:8px 14px;border-radius:2px}
+
+.pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pick .lab{font:600 12px var(--f-draw);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin-right:4px;min-width:64px}
+.pick button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pick button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.thumbs button{padding:0;border:2px solid transparent;background:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:left;font:500 12px var(--f-body);color:var(--ink-2)}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent)}
+.thumbs img{width:100%;aspect-ratio:1600/899;object-fit:cover;display:block}
+.thumbs span{padding:0 4px 4px}
+@media (max-width:520px){.thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:1px solid var(--rule);background:var(--sheet);padding:14px 16px}
+.cta a{font:600 13px var(--f-draw);text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--ink);text-decoration:none;padding:8px 14px;border-radius:2px}
+
+.ba.old{aspect-ratio:1600/899}
+.olds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:720px){.olds{grid-template-columns:1fr}}
+.pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pick .lab{font:600 12px var(--f-draw);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin-right:4px;min-width:64px}
+.pick button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pick button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.thumbs button{padding:0;border:2px solid transparent;background:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:left;font:500 12px var(--f-body);color:var(--ink-2)}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent)}
+.thumbs img{width:100%;aspect-ratio:1600/899;object-fit:cover;display:block}
+.thumbs span{padding:0 4px 4px}
+@media (max-width:520px){.thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:1px solid var(--rule);background:var(--sheet);padding:14px 16px}
+.cta a{font:600 13px var(--f-draw);text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--ink);text-decoration:none;padding:8px 14px;border-radius:2px}
+
+.ba.old{aspect-ratio:1280/900}
+.olds{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:720px){.olds{grid-template-columns:1fr}}
+.pick{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.pick .lab{font:600 12px var(--f-draw);text-transform:uppercase;letter-spacing:.1em;color:var(--ink-2);margin-right:4px;min-width:64px}
+.pick button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.pick button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pick button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.thumbs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.thumbs button{padding:0;border:2px solid transparent;background:none;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:left;font:500 12px var(--f-body);color:var(--ink-2)}
+.thumbs button[aria-pressed="true"]{border-color:var(--accent)}
+.thumbs img{width:100%;aspect-ratio:1600/899;object-fit:cover;display:block}
+.thumbs span{padding:0 4px 4px}
+@media (max-width:520px){.thumbs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center;border:1px solid var(--rule);background:var(--sheet);padding:14px 16px}
+.cta a{font:600 13px var(--f-draw);text-transform:uppercase;letter-spacing:.08em;color:var(--paper);background:var(--ink);text-decoration:none;padding:8px 14px;border-radius:2px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<header><div class="kicker">Chemin de Galatry 3 · Corseaux VD</div><h1>Illustrations après travaux</h1><p class="muted">La photo drone de l’annonce, avant et après la rénovation de la variante réaliste (base). Glisser le curseur pour comparer. Deux aménagements du jardin : avec la piscine de 7 × 3 m, ou sans piscine, avec une terrasse en bois et du gazon.</p></header>
+<header><div class="kicker">Chemin de Galatry 3 · Corseaux VD</div><h1>Illustrations après travaux</h1><p class="muted">La photo drone de l’annonce, avant et après la rénovation de la variante réaliste (base). Glisser le curseur pour comparer. Plus bas, d’autres vues drone et toutes les options de parking. Toutes les vues viennent du même modèle 3D, calé sur les photos et sur les données swisstopo autour de la parcelle.</p></header>
 <nav aria-label="Sections"><a href="index.html">&#8617; Plans &amp; modèle 3D</a><a href="projet.html">Projet de rénovation</a><a href="illustrations.html" aria-current="page">Illustrations</a><a href="financement.html">Financement</a><a href="illustrations-en.html">EN</a></nav>
 <section id="piscine"><div class="sec-head"><h2>Base + piscine</h2><span class="muted">Terrasse en dalles de pierre, piscine à débordement 7 × 3 m</span></div>
-<figure><div class="ba"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900" loading="lazy"><img class="after" src="img/illustrations/apres-piscine.jpg" alt="Base + piscine" width="1280" height="900" loading="lazy">
+<figure><div class="ba old"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900"><img class="after" src="img/illustrations/apres-piscine.jpg" alt="Base + piscine" width="1280" height="900">
 <span class="tag l">Avant</span><span class="tag r">Après</span><span class="bar"></span><span class="knob" aria-hidden="true">&#8596;</span>
 <input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><figcaption>Façades isolées et crépies, toiture neuve en métal avec panneaux solaires, deux portes-fenêtres jusqu’au sol à l’étage avec garde-corps en verre, baie vitrée à la place de la porte du garage. Devant, la terrasse de 115 m² au niveau −2.85 et la piscine, parallèle à la façade, à 4.5 m d’elle et à 3.2 m de la limite. Murs de soutènement bas (30 à 60 cm). L’ancienne rampe d’accès est démolie et rendue au jardin ; un chemin piéton de 1.2 m avec des marches monte de l’aire bétonnée du bas, le long du côté est, jusqu’à l’entrée.</figcaption></figure></section>
 <section id="bois-gazon"><div class="sec-head"><h2>Base · bois et gazon</h2><span class="muted">Sans piscine : terrasse en bois le long de la maison, gazon devant</span></div>
-<figure><div class="ba"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900" loading="lazy"><img class="after" src="img/illustrations/apres-bois-gazon.jpg" alt="Base · bois et gazon" width="1280" height="900" loading="lazy">
+<figure><div class="ba old"><img src="img/illustrations/avant.jpg" alt="Avant" width="1280" height="900" loading="lazy"><img class="after" src="img/illustrations/apres-bois-gazon.jpg" alt="Base · bois et gazon" width="1280" height="900" loading="lazy">
 <span class="tag l">Avant</span><span class="tag r">Après</span><span class="bar"></span><span class="knob" aria-hidden="true">&#8596;</span>
 <input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><figcaption>La même maison. Sur la plateforme, une terrasse en lames de bois sur environ 4.5 m de profondeur le long de la façade, puis du gazon au même niveau jusqu’aux murs bas. La piscine peut s’ajouter plus tard à la place du gazon. Même accès : rampe supprimée, chemin piéton à marches sur le côté est.</figcaption></figure></section>
+<section id="vues"><div class="sec-head"><h2>Autres vues et options</h2><span class="muted">3 vues drone × 6 variantes · glisser pour comparer</span></div><div class="pick" role="group" aria-label="Vue"><span class="lab">Vue</span><button type="button" data-v="11" aria-pressed="true">Drone sud-est</button><button type="button" data-v="01" aria-pressed="false">Drone bas, côté cour</button><button type="button" data-v="10" aria-pressed="false">Vue verticale</button></div>
+<div class="pick" role="group" aria-label="Variante"><span class="lab">Variante</span><button type="button" data-g="r_pool" aria-pressed="true">Base + piscine</button><button type="button" data-g="r_wood" aria-pressed="false">Bois et gazon</button><button type="button" data-g="rb_pool" aria-pressed="false">Parking en bas</button><button type="button" data-g="rt_pool" aria-pressed="false">Parking en bas, toit-terrasse</button><button type="button" data-g="rs_pool" aria-pressed="false">Parking sous la terrasse</button><button type="button" data-g="rh_pool" aria-pressed="false">Parking en haut</button></div>
+<figure><div class="ba"><img id="im-b" src="img/illustrations/avant-11.jpg" alt="Avant" width="1600" height="899"><img id="im-a" class="after" src="img/illustrations/v11-r_pool.jpg" alt="" width="1600" height="899">
+<span class="tag l">Avant</span><span class="tag r">Après</span><span class="bar"></span><span class="knob" aria-hidden="true">&#8596;</span>
+<input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><figcaption id="cap"></figcaption></figure>
+<div class="thumbs" role="group" aria-label="Vue"><button type="button" data-v="11" aria-pressed="true"><img src="img/illustrations/v11-r_pool.jpg" alt="" loading="lazy"><span>Drone sud-est</span></button><button type="button" data-v="01" aria-pressed="false"><img src="img/illustrations/v01-r_pool.jpg" alt="" loading="lazy"><span>Drone bas, côté cour</span></button><button type="button" data-v="10" aria-pressed="false"><img src="img/illustrations/v10-r_pool.jpg" alt="" loading="lazy"><span>Vue verticale</span></button></div></section>
+<section id="site"><div class="sec-head"><h2>Site réel en 3D</h2><span class="muted">Toute la parcelle dans son quartier</span></div>
+<div class="cta"><p>La maquette 3D du projet a un mode « Site réel » : 400 × 400 m autour de la parcelle, avec l’orthophoto swisstopo 2023 (10 cm), le relief, les arbres et les haies (swissSURFACE3D) et les bâtiments voisins (swissBUILDINGS3D). On y voit la maison dans la parcelle entière, le garage et l’accès en bas, et chaque option.</p><a href="projet.html#model">Ouvrir la maquette</a></div></section>
 <section id="plan"><div class="sec-head"><h2>Plan de masse</h2><span class="muted">Base + piscine 7 × 3 m, nord en haut</span></div>
-<figure class="plan"><img src="img/illustrations/plan-masse-piscine.jpg" alt="Plan de masse" loading="lazy"><figcaption>Rez-inférieur (aménagement « cuisine en haut »), terrasse, piscine cotée, limite de parcelle et direction de la photo drone. Esquisse, non dimensionnée.</figcaption></figure></section>
-<section id="methode"><div class="sec-head"><h2>Comment ces images sont faites</h2></div><ul><li>La caméra du drone est recalculée à partir de 14 points de la maison sur la photo (angles du toit, cheminées, bandeau, ouvertures) : environ 10 pixels d’écart sur 2560.</li><li>La maquette 3D du projet est rendue dans Blender depuis cette caméra, puis incrustée dans la photo : la géométrie (terrasse, piscine, ouvertures) vient des plans.</li><li>Une IA d’édition d’image (Gemini) rend seulement les matériaux et la lumière réalistes, dans la zone modifiée. Le reste est la photo d’origine.</li></ul><p class="note">Ce sont des illustrations, pas des plans. Les proportions viennent de l’esquisse (calée à environ 20–30 cm). Couleurs, matériaux, mobilier et intérieurs visibles sont des hypothèses ou ont été ajoutés par l’IA.</p></section>
-<footer>Photo d’origine : annonce de vente (Riviera Properties). Images retouchées pour un usage privé.</footer>
+<figure class="plan"><img src="img/illustrations/plan-masse-piscine.jpg" alt="Plan de masse" loading="lazy"><figcaption>Rez-inférieur (aménagement « cuisine en haut »), terrasse, piscine cotée, limite de parcelle. Esquisse, non dimensionnée.</figcaption></figure></section>
+<section id="methode"><div class="sec-head"><h2>Comment ces images sont faites</h2></div><ul><li>Le plan de la maison est calé sur le cadastre officiel (parcelle 475, écart moyen 8 cm), ce qui place la maquette dans les coordonnées suisses avec le terrain, l’orthophoto et les bâtiments swisstopo.</li><li>Chaque photo drone a sa caméra recalculée sur des points de la maison et de la cour (angles du toit, cheminées, regards, caniveau) : environ 9 à 10 pixels d’écart sur 2560. La vue depuis la colline (photo 09) a été essayée mais écartée : l’IA n’y respectait pas la maquette.</li><li>La maquette de chaque variante est rendue dans Blender depuis cette caméra, puis incrustée dans la photo, seulement là où quelque chose change ; le quartier reste la photo.</li><li>Une IA d’édition d’image (Gemini) rend seulement les matériaux et la lumière réalistes, dans la zone modifiée.</li></ul><p class="note">Ce sont des illustrations, pas des plans. Les proportions viennent des esquisses (calées à environ 20–30 cm). Couleurs, matériaux, mobilier et intérieurs visibles sont des hypothèses ou ont été ajoutés par l’IA ; l’IA peut aussi simplifier des détails.</p></section>
+<footer>Photos d’origine : annonce de vente (Riviera Properties). Données : © swisstopo. Images retouchées pour un usage privé.</footer>
 </div>
 <script>
+const T = {"vars": {"r_pool": "Base + piscine", "r_wood": "Bois et gazon", "rb_pool": "Parking en bas", "rt_pool": "Parking en bas, toit-terrasse", "rs_pool": "Parking sous la terrasse", "rh_pool": "Parking en haut"}, "views": {"11": "Drone sud-est", "01": "Drone bas, côté cour", "10": "Vue verticale", "09": "Depuis la colline"}, "cap": {"r_pool": "Façades isolées et crépies, toiture neuve en métal avec panneaux solaires, portes-fenêtres jusqu’au sol à l’étage avec garde-corps en verre, baie vitrée à la place de la porte du garage. Devant, la terrasse de 115 m² au niveau −2.85 et la piscine à débordement de 7 × 3 m. L’ancienne rampe est démolie et rendue au jardin ; un chemin piéton à marches monte de l’aire bétonnée du bas jusqu’à l’entrée.", "r_wood": "La même maison, sans piscine : une terrasse en lames de bois sur environ 4.5 m le long de la façade, puis du gazon au même niveau jusqu’aux murs bas. La piscine peut s’ajouter plus tard à la place du gazon. Même accès : rampe supprimée, chemin piéton à marches.", "rb_pool": "Base + piscine, avec un garage double (6.4 × 6.5 m, deux portes) creusé dans la pente au bord du chemin de Galatry, sol à −5.70, dalle recouverte de terre. Un chemin piéton monte du garage à l’entrée.", "rt_pool": "Le même garage au bord du chemin, mais son toit est une terrasse dallée au niveau de la terrasse (−2.85), reliée à elle : 166 m² en tout. Garde-corps en verre au-dessus des portes, escalier extérieur côté ouest.", "rs_pool": "Garage double creusé sous la partie sud-est de la terrasse (sol −5.70), accès en tranchée depuis l’entrée actuelle au coin sud. Un escalier intérieur monte dans un petit sas vitré posé sur la terrasse. La piscine passe à 5 × 3 m et se décale vers l’ouest.", "rh_pool": "Base + piscine, avec un nouvel accès le long du côté est (35 m, pente d’environ 21 %) jusqu’à un garage creusé dans la colline (7 × 6.8 m, sol à −1.00), une aire de manœuvre et une cour d’entrée."}};
+let v = '11', g = 'r_pool';
+const imB = document.getElementById('im-b'), imA = document.getElementById('im-a'), cap = document.getElementById('cap');
+function show(){
+  imB.src = 'img/illustrations/avant-' + v + '.jpg'; imA.src = 'img/illustrations/v' + v + '-' + g + '.jpg'; imA.alt = T.vars[g] + ' · ' + T.views[v];
+  cap.textContent = T.cap[g];
+  document.querySelectorAll('[data-v]').forEach(b => b.setAttribute('aria-pressed', b.dataset.v === v));
+  document.querySelectorAll('[data-g]').forEach(b => b.setAttribute('aria-pressed', b.dataset.g === g));
+  document.querySelectorAll('.thumbs img').forEach(i => { i.src = 'img/illustrations/v' + i.parentNode.dataset.v + '-' + g + '.jpg'; });
+}
+document.querySelectorAll('[data-v]').forEach(b => b.addEventListener('click', () => { v = b.dataset.v; show(); }));
+document.querySelectorAll('[data-g]').forEach(b => b.addEventListener('click', () => { g = b.dataset.g; show(); }));
 document.querySelectorAll('.ba').forEach(ba => {
   const r = ba.querySelector('input');
-  const set = v => ba.style.setProperty('--pos', v + '%');
+  const set = x => ba.style.setProperty('--pos', x + '%');
   r.addEventListener('input', () => set(r.value)); set(r.value);
 });
+show();
 </script>
 </body>
 </html>

@@ -900,7 +900,7 @@ function painter(kind){
       if (PR.ROAD){ ctx.fillStyle = C.road; path(PR.ROAD); ctx.fill(); }
       if (PR.KEEP_PAVE){ ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd'); } else if (PR.CONC){ ctx.fillStyle = C.pave; path(PR.CONC); ctx.fill(); }   // the concrete area by the road stays in every option   // simple variant: existing drive and paths stay
       ctx.fillStyle = C.pave; if (PR.PLAT){ path(PR.PLAT); ctx.fill(); } if (PR.DRIVE){ path(PR.DRIVE); ctx.fill(); } if (PR.BAY){ path(PR.BAY); ctx.fill(); }
-      ctx.fillStyle = C.stone; path(PR.DECK); ctx.fill();
+      ctx.fillStyle = C.stone; path(PR.DECK); ctx.fill(); if (PR.LINK){ path(PR.LINK); ctx.fill(); }   // landing between the terrace and a garage roof
       if (PR.PATH){   // footpath up to the front door, with the step nosings
         ctx.fillStyle = C.pave; path(PR.PATH); ctx.fill();
         ctx.strokeStyle = C.edge; ctx.globalAlpha = 0.55; ctx.lineWidth = W / GW * 5; ctx.beginPath();
@@ -1099,6 +1099,12 @@ function buildProj(PR, gz){
     proj.add(prism(offset(PR.GAR, [15,15,15,15]), () => 272, () => 300, M.green));
     PR.GAR_DOORS.forEach(([x1,z1,x2,z2]) => proj.add(panel(x1,z1,x2,z2,0,225,M.wood,3,[1,0])));
     if (PR.GAR_PDOOR) proj.add(panel(...PR.GAR_PDOOR, 0, 210, M.wood, 3, [0,1]));
+  }
+  if (PR.CARPORT){   // open carport: steel posts, thin roof with an extensive green layer on top
+    const cp = PR.CARPORT, f = PR.GAR_FLOOR;
+    cp.posts.forEach(([x, z]) => proj.add(prism([[x-7,z-7],[x+7,z-7],[x+7,z+7],[x-7,z+7]], () => f - 2, () => cp.y0, M.band)));
+    proj.add(prism(cp.roof, () => cp.y0, () => cp.y1 - 8, M.band));
+    proj.add(prism(offset(cp.roof, [15,15,15,15]), () => cp.y1 - 8, () => cp.y1, M.green, false));
   }
   PR.walls.forEach(w => proj.add(retaining(w, 22)));
   if (PR.ENTRY) proj.add(prism(PR.ENTRY, () => -40, () => 0, M.stone));   // entrance landing at the front door

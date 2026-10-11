@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YARD 2027 Lisboa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column (max 760px) with a sand-quarry header band; itinerary as a dated timeline, logistics as compact two-column blocks that stack on phones. */
+:root {
+  --bg: #f7f6f2;          /* quarry white sand */
+  --surface: #ffffff;
+  --fg: #1d2622;          /* deep pine */
+  --muted: #5b6862;
+  --line: #dcdcd3;
+  --accent: #1f5f7a;      /* Atlantic off Arrábida */
+  --accent-soft: #e2edf1;
+  --pine: #2f5a45;
+  --warn: #9a5b00;
+  --warn-soft: #f8ecd8;
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Figtree", -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121715; --surface: #1a211e; --fg: #e8ebe6; --muted: #9aa69f; --line: #2c3632;
+    --accent: #7cc0dc; --accent-soft: #1c2e36; --pine: #8cc4a6; --warn: #f0b45c; --warn-soft: #33281a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121715; --surface: #1a211e; --fg: #e8ebe6; --muted: #9aa69f; --line: #2c3632;
+  --accent: #7cc0dc; --accent-soft: #1c2e36; --pine: #8cc4a6; --warn: #f0b45c; --warn-soft: #33281a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+html, body { margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; padding-block: 0 64px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.15; margin: 0; }
+h2 { font-size: 1.55rem; font-weight: 700; }
+h3 { font-size: 1.05rem; font-weight: 700; }
+p { margin: 0; }
+.mono { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+
+/* Header */
+header { padding-block: 48px 32px; display: grid; gap: 18px; border-bottom: 1px solid var(--line); }
+h1 { font-size: clamp(2.6rem, 9vw, 4.6rem); font-weight: 800; letter-spacing: -.02em; }
+h1 span { color: var(--accent); }
+.lede { font-size: 1.1rem; color: var(--muted); max-width: 58ch; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.fact { background: var(--surface); padding: 12px 14px; display: grid; gap: 2px; min-width: 0; }
+.fact b { font-family: var(--font-display); font-size: 1.05rem; font-weight: 700; }
+.fact small { color: var(--muted); font-size: .82rem; }
+.countdown { font-family: var(--font-mono); font-size: .85rem; color: var(--pine); }
+
+section { padding-block: 40px 0; display: grid; gap: 16px; }
+.sec-head { display: grid; gap: 4px; }
+
+/* Callouts */
+.note { background: var(--warn-soft); color: var(--fg); border-radius: 8px; padding: 12px 16px; font-size: .95rem; }
+.note strong { color: var(--warn); }
+.info { background: var(--accent-soft); border-radius: 8px; padding: 12px 16px; font-size: .95rem; }
+
+/* Timeline */
+.timeline { list-style: none; margin: 0; padding: 0; display: grid; }
+.day { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding-block: 14px; border-top: 1px solid var(--line); }
+.day:last-child { border-bottom: 1px solid var(--line); }
+.date { display: grid; align-content: start; }
+.date .dow { font-family: var(--font-mono); font-size: .75rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+.date .dnum { font-family: var(--font-display); font-size: 1.6rem; font-weight: 800; line-height: 1; }
+.day .body { display: grid; gap: 4px; min-width: 0; }
+.tag { display: inline-block; font-family: var(--font-mono); font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 99px; border: 1px solid currentColor; width: fit-content; }
+.tag.fest { color: var(--accent); }
+.tag.travel { color: var(--muted); }
+.tag.rest { color: var(--pine); }
+.day.festival .dnum { color: var(--accent); }
+
+/* Blocks */
+.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.block { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 8px; align-content: start; min-width: 0; }
+ul.plain { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; }
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .93rem; min-width: 460px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 500; }
+tr:last-child td { border-bottom: 0; }
+td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.links { display: flex; flex-wrap: wrap; gap: 8px; }
+.links a { font-size: .88rem; text-decoration: none; padding: 6px 12px; border: 1px solid var(--line); border-radius: 99px; background: var(--surface); }
+.links a:hover { border-color: var(--accent); }
+
+/* Checklist */
+.checklist { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.checklist label { display: grid; grid-template-columns: 22px 1fr auto; gap: 10px; align-items: start; padding: 10px 12px; border-radius: 8px; cursor: pointer; }
+.checklist label:hover { background: var(--surface); }
+.checklist input { margin-top: 4px; accent-color: var(--accent); width: 16px; height: 16px; }
+.checklist .when { font-family: var(--font-mono); font-size: .78rem; color: var(--muted); white-space: nowrap; }
+.checklist input:checked + span { text-decoration: line-through; color: var(--muted); }
+
+.questions { counter-reset: q; display: grid; gap: 8px; margin: 0; padding-left: 1.3em; }
+.sources { font-size: .85rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 6px 14px; }
+footer { padding-block: 40px 0; font-size: .82rem; color: var(--muted); }
+
+@media (max-width: 480px) {
+  .day { grid-template-columns: 64px 1fr; gap: 12px; }
+  .date .dnum { font-size: 1.35rem; }
+  .checklist label { grid-template-columns: 22px 1fr; }
+  .checklist .when { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Trip entre amis · Portugal · Draft v1</p>
+    <h1>YARD <span>2027</span><br>Lisboa</h1>
+    <p class="lede">Six nuits à Lisbonne autour de YARD Festival, quatre jours de musique dans les carrières de sable blanc d'Azeitão, puis une journée de récup sur les plages de l'Arrábida.</p>
+    <div class="facts">
+      <div class="fact"><span class="eyebrow">Festival</span><b class="mono">27–30 mai 2027</b><small>Jeudi → dimanche</small></div>
+      <div class="fact"><span class="eyebrow">Lieu</span><b>White Sand Mountains</b><small>Quinta do Anjo, Azeitão</small></div>
+      <div class="fact"><span class="eyebrow">Depuis Lisbonne</span><b class="mono">~40 km</b><small>via le pont du 25 Avril</small></div>
+      <div class="fact"><span class="eyebrow">Séjour proposé</span><b class="mono">26 mai → 1 juin</b><small>6 nuits</small></div>
+    </div>
+    <p class="countdown" id="countdown">Festival dans 228 jours</p>
+  </header>
+
+  <section id="itineraire">
+    <div class="sec-head">
+      <p class="eyebrow">Itinéraire</p>
+      <h2>Jour par jour</h2>
+    </div>
+    <ol class="timeline">
+      <li class="day">
+        <div class="date"><span class="dow">Mer</span><span class="dnum mono">26</span></div>
+        <div class="body"><span class="tag travel">Arrivée</span><h3>Vol GVA / ZRH → Lisbonne</h3><p>Installation dans l'appart. Dîner et premier verre à Príncipe Real ou Cais do Sodré.</p></div>
+      </li>
+      <li class="day festival">
+        <div class="date"><span class="dow">Jeu</span><span class="dnum mono">27</span></div>
+        <div class="body"><span class="tag fest">Festival · J1</span><h3>Lisbonne en journée, ouverture le soir</h3><p>En 2026, la soirée d'ouverture avait lieu au Castelo de Palmela, pas sur le site principal. Lieu 2027 à confirmer.</p></div>
+      </li>
+      <li class="day festival">
+        <div class="date"><span class="dow">Ven</span><span class="dnum mono">28</span></div>
+        <div class="body"><span class="tag fest">Festival · J2</span><h3>White Sand Mountains</h3><p>Matinée tranquille, départ en van en milieu d'après-midi.</p></div>
+      </li>
+      <li class="day festival">
+        <div class="date"><span class="dow">Sam</span><span class="dnum mono">29</span></div>
+        <div class="body"><span class="tag fest">Festival · J3</span><h3>White Sand Mountains</h3><p>Même rythme. Brunch tardif à Lisbonne avant de partir.</p></div>
+      </li>
+      <li class="day festival">
+        <div class="date"><span class="dow">Dim</span><span class="dnum mono">30</span></div>
+        <div class="body"><span class="tag fest">Festival · J4</span><h3>Dernier jour</h3><p>Closing. Prévoir le retour de nuit en avance.</p></div>
+      </li>
+      <li class="day">
+        <div class="date"><span class="dow">Lun</span><span class="dnum mono">31</span></div>
+        <div class="body"><span class="tag rest">Récup</span><h3>Plages de l'Arrábida ou Comporta</h3><p>Galapinhos et Portinho da Arrábida, à 45 min de Lisbonne. Variante : ferry Setúbal → Tróia, puis Comporta.</p></div>
+      </li>
+      <li class="day">
+        <div class="date"><span class="dow">Mar</span><span class="dnum mono">01</span></div>
+        <div class="body"><span class="tag travel">Retour</span><h3>Vol Lisbonne → GVA / ZRH</h3><p>Version plus courte : rentrer lundi 31 et sauter la journée plage.</p></div>
+      </li>
+    </ol>
+    <p class="note"><strong>Jour férié.</strong> Le jeudi 27 mai 2027 tombe le jour du Corpo de Deus (Fête-Dieu), férié au Portugal. Lisbonne sera plus chargée cette semaine-là. La date est calculée à partir de Pâques 2027 et reste à vérifier.</p>
+  </section>
+
+  <section id="billets">
+    <div class="sec-head">
+      <p class="eyebrow">Billets</p>
+      <h2>Acheter tôt</h2>
+    </div>
+    <p>L'édition 2026 était complète. Pour 2027, seul le Season Ticket est en vente pour le moment.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Billet</th><th>Prix</th><th>Statut</th></tr></thead>
+        <tbody>
+          <tr><td>Season Ticket 2027 (YARD mai + One Last Summer Dance 10–11 sept.)</td><td class="num">220 €</td><td>En vente, quantité limitée</td></tr>
+          <tr><td>Music Journey (tous les jours + after-parties)</td><td class="num">dès ~157 €</td><td>Prix 2026, pas encore en vente pour 2027</td></tr>
+          <tr><td>Pass 3 jours (ven–dim)</td><td class="num">dès ~123 €</td><td>Prix 2026</td></tr>
+          <tr><td>Pass 2 jours</td><td class="num">dès ~91 €</td><td>Prix 2026</td></tr>
+          <tr><td>Billet journée</td><td class="num">dès ~40 €</td><td>Prix 2026</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="info">Le Season Ticket ne vaut le coup que si le groupe revient en septembre. Ce n'est pas un billet d'entrée : les liens d'accès arrivent par e-mail plus tard. Les billets ne sont ni remboursables ni revendables, sauf via Shotgun. Les prix 2026 viennent d'une source tierce (Wikinight) et sont des « à partir de ».</p>
+    <div class="links">
+      <a href="https://www.yard-events.com/" target="_blank" rel="noopener">yard-events.com</a>
+      <a href="https://shotgun.live/en/festivals/yard-season-ticket-2027" target="_blank" rel="noopener">Season Ticket 2027 · Shotgun</a>
+      <a href="https://www.instagram.com/yard.pt" target="_blank" rel="noopener">@yard.pt</a>
+    </div>
+  </section>
+
+  <section id="vols">
+    <div class="sec-head">
+      <p class="eyebrow">Vols</p>
+      <h2>Genève ou Zurich → Lisbonne</h2>
+    </div>
+    <div class="grid2">
+      <div class="block">
+        <h3>Vols directs</h3>
+        <ul class="plain">
+          <li><b>GVA → LIS</b> : easyJet, SWISS, TAP</li>
+          <li><b>ZRH → LIS</b> : SWISS, TAP, easyJet</li>
+          <li>Durée : environ <span class="mono">2 h 40</span></li>
+        </ul>
+      </div>
+      <div class="block">
+        <h3>Prix</h3>
+        <p>Les tarifs de mai 2027 ne sont pas encore affichés. Repère : un aller-retour easyJet GVA–LIS tourne autour de <span class="mono">100 €</span> en juin 2027. Prévoir plus avec le festival et le jour férié.</p>
+      </div>
+    </div>
+    <p class="info">SWISS et TAP sont Star Alliance (miles Miles &amp; More). Les avantages easyJet Plus ne s'appliquent qu'en réservant sur easyjet.com. À réserver dès l'ouverture des horaires d'été 2027, idéalement entre janvier et février.</p>
+    <div class="links">
+      <a href="https://www.google.com/travel/flights?q=Flights+from+GVA+to+LIS+on+2027-05-26+returning+2027-06-01" target="_blank" rel="noopener">Google Flights GVA</a>
+      <a href="https://www.google.com/travel/flights?q=Flights+from+ZRH+to+LIS+on+2027-05-26+returning+2027-06-01" target="_blank" rel="noopener">Google Flights ZRH</a>
+      <a href="https://www.kayak.com/flights/GVA-LIS/2027-05-26/2027-06-01" target="_blank" rel="noopener">Kayak</a>
+      <a href="https://www.skyscanner.fr/transport/flights/gva/lis/270526/270601/" target="_blank" rel="noopener">Skyscanner</a>
+      <a href="https://www.easyjet.com/en/cheap-flights/geneva/lisbon" target="_blank" rel="noopener">easyJet</a>
+    </div>
+  </section>
+
+  <section id="logement">
+    <div class="sec-head">
+      <p class="eyebrow">Logement</p>
+      <h2>Un appart pour tout le groupe</h2>
+    </div>
+    <p>Pour un groupe, un appartement entier revient en général moins cher par personne que plusieurs chambres d'hôtel, et on a un salon pour se retrouver.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Quartier</th><th>Pour qui</th><th>Accès au festival</th></tr></thead>
+        <tbody>
+          <tr><td><b>Santos / Alcântara</b></td><td>Bon compromis, quartiers vivants</td><td>Le plus rapide : au pied du pont du 25 Avril</td></tr>
+          <tr><td><b>Cais do Sodré</b></td><td>Vie nocturne, bord du Tage</td><td>Rapide</td></tr>
+          <tr><td><b>Príncipe Real</b></td><td>Le plus joli, calme, top cafés</td><td>Moyen</td></tr>
+          <tr><td><b>Chiado / Baixa</b></td><td>Central, beaucoup de choix</td><td>Moyen</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="links">
+      <a href="https://www.airbnb.com/s/Lisbon/homes?checkin=2027-05-26&amp;checkout=2027-06-01" target="_blank" rel="noopener">Airbnb · 26 mai → 1 juin</a>
+      <a href="https://www.booking.com/searchresults.html?ss=Lisbon&amp;checkin=2027-05-26&amp;checkout=2027-06-01" target="_blank" rel="noopener">Booking.com</a>
+      <a href="https://www.timeout.com/lisbon/things-to-do/where-to-stay-in-lisbon" target="_blank" rel="noopener">Time Out · où loger</a>
+    </div>
+  </section>
+
+  <section id="transport">
+    <div class="sec-head">
+      <p class="eyebrow">Transport</p>
+      <h2>Lisbonne ⇄ White Sand Mountains</h2>
+    </div>
+    <p class="note"><strong>Point clé.</strong> Aucune navette officielle depuis Lisbonne n'a été trouvée pour les éditions précédentes. C'est le sujet logistique à régler en premier.</p>
+    <div class="grid2">
+      <div class="block">
+        <span class="tag fest">Recommandé</span>
+        <h3>Van avec chauffeur, 7 à 9 places</h3>
+        <p>Réservé à l'avance, au moins pour les retours de nuit. Tout le groupe voyage ensemble et personne ne conduit.</p>
+      </div>
+      <div class="block">
+        <span class="tag travel">Alternatives</span>
+        <h3>Location ou Uber</h3>
+        <p>Voiture de location avec une personne qui ne boit pas (et utile pour la journée plage). Uber possible à l'aller, mais au retour vers 2 h il faut s'attendre à des prix majorés et à de l'attente.</p>
+      </div>
+    </div>
+    <p style="font-size:.9rem;color:var(--muted)">Durée estimée : 40 à 50 min selon le trafic sur le pont. Estimation non vérifiée. Adresse : Av. António Xavier de Lima, Quinta do Anjo.</p>
+  </section>
+
+  <section id="todo">
+    <div class="sec-head">
+      <p class="eyebrow">À faire</p>
+      <h2>Prochaines étapes</h2>
+      <p style="font-size:.88rem;color:var(--muted)">Les cases cochées sont gardées dans ton navigateur uniquement.</p>
+    </div>
+    <ul class="checklist">
+      <li><label for="t1"><input type="checkbox" id="t1"><span>Confirmer qui vient et le budget par personne</span><span class="when">maintenant</span></label></li>
+      <li><label for="t2"><input type="checkbox" id="t2"><span>S'inscrire à la newsletter YARD et suivre @yard.pt</span><span class="when">maintenant</span></label></li>
+      <li><label for="t3"><input type="checkbox" id="t3"><span>Décider : Season Ticket ou billets festival seuls</span><span class="when">avant l'ouverture</span></label></li>
+      <li><label for="t4"><input type="checkbox" id="t4"><span>Acheter les billets dès la première vague</span><span class="when">ouverture des ventes</span></label></li>
+      <li><label for="t5"><input type="checkbox" id="t5"><span>Réserver les vols</span><span class="when">janv.–févr. 2027</span></label></li>
+      <li><label for="t6"><input type="checkbox" id="t6"><span>Réserver l'appartement (annulation gratuite si possible)</span><span class="when">janv.–févr. 2027</span></label></li>
+      <li><label for="t7"><input type="checkbox" id="t7"><span>Réserver le van avec chauffeur ou la voiture</span><span class="when">mars 2027</span></label></li>
+      <li><label for="t8"><input type="checkbox" id="t8"><span>Vérifier le lieu de la soirée d'ouverture et le line-up</span><span class="when">printemps 2027</span></label></li>
+    </ul>
+  </section>
+
+  <section id="questions">
+    <div class="sec-head">
+      <p class="eyebrow">À trancher</p>
+      <h2>Questions ouvertes</h2>
+    </div>
+    <ol class="questions">
+      <li>Combien de personnes ? Ça détermine la taille de l'appart et du van.</li>
+      <li>Budget par personne, hors billets ?</li>
+      <li>Tout le monde part de Genève, ou certains de Zurich ?</li>
+      <li>On reste jusqu'au mardi 1er juin, ou retour lundi 31 ?</li>
+    </ol>
+  </section>
+
+  <section id="sources">
+    <div class="sec-head">
+      <p class="eyebrow">Sources et limites</p>
+    </div>
+    <p style="font-size:.9rem;color:var(--muted)">Line-up, prix 2027 et transport pas encore publiés. Aucun prix réel pour les vols ou le logement à ces dates. Tout est à revérifier avant de réserver.</p>
+    <div class="sources">
+      <a href="https://www.yard-events.com/" target="_blank" rel="noopener">YARD officiel</a>
+      <a href="https://shotgun.live/en/festivals/yard-season-ticket-2027" target="_blank" rel="noopener">Shotgun 2027</a>
+      <a href="https://www.technoairlines.com/festival/yard-festival-azeitao-portugal-2026" target="_blank" rel="noopener">Technoairlines</a>
+      <a href="https://wikinight.eu/en/musica/yard-festival-2026-precos-e-bilhetes" target="_blank" rel="noopener">Wikinight</a>
+      <a href="https://mixmagde.com/read/disclosure-rampa-and-adam-port-to-headline-yard-events-at-portugals-white-sand-mountains-news" target="_blank" rel="noopener">Mixmag</a>
+      <a href="https://www.partir.com/Portugal/billet-avion-vol/geneve-lisbonne/gva/lis/vol-direct.html" target="_blank" rel="noopener">Partir.com</a>
+      <a href="https://www.liligo.fr/vols/itineraires/geneve/lisbonne/easyjet" target="_blank" rel="noopener">Liligo</a>
+      <a href="https://www.lonelyplanet.com/articles/best-neighborhoods-in-lisbon" target="_blank" rel="noopener">Lonely Planet</a>
+      <a href="https://www.discover-portugal.com/arrabida-natural-park/" target="_blank" rel="noopener">Discover Portugal</a>
+    </div>
+  </section>
+
+  <footer>Préparé le 11 octobre 2026.</footer>
+</div>
+
+<script>
+(function () {
+  var el = document.getElementById('countdown');
+  var start = new Date('2027-05-27T00:00:00');
+  var days = Math.ceil((start - new Date()) / 86400000);
+  if (days > 1) el.textContent = 'Festival dans ' + days + ' jours';
+  else if (days >= -3) el.textContent = 'C’est maintenant.';
+  else el.textContent = 'Édition 2027 terminée';
+
+  var KEY = 'yard27-todo';
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+  document.querySelectorAll('.checklist input').forEach(function (cb) {
+    if (state[cb.id]) cb.checked = true;
+    cb.addEventListener('change', function () {
+      state[cb.id] = cb.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    });
+  });
+})();
+</script>
+</body>
+</html>

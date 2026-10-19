@@ -1,0 +1,708 @@
+<title>Planificateur de vols</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: departure-board header, then a form strip, then the airport × date grid as the working surface, tips below */
+:root {
+  --bg: #f3f4f6;
+  --surface: #ffffff;
+  --ink: #141a24;
+  --muted: #5b6577;
+  --line: #d9dde4;
+  --board: #141a24;
+  --board-ink: #f2f4f7;
+  --signal: #f2b705;
+  --signal-ink: #141a24;
+  --link: #1d4fa8;
+  --good: #1f7a4d;
+  --good-bg: #e2f3ea;
+  --heat-1: #e2f3ea;
+  --heat-2: #f4f1d6;
+  --heat-3: #f8e2cf;
+  --heat-4: #f6d2d0;
+  --focus: #1d4fa8;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", sans-serif;
+  --body: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e131b; --surface: #161d28; --ink: #e8ebf0; --muted: #98a2b3; --line: #2a3443;
+    --board: #06090e; --board-ink: #f2f4f7; --signal: #f5c22b; --signal-ink: #141a24;
+    --link: #8db4ff; --good: #6fd3a0; --good-bg: #173a2a;
+    --heat-1: #173a2a; --heat-2: #35361a; --heat-3: #3d2c1b; --heat-4: #42211f; --focus: #8db4ff;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e131b; --surface: #161d28; --ink: #e8ebf0; --muted: #98a2b3; --line: #2a3443;
+  --board: #06090e; --board-ink: #f2f4f7; --signal: #f5c22b; --signal-ink: #141a24;
+  --link: #8db4ff; --good: #6fd3a0; --good-bg: #173a2a;
+  --heat-1: #173a2a; --heat-2: #35361a; --heat-3: #3d2c1b; --heat-4: #42211f; --focus: #8db4ff;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 15px/1.5 var(--body); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-inline: 16px; padding-block: 0 48px; display: grid; gap: 20px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 600; letter-spacing: .01em; text-wrap: balance; margin: 0; }
+h2 { font-size: 1.6rem; }
+h3 { font-size: 1.2rem; }
+p { margin: 0; }
+a { color: var(--link); }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.label { font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); font-weight: 600; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* Board header */
+.board { background: var(--board); color: var(--board-ink); margin-inline: -16px; padding: 22px 16px 18px; }
+.board-inner { max-width: 1148px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 12px 28px; align-items: end; justify-content: space-between; }
+.board h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1; text-transform: uppercase; letter-spacing: .03em; }
+.board h1 span { color: var(--signal); }
+.board .sub { color: #aab3c2; font-size: .9rem; margin-top: 6px; max-width: 60ch; }
+.flap { display: flex; gap: 3px; font-family: var(--mono); font-weight: 600; font-size: 1.4rem; }
+.flap b { background: #222b38; color: var(--signal); padding: 2px 7px; border-radius: 3px; min-width: 1.4em; text-align: center; border-bottom: 1px solid #000; }
+.flap i { color: #6c7686; font-style: normal; padding: 2px 4px; }
+
+/* Form */
+form { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 18px; display: grid; gap: 18px; }
+.row { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
+.field { display: grid; gap: 4px; min-width: 0; }
+.field input[type="text"], .field input[type="date"], .field input[type="number"], .field select {
+  font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-height: 40px;
+}
+.field input.iata { width: 7.5em; font-family: var(--mono); text-transform: uppercase; font-weight: 600; letter-spacing: .05em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 12px; cursor: pointer; background: var(--bg); user-select: none; }
+.chip input { accent-color: var(--ink); margin: 0; }
+.chip:has(input:checked) { border-color: var(--ink); background: var(--surface); }
+.chip .mono { font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.seg label { padding: 8px 12px; cursor: pointer; background: var(--bg); border-right: 1px solid var(--line); }
+.seg label:last-child { border-right: 0; }
+.seg input { position: absolute; opacity: 0; pointer-events: none; }
+.seg label:has(input:checked) { background: var(--ink); color: var(--bg); }
+.seg label:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.mode-panel { display: flex; flex-wrap: wrap; gap: 16px; align-items: end; }
+.btn { font: inherit; font-weight: 600; border-radius: 6px; padding: 9px 16px; cursor: pointer; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); min-height: 40px; }
+.btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn.signal { background: var(--signal); color: var(--signal-ink); border-color: var(--signal); }
+.btn.small { padding: 4px 10px; min-height: 30px; font-size: .85rem; font-weight: 500; }
+.hint { color: var(--muted); font-size: .85rem; }
+details.access summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
+.access-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px; margin-top: 12px; }
+.access-card { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: grid; gap: 6px; }
+.access-card input { width: 6em; }
+
+/* Summary */
+.summary { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 16px; }
+@media (max-width: 760px) { .summary { grid-template-columns: minmax(0, 1fr); } }
+.best { background: var(--board); color: var(--board-ink); border-radius: 8px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.best .label { color: #aab3c2; }
+.best .big { font-family: var(--display); font-size: 2.2rem; line-height: 1.05; font-weight: 700; }
+.best .big .amt { color: var(--signal); }
+.best .meta { color: #c9d0db; font-size: .9rem; }
+.airport-compare { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; }
+.bars { display: grid; gap: 8px; }
+.bar-row { display: grid; grid-template-columns: 3.4em minmax(0, 1fr) 7.5em; gap: 10px; align-items: center; }
+.bar-track { height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--ink); border-radius: 5px; }
+.bar-row.win .bar-fill { background: var(--good); }
+.bar-row .val { text-align: right; }
+
+/* Grid */
+.grid-head { display: flex; flex-wrap: wrap; gap: 8px 16px; justify-content: space-between; align-items: end; }
+.table-wrap { overflow-x: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+table { border-collapse: collapse; width: 100%; min-width: 640px; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+thead th { position: sticky; top: 0; background: var(--surface); font-weight: 600; }
+thead th .mono { font-size: 1.05rem; }
+tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+th.dates { white-space: nowrap; font-weight: 500; }
+th.dates .d { font-family: var(--mono); font-size: .95rem; }
+th.dates .n { color: var(--muted); font-size: .8rem; display: block; }
+td.cell { min-width: 200px; transition: background .2s; }
+td.cell.h1 { background: var(--heat-1); } td.cell.h2 { background: var(--heat-2); }
+td.cell.h3 { background: var(--heat-3); } td.cell.h4 { background: var(--heat-4); }
+td.cell.best-cell { box-shadow: inset 0 0 0 2px var(--good); }
+.cell-inputs { display: flex; gap: 6px; }
+.cell-inputs input { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 5px 7px; min-width: 0; }
+.cell-inputs input.price { width: 6.5em; font-family: var(--mono); }
+.cell-inputs select.airline { flex: 1; min-width: 0; width: 7em; font: inherit; font-size: .88rem; color: var(--ink); background: var(--surface); border: 1px solid var(--line); border-radius: 5px; padding: 4px 4px; }
+.cell-inputs input.miles { width: 7.5em; font-family: var(--mono); }
+.cell-inputs + .cell-inputs { margin-top: 6px; }
+.cell-inputs input.miles:disabled { opacity: .45; }
+td.cell.excluded { background: transparent; }
+td.cell.excluded .total { text-decoration: line-through; }
+.badge.warn { background: var(--heat-4); color: var(--ink); }
+.badge.star { background: var(--signal); color: var(--signal-ink); }
+.links { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 7px; }
+.links a { font-size: .78rem; font-weight: 600; text-decoration: none; border: 1px solid var(--line); border-radius: 4px; padding: 2px 7px; background: var(--surface); color: var(--link); }
+.links a:hover { border-color: var(--link); }
+.total { margin-top: 6px; font-size: .82rem; color: var(--muted); }
+.total b { color: var(--ink); font-family: var(--mono); }
+.badge { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; background: var(--good-bg); color: var(--good); padding: 1px 6px; border-radius: 3px; margin-left: 4px; }
+.cal-links { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+
+/* Info */
+.notice { border-left: 3px solid var(--signal); padding: 10px 14px; background: var(--surface); border-radius: 0 6px 6px 0; font-size: .9rem; color: var(--muted); max-width: 90ch; }
+.notice b { color: var(--ink); }
+.info { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.panel table { min-width: 0; font-size: .88rem; }
+.panel th, .panel td { padding: 6px 8px 6px 0; }
+.wrap > * { min-width: 0; }
+.panel { grid-template-columns: minmax(0, 1fr); }
+.panel select { width: 100%; max-width: 100%; }
+.panel ul { margin: 0; padding-left: 1.1em; display: grid; gap: 6px; font-size: .9rem; }
+.cmd { display: flex; gap: 8px; align-items: center; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; }
+.cmd code { flex: 1; min-width: 0; overflow-x: auto; white-space: nowrap; font-family: var(--mono); font-size: .82rem; }
+.saved { display: flex; flex-wrap: wrap; gap: 8px; }
+.saved-item { display: inline-flex; border: 1px solid var(--line); border-radius: 6px; overflow: hidden; }
+.saved-item button { font: inherit; font-size: .85rem; border: 0; background: var(--surface); color: var(--ink); padding: 6px 10px; cursor: pointer; }
+.saved-item button + button { border-left: 1px solid var(--line); color: var(--muted); }
+.empty { color: var(--muted); font-size: .9rem; }
+.toast { position: fixed; left: 50%; bottom: calc(18px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 6px; font-size: .9rem; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<div class="wrap">
+  <header class="board">
+    <div class="board-inner">
+      <div>
+        <h1>Planificateur <span>de vols</span></h1>
+        <p class="sub">Compare GVA, ZRH et BSL sur plusieurs dates, ouvre les recherches pré-remplies, note les prix vus et trouve le voyage le moins cher en Star Alliance ou easyJet, train jusqu'à l'aéroport et miles gagnés compris.</p>
+      </div>
+      <div class="flap" id="flap" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <form id="search" autocomplete="off">
+    <div class="row">
+      <div class="field">
+        <span class="label">Départ depuis</span>
+        <div class="chips" id="origins"></div>
+      </div>
+      <div class="field">
+        <label class="label" for="extraOrigin">Autre aéroport</label>
+        <input type="text" id="extraOrigin" class="iata" maxlength="3" placeholder="ex. LYS">
+      </div>
+      <div class="field">
+        <label class="label" for="dest">Destination (code IATA)</label>
+        <input type="text" id="dest" class="iata" maxlength="3" required placeholder="BCN">
+      </div>
+      <div class="field">
+        <span class="label">Type</span>
+        <div class="seg">
+          <label><input type="radio" name="trip" id="tripRt" value="rt" checked>Aller-retour</label>
+          <label><input type="radio" name="trip" id="tripOw" value="ow">Aller simple</label>
+        </div>
+      </div>
+      <div class="field">
+        <label class="label" for="pax">Adultes</label>
+        <input type="number" id="pax" min="1" max="9" value="1" style="width:5em">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <span class="label">Dates</span>
+        <div class="seg">
+          <label><input type="radio" name="mode" id="modeWe" value="weekends" checked>Week-ends</label>
+          <label><input type="radio" name="mode" id="modeFlex" value="flex">± jours</label>
+          <label><input type="radio" name="mode" id="modeFixed" value="fixed">Dates fixes</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mode-panel" id="panel-weekends">
+      <div class="field">
+        <label class="label" for="weFrom">À partir du</label>
+        <input type="date" id="weFrom">
+      </div>
+      <div class="field">
+        <label class="label" for="weCount">Nombre de week-ends</label>
+        <input type="number" id="weCount" min="1" max="12" value="4" style="width:5em">
+      </div>
+      <div class="field">
+        <span class="label">Aller le</span>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" id="weThu">jeu</label>
+          <label class="chip"><input type="checkbox" id="weFri" checked>ven</label>
+          <label class="chip"><input type="checkbox" id="weSat">sam</label>
+        </div>
+      </div>
+      <div class="field" id="weRetField">
+        <span class="label">Retour le</span>
+        <div class="chips">
+          <label class="chip"><input type="checkbox" id="weSun" checked>dim</label>
+          <label class="chip"><input type="checkbox" id="weMon">lun</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="mode-panel" id="panel-flex" hidden>
+      <div class="field">
+        <label class="label" for="flexOut">Aller vers le</label>
+        <input type="date" id="flexOut">
+      </div>
+      <div class="field flex-ret">
+        <label class="label" for="flexRet">Retour vers le</label>
+        <input type="date" id="flexRet">
+      </div>
+      <div class="field">
+        <label class="label" for="flexN">Marge (± jours)</label>
+        <select id="flexN"><option value="1" selected>± 1</option><option value="2">± 2</option><option value="3">± 3</option></select>
+      </div>
+      <p class="hint">± 3 jours en aller-retour donne 49 combinaisons par aéroport.</p>
+    </div>
+
+    <div class="mode-panel" id="panel-fixed" hidden>
+      <div class="field">
+        <label class="label" for="fixOut">Aller</label>
+        <input type="date" id="fixOut">
+      </div>
+      <div class="field fix-ret">
+        <label class="label" for="fixRet">Retour</label>
+        <input type="date" id="fixRet">
+      </div>
+    </div>
+
+    <div class="row">
+      <label class="chip"><input type="checkbox" id="starMode" checked><span><b>Priorité miles Star Alliance</b> · easyJet accepté, autres compagnies écartées</span></label>
+      <div class="field">
+        <label class="label" for="mileValue">Valeur d'un mile (CHF)</label>
+        <input type="number" id="mileValue" min="0" step="0.001" value="0.01" style="width:6.5em">
+      </div>
+      <p class="hint" style="max-width:52ch">Le coût net déduit les miles que tu gagnes, au tarif indiqué. 0.01 est une hypothèse à ajuster. Trouve les miles d'un vol avec le <a href="https://www.miles-and-more.com/ch/fr/earn/airlines/mileage-calculator.html" target="_blank" rel="noopener">calculateur Miles &amp; More</a>.</p>
+    </div>
+
+    <details class="access">
+      <summary>Coût et temps d'accès depuis Corseaux (train, par personne et par trajet)</summary>
+      <div class="access-grid" id="accessGrid"></div>
+      <p class="hint" style="margin-top:8px">Valeurs par défaut approximatives, plein tarif 2e classe depuis Vevey. Ajuste-les avec ton abonnement (demi-tarif, GA) ou vérifie sur sbb.ch. Mets 0 pour ne pas en tenir compte.</p>
+    </details>
+
+    <div class="row">
+      <button type="submit" class="btn signal">Générer la grille</button>
+      <button type="button" class="btn ghost" id="saveSearch">Enregistrer cette recherche</button>
+      <span class="hint" id="comboCount"></span>
+    </div>
+  </form>
+
+  <section class="summary" id="summary" aria-live="polite"></section>
+
+  <section style="display:grid; gap:10px">
+    <div class="grid-head">
+      <div>
+        <h2>Grille des prix</h2>
+        <p class="hint">Ouvre une recherche et note le prix le plus bas vu en Star Alliance ou easyJet (total pour tous les passagers). Ajoute la compagnie et les miles gagnés. La couleur suit le coût net, du moins cher (vert) au plus cher (rouge). Les liens Kayak ne montrent que les vols Star Alliance.</p>
+      </div>
+      <div class="cal-links" id="calLinks"></div>
+    </div>
+    <div class="table-wrap"><table id="grid"></table></div>
+    <div class="row">
+      <button type="button" class="btn ghost small" id="clearPrices">Effacer les prix de cette recherche</button>
+      <span class="hint" id="clearConfirm" hidden>Effacer tous les prix notés ? <button type="button" class="btn small" id="clearYes">Oui, effacer</button> <button type="button" class="btn ghost small" id="clearNo">Annuler</button></span>
+    </div>
+  </section>
+
+  <p class="notice"><b>Pas de prix en direct ici.</b> Google Flights, Kayak et Skyscanner n'offrent pas d'accès public aux tarifs. La page ne montre donc que les prix que tu notes. Pour une recherche de prix par Claude sur le web, utilise la commande du flight agent plus bas.</p>
+
+  <section class="info">
+    <div class="panel">
+      <h3>Recherches enregistrées</h3>
+      <div class="saved" id="saved"></div>
+    </div>
+
+    <div class="panel">
+      <h3>Quand réserver</h3>
+      <table>
+        <thead><tr><th>Période</th><th>Réserver</th><th>Surcoût</th></tr></thead>
+        <tbody>
+          <tr><td>Été (juil.–août)</td><td>3–4 mois avant</td><td class="mono">+50–100 %</td></tr>
+          <tr><td>Mi-saison (mai, juin, sept.)</td><td>4–6 semaines</td><td>référence</td></tr>
+          <tr><td>Europe, loisirs</td><td>6–8 semaines</td><td>–</td></tr>
+          <tr><td>Basse saison</td><td>2–4 semaines</td><td>remises possibles</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li>Priorité aux compagnies Star Alliance pour les miles : SWISS, puis Lufthansa, puis Austrian. Edelweiss et Eurowings créditent aussi Miles &amp; More.</li>
+        <li>easyJet ne rapporte pas de miles, mais reste une bonne option avec easyJet Plus.</li>
+        <li>Les départs mardi et mercredi sont souvent moins chers.</li>
+        <li>Commence par Google Flights en navigation privée, puis réserve sur le site de la compagnie.</li>
+        <li>easyJet Plus : bagage cabine et siège inclus seulement si tu réserves sur easyjet.com. Ajoute le bagage au prix des autres compagnies pour comparer.</li>
+        <li>SWISS : Economy Light sans modification, Saver avec frais de CHF 50, Flex modifiable.</li>
+      </ul>
+    </div>
+
+    <div class="panel">
+      <h3>Recherche approfondie avec Claude</h3>
+      <p class="hint">Le flight agent cherche des prix sur le web avec 8 stratégies. Choisis-en une puis copie la commande.</p>
+      <div class="field">
+        <label class="label" for="strategy">Stratégie</label>
+        <select id="strategy">
+          <option value="standard">Standard : prix multi-sources</option>
+          <option value="hidden_routes">Routes cachées : aéroports voisins, escales</option>
+          <option value="manipulation_free">Anti-manipulation : chercher sans faire monter les prix</option>
+          <option value="geo_pricing">Geo-pricing : prix selon le pays (long-courrier)</option>
+          <option value="timing">Timing : meilleur moment pour réserver</option>
+          <option value="fare_rules">Règles tarifaires : classes SWISS/LH</option>
+          <option value="ota_vs_airline">Compagnie ou agence en ligne</option>
+          <option value="price_watch">Surveillance des prix</option>
+        </select>
+      </div>
+      <div class="cmd"><code id="cmd"></code><button type="button" class="btn small" id="copyCmd">Copier</button></div>
+    </div>
+  </section>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+(() => {
+  const AIRPORTS = {
+    GVA: { name: "Genève", time: "1 h 05", cost: 33 },
+    ZRH: { name: "Zurich", time: "2 h 45", cost: 88 },
+    BSL: { name: "Bâle-Mulhouse", time: "2 h 50", cost: 75 }
+  };
+  const DAYS = ["dim", "lun", "mar", "mer", "jeu", "ven", "sam"];
+  const MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+  const $ = id => document.getElementById(id);
+
+  // Carriers by miles category: star and mm earn Miles & More, ezy is accepted without miles, none is set aside in Star Alliance mode
+  const CARRIERS = [
+    ["Star Alliance", "star", [["LX", "SWISS"], ["LH", "Lufthansa"], ["OS", "Austrian"], ["SN", "Brussels Airlines"], ["TP", "TAP Air Portugal"], ["LO", "LOT"], ["TK", "Turkish Airlines"], ["A3", "Aegean"], ["OU", "Croatia Airlines"], ["UA", "United"], ["AC", "Air Canada"], ["SQ", "Singapore Airlines"], ["NH", "ANA"], ["TG", "Thai"], ["ET", "Ethiopian"], ["MS", "EgyptAir"], ["AI", "Air India"], ["NZ", "Air New Zealand"], ["BR", "EVA Air"], ["CA", "Air China"], ["OZ", "Asiana"], ["AV", "Avianca"], ["CM", "Copa"], ["SA", "South African"], ["ZH", "Shenzhen Airlines"]]],
+    ["Miles & More, hors Star Alliance", "mm", [["WK", "Edelweiss"], ["EW", "Eurowings"], ["4Y", "Discover"]]],
+    ["Sans miles, accepté", "ezy", [["U2", "easyJet"]]],
+    ["Sans miles Star Alliance", "none", [["XX", "Autre compagnie"]]]
+  ];
+  const CARRIER = {};
+  CARRIERS.forEach(([, cat, list]) => list.forEach(([code, name]) => CARRIER[code] = { name, cat }));
+  const earnsMiles = code => ["star", "mm"].includes(CARRIER[code]?.cat);
+  const airlineOptions = sel => `<option value="">Compagnie…</option>` + CARRIERS.map(([label, , list]) =>
+    `<optgroup label="${label}">${list.map(([c, n]) => `<option value="${c}"${c === sel ? " selected" : ""}>${n}</option>`).join("")}</optgroup>`).join("");
+
+  // Storage, guarded
+  const store = {
+    get(k, fb) { try { const v = localStorage.getItem("fp:" + k); return v ? JSON.parse(v) : fb; } catch { return fb; } },
+    set(k, v) { try { localStorage.setItem("fp:" + k, JSON.stringify(v)); } catch {} }
+  };
+
+  // Dates as local YYYY-MM-DD strings
+  const pad = n => String(n).padStart(2, "0");
+  const iso = d => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  const parse = s => { const [y, m, d] = s.split("-").map(Number); return new Date(y, m - 1, d); };
+  const addDays = (s, n) => { const d = parse(s); d.setDate(d.getDate() + n); return iso(d); };
+  const fmt = s => { const d = parse(s); return `${DAYS[d.getDay()]} ${d.getDate()} ${MONTHS[d.getMonth()]}`; };
+  const nights = (a, b) => Math.round((parse(b) - parse(a)) / 864e5);
+  const today = iso(new Date());
+
+  const chf = n => "CHF " + Math.round(n).toLocaleString("fr-CH");
+
+  // Links
+  function links(o, dst, out, ret, pax, star) {
+    const yymmdd = s => s.slice(2).replace(/-/g, "");
+    const q = `Flights from ${o} to ${dst} on ${out}` + (ret ? ` returning ${ret}` : "") + (pax > 1 ? ` for ${pax} adults` : "") + (star ? " on Star Alliance" : "");
+    const paxK = pax > 1 ? `/${pax}adults` : "";
+    return [
+      [star ? "Kayak ★" : "Kayak", `https://www.kayak.ch/flights/${o}-${dst}/${out}${ret ? "/" + ret : ""}${paxK}?sort=price_a${star ? "&fs=alliance=STAR_ALLIANCE" : ""}`],
+      ["Google", `https://www.google.com/travel/flights?q=${encodeURIComponent(q)}&curr=CHF&hl=fr`],
+      ["Skyscanner", `https://www.skyscanner.ch/transport/flights/${o.toLowerCase()}/${dst.toLowerCase()}/${yymmdd(out)}/${ret ? yymmdd(ret) + "/" : ""}?adultsv2=${pax}&currency=CHF&locale=fr-FR`],
+      ["easyJet", `https://www.easyjet.com/deeplink?lang=FR&dep=${o}&dest=${dst}&dd=${out}${ret ? "&rd=" + ret : ""}&apax=${pax}&cpax=0&ipax=0`]
+    ];
+  }
+
+  // State
+  const defaults = () => {
+    const d = new Date(); d.setDate(d.getDate() + 7);
+    const out = iso(d), ret = addDays(out, 2);
+    return {
+      origins: ["GVA", "ZRH", "BSL"], extra: "", dest: "BCN", trip: "rt", pax: 1,
+      mode: "weekends", weFrom: today, weCount: 4, weOut: [5], weRet: [0],
+      flexOut: out, flexRet: addDays(out, 4), flexN: 1, fixOut: out, fixRet: ret,
+      starMode: true, mileValue: 0.01
+    };
+  };
+  let S = Object.assign(defaults(), store.get("last", {}));
+  if (S.weFrom < today) S.weFrom = today;
+  let prices = store.get("prices", {});
+  let access = Object.assign(Object.fromEntries(Object.entries(AIRPORTS).map(([k, v]) => [k, v.cost])), store.get("access", {}));
+
+  // Build origin chips + access cards
+  function renderOriginChips() {
+    $("origins").innerHTML = Object.entries(AIRPORTS).map(([k, v]) =>
+      `<label class="chip"><input type="checkbox" id="o-${k}" value="${k}" ${S.origins.includes(k) ? "checked" : ""}><span class="mono">${k}</span> ${v.name}</label>`).join("");
+    $("accessGrid").innerHTML = Object.entries(AIRPORTS).map(([k, v]) =>
+      `<div class="access-card"><div><span class="mono" style="font-weight:600">${k}</span> · ${v.name}</div>
+       <div class="hint">env. ${v.time} depuis Vevey</div>
+       <label class="field"><span class="label">CHF par trajet</span><input type="number" min="0" step="1" id="acc-${k}" data-k="${k}" value="${access[k]}"></label></div>`).join("");
+  }
+
+  function readForm() {
+    S.origins = [...document.querySelectorAll("#origins input:checked")].map(i => i.value);
+    S.extra = $("extraOrigin").value.trim().toUpperCase().replace(/[^A-Z]/g, "");
+    S.dest = $("dest").value.trim().toUpperCase().replace(/[^A-Z]/g, "");
+    S.trip = $("tripOw").checked ? "ow" : "rt";
+    S.pax = Math.max(1, Math.min(9, +$("pax").value || 1));
+    S.mode = document.querySelector('input[name="mode"]:checked').value;
+    S.weFrom = $("weFrom").value || today;
+    S.weCount = Math.max(1, Math.min(12, +$("weCount").value || 4));
+    S.weOut = [["weThu", 4], ["weFri", 5], ["weSat", 6]].filter(([id]) => $(id).checked).map(([, d]) => d);
+    S.weRet = [["weSun", 0], ["weMon", 1]].filter(([id]) => $(id).checked).map(([, d]) => d);
+    S.flexOut = $("flexOut").value; S.flexRet = $("flexRet").value; S.flexN = +$("flexN").value;
+    S.fixOut = $("fixOut").value; S.fixRet = $("fixRet").value;
+    S.starMode = $("starMode").checked;
+    S.mileValue = Math.max(0, +$("mileValue").value || 0);
+    document.querySelectorAll("#accessGrid input").forEach(i => { access[i.dataset.k] = Math.max(0, +i.value || 0); });
+    store.set("last", S); store.set("access", access);
+  }
+
+  function writeForm() {
+    renderOriginChips();
+    $("extraOrigin").value = S.extra; $("dest").value = S.dest;
+    $(S.trip === "ow" ? "tripOw" : "tripRt").checked = true;
+    $("pax").value = S.pax;
+    $({ weekends: "modeWe", flex: "modeFlex", fixed: "modeFixed" }[S.mode]).checked = true;
+    $("weFrom").value = S.weFrom; $("weCount").value = S.weCount;
+    $("weThu").checked = S.weOut.includes(4); $("weFri").checked = S.weOut.includes(5); $("weSat").checked = S.weOut.includes(6);
+    $("weSun").checked = S.weRet.includes(0); $("weMon").checked = S.weRet.includes(1);
+    $("flexOut").value = S.flexOut; $("flexRet").value = S.flexRet; $("flexN").value = S.flexN;
+    $("fixOut").value = S.fixOut; $("fixRet").value = S.fixRet;
+    $("starMode").checked = S.starMode; $("mileValue").value = S.mileValue;
+    syncPanels();
+  }
+
+  function syncPanels() {
+    const mode = document.querySelector('input[name="mode"]:checked').value;
+    $("panel-weekends").hidden = mode !== "weekends";
+    $("panel-flex").hidden = mode !== "flex";
+    $("panel-fixed").hidden = mode !== "fixed";
+    const ow = $("tripOw").checked;
+    $("weRetField").hidden = ow;
+    document.querySelectorAll(".flex-ret, .fix-ret").forEach(el => el.hidden = ow);
+  }
+
+  // Date pairs
+  function datePairs() {
+    const rt = S.trip === "rt";
+    const pairs = [];
+    if (S.mode === "weekends") {
+      const outDays = S.weOut.length ? S.weOut : [5];
+      const retDays = S.weRet.length ? S.weRet : [0];
+      // anchor each weekend on its Saturday
+      let sat = parse(S.weFrom);
+      while (sat.getDay() !== 6) sat.setDate(sat.getDate() + 1);
+      for (let w = 0; w < S.weCount; w++) {
+        const satS = addDays(iso(sat), w * 7);
+        for (const od of outDays) {
+          const out = addDays(satS, od - 6);
+          if (out < today) continue;
+          if (!rt) { pairs.push([out, null]); continue; }
+          for (const rd of retDays) pairs.push([out, addDays(satS, rd === 0 ? 1 : 2)]);
+        }
+      }
+    } else if (S.mode === "flex") {
+      if (!S.flexOut) return pairs;
+      for (let i = -S.flexN; i <= S.flexN; i++) {
+        const out = addDays(S.flexOut, i);
+        if (out < today) continue;
+        if (!rt || !S.flexRet) { pairs.push([out, null]); continue; }
+        for (let j = -S.flexN; j <= S.flexN; j++) {
+          const ret = addDays(S.flexRet, j);
+          if (ret > out) pairs.push([out, ret]);
+        }
+      }
+    } else if (S.fixOut) {
+      pairs.push([S.fixOut, rt && S.fixRet ? S.fixRet : null]);
+    }
+    const seen = new Set();
+    return pairs.filter(p => { const k = p.join(); if (seen.has(k)) return false; seen.add(k); return true; });
+  }
+
+  const allOrigins = () => [...new Set([...S.origins, ...(S.extra.length === 3 ? [S.extra] : [])])];
+  const key = (o, out, ret) => `${o}-${S.dest}-${out}-${ret || "ow"}-${S.pax}`;
+  const accessCost = o => (access[o] || 0) * S.pax * (S.trip === "rt" ? 2 : 1);
+  const milesCredit = p => earnsMiles(p.airline) ? (p.miles || 0) * S.mileValue : 0;
+  const totalFor = (o, out, ret) => {
+    const p = prices[key(o, out, ret)];
+    return p && p.price > 0 ? p.price + accessCost(o) - milesCredit(p) : null;
+  };
+  // In Star Alliance mode only miles-earning carriers and easyJet compete; a price without a carrier still counts
+  const eligible = p => !S.starMode || !p || !p.airline || CARRIER[p.airline]?.cat !== "none";
+
+  // Render grid
+  function renderGrid() {
+    const origins = allOrigins();
+    const pairs = datePairs();
+    const tbl = $("grid");
+    if (S.dest.length !== 3 || !origins.length || !pairs.length) {
+      tbl.innerHTML = `<tbody><tr><td class="empty">${S.dest.length !== 3 ? "Saisis un code IATA de destination à 3 lettres (ex. BCN, LIS, JFK)." : !origins.length ? "Coche au moins un aéroport de départ." : "Aucune date à venir pour ces réglages."}</td></tr></tbody>`;
+      $("comboCount").textContent = ""; $("calLinks").innerHTML = "";
+      renderSummary([], []); return;
+    }
+    $("comboCount").textContent = `${pairs.length * origins.length} combinaisons (${origins.length} aéroport${origins.length > 1 ? "s" : ""} × ${pairs.length} date${pairs.length > 1 ? "s" : ""})`;
+
+    let html = `<thead><tr><th>Dates</th>${origins.map(o => `<th><span class="mono">${o}</span> → <span class="mono">${S.dest}</span>${accessCost(o) ? `<div class="hint" style="font-weight:400">+ ${chf(accessCost(o))} de train</div>` : ""}</th>`).join("")}</tr></thead><tbody>`;
+    for (const [out, ret] of pairs) {
+      html += `<tr><th class="dates" scope="row"><span class="d">${fmt(out)}</span>${ret ? `<span class="d"> → ${fmt(ret)}</span><span class="n">${nights(out, ret)} nuit${nights(out, ret) > 1 ? "s" : ""}</span>` : `<span class="n">aller simple</span>`}</th>`;
+      for (const o of origins) {
+        const k = key(o, out, ret), p = prices[k] || {};
+        html += `<td class="cell" data-k="${k}" data-o="${o}" data-out="${out}" data-ret="${ret || ""}">
+          <div class="cell-inputs">
+            <input class="price" type="number" min="0" step="1" inputmode="numeric" placeholder="CHF" aria-label="Prix ${o} ${fmt(out)}" id="p-${k}" value="${p.price || ""}">
+            <select class="airline" aria-label="Compagnie ${o} ${fmt(out)}" id="a-${k}">${airlineOptions(p.airline)}</select>
+          </div>
+          <div class="cell-inputs">
+            <input class="miles" type="number" min="0" step="1" inputmode="numeric" placeholder="Miles gagnés" aria-label="Miles ${o} ${fmt(out)}" id="m-${k}" value="${p.miles || ""}"${earnsMiles(p.airline) ? "" : " disabled"}>
+          </div>
+          <div class="links">${links(o, S.dest, out, ret, S.pax, S.starMode).map(([n, u]) => `<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join("")}</div>
+          <div class="total"></div></td>`;
+      }
+      html += `</tr>`;
+    }
+    tbl.innerHTML = html + `</tbody>`;
+
+    // Whole-month calendars for the first date
+    const first = pairs[0][0];
+    const ym = first.slice(2, 7).replace("-", "");
+    $("calLinks").innerHTML = `<span class="label">Calendrier du mois</span>` + origins.map(o =>
+      `<a class="btn ghost small" href="https://www.skyscanner.ch/transport/flights/${o.toLowerCase()}/${S.dest.toLowerCase()}/${ym}/${S.trip === "rt" ? ym + "/" : ""}?adultsv2=${S.pax}&currency=CHF" target="_blank" rel="noopener">${o} Skyscanner</a>`).join("") +
+      `<a class="btn ghost small" href="https://www.google.com/travel/explore?q=${encodeURIComponent(`Flights from ${origins.join(",")} to ${S.dest}`)}&curr=CHF&hl=fr" target="_blank" rel="noopener">Google Explore</a>`;
+    refreshTotals();
+  }
+
+  function refreshTotals() {
+    const cells = [...document.querySelectorAll("td.cell")];
+    const all = cells.map(c => totalFor(c.dataset.o, c.dataset.out, c.dataset.ret || null));
+    const ok = cells.map(c => eligible(prices[c.dataset.k]));
+    const vals = all.map((v, i) => ok[i] ? v : null);
+    const known = vals.filter(v => v != null);
+    const min = Math.min(...known), max = Math.max(...known);
+    let bestIdx = -1;
+    cells.forEach((c, i) => {
+      c.classList.remove("h1", "h2", "h3", "h4", "best-cell", "excluded");
+      const v = all[i], t = c.querySelector(".total"), p = prices[c.dataset.k] || {};
+      if (v == null) { t.innerHTML = ""; return; }
+      const credit = milesCredit(p);
+      const net = `${credit ? "Net" : "Total"} <b>${chf(v)}</b>${credit ? ` <span class="hint">(−${chf(credit)} miles)</span>` : ""}`;
+      if (!ok[i]) { c.classList.add("excluded"); t.innerHTML = net + `<span class="badge warn">sans miles</span>`; return; }
+      const r = max > min ? (v - min) / (max - min) : 0;
+      c.classList.add(r < .25 ? "h1" : r < .5 ? "h2" : r < .75 ? "h3" : "h4");
+      if (bestIdx < 0 || v < vals[bestIdx]) bestIdx = i;
+      t.innerHTML = net + (CARRIER[p.airline]?.cat === "star" ? `<span class="badge star">★ Star</span>` : "");
+    });
+    if (bestIdx >= 0) {
+      cells[bestIdx].classList.add("best-cell");
+      cells[bestIdx].querySelector(".total").innerHTML += `<span class="badge">le moins cher</span>`;
+    }
+    renderSummary(cells, vals, all);
+  }
+
+  function renderSummary(cells, vals, all = []) {
+    const origins = allOrigins();
+    const known = vals.filter(v => v != null);
+    let bestHtml;
+    if (!known.length) {
+      bestHtml = `<div class="best"><span class="label">Meilleure option</span><div class="big">En attente de prix</div><p class="meta">Ouvre une recherche dans la grille et note le prix le plus bas que tu vois. Le meilleur voyage, train compris, s'affiche ici.</p></div>`;
+    } else {
+      const i = vals.indexOf(Math.min(...known)), c = cells[i];
+      const p = prices[c.dataset.k] || {};
+      const ret = c.dataset.ret;
+      const credit = milesCredit(p);
+      // Cheapest carrier set aside in Star Alliance mode, shown so the miles premium stays visible
+      const exIdx = all.reduce((b, v, j) => v != null && vals[j] == null && (b < 0 || v < all[b]) ? j : b, -1);
+      const exNote = exIdx >= 0 && all[exIdx] < vals[i]
+        ? `<p class="meta">Sans miles, ${cells[exIdx].dataset.o} ${fmt(cells[exIdx].dataset.out)} coûte ${chf(vals[i] - all[exIdx])} de moins. Il est écarté par la priorité Star Alliance.</p>` : "";
+      bestHtml = `<div class="best"><span class="label">Meilleure option${S.starMode ? " Star Alliance ou easyJet" : ""} · ${known.length} prix noté${known.length > 1 ? "s" : ""}</span>
+        <div class="big"><span class="mono">${c.dataset.o}</span> → <span class="mono">${S.dest}</span> · <span class="amt">${chf(vals[i])}</span></div>
+        <p class="meta">${fmt(c.dataset.out)}${ret ? " → " + fmt(ret) : ""}${p.airline ? " · " + escapeHtml(CARRIER[p.airline]?.name || "") : ""} · vol ${chf(p.price)} + train ${chf(accessCost(c.dataset.o))}${credit ? ` − ${p.miles.toLocaleString("fr-CH")} miles (${chf(credit)})` : ""}${S.pax > 1 ? ` · ${S.pax} adultes` : ""}</p>${exNote}</div>`;
+    }
+    // Per-airport cheapest
+    const perO = origins.map(o => {
+      const vs = cells.map((c, i) => c.dataset.o === o ? vals[i] : null).filter(v => v != null);
+      return [o, vs.length ? Math.min(...vs) : null];
+    });
+    const have = perO.filter(([, v]) => v != null);
+    const maxV = Math.max(...have.map(([, v]) => v), 1), minV = Math.min(...have.map(([, v]) => v));
+    const cmp = `<div class="airport-compare"><span class="label">Meilleur prix par aéroport, train compris</span>
+      <div class="bars">${perO.map(([o, v]) => `<div class="bar-row${v != null && v === minV ? " win" : ""}"><span class="mono" style="font-weight:600">${o}</span>
+        <div class="bar-track"><div class="bar-fill" style="width:${v != null ? Math.max(4, v / maxV * 100) : 0}%"></div></div>
+        <span class="mono val">${v != null ? chf(v) + (v > minV ? `<span class="hint"> +${Math.round(v - minV)}</span>` : "") : `<span class="hint">aucun prix</span>`}</span></div>`).join("")}</div></div>`;
+    $("summary").innerHTML = bestHtml + cmp;
+  }
+
+  const escapeHtml = s => s.replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+
+  // Saved searches
+  function renderSaved() {
+    const list = store.get("saved", []);
+    $("saved").innerHTML = list.length ? list.map((s, i) =>
+      `<span class="saved-item"><button type="button" data-load="${i}"><span class="mono">${[...new Set([...s.origins, ...(s.extra ? [s.extra] : [])])].join("/")}→${s.dest}</span> · ${{ weekends: s.weCount + " week-ends", flex: "± " + s.flexN + " j autour du " + (s.flexOut ? fmt(s.flexOut) : "?"), fixed: s.fixOut ? fmt(s.fixOut) : "?" }[s.mode]}</button><button type="button" data-del="${i}" aria-label="Supprimer">×</button></span>`).join("")
+      : `<p class="empty">Aucune recherche enregistrée. Les prix notés restent dans ce navigateur, même sans enregistrer.</p>`;
+  }
+
+  function updateCmd() {
+    const pairs = datePairs();
+    const o = allOrigins()[0] || "GVA";
+    const [out, ret] = pairs[0] || [S.fixOut || today, null];
+    $("cmd").textContent = `python scripts/flight_agent.py ${o} ${S.dest || "BCN"} ${out}${ret ? " " + ret : ""} ${S.pax} ${$("strategy").value}`;
+  }
+
+  function flap() {
+    const o = allOrigins()[0] || "GVA", d = S.dest.padEnd(3, "·");
+    $("flap").innerHTML = [...o].map(c => `<b>${c}</b>`).join("") + `<i>✈</i>` + [...d].map(c => `<b>${c}</b>`).join("");
+  }
+
+  let toastT;
+  function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2200); }
+
+  function run() { readForm(); renderGrid(); updateCmd(); flap(); }
+
+  // Events
+  $("search").addEventListener("submit", e => { e.preventDefault(); run(); });
+  $("search").addEventListener("change", e => {
+    syncPanels();
+    if (e.target.closest("#accessGrid") || ["starMode", "mileValue"].includes(e.target.id)) { readForm(); renderGrid(); }
+  });
+  $("grid").addEventListener("input", e => {
+    const c = e.target.closest("td.cell"); if (!c) return;
+    const k = c.dataset.k;
+    const price = +c.querySelector(".price").value || 0, airline = c.querySelector(".airline").value;
+    const milesEl = c.querySelector(".miles");
+    milesEl.disabled = !earnsMiles(airline);
+    const miles = milesEl.disabled ? 0 : +milesEl.value || 0;
+    if (price || airline || miles) prices[k] = { price, airline, miles }; else delete prices[k];
+    store.set("prices", prices);
+    refreshTotals();
+  });
+  $("saveSearch").addEventListener("click", () => {
+    readForm();
+    const list = store.get("saved", []);
+    const sig = JSON.stringify(S);
+    if (!list.some(s => JSON.stringify(s) === sig)) { list.unshift({ ...S }); store.set("saved", list.slice(0, 12)); }
+    renderSaved(); renderGrid(); toast("Recherche enregistrée");
+  });
+  $("saved").addEventListener("click", e => {
+    const list = store.get("saved", []);
+    const l = e.target.closest("[data-load]"), d = e.target.closest("[data-del]");
+    if (l) { S = Object.assign(defaults(), list[+l.dataset.load]); writeForm(); store.set("last", S); renderGrid(); updateCmd(); flap(); }
+    if (d) { list.splice(+d.dataset.del, 1); store.set("saved", list); renderSaved(); }
+  });
+  $("clearPrices").addEventListener("click", () => { $("clearConfirm").hidden = false; });
+  $("clearNo").addEventListener("click", () => { $("clearConfirm").hidden = true; });
+  $("clearYes").addEventListener("click", () => {
+    document.querySelectorAll("td.cell").forEach(c => delete prices[c.dataset.k]);
+    store.set("prices", prices); $("clearConfirm").hidden = true; renderGrid(); toast("Prix effacés");
+  });
+  $("strategy").addEventListener("change", updateCmd);
+  $("copyCmd").addEventListener("click", () => {
+    const text = $("cmd").textContent;
+    navigator.clipboard.writeText(text).then(() => toast("Commande copiée"), () => {
+      const r = document.createRange(); r.selectNodeContents($("cmd")); const s = getSelection(); s.removeAllRanges(); s.addRange(r); toast("Sélectionnée, copie avec ⌘C");
+    });
+  });
+
+  writeForm(); renderGrid(); renderSaved(); updateCmd(); flap();
+})();
+</script>

@@ -134,7 +134,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
     </nav>
   </div>
   <div class="cartouche" aria-label="Données clés">
-    <div>Prix demandé</div><div>CHF 2'050'000</div>
+    <div>Prix convenu</div><div>CHF 1'800'000</div>
     <div>Surface</div><div>192 m² · parcelle 1'053 m²</div>
     <div>Pièces</div><div>7.5 · 5 ch · 3 sdb</div>
     <div>CECB</div><div>E · D · G</div>
@@ -240,7 +240,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
     <div class="note"><h3>Non confirmé</h3>
       <ul>
         <li>Diviser la maison en deux appartements indépendants — aucune entrée séparée ni compteur distinct ne sont documentés pour le studio du bas ; à vérifier auprès de la commune/du notaire.</li>
-        <li>Ce bien est déjà proposé environ 16% sous le prix moyen au m² des maisons à Corseaux, ce qui limite probablement la marge de négociation réelle d'une vente de succession.</li>
+        <li>Prix : l'offre de CHF 1'800'000 a été acceptée par les vendeurs le 27.10.2026 (prix demandé 2'050'000). Rien n'engage avant l'acte chez le notaire.</li>
         <li>Les loyers et les montants de rénovation sont des comparables et des fourchettes indicatives, pas des devis pour cette maison précise.</li>
       </ul></div>
     <div class="note"><h3>Calendrier</h3>
@@ -262,7 +262,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
 (function(){
   "use strict";
 
-  var BASE_PRICE = 2050000;
+  var BASE_PRICE = 1800000;   // agreed 27.10.2026 (asking 2,050,000)
 
   var SCENARIOS = [
     { id:'s1', name:'Rénovation complète, y habiter', rationale:'Rénover toute la maison, puis y habiter vous-même.', price:BASE_PRICE, reno:'full', occ:'owner-whole' },
@@ -300,7 +300,6 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
 
   function topRiskFlag(st){
     if (st.occ === 'owner-plus-studio') return 'division en deux appartements non confirmée';
-    if (st.price < BASE_PRICE - 1) return 'marge de négociation incertaine';
     if (st.reno === 'none') return 'CECB E/D/G non traité';
     if (st.reno === 'full' || st.reno === 'luxury') return 'coût de rénovation estimatif';
     return null;
@@ -552,7 +551,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
           (flag ? '<span class="warn-flag">' + flag + '</span>' : '') +
         '</div>' +
         '<div class="rank-edit">' +
-          '<span><label>Prix négocié</label>' + numberInput(sc.id, 'price', st.price) + '</span>' +
+          '<span><label>Prix (fixé)</label>' + fmtCHF(BASE_PRICE) + '</span>' +
           '<span><label>Rénovation</label>' + select(sc.id, 'reno', RENO_LABELS, st.reno) + '</span>' +
           '<span><label>Occupation</label>' + select(sc.id, 'occ', OCC_LABELS, st.occ) + '</span>' +
         '</div>' +

@@ -134,7 +134,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
     </nav>
   </div>
   <div class="cartouche" aria-label="Key facts">
-    <div>Asking price</div><div>CHF 2'050'000</div>
+    <div>Agreed price</div><div>CHF 1'800'000</div>
     <div>Surface</div><div>192 m² · 1'053 m² plot</div>
     <div>Rooms</div><div>7.5 · 5 bed · 3 bath</div>
     <div>CECB</div><div>E · D · G</div>
@@ -240,7 +240,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
     <div class="note"><h3>Not confirmed</h3>
       <ul>
         <li>Splitting the house into two independently rentable flats — no separate entrance or metering is documented for the downstairs studio; needs a commune/notary check.</li>
-        <li>This property is already priced roughly 16% below the Corseaux house average per m², which likely limits how far a succession sale will actually negotiate.</li>
+        <li>Price: the CHF 1,800,000 offer was accepted by the sellers on 27.10.2026 (asking 2,050,000). Nothing is binding before the notarial deed.</li>
         <li>Rent figures and renovation totals are comps and ballpark tiers, not quotes for this specific house.</li>
       </ul></div>
     <div class="note"><h3>Timing</h3>
@@ -262,7 +262,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
 (function(){
   "use strict";
 
-  var BASE_PRICE = 2050000;
+  var BASE_PRICE = 1800000;   // agreed 27.10.2026 (asking 2,050,000)
 
   var SCENARIOS = [
     { id:'s1', name:'Full Renovation, Live-In', rationale:'Renovate the whole house, then live in it yourself.', price:BASE_PRICE, reno:'full', occ:'owner-whole' },
@@ -300,7 +300,6 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
 
   function topRiskFlag(st){
     if (st.occ === 'owner-plus-studio') return 'flat subdivision unconfirmed';
-    if (st.price < BASE_PRICE - 1) return 'negotiation room uncertain';
     if (st.reno === 'none') return 'CECB E/D/G unaddressed';
     if (st.reno === 'full' || st.reno === 'luxury') return 'renovation cost is a ballpark tier';
     return null;
@@ -552,7 +551,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:.78rem;color:
           (flag ? '<span class="warn-flag">' + flag + '</span>' : '') +
         '</div>' +
         '<div class="rank-edit">' +
-          '<span><label>Negotiated price</label>' + numberInput(sc.id, 'price', st.price) + '</span>' +
+          '<span><label>Price (fixed)</label>' + fmtCHF(BASE_PRICE) + '</span>' +
           '<span><label>Renovation</label>' + select(sc.id, 'reno', RENO_LABELS, st.reno) + '</span>' +
           '<span><label>Occupancy</label>' + select(sc.id, 'occ', OCC_LABELS, st.occ) + '</span>' +
         '</div>' +

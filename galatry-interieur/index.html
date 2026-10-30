@@ -356,6 +356,7 @@ T('oak', 132, 280, 1024, 1024, (g, w, h) => { const r = rng(97), n = 6, s = w / 
     g.fillStyle = 'rgba(70,48,25,.35)'; g.fillRect(i * s, 0, 1.2, h); } });
 tiles('porc', 120, 2, '#cfc9c0', '#bdb7ae', 89, 4, 2);
 tiles('porcW', 120, 4, '#ecebe7', '#dcdad5', 91, 2, 1.5);
+tiles('porcExt', 120, 2, '#d9d5ce', '#b9b4ac', 101, 5, 3);   // terrace: light grey 60 × 60 porcelain on pedestals (user's choice, 30.10.2026)
 
 // The view from the house: a panorama cylinder. u = 0 looks south over the lake, u = .25 east, .5 north, .75 west.
 const PANO_R = 9000, PANO_H = 9000;
@@ -466,6 +467,7 @@ mat('oak', {tex: 'oak', rough: .55});
 mat('oakFront', {tex: 'oak', rough: .5, cu: 60, cv: 200});
 mat('porc', {tex: 'porc', rough: .4});
 mat('porcW', {tex: 'porcW', rough: .25});
+mat('porcExt', {tex: 'porcExt', rough: .6});
 mat('quartz', {color: '#ebe8e2', rough: .22});
 mat('greige', {color: '#d6d0c5', rough: .55});   // kitchen and vanity fronts (assumed)
 mat('fabric', {color: '#cbc2b4', rough: 1});
@@ -1057,6 +1059,7 @@ function roofBuild(){
 // (as the site model draws it) the parapet is cut down to the slab edge and topped with a 1.00 m glass guard, and glass
 // guards stand outside the three French doors (living, dining room and main bedroom)
 function edgeBuild(){
+  block('edge', CUR === 'ex' ? MAT.terrace : MAT.porcExt, G.terrace, -6, -4, {bottom: false, sides: false, pick: 'up'});
   const g = 'edge', guard = s => { const f = frame(s[0], s[1], s[2], s[3]);
     fb(g, MAT.glass, f, 0, f.L, -.6, .6, 0, 100, {cast: false}); fb(g, MAT.steel, f, 0, f.L, -1.5, 1.5, 100, 103); fb(g, MAT.dark, f, 0, f.L, -3, 3, -2, 6); };
   if (CUR === 'ex'){
@@ -1089,7 +1092,7 @@ const STAIR = {x0: 842, xm: 935, x1: 1040, zL: 480, zT: 655};
 
 // ---- outside: terrace, roof, ground falling toward the lake, the view
 (() => {
-  block('terrace', MAT.plaster, G.terrace, -34, -6); block('terrace', MAT.terrace, G.terrace, -6, -4, {bottom: false, sides: false, pick: 'up'});
+  block('terrace', MAT.plaster, G.terrace, -34, -6);   // the paving on top is per state (edgeBuild)
 })();
 // ground: rises behind the house, a level forecourt in front of the lower floor, then falls toward the lake
 const gh = (x, z) => {
@@ -1301,7 +1304,7 @@ function updateSheet(force){
   if (key === shownKey && !force) return; shownKey = key;
   chips.querySelectorAll('[data-k]').forEach(b => b.setAttribute('aria-pressed', !!r && b.dataset.k === r.k));
   if (key === CUR + 'ter'){ fill('Terrasse', '22.1 m²', CUR === 'ex' ? ['Klinker beige 25 × 25', 'Acrotère crépi', 'Sous-face de toit en bois', 'seen', 'Terrasse couverte en partie par le débord du toit, vue sur le lac et les Dents du Midi.']
-    : ['Dallage existant (supposé)', 'Acrotère abaissé au niveau de la dalle, garde-corps en verre de 1 m', 'Sous-face de toit en bois', 'plan', 'Façade sud vitrée : la terrasse n\'a plus de muret, seulement un garde-corps en verre, comme devant les trois portes-fenêtres.']); return; }
+    : ['Grès cérame 60 × 60 gris clair, sur plots', 'Acrotère abaissé au niveau de la dalle, garde-corps en verre de 1 m', 'Sous-face de toit en bois', 'plan', 'Façade sud vitrée : la terrasse n\'a plus de muret, seulement un garde-corps en verre, comme devant les trois portes-fenêtres.']); return; }
   const T = TXT[CUR], sm = T.sum[floorSel];
   if (!r){ fill(walk ? '—' : (floorSel === 'up' ? 'Étage ±0.00' : 'Rez inférieur −2.72'), walk ? '' : sm[0], walk ? null : ['Cliquer une pièce', '', '', 'plan', sm[1]]); return; }
   fill(label(r), r.m2.toFixed(1) + ' m²', T.info[r.k] || ['—', '—', '—', 'plan', '']);
@@ -1394,7 +1397,7 @@ const RENDERS = [['sejour', 'up', 'u_sej'], ['sam', 'up', 'u_sam'], ['cuisine', 
 const gal = document.getElementById('gallery'), lb = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img');
 let lbi = 0, opener = null;
 // project renders live in a folder named after the plan they show, so a new plan never shows a cached older picture
-const PR_RENDERS = 'rendus/projet-2026-10-29b/';
+const PR_RENDERS = 'rendus/projet-2026-10-30/';
 const rsrc = r => r[3] === 'pr' ? PR_RENDERS + r[0].slice(3) + '.jpg' : 'rendus/' + r[0] + '.jpg';
 const rname = ([, lvl, k, v], short) => { const r = VD[v].rooms[lvl].find(q => q.k === k.split('/')[0]); return ((TXT[v].sub || {})[k] || TXT[v].name[r.k] || r.fr) + (v === 'pr' && !short ? ' · projet' : ''); };
 // gallery in two groups, the current state first; the lightbox steps through them in that order

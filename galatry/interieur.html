@@ -953,7 +953,7 @@ function fixturesPr(){
   // interior.py STOVE): a round black steel body Ø 70 cm from 45 to 95 cm, open on the lake side, the burner's flame inside,
   // hung from the sloping ceiling by a Ø 12 cm tube
   (() => {
-    const [x, z, r, y0, y1] = [1190, 1150, 35, 45, 95], top = LV.up.ceil(x, z);
+    const [x, z, r, y0, y1] = [1190, 1189, 35, 45, 95], top = LV.up.ceil(x, z);   // 15 cm off the south wall (user, 01.11.2026)
     prim(U, MAT.black, new THREE.CylinderGeometry(r, r * .82, y1 - y0, 32, 1, false, Math.PI * 1.25, Math.PI * 1.5), x, (y0 + y1) / 2, z);
     prim(U, MAT.soot, new THREE.CylinderGeometry(r - 2, r * .82 - 2, y1 - y0 - 4, 32, 1, true, Math.PI * 1.25, Math.PI * 1.5), x, (y0 + y1) / 2, z, null, false);
     prim(U, MAT.black, new THREE.CylinderGeometry(r * .82, r * .82, 3, 32), x, y0 + 1.5, z);   // its floor

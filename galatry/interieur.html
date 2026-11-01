@@ -895,7 +895,7 @@ function fixturesPr(){
     solid(lvl, rect(x0, z0, x1, z1));
   };
   const lounge = (x0, x1, backW) => {   // lounge chair 75 × 75, back 15 cm on the west or east side
-    const z0 = 960, z1 = 1035, bx = backW ? [x0, x0 + 15] : [x1 - 15, x1];   // 60 cm further north since 01.11.2026, clear of the stove
+    const z0 = 1010, z1 = 1085, bx = backW ? [x0, x0 + 15] : [x1 - 15, x1];   // 50 cm back towards the window since the stove is against the wall (01.11.2026)
     block(U, MAT.black, rect(x0 + 6, z0 + 6, x1 - 6, z1 - 6), 0, 6); block(U, MAT.fabricDk, rect(x0, z0, x1, z1), 6, 40);
     block(U, MAT.fabricDk, rect(bx[0], z0, bx[1], z1), 40, 75); block(U, MAT.fabricDk, rect(x0, z0, x1, z0 + 10), 40, 55); block(U, MAT.fabricDk, rect(x0, z1 - 10, x1, z1), 40, 55);
     solid('up', rect(x0, z0, x1, z1));
@@ -945,9 +945,10 @@ function fixturesPr(){
   table(U, 'up', 0, 1325, 960, 1565, 1060, 76);
   [1355, 1415, 1475, 1535].forEach(cx => { chair(U, 0, cx - 22, 905, 'n'); chair(U, 0, cx - 22, 1070, 's'); });
   pend(1445, 1010, 160, 20);
-  // (01.11.2026, user's choice) the seating 60 cm further north than before, so that the east lounge chair is about 75 cm from the stove
-  sofaN(U, 'up', 0, 920, 820, 1180, 915);
-  block(U, MAT.oak, rect(995, 960, 1105, 1030), 34, 40); block(U, MAT.black, rect(1005, 970, 1095, 1020), 0, 34); solid('up', rect(995, 960, 1105, 1030));
+  // (01.11.2026, user's choices) the seating went 60 cm north for the stove, then 50 cm back towards the window once the stove was
+  // against the wall: the east lounge chair is about 70 cm from it
+  sofaN(U, 'up', 0, 920, 870, 1180, 965);
+  block(U, MAT.oak, rect(995, 1010, 1105, 1080), 34, 40); block(U, MAT.black, rect(1005, 1020, 1095, 1070), 0, 34); solid('up', rect(995, 1010, 1105, 1080));
   lounge(880, 955, true); lounge(1145, 1220, false);
   // -- hanging bioethanol stove where the corner fireplace was (01.11.2026, user's choice: bioethanol, no flue; galatry-project
   // interior.py STOVE): a round black steel body Ø 70 cm from 45 to 95 cm, open on the lake side, the burner's flame inside,

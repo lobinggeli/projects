@@ -337,6 +337,10 @@ T('stone', 60, 60, 512, 512, (g, w, h) => { g.fillStyle = '#b8b1a6'; g.fillRect(
 T('concrete', 200, 200, 512, 512, (g, w, h) => { g.fillStyle = '#9ea1a1'; g.fillRect(0, 0, w, h); const r = rng(29);
   for (let k = 0; k < 140; k++){ const x = r() * w, y = r() * h, rr = 10 + r() * 70, gr = g.createRadialGradient(x, y, 0, x, y, rr); gr.addColorStop(0, `rgba(${r() < .5 ? '60,62,64' : '210,212,212'},${.05 + .06 * r()})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(x - rr, y - rr, 2 * rr, 2 * rr); }
   grain(g, w, h, r, 9000, .1); });
+// family room (user, 01.11.2026: « un enduit simple au sol »): a smooth light coating over the screed, faint trowel marks
+T('coat', 200, 200, 512, 512, (g, w, h) => { g.fillStyle = '#cbc8c1'; g.fillRect(0, 0, w, h); const r = rng(31);
+  for (let k = 0; k < 60; k++){ const x = r() * w, y = r() * h, rr = 30 + r() * 90, gr = g.createRadialGradient(x, y, 0, x, y, rr); gr.addColorStop(0, `rgba(${r() < .5 ? '120,118,112' : '236,234,229'},${.03 + .04 * r()})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(x - rr, y - rr, 2 * rr, 2 * rr); }
+  grain(g, w, h, r, 4000, .05); });
 function tiles(name, cm, n, base, grout, seed, vary = 3, gw = 2.5){ T(name, cm, cm, 512, 512, (g, w, h) => { const r = rng(seed), s = w / n; g.fillStyle = grout; g.fillRect(0, 0, w, h);
   for (let i = 0; i < n; i++) for (let j = 0; j < n; j++){ g.fillStyle = base; g.fillRect(i * s + gw / 2, j * s + gw / 2, s - gw, s - gw); g.fillStyle = r() < .5 ? `rgba(0,0,0,${r() * vary / 100})` : `rgba(255,255,255,${r() * vary / 100})`; g.fillRect(i * s + gw / 2, j * s + gw / 2, s - gw, s - gw); } }); }
 tiles('tileW15', 60, 4, '#f3f3f0', '#d2d2ce', 31);
@@ -442,6 +446,7 @@ mat('cork', {tex: 'cork', rough: .8});
 mat('terrazzo', {tex: 'terrazzo', rough: .45});
 mat('stone', {tex: 'stone', rough: .5});
 mat('concrete', {tex: 'concrete', rough: .9});
+mat('coat', {tex: 'coat', rough: .55});
 mat('tileW15', {tex: 'tileW15', rough: .3});
 mat('tileW10', {tex: 'tileW10', rough: .3});
 mat('faience', {tex: 'faience', rough: .35});
@@ -570,9 +575,10 @@ const VD = {
   ex: {up: G.up, low: G.low, base: {up: 'klinker', low: 'terrazzo'}, ceil: 'cedar',
     floor: {u_ch1: 'carpetDark', u_ch2: 'carpetDark', chambre: 'laminate', bain: 'tileW15', studio: 'cork', bureau: 'carpetBeige', buand: 'terrazzo', garage: 'concrete', chauf: 'concrete', cave: 'concrete', reduit: 'concrete', red: 'concrete', citerne: 'concrete', stair: 'stone'},
     noRad: ['garage', 'cave', 'chauf', 'citerne', 'reduit', 'red', 'stair', 'u_cuis', 'buand', 'u_wc', 'studio']},
-  // project: oak throughout, large porcelain tiles in the wet rooms, painted screed in the plant rooms (finishes assumed)
+  // project: oak throughout, large porcelain tiles in the wet rooms, painted screed in the plant rooms (finishes assumed); a simple
+  // floor coating in the family room (user, 01.11.2026)
   pr: {up: G.pu, low: G.pl, base: {up: 'oak', low: 'concrete'}, ceil: 'plaster',   // the cedar boards come down: white-painted Fermacell under the roof slope
-    floor: {u_bain: 'porc', u_wc: 'porc', chambre: 'oak', studio: 'oak', bureau: 'oak', hall: 'oak', conv: 'oak', bain: 'porc', stair: 'stone'},
+    floor: {u_bain: 'porc', u_wc: 'porc', chambre: 'oak', studio: 'oak', bureau: 'oak', hall: 'oak', conv: 'coat', bain: 'porc', stair: 'stone'},
     noRad: [...G.pu.rooms, ...G.pl.rooms].map(r => r.k)},   // heat pump with floor heating on both floors (assumed): no radiators
 };
 VARS.forEach(v => { const d = VD[v]; d.rooms = {up: d.up.rooms.filter(r => r.k !== 'u_ter'), low: d.low.rooms}; d.noRad = new Set(d.noRad); });
@@ -1204,7 +1210,7 @@ const INFO_PR = {
   hall: ['Parquet chêne', 'Peinture blanche', 'Plâtre lisse', 'plan', 'Couloir réduit : il commence à la porte de la chambre.'],
   studio: ['Parquet chêne', 'Peinture blanche', 'Plâtre lisse', 'plan', 'Ancienne chambre avec la porte sur le jardin : rangements bas, petit canapé, table d\'enfants, le sol laissé libre pour le tapis.'],
   bureau: ['Parquet chêne', 'Peinture blanche', 'Plâtre lisse', 'plan', 'Longue table sous la fenêtre pour dessiner et faire les devoirs (chaises supposées), rangements bas sur les deux murs.'],
-  conv: ['Parquet chêne ; grès cérame dans la zone bien-être', 'Peinture blanche ; sauna en épicéa', 'Plâtre lisse', 'plan', 'Ancien garage, buanderie et moitié est du hall réunis (48 m²), baie vitrée à la place de la porte de garage. Sauna de 1,80 × 1,90 m au pied de l\'escalier, façade vitrée et porte tournées vers la pièce (bancs contre le mur de la salle de jeux), pas de douche à côté, bain froid de 1,50 × 0,80 m le long de la façade entre la porte du jardin et la baie, sol carrelé sur toute la zone ; bar entre les deux portes avec quatre tabourets, canapé face à la baie, tapis de sport dans l\'angle est. Poêle du sauna supposé.'],
+  conv: ['Enduit de sol simple, teinte claire ; grès cérame sous le coin bien-être', 'Peinture blanche ; sauna en épicéa', 'Plâtre lisse', 'plan', 'Ancien garage, buanderie et moitié est du hall réunis (48 m²), baie vitrée à la place de la porte de garage. Sauna de 1,80 × 1,90 m au pied de l\'escalier, façade vitrée et porte tournées vers la pièce (bancs contre le mur de la salle de jeux), pas de douche à côté, bain froid de 1,50 × 0,80 m le long de la façade entre la porte du jardin et la baie, sol carrelé sur toute la zone ; bar entre les deux portes avec quatre tabourets, canapé face à la baie, tapis de sport dans l\'angle est. Poêle du sauna supposé.'],
   citerne: ['Chape', 'Peinture', 'Plâtre', 'plan', 'Ancien local de la citerne, trappe murée. Pas meublé sur le plan : établi, skis et vélos supposés.'],
 };
 const TAG = {seen: ['seen', 'vu'], plan: ['plan', 'plan'], guess: ['guess', 'supposé']};

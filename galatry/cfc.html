@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Devis CFC · Galatry 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4;
+  --room:#E6ECEE; --room-hi:#CFE0EA; --terr:#EDEFE9; --glass:#2F6690; --accent:#2F6690;
+  --earth:#8C969C; --scan-tint:1;
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+    --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+  --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.05}
+h2{font-size:26px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:17px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+p{margin:0;max-width:68ch}
+.muted{color:var(--ink-2)}
+.mono{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* title block, modelled on the 1963 cartouche */
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.kicker{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--accent);margin-bottom:6px}
+.cartouche{display:grid;grid-template-columns:auto auto;border:1.5px solid var(--ink);font-family:var(--f-draw);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.cartouche div{padding:5px 12px;border-bottom:1px solid var(--rule)}
+.cartouche div:nth-child(odd){color:var(--ink-2);border-right:1px solid var(--rule)}
+.cartouche div:nth-last-child(-n+2){border-bottom:0}
+.lede{display:flex;flex-direction:column;gap:10px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--rule);padding:6px 12px;border-radius:2px;background:var(--sheet)}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+section{display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
+figure{margin:0;background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.fig-bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.fig-title{font-family:var(--f-draw);font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.fig-title .mono{text-transform:none;letter-spacing:0;color:var(--ink-2);font-weight:400;margin-left:8px}
+.cmp{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.cmp input{width:120px;accent-color:var(--accent)}
+.draw{overflow-x:auto}
+.draw svg{display:block;width:100%;min-width:720px;height:auto}
+figcaption{padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+
+/* drawing styles */
+svg .scan{opacity:var(--scan,0);filter:contrast(1.1)}
+:root[data-theme="dark"] svg .scan{filter:invert(1) contrast(1.1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) svg .scan{filter:invert(1) contrast(1.1)}}
+svg text{font-family:var(--f-draw);fill:var(--ink)}
+.room{fill:var(--room);transition:fill .15s}
+.terr{fill:url(#hatch)}
+.room.hi,.terr.hi{fill:var(--room-hi)}
+.ext{fill:none;stroke:var(--ink);stroke-width:20;stroke-linejoin:miter;stroke-linecap:square}
+.par{fill:none;stroke:var(--ink);stroke-width:10;stroke-linejoin:miter}
+.int{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:square}
+.win{fill:none;stroke:var(--glass);stroke-width:7}
+.thin{fill:none;stroke:var(--ink-2);stroke-width:2}
+.dash{fill:none;stroke:var(--ink-2);stroke-width:3;stroke-dasharray:14 9}
+.fixt{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.cup{fill:none;stroke:var(--ink-2);stroke-width:2.5}
+.flue{fill:var(--ink)}
+.well{fill:none;stroke:var(--ink);stroke-width:5}
+.stairbox{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.entry{fill:var(--accent)}
+.tag{font-size:22px;letter-spacing:.12em;text-anchor:middle;fill:var(--accent)}
+.rl{font-size:31px;font-weight:600;letter-spacing:.06em;text-anchor:middle;text-transform:uppercase;pointer-events:none}
+.rl.sm{font-size:21px}
+.north circle{fill:none;stroke:var(--ink-2);stroke-width:2}
+.north path{fill:var(--ink)}
+.north text{font-size:26px;font-weight:700;text-anchor:middle}
+.scale text{font-size:20px;text-anchor:middle;fill:var(--ink-2);font-family:var(--f-mono)}
+.sb1{fill:var(--ink)} .sb2{fill:var(--sheet);stroke:var(--ink);stroke-width:2}
+.cut{fill:var(--ink)}
+.ol{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.ground{fill:none;stroke:var(--ink);stroke-width:2.5}
+.earth{fill:url(#earth);stroke:none}
+.foot{fill:url(#xhatch);stroke:var(--ink);stroke-width:1.5}
+.fwin{fill:var(--room-hi);stroke:var(--ink);stroke-width:1.6}
+.fdoor{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6}
+.fth{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.fol{fill:none;stroke:var(--ink);stroke-width:1.6}
+.fhid{fill:none;stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:8 6}
+.fglass{fill:var(--room-hi);stroke:var(--ink);stroke-width:2.4}
+.m-stage{position:relative}
+#m-canvas{display:block;width:100%;height:clamp(360px,62vh,640px);touch-action:none;cursor:grab}
+#m-canvas:active{cursor:grabbing}
+.m-fallback{padding:40px 16px;text-align:center;color:var(--ink-2)}
+.m-ctrl{display:flex;flex-wrap:wrap;gap:6px}
+.m-ctrl button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.m-ctrl button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fac-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:18px}
+.fac-pair .draw svg{min-width:520px}
+.stairc{fill:none;stroke:var(--ink);stroke-width:3}
+.sl{font-size:var(--fs);font-weight:600;letter-spacing:.08em;text-anchor:middle;text-transform:uppercase}
+.lv{font-size:calc(var(--fs) * .92);font-family:var(--f-mono);fill:var(--ink-2);paint-order:stroke;stroke:var(--sheet);stroke-width:6px;stroke-linejoin:round}
+.sl{paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.lvlm{fill:var(--ink)}
+
+/* legend */
+.plan-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+@media (max-width:900px){.plan-grid{grid-template-columns:1fr}}
+.legend{background:var(--sheet);border:1px solid var(--rule)}
+.legend h3{padding:10px 14px;border-bottom:1px solid var(--rule)}
+.legend ol{list-style:none;margin:0;padding:0}
+.legend li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 14px;border-bottom:1px solid var(--rule);cursor:default}
+.legend li:last-child{border-bottom:0}
+.legend li.hi{background:var(--room-hi)}
+.legend b{font-family:var(--f-draw);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:14px}
+.legend .en{font-size:13px;color:var(--ink-2);grid-column:1/-1}
+.legend .dim{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.note{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+@media (max-width:640px){header{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.room{transition:none}}
+
+/* site plan */
+:root{--parcel:#C0392B;--zone:#3E8E5A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--parcel:#F08070;--zone:#7CC896}}
+:root[data-theme="dark"]{--parcel:#F08070;--zone:#7CC896}
+.site-grid .draw svg{min-width:560px}
+.road{fill:var(--terr);stroke:var(--ink-2);stroke-width:1.6}
+.nb-par{fill:none;stroke:var(--ink-2);stroke-width:1.6}
+.nb-bld{fill:var(--room);stroke:var(--ink-2);stroke-width:1.6}
+.pave{fill:var(--room-hi);stroke:var(--ink-2);stroke-width:1.2}
+.psign rect{fill:var(--accent)} .psign text{fill:var(--sheet);font-family:var(--f-draw);font-weight:700;font-size:14px;text-anchor:middle;dominant-baseline:central}
+.p475{fill:none;stroke:var(--parcel);stroke-width:5;stroke-linejoin:round}
+.zone6{fill:url(#zhatch);stroke:var(--zone);stroke-width:2;stroke-dasharray:10 6}
+.lrou{stroke:var(--ink-2);stroke-width:2;stroke-dasharray:16 6 3 6;fill:none}
+.lrout{font-size:13px;fill:var(--ink-2);text-anchor:middle;letter-spacing:.04em}
+.house .lowfp{fill:none;stroke:var(--ink);stroke-width:14;stroke-dasharray:40 26}
+.dim{stroke:var(--parcel);stroke-width:2}
+.dimdot{fill:var(--parcel)}
+.dimt{font-family:var(--f-mono);font-size:15px;text-anchor:middle;fill:var(--parcel);paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.pn{font-size:20px;font-weight:700;text-anchor:middle;fill:var(--ink-2)}
+.pn475{font-size:30px;font-weight:700;text-anchor:middle;fill:var(--parcel)}
+.pn-sub{font-family:var(--f-mono);font-size:14px;text-anchor:middle;fill:var(--parcel)}
+.rdname{font-size:17px;text-anchor:middle;fill:var(--ink-2);letter-spacing:.06em}
+.key{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:8px}
+.k-par{border-top:3px solid var(--parcel)}
+.legend i.k-pf{width:20px;height:4px;border:0;border-top:6px solid var(--glass);border-bottom:2px dashed var(--glass);background:none;vertical-align:middle}
+.k-zone{height:12px;background:repeating-linear-gradient(45deg,var(--zone) 0 1.5px,transparent 1.5px 6px);border:1.5px dashed var(--zone)}
+.k-low{border-top:2.5px dashed var(--ink)}
+.k-lrou{border-top:2px dashed var(--ink-2)}
+.legend .figs{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+
+:root{--c-sleep:#EAD9BF;--c-living:#F0D8A8;--c-wet:#CFE3EA;--c-well:#A9D6E3;--c-tech:#DADDD8;--c-circ:#F2F1EC;--c-garage:#CFCFCB;--c-water:#4FA3C7;--c-stone:#E6E1D6;--c-pave:#C4BFB4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}}
+:root[data-theme="dark"]{--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}
+.m-ctrl .sep{width:1px;background:var(--rule);margin:0 4px;align-self:stretch}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pp-grid figure svg{display:block;width:100%;height:auto}
+.pp-rm{stroke:none}.c-sleep{fill:var(--c-sleep)}.c-living{fill:var(--c-living)}.c-wet{fill:var(--c-wet)}.c-well{fill:var(--c-well)}.c-tech{fill:var(--c-tech)}.c-circ{fill:var(--c-circ)}.c-garage{fill:var(--c-garage)}
+.pp-ext{fill:none;stroke:var(--ink);stroke-width:18;stroke-linejoin:miter}.pp-int{stroke:var(--ink);stroke-width:8;stroke-linecap:square}
+.pp-win{stroke:var(--glass);stroke-width:14}.pp-win.wood{stroke:var(--earth)}
+.pp-win.pf{stroke-width:24}
+.pp-guard{stroke:var(--glass);stroke-width:6;stroke-dasharray:18 10}
+.pp-pool{fill:var(--c-water);stroke:var(--ink-2);stroke-width:4}.pp-deck{fill:var(--c-stone);stroke:var(--ink-2);stroke-width:3}.pp-pave,.pp-court{fill:var(--c-pave);stroke:var(--ink-2);stroke-width:3;opacity:.8}
+.pp-gar{fill:var(--c-garage);stroke:var(--ink);stroke-width:8;stroke-dasharray:28 16}
+.pp-rn{font-family:var(--f-draw);font-weight:600;letter-spacing:.03em;text-anchor:middle;fill:var(--ink)}
+.pp-ra{font-family:var(--f-mono);text-anchor:middle;fill:var(--ink-2)}
+.pp-tag{font-family:var(--f-draw);font-weight:600;font-size:56px;letter-spacing:.06em;text-anchor:middle;fill:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:14px;height:14px;border:1px solid var(--rule);display:inline-block}
+.prog{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--rule);font-size:14px}
+.prog th,.prog td{padding:8px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+.prog th{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--ink-2);font-weight:600}
+.prog th:last-child{text-align:right}
+.prog td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.prog tr.chg td:nth-child(2){font-weight:600}
+.prog-wrap{overflow-x:auto}
+.ext-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ext-list div{background:var(--sheet);border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ext-list b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+.abtab td{width:40%}.abtab td:first-child{width:20%}.abtab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}.prog-grid h3{margin:0 0 8px}
+.pp-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.abtab th:last-child{text-align:left}
+.pp-bay{fill:var(--c-pave);stroke:var(--sheet);stroke-width:8}.pp-turn{fill:none;stroke:var(--accent);stroke-width:12}.pp-turn.rev{stroke-dasharray:36 24}.pp-arrowhead{fill:var(--accent)}
+.cost th{text-align:right}.cost th:first-child{text-align:left}.cost-sum thead tr:first-child th{text-align:center;border-bottom:none}
+.cost tr.sub td,.cost tr.tot td{font-weight:600;border-top:1.5px solid var(--ink-2)}.cost tr.tot td{font-size:15px}.cost tr.diff td{color:var(--ink-2);font-style:italic}
+.cost-sum tr:not(.diff) td.num:nth-child(4),.cost-sum tr:not(.diff) td.num:nth-child(7),.cost-sum tr.diff td:nth-child(2),.cost-sum tr.diff td:nth-child(5){border-right:1px solid var(--rule)}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:16px;margin-top:20px}.cost-grid h3{margin:0 0 8px}
+@media (max-width:560px){.cost-grid{grid-template-columns:1fr}.cost td,.cost th{padding:6px 8px;font-size:13px}}
+#costs .notes{margin-top:20px}
+
+.pp-fit{fill:var(--c-stone);stroke:var(--ink);stroke-width:5}.pp-zone{font-size:50px;letter-spacing:.08em;text-anchor:middle;fill:var(--ink);font-weight:600;opacity:.75}
+.zoom-open{border:1px solid var(--rule);background:transparent;color:var(--ink-2);font:inherit;font-size:.78rem;padding:4px 10px;cursor:pointer}.zoom-open:hover{color:var(--ink);border-color:var(--ink-2)}
+#lower figure svg,#upper figure svg{cursor:zoom-in}
+.zoom-ov{position:fixed;inset:0;z-index:1000;background:var(--paper);display:flex;flex-direction:column}
+.zoom-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+.zoom-hint{color:var(--ink-2);font-size:.78rem;flex:1}
+.zoom-btns{display:flex;gap:6px}.zoom-btns button{border:1px solid var(--rule);background:transparent;color:var(--ink);font:inherit;min-width:36px;height:34px;padding:0 10px;cursor:pointer}.zoom-btns button:hover{border-color:var(--ink-2)}
+.zoom-stage{flex:1;min-height:0;touch-action:none;cursor:grab}.zoom-stage.drag{cursor:grabbing}.zoom-stage svg{width:100%;height:100%;display:block}
+@media(max-width:640px){.zoom-hint{display:none}}
+
+.m-iv{display:inline-flex;align-items:center;gap:4px}.m-iv-l{font-size:.72rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin:0 2px 0 6px}
+
+.pp-swing{fill:none;stroke:var(--ink-2);stroke-width:4;stroke-dasharray:12 8}.pp-leaf{stroke:var(--ink);stroke-width:7}
+
+.opttab td:first-child{width:18%}.opttab td:nth-child(2){width:34%}.opttab td:nth-child(3){width:14%}.opttab td.num{width:10%}.opttab td:last-child{width:24%}
+.opttab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}.opttab th:last-child{text-align:left}
+.cost.wide{width:100%}.cost.rooms td.desc{color:var(--ink-2);font-size:13px;text-align:left;white-space:normal}.cost.rooms th:nth-child(3){text-align:left}
+#costs h3{margin-top:12px}
+.m-walk{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:10px}
+.m-walk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.m-walk-hint{margin:0;font:400 12px/1.4 var(--f-body);color:var(--ink-2);background:color-mix(in srgb,var(--sheet) 88%,transparent);border:1px solid var(--rule);padding:6px 9px;border-radius:2px;max-width:48ch}
+.m-walk button{pointer-events:auto;font:600 12px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 10px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.m-walk button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-walk button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.m-walk-rooms{pointer-events:auto;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;scrollbar-width:thin}
+.m-walk-f{flex:none;font:500 11px/1 var(--f-mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;background:color-mix(in srgb,var(--sheet) 88%,transparent);padding:6px 4px;margin-left:6px}
+#m-canvas.walking{cursor:crosshair}
+#m-canvas:focus{outline:none}
+
+.cartouche{max-width:620px}   /* the header's auto column would otherwise take the longest line and squeeze the title */
+.pp-sky{fill:none;stroke:var(--glass);stroke-width:6;stroke-dasharray:16 9}
+.pp-det{fill:none;stroke:var(--ink);stroke-width:3}
+.pp-tray{fill:var(--c-water);fill-opacity:.35;stroke:var(--ink-2);stroke-width:3}
+:root{--c-tile:#CDD0D1;--c-tile-joint:#A5AAAC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-tile:#5F6569;--c-tile-joint:#464B4F}}
+:root[data-theme="dark"]{--c-tile:#5F6569;--c-tile-joint:#464B4F}
+.pp-tile{fill:url(#pp-tiles);stroke:none}.pp-tile-cell{fill:var(--c-tile);stroke:var(--c-tile-joint);stroke-width:2}
+</style>
+<style>.cfc td.c{font:12px/1.4 var(--f-mono);color:var(--ink-2);white-space:nowrap}.cfc .what{font-size:12.5px;line-height:1.45;color:var(--ink-2)}.cfc tr.sub td{padding-top:14px}.cfc .pct{color:var(--ink-2)}.cfc td{text-align:left}.cfc td.num,.cfc th:last-child{text-align:right}.cfc tr.sub td.what{font-weight:400}#notes li{margin:.35em 0}</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="lede">
+    <div class="kicker">Chemin de Galatry 3 · Corseaux VD</div>
+    <h1>Devis CFC</h1>
+    <p class="muted">La base du projet (variante réaliste) classée selon le Code des frais de construction (CFC du CRB), celui que les architectes utilisent avec la SIA 102 : le bâtiment (CFC 2) position par position, les travaux préparatoires (1), les aménagements extérieurs (4) et les frais secondaires et réserves (5) en totaux. Mêmes postes et mêmes prix que les <a href="index.html#costs">coûts du projet</a>, donc le même total. Ordres de grandeur en CHF TTC, prix 2026, pas des devis d’entreprises.</p>
+    <nav aria-label="Sections"><a href="#summary">Résumé</a><a href="#cfc2">CFC 2 · Bâtiment</a><a href="#rest">CFC 1, 4 et 5</a><a href="#options">Options</a><a href="#notes">Hypothèses</a></nav>
+  </div>
+</header>
+<section id="summary">
+  <div class="sec-head"><h2>Résumé</h2><span class="muted">Base · variante réaliste · CHF TTC</span></div>
+  <div class="prog-wrap"><table class="prog cost cfc"><thead><tr><th>CFC</th><th></th><th>CHF</th><th>%</th></tr></thead><tbody><tr><td class="c">1</td><td>Travaux préparatoires</td><td class="num">29 k</td><td class="num pct">3 %</td></tr><tr><td class="c">2</td><td>Bâtiment</td><td class="num">856 k</td><td class="num pct">79 %</td></tr><tr><td class="c">4</td><td>Aménagements extérieurs</td><td class="num">60 k</td><td class="num pct">5 %</td></tr><tr><td class="c">5</td><td>Frais secondaires et réserves</td><td class="num">141 k</td><td class="num pct">13 %</td></tr><tr class="tot"><td></td><td>Total de la base</td><td class="num">1.09 M</td><td class="num pct">100 %</td></tr><tr><td></td><td>Subventions estimées</td><td class="num">−41 k</td><td></td></tr><tr class="tot"><td></td><td>Base après subventions</td><td class="num">1.04 M</td><td></td></tr></tbody></table></div>
+</section>
+<section id="cfc2">
+  <div class="sec-head"><h2>CFC 2 · Bâtiment</h2><span class="muted">856 k · 79 % du total</span></div>
+  <div class="prog-wrap"><table class="prog cost wide cfc"><thead><tr><th>CFC</th><th>Position</th><th>Ce qui est compté</th><th>CHF</th></tr></thead><tbody><tr class="sub"><td class="c">20</td><td colspan="2">Excavation</td><td class="num">—</td></tr><tr class="sub"><td class="c">21</td><td colspan="2">Gros œuvre 1</td><td class="num">86 k</td></tr><tr><td class="c">211</td><td>Travaux de l’entreprise de maçonnerie, échafaudages</td><td class="what">Murs intérieurs ouverts 22 k · Façade sud, 2 portes-fenêtres 14 k · Nouveaux percements 12 k · Échafaudage 10 k · Terrasse du haut, muret et garde-corps 8 k · Mur de la cheminée entre salon et salle à manger démoli 6 k · Escalier ouvert sur la pièce de vie 4 k · Chambre parentale, 3e porte-fenêtre 4 k · Façade nord, fenêtre jusqu’au sol 3 k · Porte de 90 cm entre la salle familiale et l’atelier 2 k</td><td class="num">86 k</td></tr><tr class="sub"><td class="c">22</td><td colspan="2">Gros œuvre 2</td><td class="num">236 k</td></tr><tr><td class="c">221</td><td>Fenêtres, portes extérieures</td><td class="what">Façade sud, 2 portes-fenêtres 33 k · Baie vitrée levante-coulissante à la place de la porte du garage 32 k · Fenêtres et portes remplacées 30 k · Chambre parentale, 3e porte-fenêtre 10 k · 2 fenêtres de toit 78 × 118 cm sur le pan sud 8 k · Façade nord, fenêtre jusqu’au sol 4 k</td><td class="num">117 k</td></tr><tr><td class="c">222</td><td>Ferblanterie</td><td class="what">Toiture refaite 11 k</td><td class="num">11 k</td></tr><tr><td class="c">224</td><td>Couverture</td><td class="what">Toiture refaite 63 k</td><td class="num">63 k</td></tr><tr><td class="c">225</td><td>Étanchéités et isolations spéciales</td><td class="what">Étanchéité de la terrasse du haut 7 k</td><td class="num">7 k</td></tr><tr><td class="c">226</td><td>Crépissage de façade (isolation périphérique)</td><td class="what">Isolation périphérique crépie 38 k</td><td class="num">38 k</td></tr><tr class="sub"><td class="c">23</td><td>Installations électriques, photovoltaïque</td><td class="what">Panneaux solaires ~10 kWc sur le pan sud du toit 24 k · Pièces du rez-inférieur 23 k · Pièces du rez-de-chaussée 12 k · Salle de bain neuve 4 k · Locaux techniques 3 k · Salles d’eau refaites 3 k · W-C 1 k</td><td class="num">69 k</td></tr><tr class="sub"><td class="c">24</td><td colspan="2">Chauffage, ventilation, conditionnement d’air</td><td class="num">59 k</td></tr><tr><td class="c">242</td><td>Production de chaleur</td><td class="what">Pompe à chaleur 42 k</td><td class="num">42 k</td></tr><tr><td class="c">243</td><td>Distribution de chaleur</td><td class="what">Chauffage au sol, toute la maison 15 k</td><td class="num">15 k</td></tr><tr><td class="c">244</td><td>Installations de ventilation</td><td class="what">Salles d’eau refaites 1 k</td><td class="num">1 k</td></tr><tr class="sub"><td class="c">25</td><td colspan="2">Installations sanitaires</td><td class="num">118 k</td></tr><tr><td class="c">251</td><td>Appareils sanitaires courants, conduites (254)</td><td class="what">Salle de bain neuve 21 k · Salles d’eau refaites 13 k · W-C 5 k</td><td class="num">39 k</td></tr><tr><td class="c">252</td><td>Appareils sanitaires spéciaux</td><td class="what">Sauna 16 k · Bain froid 9 k</td><td class="num">25 k</td></tr><tr><td class="c">258</td><td>Agencements de cuisine</td><td class="what">Nouvelle cuisine à l’étage de l’entrée 42 k · Bar de la salle familiale 12 k</td><td class="num">54 k</td></tr><tr class="sub"><td class="c">26</td><td colspan="2">Installations de transport</td><td class="num">—</td></tr><tr class="sub"><td class="c">27</td><td colspan="2">Aménagements intérieurs 1</td><td class="num">61 k</td></tr><tr><td class="c">271</td><td>Plâtrerie</td><td class="what">Pièces du rez-inférieur 14 k · Plafonds Fermacell du rez-de-chaussée 10 k</td><td class="num">24 k</td></tr><tr><td class="c">272</td><td>Ouvrages métalliques</td><td class="what">Terrasse du haut, muret et garde-corps 11 k · Garde-corps en verre des portes-fenêtres 6 k · Escalier ouvert sur la pièce de vie 4 k</td><td class="num">22 k</td></tr><tr><td class="c">273</td><td>Menuiserie</td><td class="what">Porte de 90 cm entre la salle familiale et l’atelier 2 k</td><td class="num">2 k</td></tr><tr><td class="c">277</td><td>Cloisons</td><td class="what">Pièces du rez-inférieur 14 k</td><td class="num">14 k</td></tr><tr class="sub"><td class="c">28</td><td colspan="2">Aménagements intérieurs 2</td><td class="num">126 k</td></tr><tr><td class="c">281</td><td>Revêtements de sol (chapes, isolation, sols)</td><td class="what">Pièces du rez-inférieur 27 k · Pièces du rez-de-chaussée 18 k · Dalle du rez-inférieur isolée sous la nouvelle chape 11 k · Rez-de-chaussée, ancien sol déposé et chape neuve 8 k · Salle de bain neuve 6 k · Locaux techniques 6 k · Salles d’eau refaites 4 k · W-C 1 k</td><td class="num">80 k</td></tr><tr><td class="c">282</td><td>Revêtements de paroi</td><td class="what">Salle de bain neuve 8 k · Salles d’eau refaites 5 k · W-C 2 k</td><td class="num">15 k</td></tr><tr><td class="c">284</td><td>Fumisterie et poêlerie</td><td class="what">Poêle suspendu au bioéthanol à la place de la cheminée d’angle 6 k</td><td class="num">6 k</td></tr><tr><td class="c">285</td><td>Traitement des surfaces intérieures</td><td class="what">Pièces du rez-inférieur 14 k · Pièces du rez-de-chaussée 10 k · Locaux techniques 2 k</td><td class="num">26 k</td></tr><tr class="sub"><td class="c">29</td><td colspan="2">Honoraires</td><td class="num">102 k</td></tr><tr><td class="c">291</td><td>Architecte</td><td class="what">80 % des honoraires du modèle (architecte et ingénieur civil, 13.5 % des travaux), part du bâtiment</td><td class="num">81 k</td></tr><tr><td class="c">292</td><td>Ingénieur civil</td><td class="what">20 % des honoraires du modèle (architecte et ingénieur civil, 13.5 % des travaux), part du bâtiment</td><td class="num">20 k</td></tr><tr class="tot"><td class="c">2</td><td colspan="2">Total bâtiment, honoraires compris</td><td class="num">856 k</td></tr></tbody></table></div>
+</section>
+<section id="rest">
+  <div class="sec-head"><h2>CFC 1, 4 et 5</h2><span class="muted">En totaux, honoraires compris</span></div>
+  <div class="prog-wrap"><table class="prog cost wide cfc"><thead><tr><th>CFC</th><th></th><th>Ce qui est compté</th><th>CHF</th></tr></thead><tbody><tr><td class="c">1</td><td>Travaux préparatoires</td><td class="what">Réserve désamiantage et traitement de la charpente 15 k · Cheminée d’angle du salon démontée avec son conduit 4 k · Rez-de-chaussée, ancien sol déposé et chape neuve 3 k · Diagnostic amiante 3 k ; honoraires 3 k</td><td class="num">29 k</td></tr><tr><td class="c">4</td><td>Aménagements extérieurs</td><td class="what">Terrasse côté lac et ouest 25 k · Préparation piscine 8 k · Drainage 8 k · Murs de soutènement 5 k · Rampe d’accès cassée au-dessus de la partie bétonnée 4 k · Chemin piéton 1.2 m avec marches 3 k · Terrassement de la terrasse &lt; 1 k ; honoraires 7 k</td><td class="num">60 k</td></tr><tr><td class="c">5</td><td>Frais secondaires et réserves</td><td class="what">Géomètre, étude géotechnique, permis et taxes 20 k · réserve pour imprévus (12.5 % des travaux et honoraires) 121 k</td><td class="num">141 k</td></tr></tbody></table></div>
+</section>
+<section id="options">
+  <div class="sec-head"><h2>Options</h2><span class="muted">En plus de la base · CFC 4, honoraires, études et réserve compris</span></div>
+  <div class="prog-wrap"><table class="prog cost cfc"><thead><tr><th>CFC</th><th></th><th>CHF</th></tr></thead><tbody><tr><td class="c">4</td><td>+ Piscine</td><td class="num">132 k</td></tr><tr><td class="c">4</td><td>+ Clôture et portail</td><td class="num">39 k</td></tr><tr><td class="c">4</td><td>+ Garage en bas</td><td class="num">343 k</td></tr><tr><td class="c">4</td><td>+ Couvert en bas</td><td class="num">149 k</td></tr><tr><td class="c">4</td><td>+ Parking en haut</td><td class="num">531 k</td></tr></tbody></table></div>
+</section>
+<section id="notes">
+  <div class="sec-head"><h2>Hypothèses</h2></div>
+  <ul class="muted">
+    <li>Prix : les mêmes fourchettes que les coûts du projet (guides de prix suisses), au niveau unique retenu à mi-chemin entre le bas et le milieu de la fourchette. TTC, 2026.</li>
+    <li>Les prix au m² des pièces et les forfaits des salles d’eau couvrent plusieurs corps de métier ; ils sont répartis ici par parts indicatives : rez-inférieur (281 30 %, 277 15 %, 271 15 %, 285 15 %, 23 25 %), rez-de-chaussée (281 45 %, 285 25 %, 23 30 %), locaux techniques (281 50 %, 285 20 %, 23 30 %), salles d’eau (251 50 %, 282 20 %, 281 15 %, 244 5 %, 23 10 %).</li>
+    <li>Honoraires : 13.5 % des travaux (architecte et ingénieur civil) ; la part du bâtiment est en CFC 29, répartie 80 / 20 entre architecte et ingénieur civil (indicatif) ; celles des travaux préparatoires et des extérieurs sont dans les totaux 1 et 4.</li>
+    <li>Chauffage au sol : toute la maison en une fois, tubes dans la chape sur les deux niveaux (CFC 243) ; au rez-de-chaussée, l’ancien sol est déposé (CFC 1) et une chape neuve reçoit les tubes (CFC 281).</li>
+    <li>Plafonds du rez-de-chaussée : lambris déposé, Fermacell sur lattage sous la pente du toit (CFC 271), peint avec les pièces (CFC 285).</li>
+    <li>Le CFC détaillé d’un architecte (devis selon la SIA 102) aura plus de positions, par exemple 231 à 239 pour l’électricité ou 251 à 258 pour le sanitaire ; cette page est un premier classement pour comparer.</li>
+  </ul>
+</section>
+</div>
+<script src="toc.js" defer></script>
+</body>
+</html>

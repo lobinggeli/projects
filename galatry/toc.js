@@ -6,6 +6,7 @@
     { href: "index.html", label: "Projet – Plans et 3D" },   // the artifact's own page (build.py publishes projet.html as index.html)
     { href: "interieur.html", label: "Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
     { href: "travaux.html", label: "Travaux par étapes" },   // from etapes/: keeps its own sommaire, no toc.js
+    { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)
     { href: "illustrations.html", label: "Illustrations" },
     { href: "photos.html", label: "Photos de l’annonce" }
   ];

@@ -894,7 +894,7 @@ function fixturesPr(){
     solid(lvl, rect(x0, z0, x1, z1));
   };
   const lounge = (x0, x1, backW) => {   // lounge chair 75 × 75, back 15 cm on the west or east side
-    const z0 = 1020, z1 = 1095, bx = backW ? [x0, x0 + 15] : [x1 - 15, x1];
+    const z0 = 960, z1 = 1035, bx = backW ? [x0, x0 + 15] : [x1 - 15, x1];   // 60 cm further north since 01.11.2026, clear of the stove
     block(U, MAT.black, rect(x0 + 6, z0 + 6, x1 - 6, z1 - 6), 0, 6); block(U, MAT.fabricDk, rect(x0, z0, x1, z1), 6, 40);
     block(U, MAT.fabricDk, rect(bx[0], z0, bx[1], z1), 40, 75); block(U, MAT.fabricDk, rect(x0, z0, x1, z0 + 10), 40, 55); block(U, MAT.fabricDk, rect(x0, z1 - 10, x1, z1), 40, 55);
     solid('up', rect(x0, z0, x1, z1));
@@ -944,9 +944,22 @@ function fixturesPr(){
   table(U, 'up', 0, 1325, 960, 1565, 1060, 76);
   [1355, 1415, 1475, 1535].forEach(cx => { chair(U, 0, cx - 22, 905, 'n'); chair(U, 0, cx - 22, 1070, 's'); });
   pend(1445, 1010, 160, 20);
-  sofaN(U, 'up', 0, 920, 880, 1180, 975);
-  block(U, MAT.oak, rect(995, 1020, 1105, 1090), 34, 40); block(U, MAT.black, rect(1005, 1030, 1095, 1080), 0, 34); solid('up', rect(995, 1020, 1105, 1090));
+  // (01.11.2026, user's choice) the seating 60 cm further north than before, so that the east lounge chair is about 75 cm from the stove
+  sofaN(U, 'up', 0, 920, 820, 1180, 915);
+  block(U, MAT.oak, rect(995, 960, 1105, 1030), 34, 40); block(U, MAT.black, rect(1005, 970, 1095, 1020), 0, 34); solid('up', rect(995, 960, 1105, 1030));
   lounge(880, 955, true); lounge(1145, 1220, false);
+  // -- hanging bioethanol stove where the corner fireplace was (01.11.2026, user's choice: bioethanol, no flue; galatry-project
+  // interior.py STOVE): a round black steel body Ø 70 cm from 45 to 95 cm, open on the lake side, the burner's flame inside,
+  // hung from the sloping ceiling by a Ø 12 cm tube
+  (() => {
+    const [x, z, r, y0, y1] = [1190, 1150, 35, 45, 95], top = LV.up.ceil(x, z);
+    prim(U, MAT.black, new THREE.CylinderGeometry(r, r * .82, y1 - y0, 32, 1, false, Math.PI * 1.25, Math.PI * 1.5), x, (y0 + y1) / 2, z);
+    prim(U, MAT.soot, new THREE.CylinderGeometry(r - 2, r * .82 - 2, y1 - y0 - 4, 32, 1, true, Math.PI * 1.25, Math.PI * 1.5), x, (y0 + y1) / 2, z, null, false);
+    prim(U, MAT.black, new THREE.CylinderGeometry(r * .82, r * .82, 3, 32), x, y0 + 1.5, z);   // its floor
+    prim(U, MAT.lantern, new THREE.ConeGeometry(9, 18, 12), x, y0 + 12, z, null, false);      // the flame over the burner
+    rod(U, MAT.black, [x, y1, z], [x, top, z], 6);
+    solid('up', [[x - r, z - r], [x + r, z - r], [x + r, z + r], [x - r, z + r]]);
+  })();
   // -- open stair: glass guard 1.00 m in an L over the lower flight's drop
   (G.up.guard || []).forEach(([x1, z1, x2, z2]) => glassGuard(U, 'up', 0, [x1, z1], [x2, z2], 100, 1.2));
   // -- parents' bedroom: bed 1.80 × 2.10 m on the French door's axis, bedside tables
@@ -1174,7 +1187,7 @@ const INFO_EX = {
 };
 // the project: layout from the project plans (base variant, kitchen upstairs, glazed south façade); finishes and fittings are assumptions
 const INFO_PR = {
-  u_vie: ['Grandes dalles grises 60 × 120 à l\'entrée et dans la cuisine, en une seule zone au bord droit, parquet chêne huilé ailleurs', 'Enduit lisse, peinture blanche', 'Fermacell peint en blanc, en pente (lambris déposé)', 'plan', 'Entrée, cuisine, séjour et salle à manger réunis (72 m²) : la cheminée d\'angle, le pilier et la poutre entre séjour et salle à manger disparaissent, comme le conduit de l\'ancienne chaudière dans l\'entrée. Porte d\'entrée déplacée au bout ouest de l\'ouverture, panneau fixe en verre dépoli à côté : petit hall d\'entrée entre le vestiaire (sur le mur du W-C) et une armoire qui fait dos à la cuisine. Colonnes de cuisine (frigo, congélateur, fours, garde-manger), plan en L avec l\'évier sous la fenêtre est, îlot 2,40 × 1 m avec la plaque à 90 cm de l\'armoire du hall, table de 8 places, canapé face au lac et deux fauteuils. Escalier ouvert avec garde-corps vitré, fenêtre nord jusqu\'au sol côté escalier, deux fenêtres de toit, deux portes-fenêtres au sud avec garde-corps en verre, terrasse bordée d\'un garde-corps en verre. Matériaux supposés.'],
+  u_vie: ['Grandes dalles grises 60 × 120 à l\'entrée et dans la cuisine, en une seule zone au bord droit, parquet chêne huilé ailleurs', 'Enduit lisse, peinture blanche', 'Fermacell peint en blanc, en pente (lambris déposé)', 'plan', 'Entrée, cuisine, séjour et salle à manger réunis (72 m²) : la cheminée d\'angle, le pilier et la poutre entre séjour et salle à manger disparaissent, comme le conduit de l\'ancienne chaudière dans l\'entrée. Porte d\'entrée déplacée au bout ouest de l\'ouverture, panneau fixe en verre dépoli à côté : petit hall d\'entrée entre le vestiaire (sur le mur du W-C) et une armoire qui fait dos à la cuisine. Colonnes de cuisine (frigo, congélateur, fours, garde-manger), plan en L avec l\'évier sous la fenêtre est, îlot 2,40 × 1 m avec la plaque à 90 cm de l\'armoire du hall, table de 8 places, canapé face au lac et deux fauteuils, et à la place de la cheminée un poêle suspendu au bioéthanol (Ø 70 cm, sans conduit). Escalier ouvert avec garde-corps vitré, fenêtre nord jusqu\'au sol côté escalier, deux fenêtres de toit, deux portes-fenêtres au sud avec garde-corps en verre, terrasse bordée d\'un garde-corps en verre. Matériaux supposés.'],
   u_ch2: ['Parquet chêne', 'Peinture blanche', 'Fermacell peint en blanc', 'plan', 'Lit de 1,80 × 2,10 m dans l\'axe de la porte-fenêtre (garde-corps en verre), tables de chevet. Entrée depuis la pièce de vie, accès à la salle de bain et au bureau-dressing.'],
   u_bain: ['Grès cérame grand format', 'Grès cérame jusqu\'à 2,10 m', 'Fermacell peint en blanc', 'plan', 'Salle de bain de la suite (~11 m²) : douche à l\'italienne de 2,57 × 1,20 m sur toute la largeur du mur nord, sous la fenêtre (caniveau, paroi vitrée fixe, ouverte côté est), double vasque de 1,80 m et miroir sur le mur ouest, WC suspendu sur le mur est. Pas de baignoire.'],
   u_bur: ['Parquet chêne', 'Peinture blanche', 'Fermacell peint en blanc', 'plan', 'Ancienne chambre nord : armoires sur les murs nord et est, bureau sous la fenêtre sud-ouest. Ouvert sur la chambre parentale.'],

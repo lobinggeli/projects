@@ -1462,15 +1462,17 @@ new ResizeObserver(() => { dirty = true; }).observe(canvas);
 // ---- photoreal renders (Blender Cycles), published next to the page
 const RENDERS = [['sejour', 'up', 'u_sej'], ['sam', 'up', 'u_sam'], ['cuisine', 'up', 'u_cuis'], ['hall', 'up', 'u_hall'], ['bains', 'up', 'u_bain'], ['chambre_sud', 'up', 'u_ch2'],
   ['studio', 'low', 'studio'], ['chambre_bas', 'low', 'chambre'], ['buanderie', 'low', 'buand'], ['garage', 'low', 'garage']].map(r => r.concat('ex'))
-  .concat([['pr_famille', 'low', 'conv'], ['pr_spa', 'low', 'conv/spa'], ['pr_bain_enfants', 'low', 'bain'], ['pr_chambre_bas', 'low', 'chambre'], ['pr_jeux', 'low', 'studio']].map(r => r.concat('pr')));
+  .concat([['pr_vie', 'up', 'u_vie'], ['pr_entree', 'up', 'u_ves'], ['pr_cuisine', 'up', 'u_vie/cuis'], ['pr_sam', 'up', 'u_vie/sam'], ['pr_escalier', 'up', 'u_vie/esc'],
+    ['pr_chambre', 'up', 'u_ch2'], ['pr_bain', 'up', 'u_bain'], ['pr_dressing', 'up', 'u_bur'],
+    ['pr_famille', 'low', 'conv'], ['pr_spa', 'low', 'conv/spa'], ['pr_bain_enfants', 'low', 'bain'], ['pr_chambre_bas', 'low', 'chambre'], ['pr_jeux', 'low', 'studio']].map(r => r.concat('pr')));
 const gal = document.getElementById('gallery'), lb = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img');
 let lbi = 0, opener = null;
 // project renders live in a folder named after the plan they show, so a new plan never shows a cached older picture
-const PR_RENDERS = 'rendus/projet-2026-11-01/';
+const PR_RENDERS = 'rendus/projet-2026-11-02/';
 const rsrc = r => r[3] === 'pr' ? PR_RENDERS + r[0].slice(3) + '.jpg' : 'rendus/' + r[0] + '.jpg';
 const rname = ([, lvl, k, v], short) => { const r = VD[v].rooms[lvl].find(q => q.k === k.split('/')[0]); return ((TXT[v].sub || {})[k] || TXT[v].name[r.k] || r.fr) + (v === 'pr' && !short ? ' · projet' : ''); };
 // gallery in two groups, the current state first; the lightbox steps through them in that order
-const GROUP = {ex: ['Aujourd\'hui', 'avec la cheminée, la cuisine et les sols actuels'], pr: ['Projet', 'variante de base, plan du 01.11.2026']};
+const GROUP = {ex: ['Aujourd\'hui', 'avec la cheminée, la cuisine et les sols actuels'], pr: ['Projet', 'variante de base, plan du 02.11.2026']};
 let ORD = [];
 function buildGallery(){
   const kids = []; ORD = [];

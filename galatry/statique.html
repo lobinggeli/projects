@@ -262,6 +262,17 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 .stat figure img{display:block;width:100%;height:auto;background:#fff}
 .stat figcaption{padding:10px 14px;font-size:13px;color:var(--ink-2)}
 .stat .status{background:var(--sheet);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:12px 16px;max-width:78ch}
+.stat .badge{display:inline-block;font:600 11.5px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.06em;padding:5px 8px;
+  border-radius:3px;white-space:nowrap}
+.stat .b-red{background:#F6DCD5;color:#8E2F1A}.stat .b-amber{background:#F7E6C4;color:#6F4508}
+.stat .b-green{background:#DCEBDD;color:#2E5E33}.stat .b-grey{background:var(--room);color:var(--ink-2)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stat .b-red{background:#4A241C;color:#F2B9A8}
+  :root:not([data-theme="light"]) .stat .b-amber{background:#47361A;color:#EFCB8A}
+  :root:not([data-theme="light"]) .stat .b-green{background:#22392A;color:#A9D3AE}}
+:root[data-theme="dark"] .stat .b-red{background:#4A241C;color:#F2B9A8}
+:root[data-theme="dark"] .stat .b-amber{background:#47361A;color:#EFCB8A}
+:root[data-theme="dark"] .stat .b-green{background:#22392A;color:#A9D3AE}
+.stat #resume .prog td:first-child{color:var(--ink-2)}
 </style>
 </head>
 <body>
@@ -273,11 +284,74 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
 <p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
-    <nav aria-label="Sections"><a href="#en-bref">En bref</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">Visite du vendredi 6 novembre à 16h30</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
+    <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">Visite du vendredi 6 novembre à 16h30</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
   </div>
 </header>
-<section id="en-bref">
-  <div class="sec-head"><h2>En bref</h2></div>
+<section id="resume">
+  <div class="sec-head"><h2>Résumé</h2></div>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>#</th>
+<th>Point</th>
+<th>Verdict</th>
+<th>Ce qu'il faut faire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Appui ouest de la poutre du garage (mur garage–buanderie et retour de 99 cm, que le projet démolit)</td>
+<td><span class="badge b-red">Bloquant</span></td>
+<td>Ne pas tout démolir : garder un pilier en L, ou poser un poteau acier SHS 100×100×5 sur une semelle d'environ 1 × 1 m (≈ 200 kN à reprendre)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Refend du niveau supérieur (séjour–hall 3,44 m, salle à manger–cuisine 3,25 m), qui porte le faîte</td>
+<td><span class="badge b-green">Faisable</span></td>
+<td>Poutre faîtière GL24h 140×320 ou IPE 180 sur deux portées d'environ 4 m, appuyée au milieu sur le trumeau de 1,20 m</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Trumeau de 1,20 m du niveau inférieur</td>
+<td><span class="badge b-amber">À vérifier</span></td>
+<td>≈ 213 kN : l'ingénieur choisit, élancement compris, entre maçonnerie gardée, pilier en béton ou poteau</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Bandeau sud sous la nouvelle porte-fenêtre de la salle à manger</td>
+<td><span class="badge b-amber">À sonder</span></td>
+<td>Sonder l'allège au-dessus de la porte du garage avant de figer la porte ; sinon la décaler, ou poser une poutre HEB 280 sous le bord de dalle</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Contreventement et séisme (Corseaux, zone Z2)</td>
+<td><span class="badge b-amber">À vérifier</span></td>
+<td>Le niveau supérieur perd environ 40 % de rigidité est-ouest, le niveau inférieur 12 à 13 % : vérification SIA 269/8 par l'ingénieur</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Portes élargies, porte de l'atelier, porte de 90 cm</td>
+<td><span class="badge b-green">Faisable</span></td>
+<td>Petits linteaux (IPE 80 à 160) et sommiers en béton</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Cloisons des chambres, murs de la cuisine, allège de la fenêtre d'escalier</td>
+<td><span class="badge b-green">OK</span></td>
+<td>Non porteurs selon les plans ; démolir les cloisons en deux temps et regarder la charpente au-dessus de la cuisine</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Plan de l'ingénieur de 1963–64</td>
+<td><span class="badge b-grey">Manquant</span></td>
+<td>Demandé à l'agence le 2.11 ; sinon dossier de permis aux archives de la commune, ou bureau de l'architecte (René Pythoud, Vevey)</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="detail-des-points">
+  <div class="sec-head"><h2>Détail des points</h2></div>
 <ol>
 <li><strong>Documents.</strong> Il n'existe que les plans d'architecte de 1963–64 (René Pythoud, architecte EPF SIA, rue du Clos 7, Vevey, dossier n° 32). Les coupes renvoient à un « plan ingénieur » pour les fondations, qu'on n'a pas : il a été demandé à l'agence le 2 novembre. Une autre piste est le dossier de permis aux archives de la commune.</li>
 <li><strong>Système porteur lu sur les plans.</strong>

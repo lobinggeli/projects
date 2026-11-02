@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Statique · Galatry 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4;
+  --room:#E6ECEE; --room-hi:#CFE0EA; --terr:#EDEFE9; --glass:#2F6690; --accent:#2F6690;
+  --earth:#8C969C; --scan-tint:1;
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+    --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+  --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.05}
+h2{font-size:26px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:17px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+p{margin:0;max-width:68ch}
+.muted{color:var(--ink-2)}
+.mono{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* title block, modelled on the 1963 cartouche */
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.kicker{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--accent);margin-bottom:6px}
+.cartouche{display:grid;grid-template-columns:auto auto;border:1.5px solid var(--ink);font-family:var(--f-draw);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.cartouche div{padding:5px 12px;border-bottom:1px solid var(--rule)}
+.cartouche div:nth-child(odd){color:var(--ink-2);border-right:1px solid var(--rule)}
+.cartouche div:nth-last-child(-n+2){border-bottom:0}
+.lede{display:flex;flex-direction:column;gap:10px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--rule);padding:6px 12px;border-radius:2px;background:var(--sheet)}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+section{display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
+figure{margin:0;background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.fig-bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.fig-title{font-family:var(--f-draw);font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.fig-title .mono{text-transform:none;letter-spacing:0;color:var(--ink-2);font-weight:400;margin-left:8px}
+.cmp{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.cmp input{width:120px;accent-color:var(--accent)}
+.draw{overflow-x:auto}
+.draw svg{display:block;width:100%;min-width:720px;height:auto}
+figcaption{padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+
+/* drawing styles */
+svg .scan{opacity:var(--scan,0);filter:contrast(1.1)}
+:root[data-theme="dark"] svg .scan{filter:invert(1) contrast(1.1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) svg .scan{filter:invert(1) contrast(1.1)}}
+svg text{font-family:var(--f-draw);fill:var(--ink)}
+.room{fill:var(--room);transition:fill .15s}
+.terr{fill:url(#hatch)}
+.room.hi,.terr.hi{fill:var(--room-hi)}
+.ext{fill:none;stroke:var(--ink);stroke-width:20;stroke-linejoin:miter;stroke-linecap:square}
+.par{fill:none;stroke:var(--ink);stroke-width:10;stroke-linejoin:miter}
+.int{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:square}
+.win{fill:none;stroke:var(--glass);stroke-width:7}
+.thin{fill:none;stroke:var(--ink-2);stroke-width:2}
+.dash{fill:none;stroke:var(--ink-2);stroke-width:3;stroke-dasharray:14 9}
+.fixt{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.cup{fill:none;stroke:var(--ink-2);stroke-width:2.5}
+.flue{fill:var(--ink)}
+.well{fill:none;stroke:var(--ink);stroke-width:5}
+.stairbox{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.entry{fill:var(--accent)}
+.tag{font-size:22px;letter-spacing:.12em;text-anchor:middle;fill:var(--accent)}
+.rl{font-size:31px;font-weight:600;letter-spacing:.06em;text-anchor:middle;text-transform:uppercase;pointer-events:none}
+.rl.sm{font-size:21px}
+.north circle{fill:none;stroke:var(--ink-2);stroke-width:2}
+.north path{fill:var(--ink)}
+.north text{font-size:26px;font-weight:700;text-anchor:middle}
+.scale text{font-size:20px;text-anchor:middle;fill:var(--ink-2);font-family:var(--f-mono)}
+.sb1{fill:var(--ink)} .sb2{fill:var(--sheet);stroke:var(--ink);stroke-width:2}
+.cut{fill:var(--ink)}
+.ol{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.ground{fill:none;stroke:var(--ink);stroke-width:2.5}
+.earth{fill:url(#earth);stroke:none}
+.foot{fill:url(#xhatch);stroke:var(--ink);stroke-width:1.5}
+.fwin{fill:var(--room-hi);stroke:var(--ink);stroke-width:1.6}
+.fdoor{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6}
+.fth{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.fol{fill:none;stroke:var(--ink);stroke-width:1.6}
+.fhid{fill:none;stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:8 6}
+.fglass{fill:var(--room-hi);stroke:var(--ink);stroke-width:2.4}
+.m-stage{position:relative}
+#m-canvas{display:block;width:100%;height:clamp(360px,62vh,640px);touch-action:none;cursor:grab}
+#m-canvas:active{cursor:grabbing}
+.m-fallback{padding:40px 16px;text-align:center;color:var(--ink-2)}
+.m-ctrl{display:flex;flex-wrap:wrap;gap:6px}
+.m-ctrl button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.m-ctrl button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fac-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:18px}
+.fac-pair .draw svg{min-width:520px}
+.stairc{fill:none;stroke:var(--ink);stroke-width:3}
+.sl{font-size:var(--fs);font-weight:600;letter-spacing:.08em;text-anchor:middle;text-transform:uppercase}
+.lv{font-size:calc(var(--fs) * .92);font-family:var(--f-mono);fill:var(--ink-2);paint-order:stroke;stroke:var(--sheet);stroke-width:6px;stroke-linejoin:round}
+.sl{paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.lvlm{fill:var(--ink)}
+
+/* legend */
+.plan-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+@media (max-width:900px){.plan-grid{grid-template-columns:1fr}}
+.legend{background:var(--sheet);border:1px solid var(--rule)}
+.legend h3{padding:10px 14px;border-bottom:1px solid var(--rule)}
+.legend ol{list-style:none;margin:0;padding:0}
+.legend li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 14px;border-bottom:1px solid var(--rule);cursor:default}
+.legend li:last-child{border-bottom:0}
+.legend li.hi{background:var(--room-hi)}
+.legend b{font-family:var(--f-draw);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:14px}
+.legend .en{font-size:13px;color:var(--ink-2);grid-column:1/-1}
+.legend .dim{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.note{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+@media (max-width:640px){header{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.room{transition:none}}
+
+/* site plan */
+:root{--parcel:#C0392B;--zone:#3E8E5A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--parcel:#F08070;--zone:#7CC896}}
+:root[data-theme="dark"]{--parcel:#F08070;--zone:#7CC896}
+.site-grid .draw svg{min-width:560px}
+.road{fill:var(--terr);stroke:var(--ink-2);stroke-width:1.6}
+.nb-par{fill:none;stroke:var(--ink-2);stroke-width:1.6}
+.nb-bld{fill:var(--room);stroke:var(--ink-2);stroke-width:1.6}
+.pave{fill:var(--room-hi);stroke:var(--ink-2);stroke-width:1.2}
+.psign rect{fill:var(--accent)} .psign text{fill:var(--sheet);font-family:var(--f-draw);font-weight:700;font-size:14px;text-anchor:middle;dominant-baseline:central}
+.p475{fill:none;stroke:var(--parcel);stroke-width:5;stroke-linejoin:round}
+.zone6{fill:url(#zhatch);stroke:var(--zone);stroke-width:2;stroke-dasharray:10 6}
+.lrou{stroke:var(--ink-2);stroke-width:2;stroke-dasharray:16 6 3 6;fill:none}
+.lrout{font-size:13px;fill:var(--ink-2);text-anchor:middle;letter-spacing:.04em}
+.house .lowfp{fill:none;stroke:var(--ink);stroke-width:14;stroke-dasharray:40 26}
+.dim{stroke:var(--parcel);stroke-width:2}
+.dimdot{fill:var(--parcel)}
+.dimt{font-family:var(--f-mono);font-size:15px;text-anchor:middle;fill:var(--parcel);paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.pn{font-size:20px;font-weight:700;text-anchor:middle;fill:var(--ink-2)}
+.pn475{font-size:30px;font-weight:700;text-anchor:middle;fill:var(--parcel)}
+.pn-sub{font-family:var(--f-mono);font-size:14px;text-anchor:middle;fill:var(--parcel)}
+.rdname{font-size:17px;text-anchor:middle;fill:var(--ink-2);letter-spacing:.06em}
+.key{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:8px}
+.k-par{border-top:3px solid var(--parcel)}
+.legend i.k-pf{width:20px;height:4px;border:0;border-top:6px solid var(--glass);border-bottom:2px dashed var(--glass);background:none;vertical-align:middle}
+.k-zone{height:12px;background:repeating-linear-gradient(45deg,var(--zone) 0 1.5px,transparent 1.5px 6px);border:1.5px dashed var(--zone)}
+.k-low{border-top:2.5px dashed var(--ink)}
+.k-lrou{border-top:2px dashed var(--ink-2)}
+.legend .figs{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+
+:root{--c-sleep:#EAD9BF;--c-living:#F0D8A8;--c-wet:#CFE3EA;--c-well:#A9D6E3;--c-tech:#DADDD8;--c-circ:#F2F1EC;--c-garage:#CFCFCB;--c-water:#4FA3C7;--c-stone:#E6E1D6;--c-pave:#C4BFB4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}}
+:root[data-theme="dark"]{--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}
+.m-ctrl .sep{width:1px;background:var(--rule);margin:0 4px;align-self:stretch}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pp-grid figure svg{display:block;width:100%;height:auto}
+.pp-rm{stroke:none}.c-sleep{fill:var(--c-sleep)}.c-living{fill:var(--c-living)}.c-wet{fill:var(--c-wet)}.c-well{fill:var(--c-well)}.c-tech{fill:var(--c-tech)}.c-circ{fill:var(--c-circ)}.c-garage{fill:var(--c-garage)}
+.pp-ext{fill:none;stroke:var(--ink);stroke-width:18;stroke-linejoin:miter}.pp-int{stroke:var(--ink);stroke-width:8;stroke-linecap:square}
+.pp-win{stroke:var(--glass);stroke-width:14}.pp-win.wood{stroke:var(--earth)}
+.pp-win.pf{stroke-width:24}
+.pp-guard{stroke:var(--glass);stroke-width:6;stroke-dasharray:18 10}
+.pp-pool{fill:var(--c-water);stroke:var(--ink-2);stroke-width:4}.pp-deck{fill:var(--c-stone);stroke:var(--ink-2);stroke-width:3}.pp-pave,.pp-court{fill:var(--c-pave);stroke:var(--ink-2);stroke-width:3;opacity:.8}
+.pp-gar{fill:var(--c-garage);stroke:var(--ink);stroke-width:8;stroke-dasharray:28 16}
+.pp-rn{font-family:var(--f-draw);font-weight:600;letter-spacing:.03em;text-anchor:middle;fill:var(--ink)}
+.pp-ra{font-family:var(--f-mono);text-anchor:middle;fill:var(--ink-2)}
+.pp-tag{font-family:var(--f-draw);font-weight:600;font-size:56px;letter-spacing:.06em;text-anchor:middle;fill:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:14px;height:14px;border:1px solid var(--rule);display:inline-block}
+.prog{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--rule);font-size:14px}
+.prog th,.prog td{padding:8px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+.prog th{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--ink-2);font-weight:600}
+.prog th:last-child{text-align:right}
+.prog td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.prog tr.chg td:nth-child(2){font-weight:600}
+.prog-wrap{overflow-x:auto}
+.ext-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ext-list div{background:var(--sheet);border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ext-list b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+.abtab td{width:40%}.abtab td:first-child{width:20%}.abtab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}.prog-grid h3{margin:0 0 8px}
+.pp-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.abtab th:last-child{text-align:left}
+.pp-bay{fill:var(--c-pave);stroke:var(--sheet);stroke-width:8}.pp-turn{fill:none;stroke:var(--accent);stroke-width:12}.pp-turn.rev{stroke-dasharray:36 24}.pp-arrowhead{fill:var(--accent)}
+.cost th{text-align:right}.cost th:first-child{text-align:left}.cost-sum thead tr:first-child th{text-align:center;border-bottom:none}
+.cost tr.sub td,.cost tr.tot td{font-weight:600;border-top:1.5px solid var(--ink-2)}.cost tr.tot td{font-size:15px}.cost tr.diff td{color:var(--ink-2);font-style:italic}
+.cost-sum tr:not(.diff) td.num:nth-child(4),.cost-sum tr:not(.diff) td.num:nth-child(7),.cost-sum tr.diff td:nth-child(2),.cost-sum tr.diff td:nth-child(5){border-right:1px solid var(--rule)}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:16px;margin-top:20px}.cost-grid h3{margin:0 0 8px}
+@media (max-width:560px){.cost-grid{grid-template-columns:1fr}.cost td,.cost th{padding:6px 8px;font-size:13px}}
+#costs .notes{margin-top:20px}
+
+.pp-fit{fill:var(--c-stone);stroke:var(--ink);stroke-width:5}.pp-zone{font-size:50px;letter-spacing:.08em;text-anchor:middle;fill:var(--ink);font-weight:600;opacity:.75}
+.zoom-open{border:1px solid var(--rule);background:transparent;color:var(--ink-2);font:inherit;font-size:.78rem;padding:4px 10px;cursor:pointer}.zoom-open:hover{color:var(--ink);border-color:var(--ink-2)}
+#lower figure svg,#upper figure svg{cursor:zoom-in}
+.zoom-ov{position:fixed;inset:0;z-index:1000;background:var(--paper);display:flex;flex-direction:column}
+.zoom-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+.zoom-hint{color:var(--ink-2);font-size:.78rem;flex:1}
+.zoom-btns{display:flex;gap:6px}.zoom-btns button{border:1px solid var(--rule);background:transparent;color:var(--ink);font:inherit;min-width:36px;height:34px;padding:0 10px;cursor:pointer}.zoom-btns button:hover{border-color:var(--ink-2)}
+.zoom-stage{flex:1;min-height:0;touch-action:none;cursor:grab}.zoom-stage.drag{cursor:grabbing}.zoom-stage svg{width:100%;height:100%;display:block}
+@media(max-width:640px){.zoom-hint{display:none}}
+
+.m-iv{display:inline-flex;align-items:center;gap:4px}.m-iv-l{font-size:.72rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin:0 2px 0 6px}
+
+.pp-swing{fill:none;stroke:var(--ink-2);stroke-width:4;stroke-dasharray:12 8}.pp-leaf{stroke:var(--ink);stroke-width:7}
+
+.opttab td:first-child{width:18%}.opttab td:nth-child(2){width:34%}.opttab td:nth-child(3){width:14%}.opttab td.num{width:10%}.opttab td:last-child{width:24%}
+.opttab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}.opttab th:last-child{text-align:left}
+.cost.wide{width:100%}.cost.rooms td.desc{color:var(--ink-2);font-size:13px;text-align:left;white-space:normal}.cost.rooms th:nth-child(3){text-align:left}
+#costs h3{margin-top:12px}
+.m-walk{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:10px}
+.m-walk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.m-walk-hint{margin:0;font:400 12px/1.4 var(--f-body);color:var(--ink-2);background:color-mix(in srgb,var(--sheet) 88%,transparent);border:1px solid var(--rule);padding:6px 9px;border-radius:2px;max-width:48ch}
+.m-walk button{pointer-events:auto;font:600 12px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 10px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.m-walk button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-walk button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.m-walk-rooms{pointer-events:auto;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;scrollbar-width:thin}
+.m-walk-f{flex:none;font:500 11px/1 var(--f-mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;background:color-mix(in srgb,var(--sheet) 88%,transparent);padding:6px 4px;margin-left:6px}
+#m-canvas.walking{cursor:crosshair}
+#m-canvas:focus{outline:none}
+
+.cartouche{max-width:620px}   /* the header's auto column would otherwise take the longest line and squeeze the title */
+.pp-sky{fill:none;stroke:var(--glass);stroke-width:6;stroke-dasharray:16 9}
+.pp-det{fill:none;stroke:var(--ink);stroke-width:3}
+.pp-tray{fill:var(--c-water);fill-opacity:.35;stroke:var(--ink-2);stroke-width:3}
+:root{--c-tile:#CDD0D1;--c-tile-joint:#A5AAAC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-tile:#5F6569;--c-tile-joint:#464B4F}}
+:root[data-theme="dark"]{--c-tile:#5F6569;--c-tile-joint:#464B4F}
+.pp-tile{fill:url(#pp-tiles);stroke:none}.pp-tile-cell{fill:var(--c-tile);stroke:var(--c-tile-joint);stroke-width:2}
+</style>
+<style>
+.stat h2{font-size:clamp(22px,3vw,28px)}
+.stat section p,.stat section li{max-width:78ch;line-height:1.55}
+.stat section ul,.stat section ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:.45em}
+.stat section li>ul{margin-top:.35em}
+.stat .prog td,.stat .prog th{font-size:13.5px;line-height:1.45}
+.stat .prog td:first-child{white-space:nowrap}
+.stat code{font:12.5px/1.4 var(--f-mono);background:var(--room);padding:1px 4px;border-radius:2px}
+.stat .warn{color:#A4472B;font-weight:600}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .stat .warn{color:#E39A7E}}
+:root[data-theme="dark"] .stat .warn{color:#E39A7E}
+.stat figure img{display:block;width:100%;height:auto;background:#fff}
+.stat figcaption{padding:10px 14px;font-size:13px;color:var(--ink-2)}
+.stat .status{background:var(--sheet);border:1px solid var(--rule);border-left:3px solid var(--accent);padding:12px 16px;max-width:78ch}
+</style>
+</head>
+<body>
+<div class="wrap stat">
+<header>
+  <div class="lede">
+    <div class="kicker">Chemin de Galatry 3 · Corseaux VD</div>
+    <h1>Statique des transformations</h1>
+    <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
+<p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
+<p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
+    <nav aria-label="Sections"><a href="#en-bref">En bref</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">Visite du vendredi 6 novembre à 16h30</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
+  </div>
+</header>
+<section id="en-bref">
+  <div class="sec-head"><h2>En bref</h2></div>
+<ol>
+<li><strong>Documents.</strong> Il n'existe que les plans d'architecte de 1963–64 (René Pythoud, architecte EPF SIA, rue du Clos 7, Vevey, dossier n° 32). Les coupes renvoient à un « plan ingénieur » pour les fondations, qu'on n'a pas : il a été demandé à l'agence le 2 novembre. Une autre piste est le dossier de permis aux archives de la commune.</li>
+<li><strong>Système porteur lu sur les plans.</strong>
+   - La dalle en béton armé (14 cm, peut-être 17 cm) porte de la façade nord au refend, puis du refend au bandeau sud.
+   - Le refend central (15 cm) monte jusqu'au faîte et le porte.
+   - Au-dessus du garage, il n'y a pas de mur sous le refend : il repose sur une poutre en béton armé de 25 × 46 cm.</li>
+<li><strong><span class="warn">⚠</span> Point bloquant : l'appui de la poutre du garage.</strong> Le projet enlève le mur garage–buanderie (25 cm) et le retour de mur de 99 cm à l'angle nord-ouest du garage. D'après le plan, c'est <strong>l'appui ouest de la poutre du garage</strong>. Après les travaux, cet appui doit encore reprendre environ <strong>200 kN</strong> (état limite ultime). Deux façons de le garder :
+   - garder un <strong>pilier en L</strong> à cet angle : le retour de 0,99 m plus 0,50 m du mur de 25 cm ; on arrive à 0,7 N/mm², c'est OK ;
+   - ou poser un <strong>poteau acier SHS 100×100×5</strong> sur une nouvelle semelle d'environ 1 × 1 m.</li>
+<li><strong>Refend du niveau supérieur.</strong> Enlever 3,44 m (séjour–hall) et 3,25 m (salle à manger–cuisine) supprime l'appui du faîte. Il faut une <strong>poutre faîtière</strong> sur deux portées d'environ 4 m : <strong>GL24h 140×320</strong> ou <strong>IPE 180</strong>, appuyée au milieu sur le trumeau de 1,20 m prévu. C'est faisable.</li>
+<li><strong>Trumeau de 1,20 m du niveau inférieur.</strong> Il reçoit environ <strong>213 kN</strong>, soit 1,2 N/mm² sur 15 cm de brique : 59 % sans tenir compte de l'élancement, limite si on en tient compte. <span class="warn">⚠</span> L'ingénieur décidera : maçonnerie gardée, pilier en béton ou poteau.</li>
+<li><strong>Bandeau sud.</strong> La nouvelle porte-fenêtre de 2,90 m de la salle à manger entaille l'allège du bandeau <strong>au-dessus de la porte du garage (4,41 m)</strong>. <span class="warn">⚠</span> Il faut sonder le bandeau avant de figer la position de la porte. Sinon : décaler la porte, ou prévoir une poutre de secours <strong>HEB 280</strong> sous le bord de dalle, appuyée de chaque côté de la porte du garage.</li>
+<li><strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).</li>
+<li><strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres, murs de la cuisine.</li>
+</ol>
+</section>
+<section id="documents-et-lecture-des-plans">
+  <div class="sec-head"><h2>1. Documents et lecture des plans</h2></div>
+<p><strong>Sources :</strong>
+- Plans d'étages (2 pages, scans) ;
+- coupes transversales du 17.9.63 et du 9.4.64 (« valable », reçue le 29.4.64) ;
+- façades du 20.9.63 ;
+- CECB de 2025 : murs extérieurs en briques ou béton, doublés de 5 à 6 cm d'isolant ; 10 cm d'isolation entre chevrons ;
+- mails de Riviera Properties du 24.9 et du 2.11.2026 : mêmes plans, pas d'autre document.</p>
+<p>Les plans sont dans le Drive « Galarty 3 - Corseaux » et dans <code>~/Downloads</code>.</p>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>Élément</th>
+<th>Lecture</th>
+<th>Où</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dalle ±0.00</td>
+<td>béton armé <strong>14 cm</strong>, dessus brut à −0,07</td>
+<td>coupe 17.9.63, « DALLE BA 14 CM »</td>
+</tr>
+<tr>
+<td></td>
+<td><strong>~17 cm</strong> : fini ±0,00, brut −0,08, 25 cm jusqu'au plafond</td>
+<td>coupe 9.4.64</td>
+</tr>
+<tr>
+<td>Toiture</td>
+<td>2 pans à <strong>27 %</strong>, faîte au-dessus du refend, débord de <strong>54 cm</strong></td>
+<td>coupes</td>
+</tr>
+<tr>
+<td></td>
+<td>couverture ardoise Eternit en 1964 ; toiture refaite en 1998 (couverture actuelle inconnue)</td>
+<td>coupes, mails</td>
+</tr>
+<tr>
+<td></td>
+<td>lambrissage sous les chevrons : plafonds en pente, pas de combles</td>
+<td>coupes</td>
+</tr>
+<tr>
+<td>Refend</td>
+<td><strong>15 cm</strong>, sur les deux niveaux ; monte jusqu'au faîte</td>
+<td>cotes « 15 » des plans, coupes</td>
+</tr>
+<tr>
+<td>Poutre du garage</td>
+<td>le long du bord nord du garage, en pointillés, cote « 25 »</td>
+<td>plan inférieur</td>
+</tr>
+<tr>
+<td></td>
+<td>retombée « 46 » au droit du refend</td>
+<td>coupe 1963</td>
+</tr>
+<tr>
+<td></td>
+<td>appui ouest sur le retour de ~1 m et le mur de 25 cm ; appui est sur le mur garage–citerne</td>
+<td>plan inférieur</td>
+</tr>
+<tr>
+<td>Mur garage–buanderie</td>
+<td><strong>25 cm</strong>, du bord nord du garage à la façade sud</td>
+<td>plan inférieur</td>
+</tr>
+<tr>
+<td>Bandeau sud</td>
+<td>de −0,64 à +0,85 (« 149 ») ; la dalle déborde d'environ 0,5 m sur la façade du niveau inférieur</td>
+<td>coupes, façades</td>
+</tr>
+<tr>
+<td>Fondations</td>
+<td>semelles, fond à −3,52 m ; « voir plan ingénieur »</td>
+<td>coupes</td>
+</tr>
+<tr>
+<td>Altitude</td>
+<td>±0,00 = 483,35 m</td>
+<td>modèle du site</td>
+</tr>
+</tbody>
+</table></div>
+<figure><img src="statique/murs_existants_demolis.png" alt="Plans des deux niveaux : murs existants en gris, démolis en jaune avec leur longueur en cm, nouveaux en rouge, ligne de faîte en bleu, cheminées en violet"><figcaption>Murs existants (gris), démolis (jaune, longueur en cm) et nouveaux (rouge), d’après le modèle du site ; ligne de faîte en bleu, cheminées en violet. En haut le niveau supérieur (±0.00), en bas le niveau inférieur (−2.72).</figcaption></figure>
+</section>
+<section id="hypotheses-de-calcul">
+  <div class="sec-head"><h2>2. Hypothèses de calcul</h2></div>
+<ul>
+<li><strong>H1 Dalle :</strong> 17 cm de béton armé (25 kN/m³), soit la plus lourde des deux lectures ; chape neuve de 8 cm avec chauffage au sol, carrelage, plâtre au plafond ; cloisons légères 0,8 kN/m². Total <strong>g = 7,19 kN/m²</strong>, <strong>q = 2,0 kN/m²</strong> (habitation, SIA 261 tab. 8).</li>
+<li><strong>H2 Continuité :</strong> la dalle est continue sur le refend, avec 4,05 m de portée au nord et 4,17 m au sud. Le refend en reçoit 5,14 m, soit 1,25 fois plus qu'avec des travées simples.</li>
+<li><strong>H3 Toiture :</strong> 1,44 kN/m² de pan, soit 1,49 kN/m² en plan. Le détail : tuiles 0,75 (prudent : avec des ardoises Eternit ce serait 0,30), lattage et sous-toiture 0,10, chevrons 0,10, isolation renforcée 0,15, lambrissage 0,14, panneaux solaires 0,20. Les chevrons portent du mur au faîte : le faîte reçoit 4,33 m de toiture en plan, l'avant-toit sud 2,88 m.</li>
+<li><strong>H4 Neige :</strong> h₀ = 483 m, sans la correction de −200 m (prudent). On obtient s_k = 1,16 et s = 0,93 kN/m² sur le toit ; ψ₀ = 0,88.</li>
+<li><strong>H5 Maçonnerie existante :</strong> brique de 15 cm, f_xd = 2,0 N/mm² supposé, sans réduction pour l'élancement ni l'excentricité. <span class="warn">⚠</span> À sonder.</li>
+<li><strong>H6 Poutre du garage :</strong> béton armé 25 × 46 cm. Son armature est inconnue : seules ses réactions sont calculées, pas sa résistance.</li>
+<li><strong>H7 Mur cuisine–terrasse (sous le faîte, côté est) :</strong> 30 cm de brique double, environ 3,2 m de haut, soit 12,5 kN/m.</li>
+<li><strong>H8 Sol :</strong> inconnu. Les semelles sont calculées avec q_Rd = 200 kN/m², une valeur d'exemple à remplacer par celle de l'ingénieur.</li>
+<li><strong>H9 Épaisseurs pour le contreventement :</strong> façades 25 cm (part porteuse), refend 15, mur garage–buanderie 25, cloisons 12 cm.</li>
+</ul>
+</section>
+<section id="mur-par-mur">
+  <div class="sec-head"><h2>3. Mur par mur</h2></div>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>#</th>
+<th>Élément (poste du devis)</th>
+<th>Ce que fait le projet</th>
+<th>Porteur ?</th>
+<th>Résultat</th>
+<th>Verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Refend supérieur séjour–hall, 3,44 m (<code>stairw</code>, <code>beam</code>)</td>
+<td>démoli</td>
+<td><strong>oui</strong>, porte le faîte</td>
+<td>poutre faîtière C1 : GL24h 140×320 (ou 100×360, ou IPE 180)</td>
+<td><strong>OUI SI</strong> poutre faîtière + trumeau</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Refend supérieur salle à manger–cuisine, 3,25 m (<code>beam</code>)</td>
+<td>démoli</td>
+<td><strong>oui</strong>, porte le faîte</td>
+<td>poutre faîtière C2 : GL24h 100×360 ou 140×320 ; appui est sur l'angle du mur cuisine–terrasse</td>
+<td><strong>OUI SI</strong> poutre faîtière</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Trumeau de 1,20 m sous le faîte, niveau supérieur (<code>ridge</code>)</td>
+<td>gardé et prolongé</td>
+<td><strong>oui</strong></td>
+<td>72 kN, 0,40 N/mm²</td>
+<td><strong>OUI</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Trumeau de 1,20 m du refend inférieur (<code>ridge</code>)</td>
+<td>gardé</td>
+<td><strong>oui</strong></td>
+<td>213 kN, 1,18 N/mm², utilisation 0,59 sans élancement</td>
+<td><strong><span class="warn">⚠</span> limite</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td>Refend inférieur : deux portes élargies en une de 1,45 m (<code>beam</code>)</td>
+<td>35 + 30 cm démolis</td>
+<td><strong>oui</strong>, porte la dalle des deux côtés</td>
+<td>linteau C4 : IPE 160 ; sommiers béton de 18 cm, car la poutre posée directement exercerait 4,3 N/mm²</td>
+<td><strong>OUI SI</strong> linteau + sommiers + étais</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Mur garage–buanderie, 25 cm (<code>beam</code>)</td>
+<td>démoli</td>
+<td><strong>oui</strong> : appui de la poutre du garage, et peut-être de la dalle au-dessus de la buanderie</td>
+<td>voir 7</td>
+<td><strong><span class="warn">⚠</span> NON tel quel</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>Retour de 99 cm à l'angle nord-ouest du garage (<code>beam</code>)</td>
+<td>démoli</td>
+<td><strong>oui</strong> : appui ouest de la poutre du garage (≈ 200 kN)</td>
+<td>C5 : pilier en L gardé (0,73 N/mm²) ou poteau SHS 100×100×5 + semelle d'environ 1 × 1 m</td>
+<td><strong>NON tel quel</strong> ; <strong>OUI SI</strong> pilier ou poteau</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Murs garage–hall, 62 + 23 cm</td>
+<td>démolis</td>
+<td>probablement des cloisons</td>
+<td>—</td>
+<td>probablement OUI ; vérifier sur place</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Cloison nord-ouest du niveau inférieur, 2,65 m (z 7,25)</td>
+<td>démolie</td>
+<td>probablement non (sous la dalle, parallèle au refend)</td>
+<td>—</td>
+<td>OUI ; démolir en 2 temps, voir si la dalle s'est appuyée dessus</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Cloison nord-ouest du niveau supérieur, 2,72 m</td>
+<td>démolie</td>
+<td>non : sous les chevrons, ne porte pas la dalle</td>
+<td>—</td>
+<td>OUI</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Murs biais cuisine–hall, 1,50 + 1,60 m</td>
+<td>démolis</td>
+<td>probablement non : parallèles aux chevrons</td>
+<td>—</td>
+<td>OUI ; <span class="warn">⚠</span> vérifier la charpente au-dessus</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Cheminée du séjour et cloison séjour–salle à manger (<code>pier</code>)</td>
+<td>démolies</td>
+<td>les plans montrent une cloison légère et la cheminée, <strong>aucune poutre dessinée</strong></td>
+<td>—</td>
+<td>probablement OUI ; <span class="warn">⚠</span> chercher une poutre ou un chevêtre sur place</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Nouvelle porte-fenêtre de 2,90 m, salle à manger (<code>fdoor</code>, <code>open</code>)</td>
+<td>percement dans un mur plein</td>
+<td>le mur porte l'avant-toit</td>
+<td>linteau C6a : GL24h 100×320 (flèche limitée à 1/700 pour le vitrage)</td>
+<td><strong>OUI</strong> pour le linteau</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Allège du bandeau sous cette porte (<code>fdoor</code>)</td>
+<td>découpée, en partie au-dessus de la porte du garage</td>
+<td><strong>probablement oui</strong> (bandeau de 1,49 m de haut au-dessus de 4,41 m d'ouverture)</td>
+<td>secours C6b : HEB 280 sous le bord de dalle, réactions d'environ 125 kN</td>
+<td><strong><span class="warn">⚠</span> sonder</strong> ; ou décaler la porte</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Allèges de la porte-fenêtre du séjour (2,85 m) et de la chambre parentale (1,97 m) (<code>fdoor</code>, <code>bdoor</code>)</td>
+<td>découpées</td>
+<td>le bandeau ne franchit ici que 1,87 et 1,97 m d'ouverture au niveau inférieur</td>
+<td>—</td>
+<td>probablement OUI ; même sondage que 14</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Allège de la fenêtre d'escalier, façade nord (<code>north</code>)</td>
+<td>découpée sous le linteau existant</td>
+<td>non</td>
+<td>—</td>
+<td>OUI</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Porte d'atelier de 1,2 m, façade sud de l'ancienne citerne (<code>open</code>)</td>
+<td>percement</td>
+<td>oui : bord de la terrasse au-dessus</td>
+<td>C7 : IPE 120 ; mur peut-être en béton (citerne)</td>
+<td><strong>OUI SI</strong> linteau ou vérification du voile</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Porte de 90 cm entre salle familiale et atelier (<code>wdoor</code>)</td>
+<td>trappe agrandie dans le mur de 15 cm</td>
+<td>oui : rive de dalle</td>
+<td>C8 : IPE 80 à 100</td>
+<td><strong>OUI</strong></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section id="detail-des-calculs">
+  <div class="sec-head"><h2>4. Détail des calculs</h2></div>
+<p>Les sorties complètes sont dans <code>resultats/</code>.</p>
+<ul>
+<li><strong>Poutre faîtière (C1, C2).</strong> La toiture apporte g = 6,46 kN/m, plus 4,03 kN/m de neige ou 1,73 kN/m d'entretien. Portée A (séjour–hall) : 3,90 m d'ouverture, 4,10 m entre appuis ; portée B : 3,64 m, 3,84 m entre appuis.</li>
+<li>Résultats : GL24h 100×360 (utilisations 0,91 et 0,80), 140×320 ou 160×320 ; ou IPE 180 en acier S235. La flèche gouverne : portée/350 en combinaison fréquente, fluage du bois compris.</li>
+<li>Réactions : environ 31 kN par appui (ELU) ; sur 15 cm de maçonnerie, 1,5 N/mm². Un petit sommier est conseillé.</li>
+<li>Les chevrons fixés sur la poutre la tiennent latéralement.</li>
+<li><strong>Trumeaux de 1,20 m.</strong></li>
+<li>En haut : 31 + 29 kN venus du faîte, plus son poids, soit 72 kN.</li>
+<li>En bas : 72 kN, plus la dalle sur 1,20 m (79 kN), plus le linteau C4 (53 kN), plus son poids, soit <strong>213 kN</strong>, c'est-à-dire 1,18 N/mm². <span class="warn">⚠</span> L'élancement (h/t ≈ 16) peut réduire nettement la résistance. <span class="warn">⚠</span> La semelle filante du refend reçoit une charge plus concentrée qu'avant.</li>
+<li><strong>Linteau du refend inférieur (C4).</strong> 1,45 m d'ouverture. La dalle apporte g = 36,9 et q = 10,3 kN/m.</li>
+<li>Profilé : IPE 160 (S235), qui tient dans les 15 cm du mur.</li>
+<li>Appuis : 53 kN chacun. Posé directement sur la brique, il exercerait 4,3 N/mm² : il faut un sommier en béton d'au moins 18 cm de long sur la largeur du mur.</li>
+<li><strong>Appui ouest de la poutre du garage (C5).</strong> La poutre fait 4,86 m d'ouverture. Après travaux, elle porte :</li>
+<li>la dalle des deux côtés (g = 36,9, q = 10,3 kN/m) et son propre poids ;</li>
+<li>la réaction est de la poutre faîtière B (12,7 kN de charge permanente et 7,7 kN de neige) ;</li>
+<li>le faîte et le mur cuisine–terrasse à son extrémité est.</li>
+</ul>
+<p>Réaction ouest : <strong>199,7 kN</strong> à l'ELU (caractéristique : 114,6 permanente, 26,3 utile, 4,2 neige). Les options pour la reprendre :</p>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>Option</th>
+<th>Contrainte ou résistance</th>
+<th>Utilisation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(a) retour de 99 cm seul</td>
+<td>1,34 N/mm²</td>
+<td>0,67, avant élancement</td>
+</tr>
+<tr>
+<td>(a) retour + 0,50 m du mur de 25 cm, en L</td>
+<td>0,73 N/mm²</td>
+<td>0,37</td>
+</tr>
+<tr>
+<td>(b) poteau SHS 80×80×5</td>
+<td>—</td>
+<td>0,93 (trop juste)</td>
+</tr>
+<tr>
+<td>(b) poteau SHS 100×100×5</td>
+<td>N_Rd = 317 kN</td>
+<td>0,63</td>
+</tr>
+<tr>
+<td>(b) poteau HEB 120</td>
+<td>—</td>
+<td>0,39</td>
+</tr>
+</tbody>
+</table></div>
+<p>Avec l'option (b), il faut une semelle d'environ 1,0 × 1,0 m pour q_Rd = 200 kN/m². Le sol en béton brut du garage ne suffit pas.</p>
+<p><span class="warn">⚠</span> La réaction est (≈ 234 kN) existe déjà aujourd'hui. Elle ne passerait pas sur de la brique (6,2 N/mm²) : l'appui est est donc probablement en béton (mur de la citerne).
+- <strong>Bandeau sud.</strong>
+  - <strong>C6a, linteau de la nouvelle porte-fenêtre :</strong> l'avant-toit apporte 4,7 kN/m, plus 2,7 de neige. Une GL24h 100×320 suffit avec une flèche ≤ portée/700 pour le vitrage.
+  - <strong>C6b, secours si l'allège ne peut pas être coupée :</strong> une poutre sous le bord de dalle franchit la porte du garage (4,41 m). Elle reprend toute la rive : réaction de dalle, porte-à-faux de 0,5 m, bandeau, façade de la salle à manger et avant-toit. Résultat : <strong>HEB 280</strong>, réactions d'environ 125 kN, limite portée/700 parce que la porte du garage devient une baie coulissante. C'est une retombée de 28 cm dans la salle familiale.
+  - Le plus simple est souvent de positionner la porte-fenêtre pour qu'elle n'entaille pas l'allège au-dessus de la porte du garage, dans la mesure du possible.
+- <strong>Petits linteaux.</strong>
+  - <strong>C7, porte d'atelier de 1,2 m :</strong> la terrasse apporte g = 19,5 et q = 8,0 kN/m. IPE 120 ; si le mur de la citerne est en béton, l'ingénieur peut se passer de linteau.
+  - <strong>C8, porte de 90 cm :</strong> IPE 80 à 100.
+- <strong>Étaiement.</strong> Pendant les travaux sur le refend, il faut porter 38 kN/m de charge permanente (48 kN/m si les étages restent habités). Avec deux rangées d'étais tous les mètres, cela fait 19 à 25 kN par étai. Les étais posés sur la dalle du niveau inférieur doivent descendre jusqu'au sol.</p>
+</section>
+<section id="contreventement-premier-tri-pas-une-verification">
+  <div class="sec-head"><h2>5. Contreventement (premier tri, pas une vérification)</h2></div>
+<p>Les listes de murs sont générées depuis le modèle par <code>bracing_from_model.py</code> (hypothèse H9). Rigidité relative : somme des trumeaux encastrés aux deux bouts.</p>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>Niveau</th>
+<th>Direction</th>
+<th>Section de murs</th>
+<th>Rigidité</th>
+<th>Excentricité avant → après</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inférieur</td>
+<td>est-ouest (x)</td>
+<td>−9 %</td>
+<td>−13 %</td>
+<td>21 % → <strong>28 %</strong> de la largeur</td>
+</tr>
+<tr>
+<td>Inférieur</td>
+<td>nord-sud (y)</td>
+<td>−12 %</td>
+<td>−12 %</td>
+<td>1 % → 2 %</td>
+</tr>
+<tr>
+<td>Supérieur</td>
+<td>est-ouest (x)</td>
+<td>−26 %</td>
+<td><strong>−40 %</strong></td>
+<td>4 % → <strong>24 %</strong></td>
+</tr>
+<tr>
+<td>Supérieur</td>
+<td>nord-sud (y)</td>
+<td>0 %</td>
+<td>−4 %</td>
+<td>19 % → 20 %</td>
+</tr>
+</tbody>
+</table></div>
+<p>Lecture :
+- Le niveau supérieur ne porte que la toiture, qui est légère ; la perte de 40 % pèse donc moins qu'elle n'en a l'air.
+- Au niveau inférieur, la perte vient du mur garage–buanderie et des portes élargies. Elle s'ajoute aux grandes baies de la façade sud.
+- Les seuils (10 % de perte, 10 % d'excentricité) sont des valeurs de tri du skill, pas des limites SIA.
+- Le trumeau de 1,20 m est compté comme deux morceaux (0,52 + 0,68 m), ce qui sous-estime sa rigidité.</p>
+<p><span class="warn">⚠</span> Corseaux est en zone Z2 (a_gd = 1,0 m/s²). L'OFEV demande d'examiner le bâtiment au plus tard lors d'une transformation importante (SIA 269 §6.1.2) : c'est le cas ici.</p>
+</section>
+<section id="visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">
+  <div class="sec-head"><h2>6. Visite du vendredi 6 novembre à 16h30 : quoi regarder</h2></div>
+<ol>
+<li><strong>Garage.</strong>
+   - La poutre au bord nord : largeur, retombée, béton ou non.
+   - Son appui ouest : retour de mur et mur de 25 cm. Son appui est : mur de la citerne, béton ?
+   - Des fissures au milieu de la poutre ou aux appuis ?</li>
+<li><strong>Mur garage–buanderie.</strong>
+   - Matériau, 25 cm ?
+   - La dalle repose-t-elle dessus : y a-t-il un joint en tête ?
+   - Faire un scan Ferroscan de la dalle au-dessus de la buanderie, pour savoir dans quel sens elle porte.</li>
+<li><strong>Toiture.</strong>
+   - Type de couverture, vu de l'extérieur.
+   - Section et entraxe des chevrons, en démontant une planche de lambrissage ou à l'avant-toit.
+   - Ce qu'il y a au faîte : panne, sablière sur le refend ?</li>
+<li><strong>Refend.</strong> Matériau (brique ? plots ciment ?), épaisseur, linteaux des portes, fissures en biais aux angles des portes.</li>
+<li><strong>Bandeau sud.</strong>
+   - Sonder l'allège, côté intérieur, sous une fenêtre.
+   - Fissures au-dessus de la porte du garage ?</li>
+<li><strong>Entre séjour et salle à manger.</strong> Y a-t-il une poutre au-dessus de l'ouverture ? Quelque chose de la charpente repose-t-il sur la cheminée ?</li>
+<li><strong>Sous-sol.</strong> Fissures dans les murs nord (enterrés) ; humidité au pied des murs.</li>
+</ol>
+</section>
+<section id="questions-pour-l-ingenieur">
+  <div class="sec-head"><h2>7. Questions pour l&#x27;ingénieur</h2></div>
+<ol>
+<li>Sens de portée et armature de la dalle, surtout au-dessus de la buanderie : peut-on enlever le mur de 25 cm ?</li>
+<li>Appui ouest de la poutre du garage : garder un pilier en L, ou poteau et semelle ? Quelle valeur de sol prendre, faute d'étude géotechnique ?</li>
+<li>Poutre faîtière en bois ou en acier ; détail des appuis sur les trumeaux de 1,20 m.</li>
+<li>Trumeau de 1,20 m du niveau inférieur : la maçonnerie suffit-elle, élancement compris, ou faut-il un pilier en béton ou un poteau ? Et la semelle filante en dessous ?</li>
+<li>Bandeau sud : peut-on couper l'allège au-dessus de la porte du garage ? Sinon, faut-il décaler la porte-fenêtre ou poser une poutre sous la rive ?</li>
+<li>Vérification sismique de la transformation (SIA 269/8) et mesures proportionnées.</li>
+<li>Ordre des travaux, étaiement, diagnostic amiante avant démolition (bâtiment de 1965).</li>
+</ol>
+</section>
+</div>
+<script src="toc.js" defer></script>
+</body>
+</html>

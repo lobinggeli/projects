@@ -608,7 +608,7 @@ function buildLevel(lvl){
       [clipZ(rm.poly, ZR, true), clipZ(rm.poly, ZR, false)].filter(q => q.length > 2 && Math.abs(area(q)) > 10).forEach(q => block('upCeil', MAT.cedarX, q, (x, z) => ceil(x, z) - .4, (x, z) => ceil(x, z) - .2, {top: false, sides: false})); });
   }
   else if (CUR === 'ex') ['buand', 'garage'].forEach(k => { const r = ROOMS.low.find(q => q.k === k); block('lowCeil', MAT.boards, r.poly, -34, -33, {top: false, sides: false}); });
-  else block('lowCeil', MAT.plaster, out, -33, -32, {top: false, sides: false});
+  else block('lowCeil', MAT.plaster, out, -33, -32, {holes: [STAIR_HOLE], top: false, sides: false});   // the slab's stairwell, as upstairs
   // outer walls: white plaster inside, render outside; openings get sill, lintel, frame, glass and a radiator below
   const sgn = area(out) > 0 ? 1 : -1;
   const roofW = lvl === 'up' ? G.windows.filter(w => w[5] === 'roof') : [];
@@ -638,7 +638,13 @@ function buildLevel(lvl){
     coll.forEach(([s0, s1]) => { const p0 = P(s0), p1 = P(s1); SEG[lvl].push([p0[0], p0[1], p1[0], p1[1]]); });
   }
   // partitions to the ceiling; between two wall ends 55–125 cm apart: a door with frame, lintel and an open leaf
-  L.walls.forEach(w => { wall(grp, w[0], w[1], w[2], w[3], 10, fl, ceil, MAT.plaster); SEG[lvl].push(w.slice(0, 4)); });
+  // the stair's west wall downstairs (x 935) is the plan's one line: under the landing it stops at the landing's soffit (−1.66), along the
+  // lower flight the stair's own muret stands in for it, so it runs to the ceiling only past the flight's foot; else it splits the landing
+  const stairW = w => lvl === 'low' && w[0] === 935 && w[2] === 935 && Math.min(w[1], w[3]) < 480 && Math.max(w[1], w[3]) > 655;
+  L.walls.forEach(w => {
+    if (stairW(w)){ wall(grp, 935, Math.min(w[1], w[3]), 935, 480, 10, fl, -166, MAT.plaster); wall(grp, 935, 655, 935, Math.max(w[1], w[3]), 10, fl, ceil, MAT.plaster); }
+    else wall(grp, w[0], w[1], w[2], w[3], 10, fl, ceil, MAT.plaster);
+    SEG[lvl].push(w.slice(0, 4)); });
   const ends = s => [[s[0], s[1], s[2], s[3]], [s[2], s[3], s[0], s[1]]];
   const par = (s, ux, uz) => { const l = Math.hypot(s[2] - s[0], s[3] - s[1]); return Math.abs(((s[2] - s[0]) * uz - (s[3] - s[1]) * ux) / l) < .03; };
   const cand = [];   // candidate doorways; a wall end takes one door, the one between two aligned walls first, then the narrowest

@@ -4,6 +4,7 @@
   var PAGES = [
     { href: "plans.html", label: "Actuel – Plans et 3D" },   // today's house: plans and 3D model of the existing villa, always first (user)
     { href: "index.html", label: "Projet – Plans et 3D" },   // the artifact's own page (build.py publishes projet.html as index.html)
+    { href: "archi.html", label: "Plans d’architecte" },   // A3 sheets of the base project to SIA 400 conventions (archi_plans.py)
     { href: "interieur.html", label: "Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
     { href: "travaux.html", label: "Travaux par étapes" },   // from etapes/: keeps its own sommaire, no toc.js
     { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)

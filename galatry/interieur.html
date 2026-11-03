@@ -1262,7 +1262,7 @@ const TXT = {
     order: {up: ['u_sej', 'u_sam', 'u_cuis', 'u_hall', 'u_bain', 'u_wc', 'u_ch1', 'u_ch2'], low: ['hall', 'chambre', 'bain', 'studio', 'bureau', 'buand', 'garage', 'chauf', 'cave', 'reduit', 'red']},
     h1: 'Galatry 3 · intérieur actuel', p: 'Reconstitué d\'après les plans d\'architecte et les photos et vidéos de la visite. Sols, plafonds, cuisine, sanitaires et cheminée tels qu\'ils sont aujourd\'hui.'},
   pr: {name: {studio: 'Salle de jeux ouest', bureau: 'Salle de jeux est', citerne: 'Atelier'},
-    sub: {'u_vie/cuis': 'Cuisine', 'u_vie/sam': 'Salle à manger', 'u_vie/esc': 'Escalier ouvert', 'conv/spa': 'Bien-être'},
+    sub: {'u_vie/cuis': 'Cuisine', 'u_vie/sam': 'Salle à manger', 'u_vie/esc': 'Escalier ouvert', 'conv/spa': 'Bien-être', 'conv/pass': 'Passage vers l\'escalier'},
     info: INFO_PR, first: {up: 'u_vie', low: 'conv'},
     sum: {up: ['7 pièces', 'Entrée ouverte sur la pièce de vie, avec le W-C invités ; pièce de vie de 67 m² (cuisine, séjour, salle à manger) avec l\'escalier ouvert ; le couloir d\'aujourd\'hui et ses trois portes vers la chambre parentale, la salle de bain et le dressing.'], low: ['12 locaux', 'Une chambre, deux salles de jeux, la salle de bain des enfants (baignoire-douche), salle familiale avec sauna, bain froid et bar, buanderie avec la pompe à chaleur, rangement, cave, atelier.']},
     order: {up: ['u_ves', 'u_vie', 'u_vie/cuis', 'u_vie/sam', 'u_vie/esc', 'u_cor', 'u_ch2', 'u_bain', 'u_bur', 'u_wc'], low: ['conv', 'conv/spa', 'chambre', 'studio', 'bureau', 'bain', 'hall', 'chauf', 'cave', 'reduit', 'citerne', 'red']},
@@ -1322,7 +1322,7 @@ const VIEW_EX = {
 const VIEW_PR = {
   u_vie: [1620, 765, 900, 1150, 'up'], u_ves: [1290, 400, 1340, 600, 'up'], 'u_vie/cuis': [1250, 985, 1800, 470, 'up'], 'u_vie/sam': [1080, 820, 1560, 1200, 'up'], 'u_vie/esc': [930, 790, 965, 400, 'up'],
   u_cor: [830, 735, 600, 729, 'up'], u_ch2: [440, 880, 820, 1010, 'up'], u_bain: [745, 640, 640, 410, 'up'], u_bur: [580, 680, 300, 560, 'up'], u_wc: [1105, 535, 1100, 390, 'up'],
-  conv: [1800, 1120, 1250, 760, 'low'], 'conv/spa': [1450, 1150, 1150, 900, 'low'], studio: [470, 1150, 745, 900, 'low'], bureau: [930, 880, 930, 1207, 'low'],
+  conv: [1800, 1120, 1250, 760, 'low'], 'conv/spa': [1450, 1150, 1150, 900, 'low'], 'conv/pass': [1600, 865, 1030, 800, 'low'], studio: [470, 1150, 745, 900, 'low'], bureau: [930, 880, 930, 1207, 'low'],
   chambre: [330, 700, 370, 450, 'low'], bain: [792, 600, 650, 430, 'low'], hall: [650, 760, 1030, 760, 'low'], chauf: [1100, 610, 1205, 440, 'low'],
   cave: [1460, 600, 1400, 390, 'low'], reduit: [1760, 600, 1760, 390, 'low'], red: [880, 600, 880, 390, 'low'], citerne: [1990, 1150, 2060, 820, 'low'],
 };
@@ -1478,7 +1478,8 @@ const RENDERS = [['sejour', 'up', 'u_sej'], ['sam', 'up', 'u_sam'], ['cuisine', 
   ['studio', 'low', 'studio'], ['chambre_bas', 'low', 'chambre'], ['buanderie', 'low', 'buand'], ['garage-2026-11-03', 'low', 'garage']].map(r => r.concat('ex'))
   .concat([['pr_vie', 'up', 'u_vie'], ['pr_entree', 'up', 'u_ves'], ['pr_cuisine', 'up', 'u_vie/cuis'], ['pr_sam', 'up', 'u_vie/sam'], ['pr_escalier', 'up', 'u_vie/esc'],
     ['pr_chambre', 'up', 'u_ch2'], ['pr_bain', 'up', 'u_bain'], ['pr_dressing', 'up', 'u_bur'],
-    ['pr_famille', 'low', 'conv'], ['pr_spa', 'low', 'conv/spa'], ['pr_bain_enfants', 'low', 'bain'], ['pr_chambre_bas', 'low', 'chambre'], ['pr_jeux', 'low', 'studio']].map(r => r.concat('pr')));
+    ['pr_famille', 'low', 'conv'], ['pr_spa', 'low', 'conv/spa'], ['pr_passage', 'low', 'conv/pass'], ['pr_bain_enfants', 'low', 'bain'], ['pr_chambre_bas', 'low', 'chambre'], ['pr_jeux', 'low', 'studio'],
+    ['pr_jeux_est', 'low', 'bureau'], ['pr_degagement', 'low', 'hall'], ['pr_atelier', 'low', 'citerne']].map(r => r.concat('pr')));
 const gal = document.getElementById('gallery'), lb = document.getElementById('lightbox'), lbImg = document.getElementById('lb-img');
 let lbi = 0, opener = null;
 // project renders live in a folder named after the plan they show, so a new plan never shows a cached older picture

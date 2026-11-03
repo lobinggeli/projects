@@ -283,9 +283,9 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <h1>Statique des transformations</h1>
     <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
-<p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour.</p>
+<p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour. La visite est avancée au vendredi 6 novembre à 11h (section 6), et une provision pour les renforts de contreventement est ajoutée au devis (point 5).</p>
 <p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
-    <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">Visite du vendredi 6 novembre à 16h30</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
+    <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-11h-quoi-regarder">Visite du vendredi 6 novembre à 11h</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
   </div>
 </header>
 <section id="resume">
@@ -328,7 +328,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>5</td>
 <td>Contreventement et séisme (Corseaux, zone Z2)</td>
 <td><span class="badge b-amber">À vérifier</span></td>
-<td>Le niveau supérieur perd environ 40 % de rigidité est-ouest, le niveau inférieur 12 à 13 % : vérification SIA 269/8 par l'ingénieur</td>
+<td>Le niveau supérieur perd environ 40 % de rigidité est-ouest, le niveau inférieur 12 à 13 % : vérification SIA 269/8 par l'ingénieur. Une provision pour les renforts est au devis (« Renforts de contreventement »)</td>
 </tr>
 <tr>
 <td>6</td>
@@ -352,7 +352,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>9</td>
 <td>Poteau rond existant au milieu du garage</td>
 <td>À mesurer</td>
-<td>Absent des plans de 1963, visible sur la photo 23 de l'annonce. À garder tant que l'ingénieur n'a pas décidé. S'il est sous la poutre, il la coupe en deux portées d'environ 2,4 m et soulage ses appuis</td>
+<td>Absent des plans de 1963, visible sur la photo 23 de l'annonce. À garder tant que l'ingénieur n'a pas décidé. S'il est sous la poutre et sur une semelle, il reprend jusqu'à ≈ 270 kN ; l'appui ouest (pilier en L) tombe alors de ≈ 200 à 40–80 kN, l'appui est de ≈ 230 à 65–110 kN (calcul C5b)</td>
 </tr>
 </tbody>
 </table></div>
@@ -377,7 +377,8 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 7. <strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).
 9. <strong>Poteau existant du garage.</strong> Un poteau rond d'environ 16 cm, peint en blanc, probablement en acier, se trouve au milieu du garage (photo 23 de l'annonce). Il n'est pas sur les plans de 1963 : il a sans doute été ajouté plus tard, peut-être parce que la poutre fléchissait.
    - Sur la photo, il semble juste sous la poutre en béton, vers le milieu de sa portée (x ≈ 16,8 m, z ≈ 8,0 m dans le modèle). C'est une estimation, à mesurer.
-   - S'il est sous la poutre, il la coupe en deux portées d'environ 2,4 m. Il reprend alors une grosse part de sa charge (ordre de grandeur 150 à 250 kN, à calculer), et les réactions aux deux bouts (200 et 234 kN) baissent nettement.
+   - S'il est sous la poutre, il la coupe en deux portées d'environ 2,5 m. Le calcul C5b (poutre continue sur trois appuis rigides) donne <strong>≈ 270 kN</strong> dans le poteau ; les réactions aux deux bouts tombent de ≈ 200 et 230 kN à <strong>40–80 kN</strong> (ouest) et <strong>65–110 kN</strong> (est), selon sa position exacte. C'est une borne haute : s'il a été posé sous une poutre déjà chargée, il en porte moins.
+   - Un tube acier de 16 cm porte cette charge s'il est assez épais (environ 4 mm : utilisation ≈ 0,7 ; 3 mm : ≈ 0,9). Il faut surtout une <strong>semelle</strong> dessous : 270 kN demandent environ 1,2 × 1,2 m de fondation pour q_Rd = 200 kN/m² ; posé sur le simple dallage du garage, il ne peut pas reprendre autant.
    - <span class="warn">⚠</span> On le garde tant que l'ingénieur n'a pas décidé. Le plan du projet le montre dans la salle familiale.
 10. <strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres, murs de la cuisine.</p>
 </section>
@@ -648,6 +649,14 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>voir point 9</td>
 <td><strong>à garder</strong> ; <span class="warn">⚠</span> mesurer et faire vérifier</td>
 </tr>
+<tr>
+<td>20</td>
+<td>Bout de cloison de 52 cm au pied de l'escalier, entre l'escalier et le dégagement (3.11)</td>
+<td>démoli</td>
+<td>probablement non (12 cm sur les plans) ; il est au bord de la trémie de l'escalier</td>
+<td>—</td>
+<td>probablement OUI ; <span class="warn">⚠</span> vérifier sur place que la dalle ne repose pas dessus</td>
+</tr>
 </tbody>
 </table></div>
 </section>
@@ -708,7 +717,45 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tbody>
 </table></div>
 <p>Avec l'option (b), il faut une semelle d'environ 1,0 × 1,0 m pour q_Rd = 200 kN/m². Le sol en béton brut du garage ne suffit pas.</p>
-<p><strong>Retenu le 3 novembre : (a) en L.</strong> Ce calcul ne tient pas compte du poteau existant du garage (point 9). S'il est sous la poutre, la réaction ouest baisse.</p>
+<p><strong>Retenu le 3 novembre : (a) en L.</strong> Ce calcul ne tient pas compte du poteau existant du garage (point 9) : il reste valable si le poteau ne porte rien, et donne alors la borne haute de l'appui ouest.
+- <strong>Poutre du garage avec le poteau existant (C5b).</strong> Mêmes charges que C5, poutre continue sur trois appuis rigides : le pilier en L à l'ouest, le poteau, le mur de la citerne à l'est. Le calculateur ne traite que les poutres sur deux appuis : le script <code>c5b_poutre_garage_avec_poteau.py</code> résout ce cas par la méthode des forces (EI constant).</p>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>Poteau à (x du plan)</th>
+<th>Appui ouest</th>
+<th>Poteau</th>
+<th>Appui est</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sans poteau (C5)</td>
+<td>195 kN</td>
+<td>—</td>
+<td>229 kN</td>
+</tr>
+<tr>
+<td>16,40 m</td>
+<td>38 kN</td>
+<td>274 kN</td>
+<td>112 kN</td>
+</tr>
+<tr>
+<td><strong>16,80 m (estimé d'après la photo)</strong></td>
+<td><strong>61 kN</strong></td>
+<td><strong>271 kN</strong></td>
+<td><strong>92 kN</strong></td>
+</tr>
+<tr>
+<td>17,20 m</td>
+<td>79 kN</td>
+<td>279 kN</td>
+<td>66 kN</td>
+</tr>
+</tbody>
+</table></div>
+<p>Valeurs à l'ELU. Le poteau change aussi le fonctionnement de la poutre : au droit du poteau, elle travaille en moment négatif (fibre supérieure tendue). <span class="warn">⚠</span> Si le poteau a été ajouté après coup, la poutre n'a peut-être pas d'armature en haut à cet endroit : l'ingénieur doit le vérifier avant de compter sur le poteau, et surtout avant de l'enlever.</p>
 <p><span class="warn">⚠</span> La réaction est (≈ 234 kN) existe déjà aujourd'hui. Elle ne passerait pas sur de la brique (6,2 N/mm²) : l'appui est est donc probablement en béton (mur de la citerne).
 - <strong>Bandeau sud.</strong>
   - <strong>C6a, linteau de la nouvelle porte-fenêtre :</strong> l'avant-toit apporte 4,7 kN/m, plus 2,7 de neige. Une GL24h 100×320 suffit avec une flèche ≤ portée/700 pour le vitrage.
@@ -743,8 +790,8 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tr>
 <td>Inférieur</td>
 <td>nord-sud (y)</td>
-<td>−10 %</td>
-<td>−12 %</td>
+<td>−11 %</td>
+<td>−13 %</td>
 <td>1 % → 2 %</td>
 </tr>
 <tr>
@@ -770,8 +817,9 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 - Le trumeau de 1,20 m est compté comme deux morceaux (0,52 + 0,68 m), ce qui sous-estime sa rigidité.</p>
 <p><span class="warn">⚠</span> Corseaux est en zone Z2 (a_gd = 1,0 m/s²). L'OFEV demande d'examiner le bâtiment au plus tard lors d'une transformation importante (SIA 269 §6.1.2) : c'est le cas ici.</p>
 </section>
-<section id="visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">
-  <div class="sec-head"><h2>6. Visite du vendredi 6 novembre à 16h30 : quoi regarder</h2></div>
+<section id="visite-du-vendredi-6-novembre-a-11h-quoi-regarder">
+  <div class="sec-head"><h2>6. Visite du vendredi 6 novembre à 11h : quoi regarder</h2></div>
+<p>On a une heure sur place (11h–12h ; l'agent n'ouvre la maison que le matin). Commencer par le garage (points 1, 2 et 8), le plus critique.</p>
 <ol>
 <li><strong>Garage.</strong>
    - La poutre au bord nord : largeur, retombée, béton ou non.
@@ -795,6 +843,10 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
    - Position exacte : distances aux murs nord et ouest du garage.
    - Sous la poutre ou à côté ? Diamètre, matériau, platine, semelle.
    - État de la poutre au droit du poteau : fissures, flèche.</li>
+<li><strong>Contreventement</strong> (point 5 du résumé).
+   - En haut, les murs est-ouest qui restent : les façades nord et sud entre les fenêtres, et le trumeau de 1,20 m. Matériau, épaisseur, liaison aux angles ?
+   - Toiture : comment les chevrons sont fixés sur les murs et au faîte (ancrages ?) ; des planches, des croix ou des panneaux rigidifient-ils déjà le toit ?
+   - Demander à l'entreprise générale quel ingénieur civil fera la vérification sismique (SIA 269/8), et la faire inclure dans son offre.</li>
 </ol>
 </section>
 <section id="questions-pour-l-ingenieur">
@@ -805,7 +857,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <li>Poutre faîtière en bois ou en acier ; détail des appuis sur les trumeaux de 1,20 m.</li>
 <li>Trumeau de 1,20 m du niveau inférieur : la maçonnerie suffit-elle, élancement compris, ou faut-il un pilier en béton ou un poteau ? Et la semelle filante en dessous ?</li>
 <li>Bandeau sud : peut-on couper l'allège au-dessus de la porte du garage ? Sinon, faut-il décaler la porte-fenêtre ou poser une poutre sous la rive ?</li>
-<li>Vérification sismique de la transformation (SIA 269/8) et mesures proportionnées.</li>
+<li>Vérification sismique de la transformation (SIA 269/8) et mesures proportionnées. Faut-il compenser le refend enlevé en haut (−40 % de rigidité est-ouest, torsion) ? Mesures habituelles : un cadre en acier dans une ouverture, un bout de mur est-ouest là où il ne gêne pas, ou la toiture rigidifiée par des panneaux vissés sur les chevrons, avec des ancrages entre toit et murs.</li>
 <li>Ordre des travaux, étaiement, diagnostic amiante avant démolition (bâtiment de 1965).</li>
 </ol>
 </section>

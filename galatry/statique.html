@@ -285,6 +285,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
 <p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour. La visite est avancée au vendredi 6 novembre à 11h (section 6), et une provision pour les renforts de contreventement est ajoutée au devis (point 5).</p>
+<p><strong>Mise à jour du 3 novembre 2026, après-midi : sens de la charpente.</strong> Les deux coupes de 1963–64 dessinent les pièces de la toiture coupées tous les 55 cm environ, le long des deux pans. Elles iraient donc parallèlement au faîte, d'un mur nord-sud à l'autre, et non de l'égout au faîte comme supposé jusqu'ici (point 11). Si c'est confirmé vendredi, les murs nord-sud que le projet enlève portent le toit : il faut deux poutres de toiture nord-sud, C9 et C10.</p>
 <p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
     <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-11h-quoi-regarder">Visite du vendredi 6 novembre à 11h</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
   </div>
@@ -339,9 +340,9 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tr>
 <tr>
 <td>7</td>
-<td>Cloisons des chambres, murs de la cuisine, allège de la fenêtre d'escalier</td>
+<td>Cloisons des chambres, allège de la fenêtre d'escalier</td>
 <td><span class="badge b-green">OK</span></td>
-<td>Non porteurs selon les plans ; démolir les cloisons en deux temps et regarder la charpente au-dessus de la cuisine</td>
+<td>Non porteurs selon les plans ; démolir les cloisons en deux temps</td>
 </tr>
 <tr>
 <td>8</td>
@@ -355,6 +356,12 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>À mesurer</td>
 <td>Absent des plans de 1963, visible sur la photo 23 de l'annonce. À garder tant que l'ingénieur n'a pas décidé. S'il est sous la poutre et sur une semelle, il reprend jusqu'à ≈ 270 kN ; l'appui ouest (pilier en L) tombe alors de ≈ 200 à 40–80 kN, l'appui est de ≈ 230 à 65–110 kN (calcul C5b)</td>
 </tr>
+<tr>
+<td>10</td>
+<td>Sens de la charpente (3.11)</td>
+<td><strong><span class="warn">⚠</span> À confirmer vendredi</strong></td>
+<td>Les coupes de 1963–64 montrent des pièces de toiture parallèles au faîte, portées par les murs nord-sud. Si c'est le cas, le mur séjour–salle à manger (cheminée) et les murs biais de la cuisine portent le toit : poutre C9 (GL24h 100×400 ou 120×360) à la place du premier, C10 (GL24h 100×320) à la place des seconds. La poutre faîtière (point 2) reste utile</td>
+</tr>
 </tbody>
 </table></div>
 </section>
@@ -362,35 +369,57 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
   <div class="sec-head"><h2>Détail des points</h2></div>
 <ol>
 <li><strong>Documents.</strong> Il n'existe que les plans d'architecte de 1963–64 (René Pythoud, architecte EPF SIA, rue du Clos 7, Vevey, dossier n° 32). Les coupes renvoient à un « plan ingénieur » pour les fondations, qu'on n'a pas : il a été demandé à l'agence le 2 novembre. Une autre piste est le dossier de permis aux archives de la commune.</li>
-<li><strong>Système porteur lu sur les plans.</strong>
-   - La dalle en béton armé (14 cm, peut-être 17 cm) porte de la façade nord au refend, puis du refend au bandeau sud.
-   - Le refend central (15 cm) monte jusqu'au faîte et le porte.
-   - Au-dessus du garage, il n'y a pas de mur sous le refend : il repose sur une poutre en béton armé de 25 × 46 cm.</li>
-<li><strong>L'appui de la poutre du garage (réglé par l'option A).</strong> Le premier projet enlevait le mur garage–buanderie (25 cm) et le retour de mur de 99 cm à l'angle nord-ouest du garage. D'après le plan, c'est <strong>l'appui ouest de la poutre du garage</strong>, qui reprend environ <strong>200 kN</strong> (état limite ultime). Trois options ont été comparées le 3 novembre :
-   - (A) garder un <strong>pilier en L</strong> à cet angle : le retour de 0,99 m plus 0,50 m du mur de 25 cm ; on arrive à 0,7 N/mm², c'est OK. <strong>C'est l'option retenue</strong> ;
-   - (B) poser un <strong>poteau acier SHS 100×100×5</strong> sur une nouvelle semelle d'environ 1 × 1 m ;
-   - (C) garder toute l'ancienne buanderie : rien ne change pour la poutre, mais la salle familiale perd environ 11 m².</li>
+<li><strong>Système porteur lu sur les plans.</strong><ul>
+<li>La dalle en béton armé (14 cm, peut-être 17 cm) porte de la façade nord au refend, puis du refend au bandeau sud.</li>
+<li>Le refend central (15 cm) monte jusqu'au faîte et le porte.</li>
+<li><span class="warn">⚠</span> Le sens de la charpente est incertain : les coupes laissent penser à des pièces parallèles au faîte, portées par les murs nord-sud, pas à des chevrons de l'égout au faîte (point 11).</li>
+<li>Au-dessus du garage, il n'y a pas de mur sous le refend : il repose sur une poutre en béton armé de 25 × 46 cm.</li>
+</ul>
+</li>
+<li>
+<p><strong>L'appui de la poutre du garage (réglé par l'option A).</strong> Le premier projet enlevait le mur garage–buanderie (25 cm) et le retour de mur de 99 cm à l'angle nord-ouest du garage. D'après le plan, c'est <strong>l'appui ouest de la poutre du garage</strong>, qui reprend environ <strong>200 kN</strong> (état limite ultime). Trois options ont été comparées le 3 novembre :</p>
+<ul>
+<li>(A) garder un <strong>pilier en L</strong> à cet angle : le retour de 0,99 m plus 0,50 m du mur de 25 cm ; on arrive à 0,7 N/mm², c'est OK. <strong>C'est l'option retenue</strong> ;</li>
+<li>(B) poser un <strong>poteau acier SHS 100×100×5</strong> sur une nouvelle semelle d'environ 1 × 1 m ;</li>
+<li>(C) garder toute l'ancienne buanderie : rien ne change pour la poutre, mais la salle familiale perd environ 11 m².</li>
+</ul>
+<p>Avec l'option A, le mur sous le faîte va du trumeau de 1,20 m jusqu'à l'angle du garage (2,19 m), avec le retour de 50 cm.</p>
+</li>
+<li>
+<p><strong>Refend du niveau supérieur.</strong> Enlever 3,44 m (séjour–hall) et 3,25 m (salle à manger–cuisine) supprime l'appui du faîte. Il faut une <strong>poutre faîtière</strong> sur deux portées d'environ 4 m : <strong>GL24h 140×320</strong> ou <strong>IPE 180</strong>, appuyée au milieu sur le trumeau de 1,20 m prévu. C'est faisable. Si la charpente va parallèlement au faîte (point 11), le refend ne porte presque que la pièce faîtière ; la poutre faîtière reste utile, car elle reçoit alors la poutre C10 de la cuisine : la poutre C2 dimensionnée pour la toiture répartie suffit aussi pour cette charge (≈ 24 contre 27 kNm).</p>
+</li>
+<li><strong>Trumeau de 1,20 m du niveau inférieur.</strong> Il reçoit environ <strong>213 kN</strong>, soit 1,2 N/mm² sur 15 cm de brique : 59 % sans tenir compte de l'élancement, limite si on en tient compte. Avec l'option A, il n'est plus isolé : il fait partie d'un mur de 2,19 m, avec le pilier en L au bout, ce qui répartit la charge et réduit l'élancement. <span class="warn">⚠</span> L'ingénieur confirmera.</li>
+<li><strong>Bandeau sud.</strong> La nouvelle porte-fenêtre de 2,90 m de la salle à manger entaille l'allège du bandeau <strong>au-dessus de la porte du garage (4,41 m)</strong>. <span class="warn">⚠</span> Il faut sonder le bandeau avant de figer la position de la porte. Sinon : décaler la porte, ou prévoir une poutre de secours <strong>HEB 280</strong> sous le bord de dalle, appuyée de chaque côté de la porte du garage.</li>
+<li><strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).</li>
+<li><strong>Poteau existant du garage.</strong> Un poteau rond d'environ 16 cm, peint en blanc, probablement en acier, se trouve au milieu du garage (photo 23 de l'annonce). Il n'est pas sur les plans de 1963 : il a sans doute été ajouté plus tard, peut-être parce que la poutre fléchissait.<ul>
+<li>Sur la photo, il semble juste sous la poutre en béton, vers le milieu de sa portée (x ≈ 16,8 m, z ≈ 8,0 m dans le modèle). C'est une estimation, à mesurer.</li>
+<li>S'il est sous la poutre, il la coupe en deux portées d'environ 2,5 m. Le calcul C5b (poutre continue sur trois appuis rigides) donne <strong>≈ 270 kN</strong> dans le poteau ; les réactions aux deux bouts tombent de ≈ 200 et 230 kN à <strong>40–80 kN</strong> (ouest) et <strong>65–110 kN</strong> (est), selon sa position exacte. C'est une borne haute : s'il a été posé sous une poutre déjà chargée, il en porte moins.</li>
+<li>Un tube acier de 16 cm porte cette charge s'il est assez épais (environ 4 mm : utilisation ≈ 0,7 ; 3 mm : ≈ 0,9). Il faut surtout une <strong>semelle</strong> dessous : 270 kN demandent environ 1,2 × 1,2 m de fondation pour q_Rd = 200 kN/m² ; posé sur le simple dallage du garage, il ne peut pas reprendre autant.</li>
+<li><span class="warn">⚠</span> On le garde tant que l'ingénieur n'a pas décidé. Le plan du projet le montre dans la salle familiale.</li>
+</ul>
+</li>
+<li><strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres.</li>
+<li><strong>Sens de la charpente (lecture du 3 novembre).</strong> Il n'y a pas de plan de charpente ; les deux coupes transversales et les façades sont les seules sources.<ul>
+<li>Ce qu'on voit. Le long des deux pans, les coupes du 17.9.63 et du 9.4.64 dessinent des pièces <strong>coupées</strong> tous les 55 cm environ (en « I » en 1963, en petits rectangles en 1964). Des chevrons allant de l'égout au faîte apparaîtraient en long. Les pièces vont donc <strong>parallèlement au faîte</strong>. Lues à l'échelle, elles font environ 6 × 16–18 cm, avec des planches dessus et le lambrissage dessous. Au faîte, une pièce faîtière, dessinée coupée, est posée sur le refend.</li>
+<li>Ce qui va dans le même sens. Sur les photos de l'annonce, les lames du lambrissage du séjour, des chambres et de l'avant-toit de la terrasse descendent dans le sens de la pente : elles sont clouées en travers de pièces parallèles au faîte.</li>
+<li>Ce qui reste flou. Les dessins sont schématiques ; ils ne montrent pas comment sont portés les avant-toits nord et sud, ni le pignon est vitré. <span class="warn">⚠</span> Lecture à confirmer sur place (section 6, point 3).</li>
+<li>Ce que ça changerait. Chaque pièce porte d'un mur nord-sud au suivant : pignon ouest, murs des chambres, mur de l'escalier, mur au-dessus de l'ouverture entre séjour et salle à manger avec son trumeau (x ≈ 12,7 m), murs biais de la cuisine, pignons est. Aujourd'hui les portées font 3,3 à 4,4 m. Le projet enlève le mur séjour–salle à manger et les murs biais de la cuisine : les portées passeraient à <strong>8,3 m</strong> au sud et <strong>6,8 à 8 m</strong> au nord, ce que des pièces de 16–18 cm ne franchissent pas.</li>
+<li>Ce qu'il faudrait. Deux poutres de toiture nord-sud, de la façade au faîte. <strong>C9</strong>, à la place du mur séjour–salle à manger : GL24h 100×400 ou 120×360, réactions ≈ 33 kN ; la placer vers x ≈ 12,3 m, pour qu'elle pose au sud sur le trumeau entre les deux portes-fenêtres et au faîte sur le trumeau de 1,20 m. <strong>C10</strong>, à la place des murs biais de la cuisine : GL24h 100×320, réactions ≈ 23 kN, du mur nord (plein, derrière les armoires) à la poutre faîtière C2. Les trois fenêtres de toit coupent chacune deux pièces environ : chevêtres usuels.</li>
+</ul>
+</li>
 </ol>
-<p>Avec l'option A, le mur sous le faîte va du trumeau de 1,20 m jusqu'à l'angle du garage (2,19 m), avec le retour de 50 cm.
-4. <strong>Refend du niveau supérieur.</strong> Enlever 3,44 m (séjour–hall) et 3,25 m (salle à manger–cuisine) supprime l'appui du faîte. Il faut une <strong>poutre faîtière</strong> sur deux portées d'environ 4 m : <strong>GL24h 140×320</strong> ou <strong>IPE 180</strong>, appuyée au milieu sur le trumeau de 1,20 m prévu. C'est faisable.
-5. <strong>Trumeau de 1,20 m du niveau inférieur.</strong> Il reçoit environ <strong>213 kN</strong>, soit 1,2 N/mm² sur 15 cm de brique : 59 % sans tenir compte de l'élancement, limite si on en tient compte. Avec l'option A, il n'est plus isolé : il fait partie d'un mur de 2,19 m, avec le pilier en L au bout, ce qui répartit la charge et réduit l'élancement. <span class="warn">⚠</span> L'ingénieur confirmera.
-6. <strong>Bandeau sud.</strong> La nouvelle porte-fenêtre de 2,90 m de la salle à manger entaille l'allège du bandeau <strong>au-dessus de la porte du garage (4,41 m)</strong>. <span class="warn">⚠</span> Il faut sonder le bandeau avant de figer la position de la porte. Sinon : décaler la porte, ou prévoir une poutre de secours <strong>HEB 280</strong> sous le bord de dalle, appuyée de chaque côté de la porte du garage.
-7. <strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).
-9. <strong>Poteau existant du garage.</strong> Un poteau rond d'environ 16 cm, peint en blanc, probablement en acier, se trouve au milieu du garage (photo 23 de l'annonce). Il n'est pas sur les plans de 1963 : il a sans doute été ajouté plus tard, peut-être parce que la poutre fléchissait.
-   - Sur la photo, il semble juste sous la poutre en béton, vers le milieu de sa portée (x ≈ 16,8 m, z ≈ 8,0 m dans le modèle). C'est une estimation, à mesurer.
-   - S'il est sous la poutre, il la coupe en deux portées d'environ 2,5 m. Le calcul C5b (poutre continue sur trois appuis rigides) donne <strong>≈ 270 kN</strong> dans le poteau ; les réactions aux deux bouts tombent de ≈ 200 et 230 kN à <strong>40–80 kN</strong> (ouest) et <strong>65–110 kN</strong> (est), selon sa position exacte. C'est une borne haute : s'il a été posé sous une poutre déjà chargée, il en porte moins.
-   - Un tube acier de 16 cm porte cette charge s'il est assez épais (environ 4 mm : utilisation ≈ 0,7 ; 3 mm : ≈ 0,9). Il faut surtout une <strong>semelle</strong> dessous : 270 kN demandent environ 1,2 × 1,2 m de fondation pour q_Rd = 200 kN/m² ; posé sur le simple dallage du garage, il ne peut pas reprendre autant.
-   - <span class="warn">⚠</span> On le garde tant que l'ingénieur n'a pas décidé. Le plan du projet le montre dans la salle familiale.
-10. <strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres, murs de la cuisine.</p>
+<figure><img src="statique/toiture_appuis.jpg" alt="En haut, le niveau supérieur actuel avec les murs nord-sud qui porteraient une charpente parallèle au faîte, gardés en gris foncé, enlevés par le projet en rouge, avec les portées ; en bas, la coupe de 1964 annotée"><figcaption>En haut, le niveau supérieur d’aujourd’hui : murs nord-sud gardés (gris foncé), enlevés par le projet (rouge), portées des pièces de toiture si elles vont parallèlement au faîte. En bas, la coupe transversale « valable » du 9.4.1964, annotée.</figcaption></figure>
 </section>
 <section id="documents-et-lecture-des-plans">
   <div class="sec-head"><h2>1. Documents et lecture des plans</h2></div>
-<p><strong>Sources :</strong>
-- Plans d'étages (2 pages, scans) ;
-- coupes transversales du 17.9.63 et du 9.4.64 (« valable », reçue le 29.4.64) ;
-- façades du 20.9.63 ;
-- CECB de 2025 : murs extérieurs en briques ou béton, doublés de 5 à 6 cm d'isolant ; 10 cm d'isolation entre chevrons ;
-- mails de Riviera Properties du 24.9 et du 2.11.2026 : mêmes plans, pas d'autre document.</p>
+<p><strong>Sources :</strong></p>
+<ul>
+<li>Plans d'étages (2 pages, scans) ;</li>
+<li>coupes transversales du 17.9.63 et du 9.4.64 (« valable », reçue le 29.4.64) ;</li>
+<li>façades du 20.9.63 ;</li>
+<li>CECB de 2025 : murs extérieurs en briques ou béton, doublés de 5 à 6 cm d'isolant ; 10 cm d'isolation entre chevrons ;</li>
+<li>mails de Riviera Properties du 24.9 et du 2.11.2026 : mêmes plans, pas d'autre document.</li>
+</ul>
 <p>Les plans sont dans le Drive « Galarty 3 - Corseaux » et dans <code>~/Downloads</code>.</p>
 <div class="prog-wrap"><table class="prog wide">
 <thead>
@@ -425,6 +454,16 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td></td>
 <td>lambrissage sous les chevrons : plafonds en pente, pas de combles</td>
 <td>coupes</td>
+</tr>
+<tr>
+<td></td>
+<td>pièces de toiture <strong>coupées</strong> tous les ~55 cm le long des pans : parallèles au faîte ? (point 11) ; pièce faîtière coupée, posée sur le refend</td>
+<td>coupes 1963 et 1964</td>
+</tr>
+<tr>
+<td></td>
+<td>lames du lambrissage dans le sens de la pente (séjour, chambres, avant-toit de la terrasse)</td>
+<td>photos de l'annonce</td>
 </tr>
 <tr>
 <td>Refend</td>
@@ -475,7 +514,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <ul>
 <li><strong>H1 Dalle :</strong> 17 cm de béton armé (25 kN/m³), soit la plus lourde des deux lectures ; chape neuve de 8 cm avec chauffage au sol, carrelage, plâtre au plafond ; cloisons légères 0,8 kN/m². Total <strong>g = 7,19 kN/m²</strong>, <strong>q = 2,0 kN/m²</strong> (habitation, SIA 261 tab. 8).</li>
 <li><strong>H2 Continuité :</strong> la dalle est continue sur le refend, avec 4,05 m de portée au nord et 4,17 m au sud. Le refend en reçoit 5,14 m, soit 1,25 fois plus qu'avec des travées simples.</li>
-<li><strong>H3 Toiture :</strong> 1,44 kN/m² de pan, soit 1,49 kN/m² en plan. Le détail : tuiles 0,75 (prudent : avec des ardoises Eternit ce serait 0,30), lattage et sous-toiture 0,10, chevrons 0,10, isolation renforcée 0,15, lambrissage 0,14, panneaux solaires 0,20. Les chevrons portent du mur au faîte : le faîte reçoit 4,33 m de toiture en plan, l'avant-toit sud 2,88 m.</li>
+<li><strong>H3 Toiture :</strong> 1,44 kN/m² de pan, soit 1,49 kN/m² en plan. Le détail : tuiles 0,75 (prudent : avec des ardoises Eternit ce serait 0,30), lattage et sous-toiture 0,10, chevrons 0,10, isolation renforcée 0,15, lambrissage 0,14, panneaux solaires 0,20. Les chevrons portent du mur au faîte : le faîte reçoit 4,33 m de toiture en plan, l'avant-toit sud 2,88 m. <strong>H3b</strong> (point 11) : les pièces vont parallèlement au faîte et portent d'un mur nord-sud à l'autre ; les poutres C9 et C10 reprennent alors une demi-portée de chaque côté.</li>
 <li><strong>H4 Neige :</strong> h₀ = 483 m, sans la correction de −200 m (prudent). On obtient s_k = 1,16 et s = 0,93 kN/m² sur le toit ; ψ₀ = 0,88.</li>
 <li><strong>H5 Maçonnerie existante :</strong> brique de 15 cm, f_xd = 2,0 N/mm² supposé, sans réduction pour l'élancement ni l'excentricité. <span class="warn">⚠</span> À sonder.</li>
 <li><strong>H6 Poutre du garage :</strong> béton armé 25 × 46 cm. Son armature est inconnue : seules ses réactions sont calculées, pas sa résistance.</li>
@@ -582,17 +621,17 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>11</td>
 <td>Murs biais cuisine–hall, 1,50 + 1,60 m</td>
 <td>démolis</td>
-<td>probablement non : parallèles aux chevrons</td>
-<td>—</td>
-<td>OUI ; <span class="warn">⚠</span> vérifier la charpente au-dessus</td>
+<td><strong>dépend du sens de la charpente</strong> : non si les chevrons vont de l'égout au faîte ; <strong>oui</strong> si les pièces vont parallèlement au faîte (point 11)</td>
+<td>C10 : GL24h 100×320, réactions 23 kN</td>
+<td><strong><span class="warn">⚠</span> OUI SI</strong> poutre C10, tant que le sens n'est pas vérifié</td>
 </tr>
 <tr>
 <td>12</td>
 <td>Cheminée du séjour et cloison séjour–salle à manger (<code>pier</code>)</td>
 <td>démolies</td>
-<td>les plans montrent une cloison légère et la cheminée, <strong>aucune poutre dessinée</strong></td>
-<td>—</td>
-<td>probablement OUI ; <span class="warn">⚠</span> chercher une poutre ou un chevêtre sur place</td>
+<td>les plans montrent une cloison et la cheminée, <strong>aucune poutre dessinée</strong> ; <strong>oui</strong> si les pièces de toiture vont parallèlement au faîte (point 11) : le mur monte jusqu'au toit</td>
+<td>C9 : GL24h 100×400 ou 120×360, réactions 33 kN</td>
+<td><strong><span class="warn">⚠</span> OUI SI</strong> poutre C9, tant que le sens n'est pas vérifié</td>
 </tr>
 <tr>
 <td>13</td>
@@ -665,17 +704,25 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
   <div class="sec-head"><h2>4. Détail des calculs</h2></div>
 <p>Les sorties complètes sont dans <code>resultats/</code>.</p>
 <ul>
-<li><strong>Poutre faîtière (C1, C2).</strong> La toiture apporte g = 6,46 kN/m, plus 4,03 kN/m de neige ou 1,73 kN/m d'entretien. Portée A (séjour–hall) : 3,90 m d'ouverture, 4,10 m entre appuis ; portée B : 3,64 m, 3,84 m entre appuis.</li>
+<li><strong>Poutre faîtière (C1, C2).</strong> La toiture apporte g = 6,46 kN/m, plus 4,03 kN/m de neige ou 1,73 kN/m d'entretien. Portée A (séjour–hall) : 3,90 m d'ouverture, 4,10 m entre appuis ; portée B : 3,64 m, 3,84 m entre appuis.<ul>
 <li>Résultats : GL24h 100×360 (utilisations 0,91 et 0,80), 140×320 ou 160×320 ; ou IPE 180 en acier S235. La flèche gouverne : portée/350 en combinaison fréquente, fluage du bois compris.</li>
 <li>Réactions : environ 31 kN par appui (ELU) ; sur 15 cm de maçonnerie, 1,5 N/mm². Un petit sommier est conseillé.</li>
 <li>Les chevrons fixés sur la poutre la tiennent latéralement.</li>
-<li><strong>Trumeaux de 1,20 m.</strong></li>
+</ul>
+</li>
+<li><strong>Trumeaux de 1,20 m.</strong><ul>
 <li>En haut : 31 + 29 kN venus du faîte, plus son poids, soit 72 kN.</li>
 <li>En bas : 72 kN, plus la dalle sur 1,20 m (79 kN), plus le linteau C4 (53 kN), plus son poids, soit <strong>213 kN</strong>, c'est-à-dire 1,18 N/mm². <span class="warn">⚠</span> L'élancement (h/t ≈ 16) peut réduire nettement la résistance. <span class="warn">⚠</span> La semelle filante du refend reçoit une charge plus concentrée qu'avant.</li>
-<li><strong>Linteau du refend inférieur (C4).</strong> 1,45 m d'ouverture. La dalle apporte g = 36,9 et q = 10,3 kN/m.</li>
+</ul>
+</li>
+<li><strong>Linteau du refend inférieur (C4).</strong> 1,45 m d'ouverture. La dalle apporte g = 36,9 et q = 10,3 kN/m.<ul>
 <li>Profilé : IPE 160 (S235), qui tient dans les 15 cm du mur.</li>
 <li>Appuis : 53 kN chacun. Posé directement sur la brique, il exercerait 4,3 N/mm² : il faut un sommier en béton d'au moins 18 cm de long sur la largeur du mur.</li>
-<li><strong>Appui ouest de la poutre du garage (C5).</strong> La poutre fait 4,86 m d'ouverture. Après travaux, elle porte :</li>
+</ul>
+</li>
+<li>
+<p><strong>Appui ouest de la poutre du garage (C5).</strong> La poutre fait 4,86 m d'ouverture. Après travaux, elle porte :</p>
+<ul>
 <li>la dalle des deux côtés (g = 36,9, q = 10,3 kN/m) et son propre poids ;</li>
 <li>la réaction est de la poutre faîtière B (12,7 kN de charge permanente et 7,7 kN de neige) ;</li>
 <li>le faîte et le mur cuisine–terrasse à son extrémité est.</li>
@@ -718,8 +765,10 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tbody>
 </table></div>
 <p>Avec l'option (b), il faut une semelle d'environ 1,0 × 1,0 m pour q_Rd = 200 kN/m². Le sol en béton brut du garage ne suffit pas.</p>
-<p><strong>Retenu le 3 novembre : (a) en L.</strong> Ce calcul ne tient pas compte du poteau existant du garage (point 9) : il reste valable si le poteau ne porte rien, et donne alors la borne haute de l'appui ouest.
-- <strong>Poutre du garage avec le poteau existant (C5b).</strong> Mêmes charges que C5, poutre continue sur trois appuis rigides : le pilier en L à l'ouest, le poteau, le mur de la citerne à l'est. Le calculateur ne traite que les poutres sur deux appuis : le script <code>c5b_poutre_garage_avec_poteau.py</code> résout ce cas par la méthode des forces (EI constant).</p>
+<p><strong>Retenu le 3 novembre : (a) en L.</strong> Ce calcul ne tient pas compte du poteau existant du garage (point 9) : il reste valable si le poteau ne porte rien, et donne alors la borne haute de l'appui ouest.</p>
+</li>
+<li>
+<p><strong>Poutre du garage avec le poteau existant (C5b).</strong> Mêmes charges que C5, poutre continue sur trois appuis rigides : le pilier en L à l'ouest, le poteau, le mur de la citerne à l'est. Le calculateur ne traite que les poutres sur deux appuis : le script <code>c5b_poutre_garage_avec_poteau.py</code> résout ce cas par la méthode des forces (EI constant).</p>
 <div class="prog-wrap"><table class="prog wide">
 <thead>
 <tr>
@@ -757,15 +806,30 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tbody>
 </table></div>
 <p>Valeurs à l'ELU. Le poteau change aussi le fonctionnement de la poutre : au droit du poteau, elle travaille en moment négatif (fibre supérieure tendue). <span class="warn">⚠</span> Si le poteau a été ajouté après coup, la poutre n'a peut-être pas d'armature en haut à cet endroit : l'ingénieur doit le vérifier avant de compter sur le poteau, et surtout avant de l'enlever.</p>
-<p><span class="warn">⚠</span> La réaction est (≈ 234 kN) existe déjà aujourd'hui. Elle ne passerait pas sur de la brique (6,2 N/mm²) : l'appui est est donc probablement en béton (mur de la citerne).
-- <strong>Bandeau sud.</strong>
-  - <strong>C6a, linteau de la nouvelle porte-fenêtre :</strong> l'avant-toit apporte 4,7 kN/m, plus 2,7 de neige. Une GL24h 100×320 suffit avec une flèche ≤ portée/700 pour le vitrage.
-  - <strong>C6b, secours si l'allège ne peut pas être coupée :</strong> une poutre sous le bord de dalle franchit la porte du garage (4,41 m). Elle reprend toute la rive : réaction de dalle, porte-à-faux de 0,5 m, bandeau, façade de la salle à manger et avant-toit. Résultat : <strong>HEB 280</strong>, réactions d'environ 125 kN, limite portée/700 parce que la porte du garage devient une baie coulissante. C'est une retombée de 28 cm dans la salle familiale.
-  - Le plus simple est souvent de positionner la porte-fenêtre pour qu'elle n'entaille pas l'allège au-dessus de la porte du garage, dans la mesure du possible.
-- <strong>Petits linteaux.</strong>
-  - <strong>C7, porte d'atelier de 1,2 m :</strong> la terrasse apporte g = 19,5 et q = 8,0 kN/m. IPE 120 ; si le mur de la citerne est en béton, l'ingénieur peut se passer de linteau.
-  - <strong>C8, porte de 90 cm :</strong> IPE 80 à 100.
-- <strong>Étaiement.</strong> Pendant les travaux sur le refend, il faut porter 38 kN/m de charge permanente (48 kN/m si les étages restent habités). Avec deux rangées d'étais tous les mètres, cela fait 19 à 25 kN par étai. Les étais posés sur la dalle du niveau inférieur doivent descendre jusqu'au sol.</p>
+<p><span class="warn">⚠</span> La réaction est (≈ 234 kN) existe déjà aujourd'hui. Elle ne passerait pas sur de la brique (6,2 N/mm²) : l'appui est est donc probablement en béton (mur de la citerne).</p>
+</li>
+<li>
+<p><strong>Bandeau sud.</strong></p>
+<ul>
+<li><strong>C6a, linteau de la nouvelle porte-fenêtre :</strong> l'avant-toit apporte 4,7 kN/m, plus 2,7 de neige. Une GL24h 100×320 suffit avec une flèche ≤ portée/700 pour le vitrage.</li>
+<li><strong>C6b, secours si l'allège ne peut pas être coupée :</strong> une poutre sous le bord de dalle franchit la porte du garage (4,41 m). Elle reprend toute la rive : réaction de dalle, porte-à-faux de 0,5 m, bandeau, façade de la salle à manger et avant-toit. Résultat : <strong>HEB 280</strong>, réactions d'environ 125 kN, limite portée/700 parce que la porte du garage devient une baie coulissante. C'est une retombée de 28 cm dans la salle familiale.</li>
+<li>Le plus simple est souvent de positionner la porte-fenêtre pour qu'elle n'entaille pas l'allège au-dessus de la porte du garage, dans la mesure du possible.</li>
+</ul>
+</li>
+<li><strong>Poutres de toiture nord-sud (C9, C10), hypothèse H3b.</strong> Charges en plan de H3, sur une demi-portée de chaque côté.<ul>
+<li><strong>C9</strong>, séjour–salle à manger : 4,40 m d'ouverture (4,60 m entre appuis), 4,12 m de toiture, soit g = 6,14 kN/m et 3,83 kN/m de neige. GL24h <strong>100×400</strong> (flexion 0,89, flèche 0,87) ou <strong>120×360</strong> ; réactions 32,9 kN.</li>
+<li><strong>C10</strong>, cuisine : 3,85 m d'ouverture (4,05 m entre appuis), 3,30 m de toiture, soit g = 4,92 et 3,07 kN/m. GL24h <strong>100×320</strong> (flexion 0,86, flèche 0,93) ; réactions 23,2 kN.</li>
+<li>C9 pose au faîte sur le trumeau de 1,20 m, C10 au tiers ouest de la poutre faîtière C2 : dans C2, ≈ 20 kNm dus à C10, plus ≈ 3 kNm de pièce faîtière, contre 27 kNm pour la toiture répartie de H3. C2 suffit dans les deux hypothèses.</li>
+<li>Étaiement pendant la démolition : ≈ 3 kN par étai, deux rangées tous les mètres.</li>
+</ul>
+</li>
+<li><strong>Petits linteaux.</strong><ul>
+<li><strong>C7, porte d'atelier de 1,2 m :</strong> la terrasse apporte g = 19,5 et q = 8,0 kN/m. IPE 120 ; si le mur de la citerne est en béton, l'ingénieur peut se passer de linteau.</li>
+<li><strong>C8, porte de 90 cm :</strong> IPE 80 à 100.</li>
+</ul>
+</li>
+<li><strong>Étaiement.</strong> Pendant les travaux sur le refend, il faut porter 38 kN/m de charge permanente (48 kN/m si les étages restent habités). Avec deux rangées d'étais tous les mètres, cela fait 19 à 25 kN par étai. Les étais posés sur la dalle du niveau inférieur doivent descendre jusqu'au sol.</li>
+</ul>
 </section>
 <section id="contreventement-premier-tri-pas-une-verification">
   <div class="sec-head"><h2>5. Contreventement (premier tri, pas une vérification)</h2></div>
@@ -811,43 +875,59 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tr>
 </tbody>
 </table></div>
-<p>Lecture :
-- Le niveau supérieur ne porte que la toiture, qui est légère ; la perte de 40 % pèse donc moins qu'elle n'en a l'air.
-- Au niveau inférieur (recalculé le 3.11 avec l'option A), la perte vient du mur garage–buanderie, dont seuls 50 cm restent, de la nouvelle porte de l'atelier et des portes élargies. Elle s'ajoute aux grandes baies de la façade sud. Le mur de 2,19 m sous le faîte est compté en deux morceaux (1,20 + 0,99 m) ; compté d'un seul tenant, la perte est-ouest descend à environ −11 %.
-- Les seuils (10 % de perte, 10 % d'excentricité) sont des valeurs de tri du skill, pas des limites SIA.
-- Le trumeau de 1,20 m est compté comme deux morceaux (0,52 + 0,68 m), ce qui sous-estime sa rigidité.</p>
+<p>Lecture :</p>
+<ul>
+<li>Le niveau supérieur ne porte que la toiture, qui est légère ; la perte de 40 % pèse donc moins qu'elle n'en a l'air.</li>
+<li>Au niveau inférieur (recalculé le 3.11 avec l'option A), la perte vient du mur garage–buanderie, dont seuls 50 cm restent, de la nouvelle porte de l'atelier et des portes élargies. Elle s'ajoute aux grandes baies de la façade sud. Le mur de 2,19 m sous le faîte est compté en deux morceaux (1,20 + 0,99 m) ; compté d'un seul tenant, la perte est-ouest descend à environ −11 %.</li>
+<li>Les seuils (10 % de perte, 10 % d'excentricité) sont des valeurs de tri du skill, pas des limites SIA.</li>
+<li>Le trumeau de 1,20 m est compté comme deux morceaux (0,52 + 0,68 m), ce qui sous-estime sa rigidité.</li>
+</ul>
 <p><span class="warn">⚠</span> Corseaux est en zone Z2 (a_gd = 1,0 m/s²). L'OFEV demande d'examiner le bâtiment au plus tard lors d'une transformation importante (SIA 269 §6.1.2) : c'est le cas ici.</p>
 </section>
 <section id="visite-du-vendredi-6-novembre-a-11h-quoi-regarder">
   <div class="sec-head"><h2>6. Visite du vendredi 6 novembre à 11h : quoi regarder</h2></div>
 <p>On a une heure sur place (11h–12h ; l'agent n'ouvre la maison que le matin). Commencer par le garage (points 1, 2 et 8), le plus critique.</p>
 <ol>
-<li><strong>Garage.</strong>
-   - La poutre au bord nord : largeur, retombée, béton ou non.
-   - Son appui ouest : retour de mur et mur de 25 cm. Son appui est : mur de la citerne, béton ?
-   - Des fissures au milieu de la poutre ou aux appuis ?</li>
-<li><strong>Mur garage–buanderie.</strong>
-   - Matériau, 25 cm ?
-   - La dalle repose-t-elle dessus : y a-t-il un joint en tête ?
-   - Faire un scan Ferroscan de la dalle au-dessus de la buanderie, pour savoir dans quel sens elle porte.</li>
-<li><strong>Toiture.</strong>
-   - Type de couverture, vu de l'extérieur.
-   - Section et entraxe des chevrons, en démontant une planche de lambrissage ou à l'avant-toit.
-   - Ce qu'il y a au faîte : panne, sablière sur le refend ?</li>
+<li><strong>Garage.</strong><ul>
+<li>La poutre au bord nord : largeur, retombée, béton ou non.</li>
+<li>Son appui ouest : retour de mur et mur de 25 cm. Son appui est : mur de la citerne, béton ?</li>
+<li>Des fissures au milieu de la poutre ou aux appuis ?</li>
+</ul>
+</li>
+<li><strong>Mur garage–buanderie.</strong><ul>
+<li>Matériau, 25 cm ?</li>
+<li>La dalle repose-t-elle dessus : y a-t-il un joint en tête ?</li>
+<li>Faire un scan Ferroscan de la dalle au-dessus de la buanderie, pour savoir dans quel sens elle porte.</li>
+</ul>
+</li>
+<li><strong>Toiture : dans quel sens va la charpente ?</strong> C'est le point qui décide des poutres C9 et C10 (point 11).<ul>
+<li>Au plafond en cèdre : des rangées de clous en travers des lames, tous les 55 cm environ, parallèles au faîte, indiquent des pièces parallèles au faîte. Des rangées dans le sens de la pente indiqueraient des chevrons de l'égout au faîte.</li>
+<li>Sous l'avant-toit du pignon ouest et sous celui de la terrasse : voit-on les têtes des pièces ?</li>
+<li>Démonter une lame du lambrissage, près d'un luminaire ou à l'égout : section et entraxe des pièces.</li>
+<li>Ce qu'il y a au faîte : panne, sablière sur le refend ? Comment est porté le pignon est vitré ?</li>
+<li>Type de couverture, vu de l'extérieur.</li>
+</ul>
+</li>
 <li><strong>Refend.</strong> Matériau (brique ? plots ciment ?), épaisseur, linteaux des portes, fissures en biais aux angles des portes.</li>
-<li><strong>Bandeau sud.</strong>
-   - Sonder l'allège, côté intérieur, sous une fenêtre.
-   - Fissures au-dessus de la porte du garage ?</li>
-<li><strong>Entre séjour et salle à manger.</strong> Y a-t-il une poutre au-dessus de l'ouverture ? Quelque chose de la charpente repose-t-il sur la cheminée ?</li>
+<li><strong>Bandeau sud.</strong><ul>
+<li>Sonder l'allège, côté intérieur, sous une fenêtre.</li>
+<li>Fissures au-dessus de la porte du garage ?</li>
+</ul>
+</li>
+<li><strong>Entre séjour et salle à manger.</strong> Y a-t-il une poutre au-dessus de l'ouverture ? Le mur au-dessus monte-t-il jusqu'au toit, et la charpente repose-t-elle dessus ou sur la cheminée ? Même question pour les murs biais de la cuisine.</li>
 <li><strong>Sous-sol.</strong> Fissures dans les murs nord (enterrés) ; humidité au pied des murs.</li>
-<li><strong>Poteau du garage.</strong>
-   - Position exacte : distances aux murs nord et ouest du garage.
-   - Sous la poutre ou à côté ? Diamètre, matériau, platine, semelle.
-   - État de la poutre au droit du poteau : fissures, flèche.</li>
-<li><strong>Contreventement</strong> (point 5 du résumé).
-   - En haut, les murs est-ouest qui restent : les façades nord et sud entre les fenêtres, et le trumeau de 1,20 m. Matériau, épaisseur, liaison aux angles ?
-   - Toiture : comment les chevrons sont fixés sur les murs et au faîte (ancrages ?) ; des planches, des croix ou des panneaux rigidifient-ils déjà le toit ?
-   - Demander à l'entreprise générale quel ingénieur civil fera la vérification sismique (SIA 269/8), et la faire inclure dans son offre.</li>
+<li><strong>Poteau du garage.</strong><ul>
+<li>Position exacte : distances aux murs nord et ouest du garage.</li>
+<li>Sous la poutre ou à côté ? Diamètre, matériau, platine, semelle.</li>
+<li>État de la poutre au droit du poteau : fissures, flèche.</li>
+</ul>
+</li>
+<li><strong>Contreventement</strong> (point 5 du résumé).<ul>
+<li>En haut, les murs est-ouest qui restent : les façades nord et sud entre les fenêtres, et le trumeau de 1,20 m. Matériau, épaisseur, liaison aux angles ?</li>
+<li>Toiture : comment les chevrons sont fixés sur les murs et au faîte (ancrages ?) ; des planches, des croix ou des panneaux rigidifient-ils déjà le toit ?</li>
+<li>Demander à l'entreprise générale quel ingénieur civil fera la vérification sismique (SIA 269/8), et la faire inclure dans son offre.</li>
+</ul>
+</li>
 </ol>
 </section>
 <section id="questions-pour-l-ingenieur">
@@ -860,6 +940,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <li>Bandeau sud : peut-on couper l'allège au-dessus de la porte du garage ? Sinon, faut-il décaler la porte-fenêtre ou poser une poutre sous la rive ?</li>
 <li>Vérification sismique de la transformation (SIA 269/8) et mesures proportionnées. Faut-il compenser le refend enlevé en haut (−40 % de rigidité est-ouest, torsion) ? Mesures habituelles : un cadre en acier dans une ouverture, un bout de mur est-ouest là où il ne gêne pas, ou la toiture rigidifiée par des panneaux vissés sur les chevrons, avec des ancrages entre toit et murs.</li>
 <li>Ordre des travaux, étaiement, diagnostic amiante avant démolition (bâtiment de 1965).</li>
+<li>Sens de la charpente : les coupes de 1963–64 laissent penser à des pièces parallèles au faîte, portées par les murs nord-sud (point 11). Si c'est confirmé : poutres C9 et C10 à la place du mur séjour–salle à manger et des murs biais de la cuisine, appuis sur le trumeau entre les portes-fenêtres et sur la poutre faîtière, chevêtres des trois fenêtres de toit.</li>
 </ol>
 </section>
 </div>

@@ -283,6 +283,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <h1>Statique des transformations</h1>
     <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
+<p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour.</p>
 <p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
     <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-16h30-quoi-regarder">Visite du vendredi 6 novembre à 16h30</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
   </div>
@@ -301,9 +302,9 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tbody>
 <tr>
 <td>1</td>
-<td>Appui ouest de la poutre du garage (mur garage–buanderie et retour de 99 cm, que le projet démolit)</td>
-<td><span class="badge b-red">Bloquant</span></td>
-<td>Ne pas tout démolir : garder un pilier en L, ou poser un poteau acier SHS 100×100×5 sur une semelle d'environ 1 × 1 m (≈ 200 kN à reprendre)</td>
+<td>Appui ouest de la poutre du garage (≈ 200 kN)</td>
+<td><strong>Réglé par l'option A (3.11)</strong></td>
+<td>Le projet garde un pilier en L à l'angle nord-ouest du garage : le retour de 99 cm et 50 cm du mur de 25 cm (0,73 N/mm²). Le reste du mur de 25 cm est démoli</td>
 </tr>
 <tr>
 <td>2</td>
@@ -314,8 +315,8 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tr>
 <td>3</td>
 <td>Trumeau de 1,20 m du niveau inférieur</td>
-<td><span class="badge b-amber">À vérifier</span></td>
-<td>≈ 213 kN : l'ingénieur choisit, élancement compris, entre maçonnerie gardée, pilier en béton ou poteau</td>
+<td>À vérifier, moins critique</td>
+<td>≈ 213 kN ; avec l'option A, il fait partie d'un mur de 2,19 m qui va jusqu'au pilier en L. L'ingénieur confirme, élancement compris</td>
 </tr>
 <tr>
 <td>4</td>
@@ -347,6 +348,12 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td><span class="badge b-grey">Manquant</span></td>
 <td>Demandé à l'agence le 2.11 ; sinon dossier de permis aux archives de la commune, ou bureau de l'architecte (René Pythoud, Vevey)</td>
 </tr>
+<tr>
+<td>9</td>
+<td>Poteau rond existant au milieu du garage</td>
+<td>À mesurer</td>
+<td>Absent des plans de 1963, visible sur la photo 23 de l'annonce. À garder tant que l'ingénieur n'a pas décidé. S'il est sous la poutre, il la coupe en deux portées d'environ 2,4 m et soulage ses appuis</td>
+</tr>
 </tbody>
 </table></div>
 </section>
@@ -358,15 +365,21 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
    - La dalle en béton armé (14 cm, peut-être 17 cm) porte de la façade nord au refend, puis du refend au bandeau sud.
    - Le refend central (15 cm) monte jusqu'au faîte et le porte.
    - Au-dessus du garage, il n'y a pas de mur sous le refend : il repose sur une poutre en béton armé de 25 × 46 cm.</li>
-<li><strong><span class="warn">⚠</span> Point bloquant : l'appui de la poutre du garage.</strong> Le projet enlève le mur garage–buanderie (25 cm) et le retour de mur de 99 cm à l'angle nord-ouest du garage. D'après le plan, c'est <strong>l'appui ouest de la poutre du garage</strong>. Après les travaux, cet appui doit encore reprendre environ <strong>200 kN</strong> (état limite ultime). Deux façons de le garder :
-   - garder un <strong>pilier en L</strong> à cet angle : le retour de 0,99 m plus 0,50 m du mur de 25 cm ; on arrive à 0,7 N/mm², c'est OK ;
-   - ou poser un <strong>poteau acier SHS 100×100×5</strong> sur une nouvelle semelle d'environ 1 × 1 m.</li>
-<li><strong>Refend du niveau supérieur.</strong> Enlever 3,44 m (séjour–hall) et 3,25 m (salle à manger–cuisine) supprime l'appui du faîte. Il faut une <strong>poutre faîtière</strong> sur deux portées d'environ 4 m : <strong>GL24h 140×320</strong> ou <strong>IPE 180</strong>, appuyée au milieu sur le trumeau de 1,20 m prévu. C'est faisable.</li>
-<li><strong>Trumeau de 1,20 m du niveau inférieur.</strong> Il reçoit environ <strong>213 kN</strong>, soit 1,2 N/mm² sur 15 cm de brique : 59 % sans tenir compte de l'élancement, limite si on en tient compte. <span class="warn">⚠</span> L'ingénieur décidera : maçonnerie gardée, pilier en béton ou poteau.</li>
-<li><strong>Bandeau sud.</strong> La nouvelle porte-fenêtre de 2,90 m de la salle à manger entaille l'allège du bandeau <strong>au-dessus de la porte du garage (4,41 m)</strong>. <span class="warn">⚠</span> Il faut sonder le bandeau avant de figer la position de la porte. Sinon : décaler la porte, ou prévoir une poutre de secours <strong>HEB 280</strong> sous le bord de dalle, appuyée de chaque côté de la porte du garage.</li>
-<li><strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).</li>
-<li><strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres, murs de la cuisine.</li>
+<li><strong>L'appui de la poutre du garage (réglé par l'option A).</strong> Le premier projet enlevait le mur garage–buanderie (25 cm) et le retour de mur de 99 cm à l'angle nord-ouest du garage. D'après le plan, c'est <strong>l'appui ouest de la poutre du garage</strong>, qui reprend environ <strong>200 kN</strong> (état limite ultime). Trois options ont été comparées le 3 novembre :
+   - (A) garder un <strong>pilier en L</strong> à cet angle : le retour de 0,99 m plus 0,50 m du mur de 25 cm ; on arrive à 0,7 N/mm², c'est OK. <strong>C'est l'option retenue</strong> ;
+   - (B) poser un <strong>poteau acier SHS 100×100×5</strong> sur une nouvelle semelle d'environ 1 × 1 m ;
+   - (C) garder toute l'ancienne buanderie : rien ne change pour la poutre, mais la salle familiale perd environ 11 m².</li>
 </ol>
+<p>Avec l'option A, le mur sous le faîte va du trumeau de 1,20 m jusqu'à l'angle du garage (2,19 m), avec le retour de 50 cm.
+4. <strong>Refend du niveau supérieur.</strong> Enlever 3,44 m (séjour–hall) et 3,25 m (salle à manger–cuisine) supprime l'appui du faîte. Il faut une <strong>poutre faîtière</strong> sur deux portées d'environ 4 m : <strong>GL24h 140×320</strong> ou <strong>IPE 180</strong>, appuyée au milieu sur le trumeau de 1,20 m prévu. C'est faisable.
+5. <strong>Trumeau de 1,20 m du niveau inférieur.</strong> Il reçoit environ <strong>213 kN</strong>, soit 1,2 N/mm² sur 15 cm de brique : 59 % sans tenir compte de l'élancement, limite si on en tient compte. Avec l'option A, il n'est plus isolé : il fait partie d'un mur de 2,19 m, avec le pilier en L au bout, ce qui répartit la charge et réduit l'élancement. <span class="warn">⚠</span> L'ingénieur confirmera.
+6. <strong>Bandeau sud.</strong> La nouvelle porte-fenêtre de 2,90 m de la salle à manger entaille l'allège du bandeau <strong>au-dessus de la porte du garage (4,41 m)</strong>. <span class="warn">⚠</span> Il faut sonder le bandeau avant de figer la position de la porte. Sinon : décaler la porte, ou prévoir une poutre de secours <strong>HEB 280</strong> sous le bord de dalle, appuyée de chaque côté de la porte du garage.
+7. <strong>Contreventement (séisme, zone Z2).</strong> Le niveau supérieur perd environ <strong>40 %</strong> de sa rigidité est-ouest ; le niveau inférieur perd <strong>12 à 13 %</strong> dans les deux directions. Le centre de rigidité s'écarte de 24 à 28 % de la largeur du centre des masses. <span class="warn">⚠</span> L'ingénieur doit vérifier la transformation au séisme (SIA 269/8).
+9. <strong>Poteau existant du garage.</strong> Un poteau rond d'environ 16 cm, peint en blanc, probablement en acier, se trouve au milieu du garage (photo 23 de l'annonce). Il n'est pas sur les plans de 1963 : il a sans doute été ajouté plus tard, peut-être parce que la poutre fléchissait.
+   - Sur la photo, il semble juste sous la poutre en béton, vers le milieu de sa portée (x ≈ 16,8 m, z ≈ 8,0 m dans le modèle). C'est une estimation, à mesurer.
+   - S'il est sous la poutre, il la coupe en deux portées d'environ 2,4 m. Il reprend alors une grosse part de sa charge (ordre de grandeur 150 à 250 kN, à calculer), et les réactions aux deux bouts (200 et 234 kN) baissent nettement.
+   - <span class="warn">⚠</span> On le garde tant que l'ingénieur n'a pas décidé. Le plan du projet le montre dans la salle familiale.
+10. <strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres, murs de la cuisine.</p>
 </section>
 <section id="documents-et-lecture-des-plans">
   <div class="sec-head"><h2>1. Documents et lecture des plans</h2></div>
@@ -526,18 +539,18 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tr>
 <td>6</td>
 <td>Mur garage–buanderie, 25 cm (<code>beam</code>)</td>
-<td>démoli</td>
+<td>démoli, sauf 50 cm gardés dans le pilier en L (option A)</td>
 <td><strong>oui</strong> : appui de la poutre du garage, et peut-être de la dalle au-dessus de la buanderie</td>
 <td>voir 7</td>
-<td><strong><span class="warn">⚠</span> NON tel quel</strong></td>
+<td><strong>OUI</strong> avec le pilier en L ; <span class="warn">⚠</span> vérifier le sens de portée de la dalle au-dessus de la buanderie</td>
 </tr>
 <tr>
 <td>7</td>
 <td>Retour de 99 cm à l'angle nord-ouest du garage (<code>beam</code>)</td>
-<td>démoli</td>
+<td><strong>gardé</strong> (pilier en L, option A)</td>
 <td><strong>oui</strong> : appui ouest de la poutre du garage (≈ 200 kN)</td>
-<td>C5 : pilier en L gardé (0,73 N/mm²) ou poteau SHS 100×100×5 + semelle d'environ 1 × 1 m</td>
-<td><strong>NON tel quel</strong> ; <strong>OUI SI</strong> pilier ou poteau</td>
+<td>C5 : pilier en L (0,73 N/mm²)</td>
+<td><strong>OUI</strong></td>
 </tr>
 <tr>
 <td>8</td>
@@ -627,6 +640,14 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>C8 : IPE 80 à 100</td>
 <td><strong>OUI</strong></td>
 </tr>
+<tr>
+<td>19</td>
+<td>Poteau rond existant au milieu du garage</td>
+<td>gardé</td>
+<td><strong>probablement</strong> : sous la poutre du garage (absent des plans de 1963)</td>
+<td>voir point 9</td>
+<td><strong>à garder</strong> ; <span class="warn">⚠</span> mesurer et faire vérifier</td>
+</tr>
 </tbody>
 </table></div>
 </section>
@@ -687,6 +708,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </tbody>
 </table></div>
 <p>Avec l'option (b), il faut une semelle d'environ 1,0 × 1,0 m pour q_Rd = 200 kN/m². Le sol en béton brut du garage ne suffit pas.</p>
+<p><strong>Retenu le 3 novembre : (a) en L.</strong> Ce calcul ne tient pas compte du poteau existant du garage (point 9). S'il est sous la poutre, la réaction ouest baisse.</p>
 <p><span class="warn">⚠</span> La réaction est (≈ 234 kN) existe déjà aujourd'hui. Elle ne passerait pas sur de la brique (6,2 N/mm²) : l'appui est est donc probablement en béton (mur de la citerne).
 - <strong>Bandeau sud.</strong>
   - <strong>C6a, linteau de la nouvelle porte-fenêtre :</strong> l'avant-toit apporte 4,7 kN/m, plus 2,7 de neige. Une GL24h 100×320 suffit avec une flèche ≤ portée/700 pour le vitrage.
@@ -714,14 +736,14 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tr>
 <td>Inférieur</td>
 <td>est-ouest (x)</td>
-<td>−9 %</td>
+<td>−8 %</td>
 <td>−13 %</td>
 <td>21 % → <strong>28 %</strong> de la largeur</td>
 </tr>
 <tr>
 <td>Inférieur</td>
 <td>nord-sud (y)</td>
-<td>−12 %</td>
+<td>−10 %</td>
 <td>−12 %</td>
 <td>1 % → 2 %</td>
 </tr>
@@ -743,7 +765,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </table></div>
 <p>Lecture :
 - Le niveau supérieur ne porte que la toiture, qui est légère ; la perte de 40 % pèse donc moins qu'elle n'en a l'air.
-- Au niveau inférieur, la perte vient du mur garage–buanderie et des portes élargies. Elle s'ajoute aux grandes baies de la façade sud.
+- Au niveau inférieur (recalculé le 3.11 avec l'option A), la perte vient du mur garage–buanderie, dont seuls 50 cm restent, de la nouvelle porte de l'atelier et des portes élargies. Elle s'ajoute aux grandes baies de la façade sud. Le mur de 2,19 m sous le faîte est compté en deux morceaux (1,20 + 0,99 m) ; compté d'un seul tenant, la perte est-ouest descend à environ −11 %.
 - Les seuils (10 % de perte, 10 % d'excentricité) sont des valeurs de tri du skill, pas des limites SIA.
 - Le trumeau de 1,20 m est compté comme deux morceaux (0,52 + 0,68 m), ce qui sous-estime sa rigidité.</p>
 <p><span class="warn">⚠</span> Corseaux est en zone Z2 (a_gd = 1,0 m/s²). L'OFEV demande d'examiner le bâtiment au plus tard lors d'une transformation importante (SIA 269 §6.1.2) : c'est le cas ici.</p>
@@ -769,13 +791,17 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
    - Fissures au-dessus de la porte du garage ?</li>
 <li><strong>Entre séjour et salle à manger.</strong> Y a-t-il une poutre au-dessus de l'ouverture ? Quelque chose de la charpente repose-t-il sur la cheminée ?</li>
 <li><strong>Sous-sol.</strong> Fissures dans les murs nord (enterrés) ; humidité au pied des murs.</li>
+<li><strong>Poteau du garage.</strong>
+   - Position exacte : distances aux murs nord et ouest du garage.
+   - Sous la poutre ou à côté ? Diamètre, matériau, platine, semelle.
+   - État de la poutre au droit du poteau : fissures, flèche.</li>
 </ol>
 </section>
 <section id="questions-pour-l-ingenieur">
   <div class="sec-head"><h2>7. Questions pour l&#x27;ingénieur</h2></div>
 <ol>
 <li>Sens de portée et armature de la dalle, surtout au-dessus de la buanderie : peut-on enlever le mur de 25 cm ?</li>
-<li>Appui ouest de la poutre du garage : garder un pilier en L, ou poteau et semelle ? Quelle valeur de sol prendre, faute d'étude géotechnique ?</li>
+<li>Appui ouest de la poutre du garage : le pilier en L de l'option A suffit-il ? Quel rôle joue le poteau existant du garage, et peut-on compter sur lui ? Quelle valeur de sol prendre, faute d'étude géotechnique ?</li>
 <li>Poutre faîtière en bois ou en acier ; détail des appuis sur les trumeaux de 1,20 m.</li>
 <li>Trumeau de 1,20 m du niveau inférieur : la maçonnerie suffit-elle, élancement compris, ou faut-il un pilier en béton ou un poteau ? Et la semelle filante en dessous ?</li>
 <li>Bandeau sud : peut-on couper l'allège au-dessus de la porte du garage ? Sinon, faut-il décaler la porte-fenêtre ou poser une poutre sous la rive ?</li>

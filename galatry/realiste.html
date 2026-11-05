@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-base="realiste/2026-11-05/">
+<html lang="fr" data-base="realiste/2026-11-05b/">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -278,6 +278,42 @@ function setFoliage(st){
   trunkMesh.count = t; trunkMesh.instanceMatrix.needsUpdate = true;
 }
 
+// ---- stone walls (vineyard terraces, the parcel's west boundary, the road and the railway), traced in swissALTI3D by walls.py:
+// the face stands at the foot of the step, a 55 cm cap, the back sunk in the upper ground; lit live like the foliage
+let walls = null, wallMesh = null, wallRanges = [];
+async function buildWalls(){
+  const [W, map, nor] = await Promise.all([json('walls.json'), tex('stone.jpg'), tex('stone_nor.jpg', false)]);
+  [map, nor].forEach(t => { t.wrapS = t.wrapT = THREE.RepeatWrapping; });
+  walls = W;
+  const P = [], UV = [], I = [], T = 0.55, CAP = 0.08, SINK = 0.6, TILE = 1.5;
+  const quad = (a, b, c, d, ua, ub, uc, ud) => { const k = P.length / 3; P.push(...a, ...b, ...c, ...d); UV.push(...ua, ...ub, ...uc, ...ud); I.push(k, k + 1, k + 2, k, k + 2, k + 3); };
+  W.forEach(w => {
+    const i0 = I.length, pts = w.pts, nn = w.n, s = [0];
+    for (let i = 1; i < pts.length; i++) s.push(s[i - 1] + Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]));
+    for (let i = 0; i + 1 < pts.length; i++){
+      const [x0, z0, t0, f0] = pts[i], [x1, z1, t1, f1] = pts[i + 1], n0 = nn[i], n1 = nn[i + 1];
+      const b0 = [x0 - n0[0] * T, z0 - n0[1] * T], b1 = [x1 - n1[0] * T, z1 - n1[1] * T], u0 = s[i] / TILE, u1 = s[i + 1] / TILE;
+      quad([x0, f0 - SINK, z0], [x1, f1 - SINK, z1], [x1, t1 + CAP, z1], [x0, t0 + CAP, z0], [u0, (f0 - SINK) / TILE], [u1, (f1 - SINK) / TILE], [u1, (t1 + CAP) / TILE], [u0, (t0 + CAP) / TILE]);
+      quad([x0, t0 + CAP, z0], [x1, t1 + CAP, z1], [b1[0], t1 + CAP, b1[1]], [b0[0], t0 + CAP, b0[1]], [u0, 0], [u1, 0], [u1, T / TILE], [u0, T / TILE]);
+      quad([b0[0], t0 + CAP, b0[1]], [b1[0], t1 + CAP, b1[1]], [b1[0], t1 - 0.5, b1[1]], [b0[0], t0 - 0.5, b0[1]], [u0, (t0 + CAP) / TILE], [u1, (t1 + CAP) / TILE], [u1, (t1 - 0.5) / TILE], [u0, (t0 - 0.5) / TILE]);
+    }
+    [[0], [pts.length - 1]].forEach(([i]) => { const [x, z, t, f] = pts[i], n = nn[i], b = [x - n[0] * T, z - n[1] * T];
+      quad([x, f - SINK, z], [x, t + CAP, z], [b[0], t + CAP, b[1]], [b[0], f - SINK, b[1]], [0, (f - SINK) / TILE], [0, (t + CAP) / TILE], [T / TILE, (t + CAP) / TILE], [T / TILE, (f - SINK) / TILE]); });
+    wallRanges.push([w, i0, I.length]);
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(UV, 2));
+  g.setIndex(I); g.computeVertexNormals();
+  wallMesh = new THREE.Mesh(g, new THREE.MeshStandardMaterial({map, normalMap: nor, roughness: 0.95, metalness: 0, side: THREE.DoubleSide, envMapIntensity: 0.25}));
+  wallMesh.userData.all = I; statics.add(wallMesh);
+}
+function setWalls(st){
+  if (!wallMesh) return;
+  const all = wallMesh.userData.all, idx = [];
+  wallRanges.forEach(([w, a, b]) => { if (!w.gone.includes(st)) for (let i = a; i < b; i++) idx.push(all[i]); });
+  wallMesh.geometry.setIndex(idx);
+}
+
 // ---- the states: the parcel's ground and the house with Blender's light, glass and water live
 const LIVE = {
   glass: () => new THREE.MeshStandardMaterial({color: 0x1b2127, roughness: 0.04, metalness: 0, envMapIntensity: 1.4}),
@@ -309,7 +345,7 @@ async function setState(st){
     const root = await loadState(st);
     if (current !== st) return;
     if (shown) shown.visible = false; root.visible = true; shown = root;
-    setFoliage(st);
+    setFoliage(st); setWalls(st);
     document.getElementById('s-t').textContent = TXT[st][0]; document.getElementById('s-d').textContent = TXT[st][1];
     loadEl.hidden = true; redraw();
   } catch (e) { loadEl.querySelector('span').textContent = 'Chargement impossible (' + e.message + ')'; console.error(e); }
@@ -364,6 +400,7 @@ window.addEventListener('resize', redraw);
 go('d11', true);
 await buildStatic();
 await buildFoliage();
+await buildWalls();
 await setState('r');
 window.galatryReal = {scene, camera, controls, renderer, setState, go, states, redraw};
 </script>

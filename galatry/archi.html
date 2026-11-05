@@ -248,6 +248,21 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-tile:#5F6569;--c-tile-joint:#464B4F}}
 :root[data-theme="dark"]{--c-tile:#5F6569;--c-tile-joint:#464B4F}
 .pp-tile{fill:url(#pp-tiles);stroke:none}.pp-tile-cell{fill:var(--c-tile);stroke:var(--c-tile-joint);stroke-width:2}
+
+/* costs, one block per group (05.11.2026, « on n'arrive pas à distinguer les différents groupes »): a tinted header band with the group's
+   name and total, the lines indented under it, a gap between groups, the grand total inverted. Rows of a group sit on the sheet colour. */
+.cost-groups{border:0;background:transparent}
+.cost-groups thead th{padding-bottom:6px}
+.cost-groups tbody td{background:var(--sheet)}
+.cost-groups tbody+tbody{border-top:18px solid var(--paper)}
+.cost-groups tr.gh th{background:var(--room-hi);color:var(--ink);font-size:13px;font-weight:700;letter-spacing:.07em;padding:10px 12px;border-bottom:1px solid var(--rule)}
+.cost-groups tr.gh th:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+.cost-groups tr.gh th.num{font-family:var(--f-mono);text-transform:none;letter-spacing:0;font-size:14px}
+.cost-groups tbody.g td:first-child{padding-left:28px}
+.cost-groups tr.em td{font-weight:600}
+.cost-groups tbody.t td{background:var(--ink);color:var(--sheet);border:0;font-weight:700;font-size:15px;padding:11px 12px;text-transform:uppercase;letter-spacing:.04em}
+.cost-groups tbody.t td.num{text-transform:none;letter-spacing:0}
+@media (max-width:560px){.cost-groups tbody.g td:first-child{padding-left:18px}.cost-groups tr.gh th{padding:8px}.cost-groups tbody+tbody{border-top-width:14px}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..700&display=swap">
 <style>

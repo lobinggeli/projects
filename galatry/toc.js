@@ -7,6 +7,7 @@
     { href: "archi.html", label: "Plans d’architecte" },   // A3 sheets of the base project to SIA 400 conventions (archi_plans.py)
     { href: "statique.html", label: "Statique" },   // structural pre-dimensioning of the transformations (statique.py, Statique/RAPPORT.md)
     { href: "interieur.html", label: "Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
+    { href: "realiste.html", label: "Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js
     { href: "travaux.html", label: "Travaux par étapes" },   // from etapes/: keeps its own sommaire, no toc.js
     { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)
     { href: "illustrations.html", label: "Illustrations" },

@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="fr" data-base="realiste/2026-11-05/">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Galatry 3 maquette réaliste</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* The 3D view fills the screen; the controls float top-left, the state's description top-right (bottom on phones). */
+:root{
+  --ink:#1c2227; --muted:#5a6670; --panel:rgba(249,248,245,.92); --line:rgba(28,34,39,.14);
+  --chip:rgba(28,34,39,.06); --accent:#2d6289; --accent-ink:#ffffff; --stage:#cfdbe3;
+  --f-ui:'Archivo','Helvetica Neue',Arial,sans-serif; --f-num:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --ink:#e6eaed; --muted:#9aa7b1; --panel:rgba(21,26,30,.9); --line:rgba(230,234,237,.15);
+  --chip:rgba(230,234,237,.08); --accent:#86b8dc; --accent-ink:#0c1822; --stage:#121a20; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --ink:#e6eaed; --muted:#9aa7b1; --panel:rgba(21,26,30,.9); --line:rgba(230,234,237,.15);
+  --chip:rgba(230,234,237,.08); --accent:#86b8dc; --accent-ink:#0c1822; --stage:#121a20; color-scheme:dark }
+[hidden]{display:none!important}
+html,body{height:100%}
+body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);overflow:hidden;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none;cursor:grab}
+#c:active{cursor:grabbing}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.top{position:fixed;top:calc(12px + env(safe-area-inset-top, 0px));left:max(16px, env(safe-area-inset-left, 0px));
+  display:grid;gap:10px;max-width:min(470px, calc(100vw - 32px));padding:12px 14px}
+.top h1{margin:0;font-size:17px;font-weight:650;font-stretch:85%;letter-spacing:.01em;text-wrap:balance}
+.top p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.lab{font:500 10.5px/1 var(--f-num);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:44px}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{all:unset;cursor:pointer;padding:6px 10px;font-size:12.5px;font-weight:550;color:var(--ink);white-space:nowrap}
+.seg button + button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.seg button:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.btn{all:unset;cursor:pointer;padding:6px 11px;font-size:12.5px;font-weight:550;border:1px solid var(--line);border-radius:8px;white-space:nowrap}
+.btn:hover{background:var(--chip)} .btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.sheet{position:fixed;top:calc(12px + env(safe-area-inset-top, 0px));right:max(16px, env(safe-area-inset-right, 0px));
+  width:min(320px, calc(100vw - 32px));padding:12px 14px;display:grid;gap:6px}
+.sheet h2{margin:0;font-size:16px;font-weight:650;font-stretch:85%}
+.sheet p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
+.sheet small{font-family:var(--f-num);font-size:11px;color:var(--muted)}
+.dock{position:fixed;left:0;right:0;bottom:0;padding-bottom:calc(12px + env(safe-area-inset-bottom, 0px));
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));display:flex;gap:8px;pointer-events:none}
+.hint{font-size:12px;color:var(--muted);padding:5px 10px}
+.load{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);padding:12px 18px;font-size:13px;font-weight:550;display:flex;gap:10px;align-items:center}
+.load i{width:14px;height:14px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--accent);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+#fallback{position:fixed;inset:0;display:grid;place-items:center;padding:24px;text-align:center}
+.toc-d{position:relative}
+.toc-d summary{list-style:none}
+.toc-d summary::-webkit-details-marker{display:none}
+.toc-pop{position:absolute;top:calc(100% + 6px);left:0;display:grid;gap:2px;min-width:230px;padding:10px;z-index:3}
+.toc-pop b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:8px 8px 2px}
+.toc-pop b:first-child{margin-top:0}
+.toc-pop a{all:unset;cursor:pointer;padding:6px 8px;border-radius:6px;font-size:13px;font-weight:550;color:var(--accent)}
+.toc-pop a:hover{background:var(--chip)}
+.toc-pop a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+@media (max-width:720px){
+  .top p.long{display:none}
+  .sheet{top:auto;bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
+  .dock{display:none}
+}
+@media (prefers-reduced-motion: reduce){ .load i{animation:none} }
+</style>
+</head>
+<body>
+<canvas id="c" tabindex="0" aria-label="Maquette 3D réaliste de Galatry 3 sur son terrain, avec les arbres actuels"></canvas>
+
+<section class="top panel" aria-label="Commandes">
+  <div class="row"><a class="btn" href="index.html" title="Retour à la page précédente" onclick="if(document.referrer.startsWith(location.origin)&amp;&amp;history.length&gt;1){history.back();return false}">↩ Retour</a><h1>Galatry 3 · maquette réaliste</h1></div>
+  <p class="long">Le vrai terrain et les arbres d’aujourd’hui (relevés swisstopo 2021–2025, orthophoto 2023), la maison et les options d’après la maquette 3D du projet. Matières réalistes ; lumière et ombres calculées dans Blender, soleil d’été en fin de matinée.</p>
+  <div class="row"><span class="lab">État</span>
+    <div class="seg" role="group" aria-label="État" id="seg-st">
+      <button type="button" data-st="ex" aria-pressed="false">Aujourd’hui</button>
+      <button type="button" data-st="n" aria-pressed="false">Rénovée</button>
+      <button type="button" data-st="r" aria-pressed="true">+ Terrasse</button>
+      <button type="button" data-st="r_pool" aria-pressed="false">+ Piscine</button>
+      <button type="button" data-st="gar" aria-pressed="false">+ Garage</button>
+    </div>
+  </div>
+  <div class="row" id="row-gar" hidden><span class="lab">Garage</span>
+    <div class="seg" role="group" aria-label="Garage" id="seg-g">
+      <button type="button" data-g="rb_pool" aria-pressed="true">Fermé en bas</button>
+      <button type="button" data-g="rc_pool" aria-pressed="false">Couvert en bas</button>
+      <button type="button" data-g="rh_pool" aria-pressed="false">En haut</button>
+    </div>
+  </div>
+  <div class="row"><span class="lab">Vue</span>
+    <div class="seg" role="group" aria-label="Vue" id="seg-v">
+      <button type="button" data-v="d11" aria-pressed="true">Drone</button>
+      <button type="button" data-v="d01" aria-pressed="false">Cour</button>
+      <button type="button" data-v="lac" aria-pressed="false">Lac</button>
+      <button type="button" data-v="nord" aria-pressed="false">Colline</button>
+      <button type="button" data-v="top" aria-pressed="false">Dessus</button>
+    </div>
+    <details class="toc-d"><summary class="btn">Sommaire</summary>
+      <div class="toc-pop panel"><b>Galatry 3</b><a href="plans.html">Actuel – Plans et 3D</a><a href="index.html">Projet – Plans et 3D</a><a href="archi.html">Plans d’architecte</a><a href="statique.html">Statique</a><a href="interieur.html">Intérieur 3D</a><a href="travaux.html">Travaux par étapes</a><a href="cfc.html">Devis CFC</a><a href="illustrations.html">Illustrations</a><a href="photos.html">Photos de l’annonce</a></div>
+    </details>
+  </div>
+</section>
+
+<aside class="sheet panel" aria-live="polite">
+  <h2 id="s-t"></h2>
+  <p id="s-d"></p>
+  <small id="s-v"></small>
+</aside>
+<div class="dock"><div class="hint panel">Glisser : tourner · molette ou pincer : zoomer · clic droit ou deux doigts : déplacer</div></div>
+<div class="load panel" id="load" role="status"><i aria-hidden="true"></i><span>Chargement de la maquette…</span></div>
+<div id="fallback" hidden>La vue 3D nécessite WebGL, désactivé dans ce navigateur.</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+
+// Frame: metres, X east, Y up, Z south; origin at the house (plan 1170, 820), Y = 0 at ±0.00 = 483.35 m.
+const BASE = document.documentElement.dataset.base;
+const SUN_AZ = 150, SUN_EL = 58;            // the bake's sun (set on the orthophoto's shadows): from the south-south-east, 58° high
+const TXT = {
+  ex: ['Aujourd’hui', 'La villa telle qu’elle est : crépi beige, toit en fibrociment, cour et rampe en goudron, haies et arbres actuels.'],
+  n: ['Rénovée, jardin inchangé', 'La maison du projet : crépi clair, toit neuf à joints debout avec 19 panneaux solaires, trois fenêtres de toit, façade sud vitrée (trois portes-fenêtres, garde-corps en verre), baie vitrée dans l’ancien garage. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
+  r: ['+ Terrasse', 'Variante de base : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe devient un chemin piéton ; on se gare en bas, sur la partie bétonnée.'],
+  r_pool: ['+ Piscine', 'Piscine de 7 × 3 m à débordement au bord de la terrasse.'],
+  rb_pool: ['+ Garage fermé en bas', 'Garage double fermé de 40 m² au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.54 sous la terrasse ; escalier en béton de 17 marches le long du garage ; parking ouvert de deux places à l’angle est (sol de −5.07 à −4.19). Avec la piscine.'],
+  rc_pool: ['+ Couvert en bas', 'Couvert ouvert deux places au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.64 ; le même escalier et le même parking ouvert à l’angle est. Avec la piscine.'],
+  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord, garage double enterré au bout de l’accès, dans le talus nord-est (40 m², deux portes au sud), accès à environ 24,9 %. Avec la piscine.'],
+};
+const VIEWS = {   // position, target (m), vertical field of view; d11 and d01 are the listing's drone photos 11 and 01 (camera solves)
+  d11: [[21.91, 15.59, 33.97], [4.52, -1.45, 2.24], 44.8, 'Point de vue de la photo drone de l’annonce (vue depuis le lac)'],
+  d01: [[16.69, 0.86, 21.63], [-8.15, 0.74, -9.72], 40.1, 'Point de vue de la photo de la cour'],
+  lac: [[34, 22, 78], [0, -2, 4], 38, 'Depuis le lac, plus haut'],
+  nord: [[24, 38, -44], [0, -2, 2], 38, 'Depuis la colline, au nord-est'],
+  top: [[0.5, 92, 6], [0.5, -2, 5.9], 40, 'Vue de dessus, nord en haut'],
+};
+
+const canvas = document.getElementById('c'), loadEl = document.getElementById('load');
+let renderer;
+try { renderer = new THREE.WebGLRenderer({canvas, antialias: true, logarithmicDepthBuffer: true}); }
+catch (e) { document.getElementById('fallback').hidden = false; loadEl.hidden = true; throw e; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.outputColorSpace = THREE.SRGBColorSpace; renderer.toneMapping = THREE.NoToneMapping;
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(44.8, 1, 0.3, 20000);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.dampingFactor = 0.08; controls.minDistance = 6; controls.maxDistance = 900;
+controls.maxPolarAngle = Math.PI * 0.49; controls.screenSpacePanning = false;
+const fogCol = new THREE.Color(0xc7d5de);
+scene.fog = new THREE.Fog(fogCol, 900, 7000);
+
+// sun and sky light for what is drawn live (foliage, glass, frames); the rest carries Blender's light in its textures
+const az = THREE.MathUtils.degToRad(SUN_AZ), el = THREE.MathUtils.degToRad(SUN_EL);
+const sunDir = new THREE.Vector3(Math.sin(az) * Math.cos(el), Math.sin(el), -Math.cos(az) * Math.cos(el));
+const sun = new THREE.DirectionalLight(0xfff3e2, 2.3); sun.position.copy(sunDir).multiplyScalar(100); scene.add(sun);
+scene.add(new THREE.HemisphereLight(0xd3e4f2, 0x7c7a62, 1.35));
+
+const texLoader = new THREE.TextureLoader(), gltfLoader = new GLTFLoader();
+const maxAniso = renderer.capabilities.getMaxAnisotropy();
+const tex = (url, srgb = true, flipY = true) => new Promise((res, rej) => texLoader.load(BASE + url, t => {
+  t.colorSpace = srgb ? THREE.SRGBColorSpace : THREE.NoColorSpace; t.flipY = flipY; t.anisotropy = maxAniso; res(t); }, undefined, rej));
+// binaries come wrapped in JSON (base64): the artifact serves web types only
+const bin = url => fetch(BASE + url + '.json').then(r => { if (!r.ok) throw new Error(url); return r.json(); }).then(j => {
+  const s = atob(j.b64), a = new Uint8Array(s.length); for (let i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a.buffer; });
+const json = url => fetch(BASE + url).then(r => { if (!r.ok) throw new Error(url); return r.json(); });
+
+let dirty = true; const redraw = () => { dirty = true; };
+const statics = new THREE.Group(); scene.add(statics);
+let envMap = null, T = null, terrainH = null;
+
+// ---- terrain: regular height grids rebuilt here (far 3 km, near ±200 m, the maquette's surround), the orthophotos as texture
+function grid(h, heights, unit, keep, uvOf){
+  const {x0, z0, step, nx, nz} = h, pos = new Float32Array(nx * nz * 3), uv = new Float32Array(nx * nz * 2);
+  for (let j = 0; j < nz; j++) for (let i = 0; i < nx; i++){
+    const k = j * nx + i, x = x0 + i * step, z = z0 + j * step;
+    pos[3 * k] = x; pos[3 * k + 1] = heights[k] * unit; pos[3 * k + 2] = z;
+    const [u, v] = uvOf(x, z); uv[2 * k] = u; uv[2 * k + 1] = v;
+  }
+  const idx = [];
+  for (let j = 0; j < nz - 1; j++) for (let i = 0; i < nx - 1; i++){
+    if (keep && !keep(i, j)) continue;
+    const k = j * nx + i; idx.push(k, k + nx, k + 1, k + 1, k + nx, k + nx + 1);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.BufferAttribute(uv, 2));
+  g.setIndex(new THREE.BufferAttribute(nx * nz > 65535 ? new Uint32Array(idx) : new Uint16Array(idx), 1));
+  return g;
+}
+const nearUV = (x, z) => [(x + 200) / 400, 1 - (z + 200) / 400];
+async function buildStatic(){
+  const [tj, tb, oNear, oFar, sky] = await Promise.all([json('terrain.json'), bin('terrain.bin'), tex('ortho_near.jpg'), tex('ortho_far.jpg'), tex('sky.jpg')]);
+  T = tj;
+  const arr = n => { const h = tj[n], C = {int16: Int16Array, uint8: Uint8Array}[h.dtype]; return new C(tb, h.offset, h.n); };
+  // sky: background and reflections
+  sky.mapping = THREE.EquirectangularReflectionMapping; scene.background = sky;
+  const pm = new THREE.PMREMGenerator(renderer); envMap = pm.fromEquirectangular(sky).texture; scene.environment = envMap;
+  // far terrain: UV from its LV95 position (the orthophoto tiles are north-up in LV95)
+  const {E0, N0, th} = tj.fit, [CX, CZ] = tj.plan_origin, [FE, FN, FS] = tj.far_tex, co = Math.cos(th), si = Math.sin(th);
+  const farUV = (x, z) => { const xm = (x * 100 + CX) / 100, ym = -(z * 100 + CZ) / 100; return [((E0 + co * xm - si * ym) - FE) / FS, ((N0 + si * xm + co * ym) - FN) / FS]; };
+  const far = new THREE.Mesh(grid(tj.far, arr('far'), tj.far.unit, null, farUV), new THREE.MeshBasicMaterial({map: oFar, polygonOffset: true, polygonOffsetFactor: 2, polygonOffsetUnits: 2}));
+  const [hx0, hz0, hx1, hz1] = tj.near.hole, n = tj.near;
+  const near = new THREE.Mesh(grid(n, arr('near'), n.unit, (i, j) => {
+    const x = n.x0 + i * n.step, z = n.z0 + j * n.step; return !(x >= hx0 - 1e-6 && x + n.step <= hx1 + 1e-6 && z >= hz0 - 1e-6 && z + n.step <= hz1 + 1e-6); }, nearUV),
+    new THREE.MeshBasicMaterial({map: oNear}));
+  const mask = arr('core_mask'), s = tj.sur;
+  const sur = new THREE.Mesh(grid(s, arr('sur'), s.unit, (i, j) => !mask[j * (s.nx - 1) + i], nearUV), near.material);
+  // neighbours: roofs from the orthophoto, walls lit live
+  const tri = (a, mat, withUV) => { const p = new Float32Array(a.length); for (let i = 0; i < a.length; i++) p[i] = a[i] * 0.01;
+    const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+    if (withUV){ const uv = new Float32Array(p.length / 3 * 2); for (let k = 0; k < p.length / 3; k++){ const [u, v] = nearUV(p[3 * k], p[3 * k + 2]); uv[2 * k] = u; uv[2 * k + 1] = v; } g.setAttribute('uv', new THREE.BufferAttribute(uv, 2)); }
+    g.computeVertexNormals(); return new THREE.Mesh(g, mat); };
+  const roofs = tri(arr('nb_roofs'), new THREE.MeshBasicMaterial({map: oNear, side: THREE.DoubleSide}), true);
+  const walls = tri(arr('nb_walls'), new THREE.MeshLambertMaterial({color: 0xded8cc, side: THREE.DoubleSide}), false);
+  // the lake, under the fog
+  const lake = new THREE.Mesh(new THREE.PlaneGeometry(40000, 40000).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({color: 0x2c5a6e, roughness: 0.12, metalness: 0, envMapIntensity: 0.9}));
+  lake.position.y = tj.lake_y;
+  statics.add(far, near, sur, roofs, walls, lake);
+  // ground height under the camera (existing ground: surround, then near ring, then far)
+  const sh = arr('sur'), nh = arr('near'), fh = arr('far');
+  const bil = (h, H, unit, x, z) => { const fx = (x - h.x0) / h.step, fz = (z - h.z0) / h.step; if (fx < 0 || fz < 0 || fx >= h.nx - 1 || fz >= h.nz - 1) return null;
+    const i = fx | 0, j = fz | 0, u = fx - i, v = fz - j, k = j * h.nx + i;
+    return unit * (H[k] * (1 - u) * (1 - v) + H[k + 1] * u * (1 - v) + H[k + h.nx] * (1 - u) * v + H[k + h.nx + 1] * u * v); };
+  terrainH = (x, z) => bil(s, sh, s.unit, x, z) ?? bil(n, nh, n.unit, x, z) ?? bil(tj.far, fh, tj.far.unit, x, z) ?? 0;
+}
+
+// ---- foliage: cards from the canopy model (geo.py), instanced per kind (tree, conifer, shrub, hedge), lit live
+const kinds = [];
+let cards = null, crowns = null, trunkMesh = null;
+async function buildFoliage(){
+  const [cj, cb, cr, atlas, alpha, bark] = await Promise.all([json('cards.json'), bin('cards.bin'), json('crowns.json'), tex('atlas.jpg'), tex('atlas_a.png', false), tex('bark.jpg')]);
+  const f = cj.fields, n = cj.count;
+  cards = {n, pos: new Int16Array(cb, f.pos.offset, n * 3), quat: new Int8Array(cb, f.quat.offset, n * 4), size: new Uint8Array(cb, f.size.offset, n),
+           color: new Uint8Array(cb, f.color.offset, n * 3), kind: new Uint8Array(cb, f.kind.offset, n), crown: new Uint16Array(cb, f.crown.offset, n)};
+  crowns = cr;
+  atlas.wrapS = atlas.wrapT = alpha.wrapS = alpha.wrapT = THREE.ClampToEdgeWrapping;
+  const mat = new THREE.MeshLambertMaterial({map: atlas, alphaMap: alpha, alphaTest: 0.42, side: THREE.DoubleSide, alphaToCoverage: true});
+  mat.color.setRGB(2.5, 2.5, 2.5);                       // the atlas is a neutral mid green: each card's colour comes from the orthophoto
+  const quad = [[0, .5], [.5, .5], [0, 0], [.5, 0]];     // atlas quadrant per kind (UV origin, v up)
+  const count = [0, 0, 0, 0]; for (let i = 0; i < n; i++) count[cards.kind[i]]++;
+  for (let k = 0; k < 4; k++){
+    const g = new THREE.PlaneGeometry(1, 1), uv = g.attributes.uv;
+    for (let i = 0; i < uv.count; i++) uv.setXY(i, quad[k][0] + uv.getX(i) * 0.5, quad[k][1] + uv.getY(i) * 0.5);
+    const m = new THREE.InstancedMesh(g, mat, Math.max(1, count[k])); m.frustumCulled = false; m.count = 0;
+    m.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(Math.max(1, count[k]) * 3), 3);
+    kinds.push(m); statics.add(m);
+  }
+  let nt = 0; cr.forEach(c => nt += c.trunks.length);
+  const tg = new THREE.CylinderGeometry(0.6, 1, 1, 8, 1, true).translate(0, 0.5, 0);
+  bark.wrapS = bark.wrapT = THREE.RepeatWrapping;
+  trunkMesh = new THREE.InstancedMesh(tg, new THREE.MeshLambertMaterial({map: bark, color: 0x9a8a78}), Math.max(1, nt)); trunkMesh.frustumCulled = false;
+  statics.add(trunkMesh);
+}
+function setFoliage(st){
+  const gone = new Set(crowns.filter(c => c.gone.includes(st)).map(c => c.id));
+  const m = new THREE.Matrix4(), q = new THREE.Quaternion(), p = new THREE.Vector3(), sc = new THREE.Vector3(), c = new THREE.Color(), idx = [0, 0, 0, 0];
+  for (let i = 0; i < cards.n; i++){
+    if (gone.has(cards.crown[i])) continue;
+    const k = cards.kind[i];
+    p.set(cards.pos[3 * i] * 0.01, cards.pos[3 * i + 1] * 0.01, cards.pos[3 * i + 2] * 0.01);
+    q.set(cards.quat[4 * i] / 127, cards.quat[4 * i + 1] / 127, cards.quat[4 * i + 2] / 127, cards.quat[4 * i + 3] / 127).normalize();
+    const s = cards.size[i] / 50; sc.set(s, s, s);
+    kinds[k].setMatrixAt(idx[k], m.compose(p, q, sc));
+    c.setRGB(cards.color[3 * i] / 255, cards.color[3 * i + 1] / 255, cards.color[3 * i + 2] / 255, THREE.SRGBColorSpace);
+    kinds[k].setColorAt(idx[k], c); idx[k]++;
+  }
+  kinds.forEach((km, k) => { km.count = idx[k]; km.instanceMatrix.needsUpdate = true; km.instanceColor.needsUpdate = true; });
+  let t = 0;
+  crowns.forEach(cw => { if (gone.has(cw.id)) return; cw.trunks.forEach(([x, z, r]) => {
+    const y0 = cw.g - 0.2, y1 = cw.b + 0.45 * (cw.t - cw.b);
+    trunkMesh.setMatrixAt(t++, m.compose(p.set(x, y0, z), q.identity(), sc.set(r, Math.max(0.5, y1 - y0), r))); }); });
+  trunkMesh.count = t; trunkMesh.instanceMatrix.needsUpdate = true;
+}
+
+// ---- the states: the parcel's ground and the house with Blender's light, glass and water live
+const LIVE = {
+  glass: () => new THREE.MeshStandardMaterial({color: 0x1b2127, roughness: 0.04, metalness: 0, envMapIntensity: 1.4}),
+  rail: () => new THREE.MeshStandardMaterial({color: 0xe6f0f0, roughness: 0.02, metalness: 0, transparent: true, opacity: 0.22, depthWrite: false, envMapIntensity: 1.2, side: THREE.DoubleSide}),
+  water: () => new THREE.MeshStandardMaterial({color: 0x1f7f99, roughness: 0.04, metalness: 0, envMapIntensity: 1.25}),
+  pv: () => new THREE.MeshStandardMaterial({color: 0x0e131a, roughness: 0.16, metalness: 0.25, envMapIntensity: 1.1, side: THREE.DoubleSide}),
+};
+const states = {}; let current = null, shown = null;
+async function loadState(st){
+  if (states[st]) return states[st];
+  const [gl, core, build] = await Promise.all([bin(st + '.glb').then(buf => new Promise((res, rej) => gltfLoader.parse(buf, '', res, rej))),
+                                                tex('core_' + st + '.jpg', true, false), tex('build_' + st + '.jpg', true, false)]);
+  const root = gl.scene;
+  root.traverse(o => {
+    if (!o.isMesh) return;
+    const name = (o.material.name || '').replace(/\.\d+$/, '');
+    if (name === 'baked_core') o.material = new THREE.MeshBasicMaterial({map: core});
+    else if (name === 'baked_build') o.material = new THREE.MeshBasicMaterial({map: build, side: THREE.DoubleSide});   // the maquette's faces are wound either way
+    else if (LIVE[name]) o.material = LIVE[name]();
+    else if (name === 'kerb') o.material = new THREE.MeshLambertMaterial({color: 0xa9a7a1});   // concrete kerbs, not white
+    else o.material = new THREE.MeshLambertMaterial({color: o.material.color, side: THREE.DoubleSide});
+  });
+  root.visible = false; scene.add(root);
+  return (states[st] = root);
+}
+async function setState(st){
+  current = st; loadEl.hidden = false;
+  try {
+    const root = await loadState(st);
+    if (current !== st) return;
+    if (shown) shown.visible = false; root.visible = true; shown = root;
+    setFoliage(st);
+    document.getElementById('s-t').textContent = TXT[st][0]; document.getElementById('s-d').textContent = TXT[st][1];
+    loadEl.hidden = true; redraw();
+  } catch (e) { loadEl.querySelector('span').textContent = 'Chargement impossible (' + e.message + ')'; console.error(e); }
+}
+
+// ---- views
+let anim = null;
+function go(v, instant){
+  const [p, t, fov, label] = VIEWS[v];
+  document.getElementById('s-v').textContent = label;
+  const p0 = camera.position.clone(), t0 = controls.target.clone(), f0 = camera.fov, P = new THREE.Vector3(...p), Tt = new THREE.Vector3(...t);
+  cancelAnimationFrame(anim);
+  if (instant || matchMedia('(prefers-reduced-motion: reduce)').matches){ camera.position.copy(P); controls.target.copy(Tt); camera.fov = fov; camera.updateProjectionMatrix(); controls.update(); redraw(); return; }
+  const s0 = performance.now();
+  (function step(){
+    const k = Math.min(1, (performance.now() - s0) / 900), e = 1 - Math.pow(1 - k, 3);
+    camera.position.lerpVectors(p0, P, e); controls.target.lerpVectors(t0, Tt, e); camera.fov = f0 + (fov - f0) * e; camera.updateProjectionMatrix(); controls.update(); redraw();
+    if (k < 1) anim = requestAnimationFrame(step);
+  })();
+}
+
+// ---- UI
+const press = (seg, sel) => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === sel));
+const segSt = document.getElementById('seg-st'), segG = document.getElementById('seg-g'), rowG = document.getElementById('row-gar');
+let garage = 'rb_pool';
+segSt.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segSt, b);
+  const st = b.dataset.st; rowG.hidden = st !== 'gar'; setState(st === 'gar' ? garage : st); });
+segG.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segG, b); garage = b.dataset.g; setState(garage); });
+const segV = document.getElementById('seg-v');
+segV.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segV, b); go(b.dataset.v); });
+controls.addEventListener('start', () => press(segV, null));
+controls.addEventListener('change', redraw);
+
+function resize(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.round(w * renderer.getPixelRatio()) || canvas.height !== Math.round(h * renderer.getPixelRatio())){
+    renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix(); redraw(); }
+}
+window.addEventListener('resize', redraw);
+(function tick(){
+  requestAnimationFrame(tick);
+  resize();
+  if (controls.update()) dirty = true;
+  if (terrainH){   // never under the ground
+    const gy = terrainH(camera.position.x, camera.position.z) + 1.6;
+    if (camera.position.y < gy){ camera.position.y = gy; dirty = true; }
+  }
+  if (!dirty) return;
+  dirty = false; renderer.render(scene, camera);
+})();
+
+go('d11', true);
+await buildStatic();
+await buildFoliage();
+await setState('r');
+window.galatryReal = {scene, camera, controls, renderer, setState, go, states, redraw};
+</script>
+</body>
+</html>

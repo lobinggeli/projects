@@ -292,7 +292,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
       <div class="m-ctrl m-rows" role="group" aria-label="Maquette 3D">
 <div class="m-row"><span class="m-lab">Variante</span><div class="m-btns"><button type="button" data-mode="ex" aria-pressed="false">Existant</button><button type="button" data-mode="r" aria-pressed="true">Base</button></div></div>
 <div class="m-row"><span class="m-lab">Garage</span><div class="m-btns"><button type="button" data-mode="rc" aria-pressed="false">Couvert</button><button type="button" data-mode="rb" aria-pressed="false">Fermé</button><button type="button" data-mode="rh" aria-pressed="false">En haut</button></div></div>
-<div class="m-row"><span class="m-lab">Options</span><div class="m-btns"><button type="button" id="m-pool" aria-pressed="false">+ Piscine</button><button type="button" id="m-fence" aria-pressed="false">+ Clôture</button></div></div>
+<div class="m-row"><span class="m-lab">Options</span><div class="m-btns"><button type="button" id="m-terr" aria-pressed="false">+ Terrasse</button><button type="button" id="m-pool" aria-pressed="false">+ Piscine</button><button type="button" id="m-fence" aria-pressed="false">+ Clôture</button></div></div>
 <div class="m-row"><span class="m-lab">Vue</span><div class="m-btns"><button type="button" data-view="se" aria-pressed="true">Côté lac</button><button type="button" data-view="ne">Côté colline</button><button type="button" data-view="top">Dessus</button><button type="button" data-view="site">Parcelle</button></div></div>
 <div class="m-row"><span class="m-lab">Niveaux</span><div class="m-btns"><button type="button" id="m-low" aria-pressed="false">Rez-inférieur</button><button type="button" id="m-up" aria-pressed="false">Rez-de-chaussée</button><button type="button" id="m-walk" aria-pressed="false">Vue intérieure</button></div></div>
 <div class="m-row"><span class="m-lab">Afficher</span><div class="m-btns"><button type="button" id="m-ground" aria-pressed="true">Terrain</button><button type="button" id="m-parcel" aria-pressed="true">Cadastre</button></div></div>
@@ -300,7 +300,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <div class="m-stage"><canvas id="m-canvas" aria-label="Maquette 3D du projet"></canvas>
       <div class="m-walk" id="m-walk-ui" hidden><div class="m-walk-top"><p class="m-walk-hint">Glisser pour regarder autour · cliquer ou toucher le sol pour s’y rendre · flèches ou WASD (Maj pour aller plus vite) · Échap pour sortir</p><button type="button" id="m-walk-exit">Retour à la maquette</button></div><div class="m-walk-rooms" id="m-walk-rooms" role="group" aria-label="Pièces"></div></div>
       <p class="m-fallback" id="m-fallback" hidden>La vue 3D nécessite WebGL, désactivé dans ce navigateur.</p></div>
-    <figcaption><b>Base</b> : la rampe d’accès et la partie bétonnée restent comme aujourd’hui ; façade sud vitrée (3 portes-fenêtres, garde-corps en verre) ; côté nord, la fenêtre descend jusqu’au sol devant l’escalier, comme la porte d’entrée, et le W-C garde sa fenêtre ; salon et salle à manger d’un seul tenant (cheminée et son mur enlevés), un bout de mur de 1,20 m restant sous le faîte ; pas de fenêtre de toit : la couverture reste et le toit s’isole par l’intérieur, sous un plafond en pente en Fermacell ; l’escalier s’ouvre sur la pièce de vie (murs et porte enlevés, garde-corps en verre en L au-dessus de la volée basse ; le W-C reste) ; la porte d’entrée passe à l’ouest de son ouverture, avec un panneau fixe en verre dépoli de 50 cm, le reste est muré derrière les armoires de la cuisine ; l’entrée, entre le W-C et la cuisine, s’ouvre sur la pièce de vie, et une penderie se loge derrière le W-C, à côté de l’escalier. <b>+ Terrasse</b> (option, dessinée dans toutes les vues) : terrasse de 115 m² côté lac (−2.85), prête pour une piscine. <b>+ Piscine</b> : 7 × 3 m à débordement au bord de la terrasse. <b>+ Clôture</b> : clôture, haie mélangée, portail. <b>+ Garage en bas</b> : garage double fermé de 40 m² au bord du chemin, à l’angle sud, là où le chemin est le plus bas (sol −6.21), creusé dans la pente, toit mince végétalisé à −3.54, sous le niveau de la terrasse, portes sur le chemin ; un escalier droit en béton longe le garage à l’est depuis le niveau du chemin (17 marches, un palier) jusqu’au chemin actuel, qui monte à l’entrée ; de l’autre côté de l’escalier, à l’angle est, un parking ouvert de deux places (6.0 × 5.0 m, en pente de 8 % le long du chemin et de 8 % vers le nord pour abaisser le mur du fond, sol de −5.07 à −4.19). <b>+ Couvert en bas</b> : couvert ouvert deux places au bord du chemin, à l’angle sud, là où le chemin est le plus bas (sol −6.21), toit mince végétalisé à −3.64, sous le niveau de la terrasse ; le même escalier que pour le garage longe son côté est (17 marches, un palier) jusqu’au chemin actuel ; de l’autre côté de l’escalier, à l’angle est, le même parking ouvert de deux places (sol de −5.07 à −4.19). <b>+ Parking en haut</b> : grande place de plain-pied (±0.00) devant toute la façade nord, garage double enterré au bout de l’accès, accès à environ 24.8 %. « Rez-inférieur » et « Rez-de-chaussée » ouvrent chaque étage. <b>Vue intérieure</b> : depuis la porte d’entrée, à hauteur des yeux ; glisser pour regarder, cliquer le sol pour avancer.</figcaption>
+    <figcaption><b>Base</b> : la rampe d’accès et la partie bétonnée restent comme aujourd’hui ; façade sud vitrée (3 portes-fenêtres, garde-corps en verre) ; côté nord, la fenêtre descend jusqu’au sol devant l’escalier, comme la porte d’entrée, et le W-C garde sa fenêtre ; salon et salle à manger d’un seul tenant (cheminée et son mur enlevés), un bout de mur de 1,20 m restant sous le faîte ; pas de fenêtre de toit : la couverture reste et le toit s’isole par l’intérieur, sous un plafond en pente en Fermacell ; l’escalier s’ouvre sur la pièce de vie (murs et porte enlevés, garde-corps en verre en L au-dessus de la volée basse ; le W-C reste) ; la porte d’entrée passe à l’ouest de son ouverture, avec un panneau fixe en verre dépoli de 50 cm, le reste est muré derrière les armoires de la cuisine ; l’entrée, entre le W-C et la cuisine, s’ouvre sur la pièce de vie, et une penderie se loge derrière le W-C, à côté de l’escalier. <b>+ Terrasse</b> (option ; sans elle, la base garde le jardin et le dallage d’aujourd’hui ; les variantes de parking sont dessinées avec elle) : terrasse de 115 m² côté lac (−2.85), prête pour une piscine. <b>+ Piscine</b> : 7 × 3 m à débordement au bord de la terrasse. <b>+ Clôture</b> : clôture, haie mélangée, portail. <b>+ Garage en bas</b> : garage double fermé de 40 m² au bord du chemin, à l’angle sud, là où le chemin est le plus bas (sol −6.21), creusé dans la pente, toit mince végétalisé à −3.54, sous le niveau de la terrasse, portes sur le chemin ; un escalier droit en béton longe le garage à l’est depuis le niveau du chemin (17 marches, un palier) jusqu’au chemin actuel, qui monte à l’entrée ; de l’autre côté de l’escalier, à l’angle est, un parking ouvert de deux places (6.0 × 5.0 m, en pente de 8 % le long du chemin et de 8 % vers le nord pour abaisser le mur du fond, sol de −5.07 à −4.19). <b>+ Couvert en bas</b> : couvert ouvert deux places au bord du chemin, à l’angle sud, là où le chemin est le plus bas (sol −6.21), toit mince végétalisé à −3.64, sous le niveau de la terrasse ; le même escalier que pour le garage longe son côté est (17 marches, un palier) jusqu’au chemin actuel ; de l’autre côté de l’escalier, à l’angle est, le même parking ouvert de deux places (sol de −5.07 à −4.19). <b>+ Parking en haut</b> : grande place de plain-pied (±0.00) devant toute la façade nord, garage double enterré au bout de l’accès, accès à environ 24.8 %. « Rez-inférieur » et « Rez-de-chaussée » ouvrent chaque étage. <b>Vue intérieure</b> : depuis la porte d’entrée, à hauteur des yeux ; glisser pour regarder, cliquer le sol pour avancer.</figcaption>
   </figure>
 </section>
 
@@ -874,9 +874,9 @@ function painter(kind){
     ctx.globalAlpha = 1;
     ctx.fillStyle = C.road; rings(R.road); ctx.fill('evenodd');
     const sign = (x, z) => { const [a, b] = px(x, z, W, Hc), s = W / GW * 170; ctx.fillStyle = '#2F6690'; ctx.fillRect(a - s/2, b - s/2, s, s); ctx.fillStyle = '#FFFFFF'; ctx.font = '700 ' + Math.round(s*0.8) + 'px "Archivo Narrow", Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('P', a, b + s*0.05); };
-    if (kind === 'ex'){
+    if (kind === 'ex' || kind === 'rx'){   // rx: today's ground under the base without its terrace (06.11.2026), without today's parking mark
       ctx.fillStyle = C.pave; rings(R.pave); ctx.fill('evenodd');
-      sign(R.p[0], R.p[1]);
+      if (kind === 'ex') sign(R.p[0], R.p[1]);
     } else {
       const PR = PRS[kind];
       if (PR.ROAD){ ctx.fillStyle = C.road; path(PR.ROAD); ctx.fill(); }
@@ -1018,6 +1018,7 @@ function buildSite(H, kind, kerbLines){
 }
 const siteE = buildSite(HE, 'ex', R.kerb), sites = {ex: siteE};
 Object.keys(PRS).forEach(k => { sites[k] = buildSite(dec(HPD[k]), k, PRS[k].kerb); });
+sites.rx = buildSite(HE, 'rx', R.kerb);   // the base without its terrace: today's ground, without today's parking mark (siteKey)
 
 // ---- the existing house
 const upperMass = new THREE.Group(), house = new THREE.Group(), roofG = new THREE.Group();
@@ -1161,6 +1162,10 @@ function buildProj(PR, gz){
 const projs = {}; Object.keys(PRS).forEach(k => { projs[k] = buildProj(PRS[k], sites[k].gz); });
 // optional pool (options page), the same for every parking option
 const poolG = new THREE.Group(); scene.add(poolG); let poolOn = false;
+// 06.11.2026 (user: « la maquette 3D "base" ne dispose pas de la terrasse »): the lake-side terrace is an option. Without it, the base
+// shows today's ground and paving (the 'ex' site) round the renovated house; « + Terrasse » brings it in, and so does the pool
+let terrOn = false;
+const siteKey = () => mode === 'r' && !terrOn && !poolOn ? 'rx' : mode;
 // optional fence, hedge and gates (options page), drawn per parking option because the entries differ
 const fenceG = {}; let fenceOn = false;
 Object.keys(PRS).forEach(k => { if (PRS[k].FX){ fenceG[k] = new THREE.Group(); scene.add(fenceG[k]); drawFence(fenceG[k], PRS[k].FX, sites[k].gz); } });
@@ -1362,12 +1367,13 @@ const carve = on => { if (carved === on) return; carved = on; Object.values(site
 let mode = Object.keys(PRS)[0], low = false, up = false, iv = 'd';
 function apply(){
   const lay = mode === 'ex' ? 'ex' : iv;
-  Object.keys(sites).forEach(k => { sites[k].grp.visible = k === mode; wins[k].visible = k === mode; });
+  const sk = siteKey();
+  Object.keys(sites).forEach(k => { sites[k].grp.visible = k === sk; if (wins[k]) wins[k].visible = k === mode; });
   const glazed = TX.glazed.includes(mode);                               // glazed south façade (French doors, glass guards)
   const layUp = glazed ? lay + 'L' : lay;
   Object.keys(lows).forEach(k => { lows[k].visible = low && k === lay; });
   Object.keys(ups).forEach(k => { ups[k].visible = up && k === layUp; });
-  Object.keys(projs).forEach(k => { projs[k].visible = k === mode; siteLabels[k].visible = k === mode && !low && !up; });
+  Object.keys(projs).forEach(k => { projs[k].visible = k === mode && sk === mode; siteLabels[k].visible = k === mode && sk === mode && !low && !up; });
   house.visible = !low && !up; upperMass.visible = roofG.visible = upWins.visible = !low && !up;
   newWins.visible = TX.newwin.includes(mode) && !low && !up; chimEx.visible = mode === 'ex' && !low && !up;
   const ext = !low && !up;
@@ -1414,7 +1420,7 @@ function resize(){
     renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
   }
 }
-function render(){ resize(); const s = sites[mode], p = camera.position, hmin = s.gz(p.x + CX, p.z + CZ) + 250; if (!walk && p.y < hmin) p.y = hmin; renderer.render(scene, camera); }
+function render(){ resize(); const s = sites[siteKey()], p = camera.position, hmin = s.gz(p.x + CX, p.z + CZ) + 250; if (!walk && p.y < hmin) p.y = hmin; renderer.render(scene, camera); }
 let raf = null;
 controls.addEventListener('change', () => { if (!walk && !raf) raf = requestAnimationFrame(() => { raf = null; controls.update(); render(); }); });
 new ResizeObserver(render).observe(canvas);
@@ -1430,7 +1436,10 @@ document.querySelectorAll('.m-ctrl [data-mode]').forEach(b => b.addEventListener
   mode = b.dataset.mode; apply();
 }));
 const poolBtn = document.getElementById('m-pool');
-if (poolBtn) poolBtn.addEventListener('click', () => { poolOn = !poolOn; poolBtn.setAttribute('aria-pressed', poolOn); apply(); });
+const terrBtn = document.getElementById('m-terr');
+const setTerr = on => { terrOn = on; if (terrBtn) terrBtn.setAttribute('aria-pressed', on); };
+if (poolBtn) poolBtn.addEventListener('click', () => { poolOn = !poolOn; poolBtn.setAttribute('aria-pressed', poolOn); if (poolOn) setTerr(true); apply(); });   // the pool sits on the terrace
+if (terrBtn) terrBtn.addEventListener('click', () => { setTerr(!terrOn); if (!terrOn && poolOn){ poolOn = false; poolBtn.setAttribute('aria-pressed', false); } apply(); });
 const fenceBtn = document.getElementById('m-fence');
 if (fenceBtn) fenceBtn.addEventListener('click', () => { fenceOn = !fenceOn; fenceBtn.setAttribute('aria-pressed', fenceOn); apply(); });
 const lowBtn = document.getElementById('m-low'), upBtn = document.getElementById('m-up');

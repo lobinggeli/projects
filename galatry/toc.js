@@ -1,17 +1,23 @@
 // Galatry 3 · table des matières à gauche, commune à toutes les pages de l'artifact.
 // Injectée par build.py ; les liens sont relatifs, préfixés comme le src de ce script.
 (function () {
+  // grouped (06.11.2026, user: « met aussi les 2 onglets à la suite de la maquette 3D », « organise mieux les onglets »); today's house
+  // always first (user). { group } entries are headings, not links. build.py SITE_PAGES keeps the same order for the 3D pages' sommaires
   var PAGES = [
+    { group: "Aujourd’hui" },
     { href: "plans.html", label: "Actuel – Plans et 3D" },   // today's house: plans and 3D model of the existing villa, always first (user)
+    { href: "photos.html", label: "Photos de l’annonce" },
+    { group: "Projet" },
     { href: "index.html", label: "Projet – Plans et 3D" },   // the artifact's own page (build.py publishes projet.html as index.html)
+    { href: "interieur.html", label: "Projet – Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
+    { href: "realiste.html", label: "Projet – Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js
+    { href: "illustrations.html", label: "Illustrations" },
+    { group: "Dossier technique" },
     { href: "archi.html", label: "Plans d’architecte" },   // A3 sheets of the base project to SIA 400 conventions (archi_plans.py)
     { href: "statique.html", label: "Statique" },   // structural pre-dimensioning of the transformations (statique.py, Statique/RAPPORT.md)
-    { href: "interieur.html", label: "Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
-    { href: "realiste.html", label: "Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js
+    { group: "Coûts et offres" },
     { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)
-    { href: "metre.html", label: "Métré pour les offres" },   // quantities by trade, no prices (metre.py, 06.11.2026)
-    { href: "illustrations.html", label: "Illustrations" },
-    { href: "photos.html", label: "Photos de l’annonce" }
+    { href: "metre.html", label: "Métré pour les offres" }   // quantities by trade, no prices (metre.py, 06.11.2026)
   ];
   // the other Galatry 3 artifacts, opened in a new tab
   var OTHER = [
@@ -48,6 +54,8 @@
     ".gtoc .gtoc-sub a{font-size:13.5px;color:var(--ink-2,#56626E);padding:4px 10px;border-radius:0 3px 3px 0;margin-left:-1px}" +
     ".gtoc .gtoc-sub a.is-on{color:var(--ink,#1B2530);border-left-color:var(--accent,#2F6690);font-weight:500}" +
     ".gtoc .gtoc-k2{margin:0 8px 4px;font-size:11px;color:var(--ink-2,#56626E)}" +
+    ".gtoc .gtoc-g{margin:16px 8px 4px;font:500 11px/1.3 var(--f-mono,ui-monospace,monospace);text-transform:uppercase;letter-spacing:.09em;color:var(--ink-2,#56626E)}" +
+    ".gtoc .gtoc-g:first-child{margin-top:0}" +
     ".gtoc .gtoc-ext{margin:0 0 16px;padding-bottom:12px;border-bottom:1px solid var(--rule,#C9D1D4)}" +
     ".gtoc .gtoc-ext a{color:var(--accent,#2F6690);font-size:13.5px;padding:4px 8px}" +
     ".gtoc-btn{display:none}" +
@@ -128,7 +136,10 @@
         li.appendChild(kids);
       }
     }
-    PAGES.forEach(function (p) { addPage(p, list); });
+    PAGES.forEach(function (p) {
+      if (p.group) { list.appendChild(el("li", "gtoc-g", p.group)); return; }
+      addPage(p, list);
+    });
     nav.appendChild(list);
 
     var btn = el("button", "gtoc-btn", "☰ Sommaire");

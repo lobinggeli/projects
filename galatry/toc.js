@@ -8,7 +8,6 @@
     { href: "statique.html", label: "Statique" },   // structural pre-dimensioning of the transformations (statique.py, Statique/RAPPORT.md)
     { href: "interieur.html", label: "Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
     { href: "realiste.html", label: "Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js
-    { href: "travaux.html", label: "Travaux par étapes" },   // from etapes/: keeps its own sommaire, no toc.js
     { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)
     { href: "metre.html", label: "Métré pour les offres" },   // quantities by trade, no prices (metre.py, 06.11.2026)
     { href: "illustrations.html", label: "Illustrations" },
@@ -17,7 +16,7 @@
   // the other Galatry 3 artifacts, opened in a new tab
   var OTHER = [
     { url: "https://lobinggeli.github.io/projects/galatry/", label: "Site public à partager" },   // the GitHub copy of this artifact (public_sync.py)
-    { url: "https://claude.ai/artifact/72yV95DrnY97G4iceXXBTu", label: "À deux · achat et financement" }
+    { url: "https://claude.ai/artifact/72yV95DrnY97G4iceXXBTu", label: "À deux · financement et travaux par étapes" }
   ];
 
   var me = document.currentScript;

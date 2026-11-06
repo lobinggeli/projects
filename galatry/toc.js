@@ -10,6 +10,7 @@
     { href: "realiste.html", label: "Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js
     { href: "travaux.html", label: "Travaux par étapes" },   // from etapes/: keeps its own sommaire, no toc.js
     { href: "cfc.html", label: "Devis CFC" },   // the base's costs by CFC position (cfc.py)
+    { href: "metre.html", label: "Métré pour les offres" },   // quantities by trade, no prices (metre.py, 06.11.2026)
     { href: "illustrations.html", label: "Illustrations" },
     { href: "photos.html", label: "Photos de l’annonce" }
   ];

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-base="realiste/2026-11-05e/">
+<html lang="fr" data-base="realiste/2026-11-07a/">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -127,12 +127,12 @@ const BASE = document.documentElement.dataset.base;
 const SUN_AZ = 150, SUN_EL = 58;            // the bake's sun (set on the orthophoto's shadows): from the south-south-east, 58° high
 const TXT = {
   ex: ['Aujourd’hui', 'La villa telle qu’elle est : crépi beige, toit en fibrociment, cour et rampe en goudron, haies et arbres actuels.'],
-  n: ['Rénovée, jardin inchangé', 'La maison du projet : crépi clair, toit neuf à joints debout avec 23 panneaux solaires (environ 9 kWc, tous au moins à 40 cm des bords du toit), trois fenêtres de toit, façade sud vitrée (trois portes-fenêtres, garde-corps en verre), baie vitrée dans l’ancien garage. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
-  r: ['+ Terrasse', 'Variante de base : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe devient un chemin piéton ; on se gare en bas, sur la partie bétonnée.'],
+  n: ['Rénovée, jardin inchangé', 'La base du projet : crépi clair, toit actuel en fibrociment gardé (isolé par l’intérieur) avec 27 panneaux solaires (environ 10,5 kWc, tous au moins à 40 cm des bords du toit), sans fenêtre de toit, façade sud vitrée (trois portes-fenêtres, garde-corps en verre), baie vitrée dans l’ancien garage. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
+  r: ['+ Terrasse', 'Option : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe et la partie bétonnée restent ; on se gare en bas.'],
   r_pool: ['+ Piscine', 'Piscine de 7 × 3 m à débordement au bord de la terrasse.'],
   rb_pool: ['+ Garage fermé en bas', 'Garage double fermé de 40 m² au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.54 sous la terrasse ; escalier en béton de 17 marches le long du garage ; parking ouvert de deux places à l’angle est (sol de −5.07 à −4.19). Avec la piscine.'],
   rc_pool: ['+ Couvert en bas', 'Couvert ouvert deux places au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.64 ; le même escalier et le même parking ouvert à l’angle est. Avec la piscine.'],
-  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord, garage double enterré au bout de l’accès, dans le talus nord-est (40 m², deux portes au sud) ; accès de 3,50 m en ligne droite le long de la limite est, à environ 24,8 %, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Avec la piscine.'],
+  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord, ses bords nord et nord-est reculés pour que murs et déblais restent sous 2 m (RPACom) ; garage double enterré au bout de l’accès, dans le talus nord-est (40 m², sol +0.10, deux portes au sud, 0.90 m plus près de la maison) ; accès de 3,50 m en ligne droite le long de la limite est, à environ 24,8 %, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Avec la piscine.'],
 };
 const VIEWS = {   // position, target (m), vertical field of view; d11 and d01 are the listing's drone photos 11 and 01 (camera solves)
   d11: [[21.91, 15.59, 33.97], [4.52, -1.45, 2.24], 44.8, 'Point de vue de la photo drone de l’annonce (vue depuis le lac)'],

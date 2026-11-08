@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-base="realiste/2026-11-08d/">
+<html lang="fr" data-base="realiste/2026-11-08e/">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -88,8 +88,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
   </div>
   <div class="row" id="row-gar" hidden><span class="lab">Garage</span>
     <div class="seg" role="group" aria-label="Garage" id="seg-g">
-      <button type="button" data-g="rb_pool" aria-pressed="true">Fermé en bas</button>
-      <button type="button" data-g="rc_pool" aria-pressed="false">Couvert en bas</button>
+      <button type="button" data-g="rc_pool" aria-pressed="true">Couvert en bas</button>
       <button type="button" data-g="rh_pool" aria-pressed="false">En haut</button>
     </div>
   </div>
@@ -130,9 +129,8 @@ const TXT = {
   n: ['Rénovée, jardin inchangé', 'La base du projet : crépi clair, toit actuel en fibrociment gardé (isolé par l’intérieur) avec 27 panneaux solaires (environ 10,5 kWc, tous au moins à 40 cm des bords du toit), sans fenêtre de toit, façade sud vitrée (trois portes-fenêtres, garde-corps en verre), baie vitrée dans l’ancien garage. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
   r: ['+ Terrasse', 'Option : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe et la partie bétonnée restent ; on se gare en bas.'],
   r_pool: ['+ Piscine', 'Piscine de 7 × 3 m à débordement au bord de la terrasse.'],
-  rb_pool: ['+ Garage fermé en bas', 'Garage double fermé de 40 m² au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.54 sous la terrasse ; escalier en béton de 17 marches le long du garage ; parking ouvert de deux places à l’angle est (sol de −5.07 à −4.19). Avec la piscine.'],
-  rc_pool: ['+ Couvert en bas', 'Couvert ouvert deux places au bord du chemin, à l’angle sud (sol −6.21), toit mince végétalisé à −3.64 ; le même escalier et le même parking ouvert à l’angle est. Avec la piscine.'],
-  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord, ses bords nord et nord-est reculés pour que murs et déblais restent sous 2 m (RPACom) ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 23,9 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Les 2 places ouvertes en bas, à l’angle sud, à 3 m du chemin (étape 2), restent. Avec la piscine.'],
+  rc_pool: ['+ Couvert en bas', 'Les 2 places en bas, avec un toit : couvert ouvert sur 5 poteaux acier, toit mince végétalisé en pente comme le sol des places, 2,20 m de passage, dessus de −3.42 côté chemin à −2.30 au fond ; le bord avant reste à 3 m du goudron ; derrière, la pelouse est abaissée en talus planté. Pas d’escalier ni d’autre parking. Avec la piscine.'],
+  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord, ses bords nord et nord-est reculés pour que murs et déblais restent sous 2 m (RPACom) ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 23,9 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Les 2 places ouvertes en bas, à l’angle sud, à 3 m du chemin (étape 2), restent, avec derrière la pelouse abaissée en talus planté. Avec la piscine.'],
 };
 const VIEWS = {   // position, target (m), vertical field of view; d11 and d01 are the listing's drone photos 11 and 01 (camera solves)
   d11: [[21.91, 15.59, 33.97], [4.52, -1.45, 2.24], 44.8, 'Point de vue de la photo drone de l’annonce (vue depuis le lac)'],
@@ -370,7 +368,7 @@ function go(v, instant){
 // ---- UI
 const press = (seg, sel) => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === sel));
 const segSt = document.getElementById('seg-st'), segG = document.getElementById('seg-g'), rowG = document.getElementById('row-gar');
-let garage = 'rb_pool';
+let garage = 'rc_pool';   // rb_pool dropped on 08.11.2026
 segSt.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segSt, b);
   const st = b.dataset.st; rowG.hidden = st !== 'gar'; setState(st === 'gar' ? garage : st); });
 segG.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segG, b); garage = b.dataset.g; setState(garage); });

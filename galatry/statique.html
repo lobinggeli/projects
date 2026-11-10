@@ -301,7 +301,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
     <p class="muted">Prédimensionnement : ce que porte chaque mur que le projet ouvre ou démolit, ce qui doit le remplacer et ce que l’ingénieur civil doit vérifier.</p>
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
 <p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour. La visite est avancée au vendredi 6 novembre à 11h (section 6), et une provision pour les renforts de contreventement est ajoutée au devis (point 5).</p>
-<p><strong>Mise à jour du 3 novembre 2026, après-midi : sens de la charpente.</strong> Les deux coupes de 1963–64 dessinent les pièces de la toiture coupées tous les 55 cm environ, le long des deux pans. Elles iraient donc parallèlement au faîte, d'un mur nord-sud à l'autre, et non de l'égout au faîte comme supposé jusqu'ici (point 11). Si c'est confirmé vendredi, les murs nord-sud que le projet enlève portent le toit : il faut deux poutres de toiture nord-sud, C9 et C10.</p>
+<p><strong>Mise à jour du 3 novembre 2026, après-midi : sens de la charpente.</strong> Les deux coupes de 1963–64 dessinent les pièces de la toiture coupées tous les 55 cm environ, le long des deux pans. Elles iraient donc parallèlement au faîte, d'un mur nord-sud à l'autre, et non de l'égout au faîte comme supposé jusqu'ici (point 11). Si c'est confirmé vendredi, les murs nord-sud que le projet enlève portent le toit : il faut deux poutres de toiture nord-sud, C9 et C10. <strong>Infirmé le 10 novembre</strong> par le dossier de l'ingénieur (ci-dessous) : les chevrons vont de l'égout au faîte, et les pièces coupées des coupes sont les solives entre eux. C9 et C10 ne sont pas nécessaires.</p>
 <p><strong>Mise à jour du 10 novembre 2026 : le dossier de l'ingénieur de 1964 est arrivé</strong> (calcul statique 2-M-1, 33 pages, et plans 2-M-4 à 2-M-22, avril–octobre 1964 ; Drive « 03 Bâtiment / 2026-11-10 Plans d'origine 1962-65 »). Il corrige plusieurs hypothèses de ce rapport, écrit sans lui :</p>
 <div class="prog-wrap"><table class="prog wide">
 <thead>
@@ -416,20 +416,20 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <tr>
 <td>8</td>
 <td>Plan de l'ingénieur de 1963–64</td>
-<td><span class="badge b-grey">Manquant</span></td>
-<td>Demandé à l'agence le 2.11 ; sinon dossier de permis aux archives de la commune, ou bureau de l'architecte (René Pythoud, Vevey)</td>
+<td><strong>Reçu le 10.11</strong></td>
+<td>Dossier 2-M envoyé par l'agence (calcul 2-M-1 et plans 2-M-4 à 2-M-22) : voir la mise à jour du 10 novembre en tête</td>
 </tr>
 <tr>
 <td>9</td>
 <td>Poteau rond existant au milieu du garage</td>
-<td>À mesurer</td>
-<td>Absent des plans de 1963, visible sur la photo 23 de l'annonce. À garder tant que l'ingénieur n'a pas décidé. S'il est sous la poutre et sur une semelle, il reprend jusqu'à ≈ 270 kN ; l'appui ouest (pilier en L) tombe alors de ≈ 200 à 40–80 kN, l'appui est de ≈ 230 à 65–110 kN (calcul C5b)</td>
+<td><strong>D'origine</strong></td>
+<td>Absent des plans d'architecte, mais prévu par l'ingénieur (plan 2-M-20 du 8.8.1964 : tube Ø 126,5, N = 17,6 t, au milieu de S6). À garder : sa semelle (1,35 × 1,35 m) n'a presque pas de réserve. Calcul C5b : il reprend l'essentiel de la poutre, l'appui ouest (pilier en L) tombe de ≈ 200 à 40–80 kN, l'appui est de ≈ 230 à 65–110 kN</td>
 </tr>
 <tr>
 <td>10</td>
 <td>Sens de la charpente (3.11)</td>
-<td><strong><span class="warn">⚠</span> À confirmer vendredi</strong></td>
-<td>Les coupes de 1963–64 montrent des pièces de toiture parallèles au faîte, portées par les murs nord-sud. Si c'est le cas, le mur séjour–salle à manger (cheminée) et les murs biais de la cuisine portent le toit : poutre C9 (GL24h 100×400 ou 120×360) à la place du premier, C10 (GL24h 100×320) à la place des seconds. La poutre faîtière (point 2) reste utile</td>
+<td><strong>Résolu le 10.11</strong></td>
+<td>Le dossier de l'ingénieur montre des chevrons acier IPE 140 tous les 2,40 m, de l'égout au faîte, sur la façade nord, le refend et la façade sud. Les murs nord-sud ne portent pas le toit : C9 et C10 ne sont pas nécessaires. La poutre faîtière (point 2) reste nécessaire</td>
 </tr>
 </tbody>
 </table></div>
@@ -437,11 +437,11 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <section id="detail-des-points">
   <div class="sec-head"><h2>Détail des points</h2></div>
 <ol>
-<li><strong>Documents.</strong> Il n'existe que les plans d'architecte de 1963–64 (René Pythoud, architecte EPF SIA, rue du Clos 7, Vevey, dossier n° 32). Les coupes renvoient à un « plan ingénieur » pour les fondations, qu'on n'a pas : il a été demandé à l'agence le 2 novembre. Une autre piste est le dossier de permis aux archives de la commune.</li>
+<li><strong>Documents.</strong> Jusqu'au 10 novembre, il n'existait que les plans d'architecte de 1963–64 (René Pythoud, architecte EPF SIA, rue du Clos 7, Vevey, dossier n° 32). Les coupes renvoient à un « plan ingénieur » pour les fondations, demandé à l'agence le 2 novembre. Le dossier de l'ingénieur (2-M) est arrivé le 10 novembre : voir la mise à jour en tête.</li>
 <li><strong>Système porteur lu sur les plans.</strong><ul>
 <li>La dalle en béton armé (14 cm, peut-être 17 cm) porte de la façade nord au refend, puis du refend au bandeau sud.</li>
 <li>Le refend central (15 cm) monte jusqu'au faîte et le porte.</li>
-<li><span class="warn">⚠</span> Le sens de la charpente est incertain : les coupes laissent penser à des pièces parallèles au faîte, portées par les murs nord-sud, pas à des chevrons de l'égout au faîte (point 11).</li>
+<li>Le sens de la charpente : les coupes laissaient penser à des pièces parallèles au faîte, portées par les murs nord-sud. Le dossier de l'ingénieur (10.11) montre des chevrons IPE 140 de l'égout au faîte (point 11).</li>
 <li>Au-dessus du garage, il n'y a pas de mur sous le refend : il repose sur une poutre en béton armé de 25 × 46 cm.</li>
 </ul>
 </li>
@@ -468,7 +468,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 </ul>
 </li>
 <li><strong>Le reste se règle avec de petits linteaux</strong> (IPE 80 à 160) et des sommiers en béton, ou ne demande rien : portes élargies, porte de l'atelier, porte de 90 cm, cloisons des chambres.</li>
-<li><strong>Sens de la charpente (lecture du 3 novembre).</strong> Il n'y a pas de plan de charpente ; les deux coupes transversales et les façades sont les seules sources.<ul>
+<li><strong>Sens de la charpente (lecture du 3 novembre, infirmée le 10 novembre).</strong> Le dossier de l'ingénieur de 1964, reçu le 10.11, tranche : chevrons acier IPE 140 tous les 2,40 m, de l'égout au faîte, continus sur la façade nord, le refend et la façade sud, avec des solives bois 4 × 22,5 parallèles au faîte entre eux. Ce sont ces solives que les coupes dessinent coupées. Les murs nord-sud ne portent donc pas le toit, et C9 et C10 ne sont pas nécessaires. La lecture du 3 novembre suit, pour mémoire. Il n'y avait alors pas de plan de charpente ; les deux coupes transversales et les façades étaient les seules sources.<ul>
 <li>Ce qu'on voit. Le long des deux pans, les coupes du 17.9.63 et du 9.4.64 dessinent des pièces <strong>coupées</strong> tous les 55 cm environ (en « I » en 1963, en petits rectangles en 1964). Des chevrons allant de l'égout au faîte apparaîtraient en long. Les pièces vont donc <strong>parallèlement au faîte</strong>. Lues à l'échelle, elles font environ 6 × 16–18 cm, avec des planches dessus et le lambrissage dessous. Au faîte, une pièce faîtière, dessinée coupée, est posée sur le refend.</li>
 <li>Ce qui va dans le même sens. Sur les photos de l'annonce, les lames du lambrissage du séjour, des chambres et de l'avant-toit de la terrasse descendent dans le sens de la pente : elles sont clouées en travers de pièces parallèles au faîte.</li>
 <li>Ce qui reste flou. Les dessins sont schématiques ; ils ne montrent pas comment sont portés les avant-toits nord et sud, ni le pignon est vitré. <span class="warn">⚠</span> Lecture à confirmer sur place (section 6, point 3).</li>
@@ -583,7 +583,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <ul>
 <li><strong>H1 Dalle :</strong> 17 cm de béton armé (25 kN/m³), soit la plus lourde des deux lectures ; chape neuve de 8 cm avec chauffage au sol, carrelage, plâtre au plafond ; cloisons légères 0,8 kN/m². Total <strong>g = 7,19 kN/m²</strong>, <strong>q = 2,0 kN/m²</strong> (habitation, SIA 261 tab. 8).</li>
 <li><strong>H2 Continuité :</strong> la dalle est continue sur le refend, avec 4,05 m de portée au nord et 4,17 m au sud. Le refend en reçoit 5,14 m, soit 1,25 fois plus qu'avec des travées simples.</li>
-<li><strong>H3 Toiture :</strong> 1,44 kN/m² de pan, soit 1,49 kN/m² en plan. Le détail : tuiles 0,75 (prudent : avec des ardoises Eternit ce serait 0,30), lattage et sous-toiture 0,10, chevrons 0,10, isolation renforcée 0,15, lambrissage 0,14, panneaux solaires 0,20. Les chevrons portent du mur au faîte : le faîte reçoit 4,33 m de toiture en plan, l'avant-toit sud 2,88 m. <strong>H3b</strong> (point 11) : les pièces vont parallèlement au faîte et portent d'un mur nord-sud à l'autre ; les poutres C9 et C10 reprennent alors une demi-portée de chaque côté.</li>
+<li><strong>H3 Toiture :</strong> 1,44 kN/m² de pan, soit 1,49 kN/m² en plan. Le détail : tuiles 0,75 (prudent : avec des ardoises Eternit ce serait 0,30), lattage et sous-toiture 0,10, chevrons 0,10, isolation renforcée 0,15, lambrissage 0,14, panneaux solaires 0,20. Les chevrons portent du mur au faîte : le faîte reçoit 4,33 m de toiture en plan, l'avant-toit sud 2,88 m. <strong>H3b</strong> (point 11) : les pièces vont parallèlement au faîte et portent d'un mur nord-sud à l'autre ; les poutres C9 et C10 reprennent alors une demi-portée de chaque côté. H3b est infirmée par le dossier de 1964 (10.11) : H3 est la bonne.</li>
 <li><strong>H4 Neige :</strong> h₀ = 483 m, sans la correction de −200 m (prudent). On obtient s_k = 1,16 et s = 0,93 kN/m² sur le toit ; ψ₀ = 0,88.</li>
 <li><strong>H5 Maçonnerie existante :</strong> brique de 15 cm, f_xd = 2,0 N/mm² supposé, sans réduction pour l'élancement ni l'excentricité. <span class="warn">⚠</span> À sonder.</li>
 <li><strong>H6 Poutre du garage :</strong> béton armé 25 × 46 cm. Son armature est inconnue : seules ses réactions sont calculées, pas sa résistance.</li>
@@ -690,17 +690,17 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <td>11</td>
 <td>Mur biais cuisine–hall sud, 1,60 m (le mur nord, 1,50 m, reste depuis le 08.11.2026 : il ferme le vestibule)</td>
 <td>démoli</td>
-<td><strong>dépend du sens de la charpente</strong> : non si les chevrons vont de l'égout au faîte ; <strong>oui</strong> si les pièces vont parallèlement au faîte (point 11)</td>
-<td>C10 : GL24h 100×320, réactions 23 kN</td>
-<td><strong><span class="warn">⚠</span> OUI SI</strong> poutre C10, tant que le sens n'est pas vérifié</td>
+<td><strong>non</strong> : les chevrons vont de l'égout au faîte (dossier de 1964, point 11)</td>
+<td>— (C10 pas nécessaire)</td>
+<td><strong>OUI</strong></td>
 </tr>
 <tr>
 <td>12</td>
 <td>Cheminée du séjour et cloison séjour–salle à manger (<code>pier</code>)</td>
 <td>démolies</td>
-<td>les plans montrent une cloison et la cheminée, <strong>aucune poutre dessinée</strong> ; <strong>oui</strong> si les pièces de toiture vont parallèlement au faîte (point 11) : le mur monte jusqu'au toit</td>
-<td>C9 : GL24h 100×400 ou 120×360, réactions 33 kN</td>
-<td><strong><span class="warn">⚠</span> OUI SI</strong> poutre C9, tant que le sens n'est pas vérifié</td>
+<td>les plans montrent une cloison et la cheminée, <strong>aucune poutre dessinée</strong> ; <strong>non</strong> pour le toit : les chevrons vont de l'égout au faîte (dossier de 1964, point 11)</td>
+<td>— (C9 pas nécessaire)</td>
+<td><strong>OUI</strong></td>
 </tr>
 <tr>
 <td>13</td>
@@ -885,7 +885,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <li>Le plus simple est souvent de positionner la porte-fenêtre pour qu'elle n'entaille pas l'allège au-dessus de la porte du garage, dans la mesure du possible.</li>
 </ul>
 </li>
-<li><strong>Poutres de toiture nord-sud (C9, C10), hypothèse H3b.</strong> Charges en plan de H3, sur une demi-portée de chaque côté.<ul>
+<li><strong>Poutres de toiture nord-sud (C9, C10), hypothèse H3b.</strong> Pour mémoire : H3b est infirmée par le dossier de 1964 (10.11), ces poutres ne sont pas nécessaires. Charges en plan de H3, sur une demi-portée de chaque côté.<ul>
 <li><strong>C9</strong>, séjour–salle à manger : 4,40 m d'ouverture (4,60 m entre appuis), 4,12 m de toiture, soit g = 6,14 kN/m et 3,83 kN/m de neige. GL24h <strong>100×400</strong> (flexion 0,89, flèche 0,87) ou <strong>120×360</strong> ; réactions 32,9 kN.</li>
 <li><strong>C10</strong>, cuisine : 3,85 m d'ouverture (4,05 m entre appuis), 3,30 m de toiture, soit g = 4,92 et 3,07 kN/m. GL24h <strong>100×320</strong> (flexion 0,86, flèche 0,93) ; réactions 23,2 kN.</li>
 <li>C9 pose au faîte sur le trumeau de 1,20 m, C10 au tiers ouest de la poutre faîtière C2 : dans C2, ≈ 20 kNm dus à C10, plus ≈ 3 kNm de pièce faîtière, contre 27 kNm pour la toiture répartie de H3. C2 suffit dans les deux hypothèses.</li>
@@ -969,7 +969,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <li>Faire un scan Ferroscan de la dalle au-dessus de la buanderie, pour savoir dans quel sens elle porte.</li>
 </ul>
 </li>
-<li><strong>Toiture : dans quel sens va la charpente ?</strong> C'est le point qui décide des poutres C9 et C10 (point 11).<ul>
+<li><strong>Toiture : dans quel sens va la charpente ?</strong> C'est le point qui décide des poutres C9 et C10 (point 11). Réglé le 10.11 par le dossier de l'ingénieur : de l'égout au faîte, pas de C9 ni de C10.<ul>
 <li>Au plafond en cèdre : des rangées de clous en travers des lames, tous les 55 cm environ, parallèles au faîte, indiquent des pièces parallèles au faîte. Des rangées dans le sens de la pente indiqueraient des chevrons de l'égout au faîte.</li>
 <li>Sous l'avant-toit du pignon ouest et sous celui de la terrasse : voit-on les têtes des pièces ?</li>
 <li>Démonter une lame du lambrissage, près d'un luminaire ou à l'égout : section et entraxe des pièces.</li>
@@ -1009,7 +1009,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <li>Bandeau sud : peut-on couper l'allège au-dessus de la porte du garage ? Sinon, faut-il décaler la porte-fenêtre ou poser une poutre sous la rive ?</li>
 <li>Vérification sismique de la transformation (SIA 269/8) et mesures proportionnées. Faut-il compenser le refend enlevé en haut (−40 % de rigidité est-ouest, torsion) ? Mesures habituelles : un cadre en acier dans une ouverture, un bout de mur est-ouest là où il ne gêne pas, ou la toiture rigidifiée par des panneaux vissés sur les chevrons, avec des ancrages entre toit et murs.</li>
 <li>Ordre des travaux, étaiement, diagnostic amiante avant démolition (bâtiment de 1965).</li>
-<li>Sens de la charpente : les coupes de 1963–64 laissent penser à des pièces parallèles au faîte, portées par les murs nord-sud (point 11). Si c'est confirmé : poutres C9 et C10 à la place du mur séjour–salle à manger et des murs biais de la cuisine, appuis sur le trumeau entre les portes-fenêtres et sur la poutre faîtière, chevêtres des trois fenêtres de toit.</li>
+<li>Sens de la charpente : réglé par le dossier de 1964 (point 11). Les chevrons IPE 140 vont de l'égout au faîte, tous les 2,40 m : pas de poutres C9 ni C10. Reste la poutre faîtière sous les chevrons, à leur appui central sur le refend (≈ 21–27 kN de service par chevron).</li>
 </ol>
 </section>
 </div>

@@ -302,6 +302,59 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <p>2 novembre 2026. Préparé avec le skill <code>skills/architecture/structural-statics.md</code> et le calculateur <code>scripts/statics/wall_removal.py</code>, à partir des plans de 1963–64 et du modèle du projet (<code>artifact/src/projet.html</code>, variante de base).</p>
 <p><strong>Mise à jour du 3 novembre 2026.</strong> Au rez-inférieur, l'option A est retenue : on garde un pilier en L à l'angle nord-ouest du garage (points 1 et 3). Le poteau rond qui existe au milieu du garage, absent des plans de 1963, est ajouté (point 9). Le contreventement est recalculé sur le modèle mis à jour. La visite est avancée au vendredi 6 novembre à 11h (section 6), et une provision pour les renforts de contreventement est ajoutée au devis (point 5).</p>
 <p><strong>Mise à jour du 3 novembre 2026, après-midi : sens de la charpente.</strong> Les deux coupes de 1963–64 dessinent les pièces de la toiture coupées tous les 55 cm environ, le long des deux pans. Elles iraient donc parallèlement au faîte, d'un mur nord-sud à l'autre, et non de l'égout au faîte comme supposé jusqu'ici (point 11). Si c'est confirmé vendredi, les murs nord-sud que le projet enlève portent le toit : il faut deux poutres de toiture nord-sud, C9 et C10.</p>
+<p><strong>Mise à jour du 10 novembre 2026 : le dossier de l'ingénieur de 1964 est arrivé</strong> (calcul statique 2-M-1, 33 pages, et plans 2-M-4 à 2-M-22, avril–octobre 1964 ; Drive « 03 Bâtiment / 2026-11-10 Plans d'origine 1962-65 »). Il corrige plusieurs hypothèses de ce rapport, écrit sans lui :</p>
+<div class="prog-wrap"><table class="prog wide">
+<thead>
+<tr>
+<th>Point</th>
+<th>Ce que dit le dossier de 1964</th>
+<th>Conséquence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Charpente (points 10–11)</td>
+<td>Chevrons <strong>acier IPE 140 tous les 2,40 m, de l'égout au faîte</strong>, continus sur 3 appuis (façade nord, refend, façade sud) ; entre eux des solives bois 4 × 22,5, parallèles au faîte, sur 2,40 m ; contreventement en croix (plats 60 × 5) sur tout le pan nord, une croix dans la travée d–e du pan sud ; pente 27 %</td>
+<td>Les murs nord-sud (cheminée, murs biais de la cuisine) <strong>ne portent pas le toit</strong> : les poutres <strong>C9 et C10 ne sont pas nécessaires</strong></td>
+</tr>
+<tr>
+<td>Refend (point 2)</td>
+<td>Brique TC 12–13 cm, chaînage BA en tête ; appui central de chaque chevron (≈ 21–27 kN de service par chevron, tous les 2,40 m)</td>
+<td>La poutre faîtière (C1/C2) reste nécessaire ; la dimensionner pour ces charges ponctuelles et le chaînage</td>
+</tr>
+<tr>
+<td>Dalle (point 2)</td>
+<td>14 cm, CP 300, portées nord-sud 4,16 + 4,16 m continues sur le refend ; sous-face −0,22</td>
+<td>Confirmé</td>
+</tr>
+<tr>
+<td>Poutre du garage (points 1, 9)</td>
+<td>S6 <strong>20 × 50</strong>, portée 5,10 m, 4 φ14 en haut sur le poteau ; <strong>le poteau est d'origine</strong> (tube 4½" Ø 126,5, plan 2-M-20 du 8.8.1964, N = 17,6 t), au milieu de S6 (x ≈ 14,2 m du plan, ± 8 cm) ; le calcul prévoit une semelle 1,35 × 1,35 m, le plan des semelles (2-M-8b) un renforcement local de la semelle filante du refend</td>
+<td>Cas C5 (sans poteau) n'existe pas ; C5b est le bon : ≈ 52 kN de service à chaque bout. Garder le poteau ; sa semelle n'a presque pas de réserve</td>
+</tr>
+<tr>
+<td>Sol</td>
+<td>Contrainte admissible <strong>1,0 kg/cm² (≈ 100 kN/m²)</strong> ; semelles nord 55 × 20, refend 65 × 30, sud 65 × 30</td>
+<td>H8 (200 kN/m²) est trop optimiste</td>
+</tr>
+<tr>
+<td>Trumeau de 1,20 m du rez inférieur (point 3)</td>
+<td>Brique de 12 cm au calcul (la coupe c-c dessine le refend du bas à 15 cm)</td>
+<td>≈ 1,5 N/mm² : plus critique que calculé</td>
+</tr>
+<tr>
+<td>Mur sud de la salle à manger (points 4, 6)</td>
+<td><strong>Paroi en béton armé 15 cm</strong> (poutre-paroi) qui retient le porte-à-faux du HEM 160 au-dessus de la terrasse ; la porte du garage est franchie par S5 (24 × 50)</td>
+<td>La nouvelle baie se taille dans une paroi BA : à faire dimensionner par l'ingénieur (pas un simple linteau). Le secours HEB 280 (C6b) n'est très probablement pas nécessaire</td>
+</tr>
+<tr>
+<td>Séisme (point 7)</td>
+<td>1964 : vent seulement</td>
+<td>Vérification SIA 269/8 toujours nécessaire</td>
+</tr>
+</tbody>
+</table></div>
+<p>Les points ci-dessous gardent leur texte du 2–3 novembre ; ce tableau les corrige. La maquette suit aussi ces plans depuis le 10.11 (façades, niveaux, toit, poteau du garage à sa place de 1964).</p>
 <p class="status"><strong>Statut.</strong> Ce document est un prédimensionnement pour préparer et contrôler le travail de l'ingénieur civil, pas une vérification. Il ne remplace pas son dimensionnement signé. Les hypothèses sont numérotées H1 à H9 ; les points qui restent à vérifier sont marqués <span class="warn">⚠</span>.</p>
     <nav aria-label="Sections"><a href="#resume">Résumé</a><a href="#detail-des-points">Détail des points</a><a href="#documents-et-lecture-des-plans">Documents et lecture des plans</a><a href="#hypotheses-de-calcul">Hypothèses de calcul</a><a href="#mur-par-mur">Mur par mur</a><a href="#detail-des-calculs">Détail des calculs</a><a href="#contreventement-premier-tri-pas-une-verification">Contreventement</a><a href="#visite-du-vendredi-6-novembre-a-11h-quoi-regarder">Visite du vendredi 6 novembre à 11h</a><a href="#questions-pour-l-ingenieur">Questions pour l&#x27;ingénieur</a></nav>
   </div>

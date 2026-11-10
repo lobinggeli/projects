@@ -1,1 +1,0 @@
-{"count": 39478, "fields": {"pos": {"offset": 0, "dtype": "int16", "n": 3}, "quat": {"offset": 236868, "dtype": "int8", "n": 4}, "size": {"offset": 394780, "dtype": "uint8", "n": 1}, "color": {"offset": 434260, "dtype": "uint8", "n": 3}, "kind": {"offset": 552696, "dtype": "uint8", "n": 1}, "crown": {"offset": 592176, "dtype": "uint16", "n": 1}}}

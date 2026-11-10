@@ -131,7 +131,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
     </div>
     <div class="seg" role="group" aria-label="Étage">
       <button type="button" id="f-up" aria-pressed="true">Étage<span class="lvl">±0.00</span></button>
-      <button type="button" id="f-low" aria-pressed="false">Rez inf.<span class="lvl">−2.72</span></button>
+      <button type="button" id="f-low" aria-pressed="false">Rez inf.<span class="lvl">−2.73</span></button>
     </div>
     <button type="button" class="btn" id="m-renders">Rendus photo</button>
     <details class="toc-d" id="toc-d"><summary class="btn">Sommaire</summary>
@@ -1462,7 +1462,7 @@ function updateSheet(force){
   if (key === CUR + 'ter'){ fill('Terrasse', '22.1 m²', CUR === 'ex' ? ['Klinker beige 25 × 25', 'Acrotère crépi', 'Sous-face de toit en bois', 'seen', 'Terrasse couverte en partie par le débord du toit, vue sur le lac et les Dents du Midi.']
     : ['Grès cérame 60 × 60 gris clair, sur plots', 'Acrotère abaissé au niveau de la dalle, garde-corps en verre de 1 m', 'Sous-face de toit en bois', 'plan', 'Façade sud vitrée : la terrasse n\'a plus de muret, seulement un garde-corps en verre, comme devant la porte-fenêtre de la chambre.']); return; }
   const T = TXT[CUR], sm = T.sum[floorSel];
-  if (!r){ fill(walk ? '—' : (floorSel === 'up' ? 'Étage ±0.00' : 'Rez inférieur −2.72'), walk ? '' : sm[0], walk ? null : ['Cliquer une pièce', '', '', 'plan', sm[1]]); return; }
+  if (!r){ fill(walk ? '—' : (floorSel === 'up' ? 'Étage ±0.00' : 'Rez inférieur −2.73'), walk ? '' : sm[0], walk ? null : ['Cliquer une pièce', '', '', 'plan', sm[1]]); return; }
   fill(label(r), r.m2.toFixed(1) + ' m²', T.info[r.k] || ['—', '—', '—', 'plan', '']);
 }
 function fill(name, m2, d){
@@ -1568,7 +1568,7 @@ function buildGallery(){
     RENDERS.forEach((r, i) => { if (r[3] !== v) return; const n = ORD.push(i) - 1;
       const b = document.createElement('button'); b.type = 'button';
       const im = document.createElement('img'); im.src = rsrc(r); im.alt = 'Rendu : ' + rname(r); im.loading = 'lazy';
-      const t = document.createElement('span'); t.textContent = rname(r, true); const lv = document.createElement('small'); lv.textContent = r[1] === 'up' ? '±0.00' : '−2.72'; t.appendChild(lv);
+      const t = document.createElement('span'); t.textContent = rname(r, true); const lv = document.createElement('small'); lv.textContent = r[1] === 'up' ? '±0.00' : '−2.73'; t.appendChild(lv);
       b.append(im, t); b.addEventListener('click', () => showRender(n, b)); kids.push(b); });
   });
   document.getElementById('g-grid').replaceChildren(...kids);

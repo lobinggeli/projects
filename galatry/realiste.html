@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-base="realiste/2026-11-11b/">
+<html lang="fr" data-base="realiste/2026-11-11c/">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -327,6 +327,7 @@ async function loadState(st){
   root.traverse(o => {
     if (!o.isMesh) return;
     const name = (o.material.name || '').replace(/\.\d+$/, '');
+    o.userData.part = name;   // for scripts (chatgpt/photomontage.py: the house-only mask)
     if (name === 'baked_core') o.material = new THREE.MeshBasicMaterial({map: core});
     else if (name === 'baked_build') o.material = new THREE.MeshBasicMaterial({map: build, side: THREE.DoubleSide});   // the maquette's faces are wound either way
     else if (LIVE[name]) o.material = LIVE[name]();
@@ -509,7 +510,7 @@ await buildWalls();
 Object.keys(OPT).forEach(o => { OPT[o] = !!PH['1'][o]; }); sync();   // opens on stage 1, like the maquette 3D
 // for scripts: setOpts({ex}) or setOpts({places, terr, pool, haut, fence})
 const setOpts = o => { isEx = !!o.ex; Object.keys(OPT).forEach(k => { OPT[k] = !!o[k]; }); if (OPT.pool || OPT.haut) OPT.terr = true; sync(); };
-window.galatryReal = {scene, camera, controls, renderer, setState, setOpts, go, states, redraw, stateOf};
+window.galatryReal = {THREE, scene, camera, controls, renderer, setState, setOpts, go, states, redraw, stateOf};
 </script>
 </body>
 </html>

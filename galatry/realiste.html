@@ -83,13 +83,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
       <button type="button" data-st="n" aria-pressed="false">Rénovée</button>
       <button type="button" data-st="r" aria-pressed="true">+ Terrasse</button>
       <button type="button" data-st="r_pool" aria-pressed="false">+ Piscine</button>
-      <button type="button" data-st="gar" aria-pressed="false">+ Garage</button>
-    </div>
-  </div>
-  <div class="row" id="row-gar" hidden><span class="lab">Garage</span>
-    <div class="seg" role="group" aria-label="Garage" id="seg-g">
-      <button type="button" data-g="rc_pool" aria-pressed="true">Couvert en bas</button>
-      <button type="button" data-g="rh_pool" aria-pressed="false">En haut</button>
+      <button type="button" data-st="gar" aria-pressed="false">+ Garage en haut</button>
     </div>
   </div>
   <div class="row"><span class="lab">Vue</span>
@@ -129,8 +123,7 @@ const TXT = {
   n: ['Rénovée, jardin inchangé', 'La base du projet : crépi clair, toit actuel en fibrociment gardé (isolé par l’intérieur) avec 27 panneaux solaires (environ 10,5 kWc, tous au moins à 40 cm des bords du toit), sans fenêtre de toit, façade sud vitrée (séjour et salle à manger : baies jusqu’au sol à vantaux en soufflet, sans garde-corps ; chambre : porte-fenêtre et garde-corps en verre), baie vitrée dans l’ancien garage, unité extérieure de la pompe à chaleur au pignon ouest, derrière un habillage bois. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
   r: ['+ Terrasse', 'Option : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe et la partie bétonnée restent ; on se gare en bas.'],
   r_pool: ['+ Piscine', 'Piscine de 7 × 3 m à débordement au bord de la terrasse.'],
-  rc_pool: ['+ Couvert en bas', 'Les 2 places en bas, avec un toit : couvert ouvert sur 5 poteaux acier, toit mince végétalisé en pente comme le sol des places, 2,20 m de passage, dessus de −3.28 côté chemin à −2.23 au fond ; le bord avant reste à 3 m du goudron ; derrière, la pelouse est abaissée en talus planté. Pas d’escalier ni d’autre parking. Avec la piscine.'],
-  rh_pool: ['+ Parking en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord (132 m²), son bord nord droit, dans l’alignement de la porte du garage, avec un pan coupé de 4,50 m à l’angle nord-ouest ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 22,7 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Les 2 places ouvertes en bas (étape 2) sont enlevées à cette étape et redeviennent du jardin, comme la partie bétonnée au bord du chemin, pour garder au moins 50 % de pleine terre (RPACom) ; garde-corps de 1 m sur les murs où la chute dépasse 1 m. Avec la piscine.'],
+  rh_pool: ['+ Garage en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord (132 m²), son bord nord droit, dans l’alignement de la porte du garage, avec un pan coupé de 4,50 m à l’angle nord-ouest ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 22,7 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Les 2 places ouvertes en bas (étape 2) sont enlevées à cette étape et redeviennent du jardin, comme la partie bétonnée au bord du chemin, pour garder au moins 50 % de pleine terre (RPACom) ; garde-corps de 1 m sur les murs où la chute dépasse 1 m. Avec la piscine.'],
 };
 const VIEWS = {   // position, target (m), vertical field of view; d11 and d01 are the listing's drone photos 11 and 01 (camera solves)
   d11: [[21.91, 15.59, 33.97], [4.52, -1.45, 2.24], 44.8, 'Point de vue de la photo drone de l’annonce (vue depuis le lac)'],
@@ -367,11 +360,10 @@ function go(v, instant){
 
 // ---- UI
 const press = (seg, sel) => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === sel));
-const segSt = document.getElementById('seg-st'), segG = document.getElementById('seg-g'), rowG = document.getElementById('row-gar');
-let garage = 'rc_pool';   // rb_pool dropped on 08.11.2026
+const segSt = document.getElementById('seg-st');
+const garage = 'rh_pool';   // rb_pool dropped on 08.11.2026, rc_pool (couvert en bas) on 11.11.2026 (user: « on n'en a plus besoin »): no Garage sub-row any more
 segSt.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segSt, b);
-  const st = b.dataset.st; rowG.hidden = st !== 'gar'; setState(st === 'gar' ? garage : st); });
-segG.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segG, b); garage = b.dataset.g; setState(garage); });
+  const st = b.dataset.st; setState(st === 'gar' ? garage : st); });
 const segV = document.getElementById('seg-v');
 segV.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segV, b); go(b.dataset.v); });
 controls.addEventListener('start', () => press(segV, null));

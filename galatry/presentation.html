@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<style>html{color-scheme:light}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Présentation · Galatry 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4;
+  --room:#E6ECEE; --room-hi:#CFE0EA; --terr:#EDEFE9; --glass:#2F6690; --accent:#2F6690;
+  --earth:#8C969C; --scan-tint:1;
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+    --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+  --room:#1C262E; --room-hi:#24394A; --terr:#182026; --glass:#7DB4E0; --accent:#7DB4E0; --earth:#66737C;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:1180px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.05}
+h2{font-size:26px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:17px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+p{margin:0;max-width:68ch}
+.muted{color:var(--ink-2)}
+.mono{font-family:var(--f-mono);font-size:13px;font-variant-numeric:tabular-nums}
+
+/* title block, modelled on the 1963 cartouche */
+header{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;border-bottom:2px solid var(--ink);padding-bottom:20px}
+.kicker{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.14em;font-size:13px;color:var(--accent);margin-bottom:6px}
+.cartouche{display:grid;grid-template-columns:auto auto;border:1.5px solid var(--ink);font-family:var(--f-draw);font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+.cartouche div{padding:5px 12px;border-bottom:1px solid var(--rule)}
+.cartouche div:nth-child(odd){color:var(--ink-2);border-right:1px solid var(--rule)}
+.cartouche div:nth-last-child(-n+2){border-bottom:0}
+.lede{display:flex;flex-direction:column;gap:10px}
+nav{display:flex;flex-wrap:wrap;gap:8px}
+nav a{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--rule);padding:6px 12px;border-radius:2px;background:var(--sheet)}
+nav a:hover,nav a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+
+section{display:flex;flex-direction:column;gap:18px;scroll-margin-top:16px}
+.sec-head{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--rule);padding-bottom:8px}
+figure{margin:0;background:var(--sheet);border:1px solid var(--rule);display:flex;flex-direction:column}
+.fig-bar{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--rule)}
+.fig-title{font-family:var(--f-draw);font-size:16px;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.fig-title .mono{text-transform:none;letter-spacing:0;color:var(--ink-2);font-weight:400;margin-left:8px}
+.cmp{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-2)}
+.cmp input{width:120px;accent-color:var(--accent)}
+.draw{overflow-x:auto}
+.draw svg{display:block;width:100%;min-width:720px;height:auto}
+figcaption{padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+
+/* drawing styles */
+svg .scan{opacity:var(--scan,0);filter:contrast(1.1)}
+:root[data-theme="dark"] svg .scan{filter:invert(1) contrast(1.1)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) svg .scan{filter:invert(1) contrast(1.1)}}
+svg text{font-family:var(--f-draw);fill:var(--ink)}
+.room{fill:var(--room);transition:fill .15s}
+.terr{fill:url(#hatch)}
+.room.hi,.terr.hi{fill:var(--room-hi)}
+.ext{fill:none;stroke:var(--ink);stroke-width:20;stroke-linejoin:miter;stroke-linecap:square}
+.par{fill:none;stroke:var(--ink);stroke-width:10;stroke-linejoin:miter}
+.int{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:square}
+.win{fill:none;stroke:var(--glass);stroke-width:7}
+.thin{fill:none;stroke:var(--ink-2);stroke-width:2}
+.mat{fill:#8a6d4b;opacity:.45}
+.dash{fill:none;stroke:var(--ink-2);stroke-width:3;stroke-dasharray:14 9}
+.fixt{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.cup{fill:none;stroke:var(--ink-2);stroke-width:2.5}
+.flue{fill:var(--ink)}
+.well{fill:none;stroke:var(--ink);stroke-width:5}
+.stairbox{fill:var(--sheet);stroke:var(--ink-2);stroke-width:2.5}
+.entry{fill:var(--accent)}
+.tag{font-size:22px;letter-spacing:.12em;text-anchor:middle;fill:var(--accent)}
+.rl{font-size:31px;font-weight:600;letter-spacing:.06em;text-anchor:middle;text-transform:uppercase;pointer-events:none}
+.rl.sm{font-size:21px}
+.north circle{fill:none;stroke:var(--ink-2);stroke-width:2}
+.north path{fill:var(--ink)}
+.north text{font-size:26px;font-weight:700;text-anchor:middle}
+.scale text{font-size:20px;text-anchor:middle;fill:var(--ink-2);font-family:var(--f-mono)}
+.sb1{fill:var(--ink)} .sb2{fill:var(--sheet);stroke:var(--ink);stroke-width:2}
+.cut{fill:var(--ink)}
+.ol{fill:none;stroke:var(--ink);stroke-width:2;stroke-linejoin:round}
+.ground{fill:none;stroke:var(--ink);stroke-width:2.5}
+.earth{fill:url(#earth);stroke:none}
+.foot{fill:url(#xhatch);stroke:var(--ink);stroke-width:1.5}
+.fwin{fill:var(--room-hi);stroke:var(--ink);stroke-width:1.6}
+.fdoor{fill:var(--sheet);stroke:var(--ink);stroke-width:1.6}
+.fth{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.fol{fill:none;stroke:var(--ink);stroke-width:1.6}
+.fhid{fill:none;stroke:var(--ink-2);stroke-width:1.6;stroke-dasharray:8 6}
+.fglass{fill:var(--room-hi);stroke:var(--ink);stroke-width:2.4}
+.m-stage{position:relative}
+#m-canvas{display:block;width:100%;height:clamp(360px,62vh,640px);touch-action:none;cursor:grab}
+#m-canvas:active{cursor:grabbing}
+.m-fallback{padding:40px 16px;text-align:center;color:var(--ink-2)}
+.m-ctrl{display:flex;flex-wrap:wrap;gap:6px}
+.m-ctrl button{font:600 13px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 11px;border-radius:2px;cursor:pointer}
+.m-ctrl button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-ctrl button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.fac-pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:18px}
+.fac-pair .draw svg{min-width:520px}
+.stairc{fill:none;stroke:var(--ink);stroke-width:3}
+.sl{font-size:var(--fs);font-weight:600;letter-spacing:.08em;text-anchor:middle;text-transform:uppercase}
+.lv{font-size:calc(var(--fs) * .92);font-family:var(--f-mono);fill:var(--ink-2);paint-order:stroke;stroke:var(--sheet);stroke-width:6px;stroke-linejoin:round}
+.sl{paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.lvlm{fill:var(--ink)}
+
+/* legend */
+.plan-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:16px;align-items:start}
+@media (max-width:900px){.plan-grid{grid-template-columns:1fr}}
+.legend{background:var(--sheet);border:1px solid var(--rule)}
+.legend h3{padding:10px 14px;border-bottom:1px solid var(--rule)}
+.legend ol{list-style:none;margin:0;padding:0}
+.legend li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 14px;border-bottom:1px solid var(--rule);cursor:default}
+.legend li:last-child{border-bottom:0}
+.legend li.hi{background:var(--room-hi)}
+.legend b{font-family:var(--f-draw);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:14px}
+.legend .en{font-size:13px;color:var(--ink-2);grid-column:1/-1}
+.legend .dim{font-family:var(--f-mono);font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.note{background:var(--sheet);border:1px solid var(--rule);padding:14px 16px;display:flex;flex-direction:column;gap:8px}
+.note ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+@media (max-width:640px){header{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.room{transition:none}}
+
+/* site plan */
+:root{--parcel:#C0392B;--zone:#3E8E5A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--parcel:#F08070;--zone:#7CC896}}
+:root[data-theme="dark"]{--parcel:#F08070;--zone:#7CC896}
+.site-grid .draw svg{min-width:560px}
+.road{fill:var(--terr);stroke:var(--ink-2);stroke-width:1.6}
+.nb-par{fill:none;stroke:var(--ink-2);stroke-width:1.6}
+.nb-bld{fill:var(--room);stroke:var(--ink-2);stroke-width:1.6}
+.pave{fill:var(--room-hi);stroke:var(--ink-2);stroke-width:1.2}
+.psign rect{fill:var(--accent)} .psign text{fill:var(--sheet);font-family:var(--f-draw);font-weight:700;font-size:14px;text-anchor:middle;dominant-baseline:central}
+.p475{fill:none;stroke:var(--parcel);stroke-width:5;stroke-linejoin:round}
+.zone6{fill:url(#zhatch);stroke:var(--zone);stroke-width:2;stroke-dasharray:10 6}
+.lrou{stroke:var(--ink-2);stroke-width:2;stroke-dasharray:16 6 3 6;fill:none}
+.lrout{font-size:13px;fill:var(--ink-2);text-anchor:middle;letter-spacing:.04em}
+.house .lowfp{fill:none;stroke:var(--ink);stroke-width:14;stroke-dasharray:40 26}
+.dim{stroke:var(--parcel);stroke-width:2}
+.dimdot{fill:var(--parcel)}
+.dimt{font-family:var(--f-mono);font-size:15px;text-anchor:middle;fill:var(--parcel);paint-order:stroke;stroke:var(--sheet);stroke-width:5px;stroke-linejoin:round}
+.pn{font-size:20px;font-weight:700;text-anchor:middle;fill:var(--ink-2)}
+.pn475{font-size:30px;font-weight:700;text-anchor:middle;fill:var(--parcel)}
+.pn-sub{font-family:var(--f-mono);font-size:14px;text-anchor:middle;fill:var(--parcel)}
+.rdname{font-size:17px;text-anchor:middle;fill:var(--ink-2);letter-spacing:.06em}
+.key{display:inline-block;width:22px;height:0;vertical-align:middle;margin-right:8px}
+.k-par{border-top:3px solid var(--parcel)}
+.legend i.k-pf{width:20px;height:4px;border:0;border-top:6px solid var(--glass);border-bottom:2px dashed var(--glass);background:none;vertical-align:middle}
+.k-zone{height:12px;background:repeating-linear-gradient(45deg,var(--zone) 0 1.5px,transparent 1.5px 6px);border:1.5px dashed var(--zone)}
+.k-low{border-top:2.5px dashed var(--ink)}
+.k-lrou{border-top:2px dashed var(--ink-2)}
+.legend .figs{font-family:var(--f-mono);font-size:12px;color:var(--ink-2)}
+
+:root{--c-sleep:#EAD9BF;--c-living:#F0D8A8;--c-wet:#CFE3EA;--c-well:#A9D6E3;--c-tech:#DADDD8;--c-circ:#F2F1EC;--c-garage:#CFCFCB;--c-water:#4FA3C7;--c-stone:#E6E1D6;--c-pave:#C4BFB4}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}}
+:root[data-theme="dark"]{--c-sleep:#6E6453;--c-living:#7A6947;--c-wet:#4F6F7B;--c-well:#3F7383;--c-tech:#5A6167;--c-circ:#8A9095;--c-garage:#5E6266;--c-water:#3E86A8;--c-stone:#8E8A80;--c-pave:#6E6A61}
+.m-ctrl .sep{width:1px;background:var(--rule);margin:0 4px;align-self:stretch}
+.pp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.pp-grid figure svg{display:block;width:100%;height:auto}
+.pp-rm{stroke:none}.c-sleep{fill:var(--c-sleep)}.c-living{fill:var(--c-living)}.c-wet{fill:var(--c-wet)}.c-well{fill:var(--c-well)}.c-tech{fill:var(--c-tech)}.c-circ{fill:var(--c-circ)}.c-garage{fill:var(--c-garage)}
+.pp-ext{fill:none;stroke:var(--ink);stroke-width:18;stroke-linejoin:miter}.pp-int{stroke:var(--ink);stroke-width:8;stroke-linecap:square}
+.pp-win{stroke:var(--glass);stroke-width:14}.pp-win.wood{stroke:var(--earth)}
+.pp-win.pf{stroke-width:24}
+.pp-guard{stroke:var(--glass);stroke-width:6;stroke-dasharray:18 10}
+.pp-pool{fill:var(--c-water);stroke:var(--ink-2);stroke-width:4}.pp-deck{fill:var(--c-stone);stroke:var(--ink-2);stroke-width:3}.pp-pave,.pp-court{fill:var(--c-pave);stroke:var(--ink-2);stroke-width:3;opacity:.8}
+.pp-gar{fill:var(--c-garage);stroke:var(--ink);stroke-width:8;stroke-dasharray:28 16}
+.pp-rn{font-family:var(--f-draw);font-weight:600;letter-spacing:.03em;text-anchor:middle;fill:var(--ink)}
+.pp-ra{font-family:var(--f-mono);text-anchor:middle;fill:var(--ink-2)}
+.pp-tag{font-family:var(--f-draw);font-weight:600;font-size:56px;letter-spacing:.06em;text-anchor:middle;fill:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;padding:10px 14px;border-top:1px solid var(--rule);font-size:13px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:14px;height:14px;border:1px solid var(--rule);display:inline-block}
+.prog{width:100%;border-collapse:collapse;background:var(--sheet);border:1px solid var(--rule);font-size:14px}
+.prog th,.prog td{padding:8px 12px;border-bottom:1px solid var(--rule);text-align:left;vertical-align:top}
+.prog th{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px;color:var(--ink-2);font-weight:600}
+.prog th:last-child{text-align:right}
+.prog td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.prog tr.chg td:nth-child(2){font-weight:600}
+.prog-wrap{overflow-x:auto}
+.ext-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.ext-list div{background:var(--sheet);border:1px solid var(--rule);padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.ext-list b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.06em;font-size:13px}
+footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:var(--ink-2)}
+.abtab td{width:40%}.abtab td:first-child{width:20%}.abtab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}
+.prog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px}.prog-grid h3{margin:0 0 8px}
+.pp-grid{grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.abtab th:last-child{text-align:left}
+.pp-bay{fill:var(--c-pave);stroke:var(--sheet);stroke-width:8}.pp-turn{fill:none;stroke:var(--accent);stroke-width:12}.pp-turn.rev{stroke-dasharray:36 24}.pp-arrowhead{fill:var(--accent)}
+.cost th{text-align:right}.cost th:first-child{text-align:left}.cost-sum thead tr:first-child th{text-align:center;border-bottom:none}
+.cost tr.sub td,.cost tr.tot td{font-weight:600;border-top:1.5px solid var(--ink-2)}.cost tr.tot td{font-size:15px}.cost tr.diff td{color:var(--ink-2);font-style:italic}
+.cost-sum tr:not(.diff) td.num:nth-child(4),.cost-sum tr:not(.diff) td.num:nth-child(7),.cost-sum tr.diff td:nth-child(2),.cost-sum tr.diff td:nth-child(5){border-right:1px solid var(--rule)}
+.cost-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(460px,100%),1fr));gap:16px;margin-top:20px}.cost-grid h3{margin:0 0 8px}
+@media (max-width:560px){.cost-grid{grid-template-columns:1fr}.cost td,.cost th{padding:6px 8px;font-size:13px}}
+#costs .notes{margin-top:20px}
+
+.pp-fit{fill:var(--c-stone);stroke:var(--ink);stroke-width:5}.pp-zone{font-size:50px;letter-spacing:.08em;text-anchor:middle;fill:var(--ink);font-weight:600;opacity:.75}
+.zoom-open{border:1px solid var(--rule);background:transparent;color:var(--ink-2);font:inherit;font-size:.78rem;padding:4px 10px;cursor:pointer}.zoom-open:hover{color:var(--ink);border-color:var(--ink-2)}
+#lower figure svg,#upper figure svg{cursor:zoom-in}
+.zoom-ov{position:fixed;inset:0;z-index:1000;background:var(--paper);display:flex;flex-direction:column}
+.zoom-bar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:10px 16px;border-bottom:1px solid var(--rule)}
+.zoom-hint{color:var(--ink-2);font-size:.78rem;flex:1}
+.zoom-btns{display:flex;gap:6px}.zoom-btns button{border:1px solid var(--rule);background:transparent;color:var(--ink);font:inherit;min-width:36px;height:34px;padding:0 10px;cursor:pointer}.zoom-btns button:hover{border-color:var(--ink-2)}
+.zoom-stage{flex:1;min-height:0;touch-action:none;cursor:grab}.zoom-stage.drag{cursor:grabbing}.zoom-stage svg{width:100%;height:100%;display:block}
+@media(max-width:640px){.zoom-hint{display:none}}
+
+.m-iv{display:inline-flex;align-items:center;gap:4px}.m-iv-l{font-size:.72rem;color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;margin:0 2px 0 6px}
+
+.pp-swing{fill:none;stroke:var(--ink-2);stroke-width:4;stroke-dasharray:12 8}.pp-leaf{stroke:var(--ink);stroke-width:7}
+
+.opttab td:first-child{width:18%}.opttab td:nth-child(2){width:34%}.opttab td:nth-child(3){width:14%}.opttab td.num{width:10%}.opttab td:last-child{width:24%}
+.opttab td b{font-family:var(--f-draw);text-transform:uppercase;letter-spacing:.05em;font-size:13px;font-weight:600}.opttab th:last-child{text-align:left}
+.cost.wide{width:100%}.cost.rooms td.desc{color:var(--ink-2);font-size:13px;text-align:left;white-space:normal}.cost.rooms th:nth-child(3){text-align:left}
+#costs h3{margin-top:12px}
+.m-walk{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;gap:8px;padding:10px}
+.m-walk-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.m-walk-hint{margin:0;font:400 12px/1.4 var(--f-body);color:var(--ink-2);background:color-mix(in srgb,var(--sheet) 88%,transparent);border:1px solid var(--rule);padding:6px 9px;border-radius:2px;max-width:48ch}
+.m-walk button{pointer-events:auto;font:600 12px/1 var(--f-draw);text-transform:uppercase;letter-spacing:.07em;color:var(--ink);background:var(--sheet);border:1px solid var(--rule);padding:7px 10px;border-radius:2px;cursor:pointer;white-space:nowrap}
+.m-walk button[aria-pressed="true"]{background:var(--ink);color:var(--sheet);border-color:var(--ink)}
+.m-walk button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.m-walk-rooms{pointer-events:auto;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;scrollbar-width:thin}
+.m-walk-f{flex:none;font:500 11px/1 var(--f-mono);color:var(--ink-2);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap;background:color-mix(in srgb,var(--sheet) 88%,transparent);padding:6px 4px;margin-left:6px}
+#m-canvas.walking{cursor:crosshair}
+#m-canvas:focus{outline:none}
+
+.cartouche{max-width:620px}   /* the header's auto column would otherwise take the longest line and squeeze the title */
+.pp-sky{fill:none;stroke:var(--glass);stroke-width:6;stroke-dasharray:16 9}
+.pp-well{fill:none;stroke:var(--ink);stroke-width:10}.pp-grate{stroke:var(--ink);stroke-width:2.5;opacity:.55}
+.pp-det{fill:none;stroke:var(--ink);stroke-width:3}
+.pp-tray{fill:var(--c-water);fill-opacity:.35;stroke:var(--ink-2);stroke-width:3}
+:root{--c-tile:#CDD0D1;--c-tile-joint:#A5AAAC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--c-tile:#5F6569;--c-tile-joint:#464B4F}}
+:root[data-theme="dark"]{--c-tile:#5F6569;--c-tile-joint:#464B4F}
+.pp-tile{fill:url(#pp-tiles);stroke:none}.pp-tile-cell{fill:var(--c-tile);stroke:var(--c-tile-joint);stroke-width:2}
+
+/* costs, one block per group (05.11.2026, « on n'arrive pas à distinguer les différents groupes »): a tinted header band with the group's
+   name and total, the lines indented under it, a gap between groups, the grand total inverted. Rows of a group sit on the sheet colour. */
+.cost-groups{border:0;background:transparent}
+.cost-groups thead th{padding-bottom:6px}
+.cost-groups tbody td{background:var(--sheet)}
+.cost-groups tbody+tbody{border-top:18px solid var(--paper)}
+.cost-groups tr.gh th{background:var(--room-hi);color:var(--ink);font-size:13px;font-weight:700;letter-spacing:.07em;padding:10px 12px;border-bottom:1px solid var(--rule)}
+.cost-groups tr.gh th:first-child{box-shadow:inset 4px 0 0 var(--accent)}
+.cost-groups tr.gh th.num{font-family:var(--f-mono);text-transform:none;letter-spacing:0;font-size:14px}
+.cost-groups tbody.g td:first-child{padding-left:28px}
+.cost-groups tr.em td{font-weight:600}
+.cost-groups tbody.t td{background:var(--ink);color:var(--sheet);border:0;font-weight:700;font-size:15px;padding:11px 12px;text-transform:uppercase;letter-spacing:.04em}
+.cost-groups tbody.t td.num{text-transform:none;letter-spacing:0}
+@media (max-width:560px){.cost-groups tbody.g td:first-child{padding-left:18px}.cost-groups tr.gh th{padding:8px}.cost-groups tbody+tbody{border-top-width:14px}}
+</style>
+<style>.cfc td.c{font:12px/1.4 var(--f-mono);color:var(--ink-2);white-space:nowrap}.cfc .what{font-size:12.5px;line-height:1.45;color:var(--ink-2)}.cfc tr.sub td{padding-top:14px}.cfc .pct{color:var(--ink-2)}.cfc td{text-align:left}.cfc td.num,.cfc th:last-child{text-align:right}.cfc tr.sub td.what{font-weight:400}#notes li{margin:.35em 0}</style>
+
+
+<style>
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.kpi{background:var(--sheet);border:1px solid var(--rule);border-radius:3px;padding:12px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi b{font:600 26px/1.1 var(--f-draw);font-variant-numeric:tabular-nums}
+.kpi small{color:var(--ink-2);font-size:13px}
+.kpi.lead{border:1.5px solid var(--ink)}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.gal figure{margin:0;background:var(--sheet);border:1px solid var(--rule);border-radius:3px;overflow:hidden;min-width:0}
+.gal img{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+.gal figcaption{padding:8px 10px;font-size:13px;color:var(--ink-2)}
+.gal a:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+ul.scope{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:76ch}
+.prog tr.band td{font-weight:600}
+.prog tr.sub td:nth-child(2){padding-left:28px;color:var(--ink-2)}
+.prog tr.sub td.c{color:var(--ink-2)}
+.links{display:flex;flex-wrap:wrap;gap:8px 18px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="lede">
+    <div class="kicker">Chemin de Galatry 3 · Corseaux VD</div>
+    <h1>Présentation du projet</h1>
+    <p class="muted">Rénovation d’une villa de 1965 sur une parcelle de 1’053 m², au-dessus de Vevey, avec vue sur le Léman et les Alpes. La phase 1 remet toute la maison à neuf et la rend économe en énergie, dans son volume actuel. Enveloppe de la phase 1 : <b>700 k CHF TTC</b>, honoraires et imprévus compris.</p>
+    <nav aria-label="Sections"><a href="#bref">En bref</a><a href="#phase1">Phase 1</a><a href="#rendus">Rendus</a><a href="#bim">Maquette BIM</a><a href="#budget">Budget</a><a href="#plus">Pour aller plus loin</a></nav>
+  </div>
+</header>
+<section id="bref">
+  <div class="sec-head"><h2>En bref</h2><span class="muted">CHF TTC, prix 2026</span></div>
+  <div class="kpis">
+    <div class="kpi lead"><small>Enveloppe phase 1</small><b>700 k</b><small>honoraires et imprévus compris</small></div>
+    <div class="kpi"><small>Après subventions</small><b>663 k</b><small>subventions estimées 37 k</small></div>
+    <div class="kpi"><small>Parcelle</small><b>1’053 m²</b><small>maison de 157 m² au sol, sur deux niveaux</small></div>
+    <div class="kpi"><small>Calendrier</small><b>mai 2027</b><small>début des travaux, environ 12 mois</small></div>
+  </div>
+</section>
+<section id="phase1">
+  <div class="sec-head"><h2>Ce que comprend la phase 1</h2></div>
+  <ul class="scope">
+    <li>Chauffage : pompe à chaleur air-eau à la place du gaz, chauffage au sol dans toute la maison.</li>
+    <li>Enveloppe : toit gardé et isolé par l’intérieur, façades isolées et crépies, fenêtres et portes remplacées, stores neufs.</li>
+    <li>Panneaux solaires d’environ 10 kWc sur le pan sud du toit.</li>
+    <li>Pièce de vie ouverte sur le lac : murs ouverts, escalier ouvert, grands vitrages au sud, cheminée en pierre.</li>
+    <li>Nouvelle cuisine, salles d’eau et W-C refaits, électricité et tableau neufs, luminaires.</li>
+    <li>Ancien garage transformé en pièce de vie, avec une baie vitrée à la place de la porte.</li>
+    <li>Rez inférieur : chapes et sols neufs, salle familiale.</li>
+    <li>Avant les travaux : diagnostic et réserve de désamiantage, ancienne citerne à mazout sortie.</li>
+  </ul>
+</section>
+<section id="rendus">
+  <div class="sec-head"><h2>Rendus</h2><span class="muted">Ambiances réalisées à partir de la maquette 3D du projet ; matériaux et mobilier indicatifs</span></div>
+  <div class="gal">
+    <figure><a href="img/presentation/rendu_01.jpg"><img src="img/presentation/rendu_01.jpg" alt="Vue aérienne depuis le sud-est" width="1536" height="1024" loading="lazy"></a><figcaption>Vue aérienne depuis le sud-est</figcaption></figure>
+    <figure><a href="img/presentation/rendu_02.jpg"><img src="img/presentation/rendu_02.jpg" alt="Façade sud depuis le jardin" width="1536" height="1024" loading="lazy"></a><figcaption>Façade sud depuis le jardin</figcaption></figure>
+    <figure><a href="img/presentation/rendu_06.jpg"><img src="img/presentation/rendu_06.jpg" alt="Vue aérienne depuis le nord-ouest, le Léman et les Alpes" width="1536" height="1024" loading="lazy"></a><figcaption>Vue aérienne depuis le nord-ouest, le Léman et les Alpes</figcaption></figure>
+    <figure><a href="img/presentation/rendu_08.jpg"><img src="img/presentation/rendu_08.jpg" alt="Séjour vers le lac et la cheminée" width="1536" height="1024" loading="lazy"></a><figcaption>Séjour vers le lac et la cheminée</figcaption></figure>
+    <figure><a href="img/presentation/rendu_10.jpg"><img src="img/presentation/rendu_10.jpg" alt="Salle à manger et cuisine" width="1536" height="1024" loading="lazy"></a><figcaption>Salle à manger et cuisine</figcaption></figure>
+    <figure><a href="img/presentation/rendu_11.jpg"><img src="img/presentation/rendu_11.jpg" alt="Cuisine" width="1536" height="1024" loading="lazy"></a><figcaption>Cuisine</figcaption></figure>
+    <figure><a href="img/presentation/rendu_13.jpg"><img src="img/presentation/rendu_13.jpg" alt="Chambre parentale" width="1536" height="1024" loading="lazy"></a><figcaption>Chambre parentale</figcaption></figure>
+    <figure><a href="img/presentation/rendu_18.jpg"><img src="img/presentation/rendu_18.jpg" alt="Plan d’aménagement du rez-de-chaussée" width="1536" height="1024" loading="lazy"></a><figcaption>Plan d’aménagement du rez-de-chaussée</figcaption></figure>
+  </div>
+</section>
+<section id="bim">
+  <div class="sec-head"><h2>Maquette BIM</h2><span class="muted">Modèle IFC de la phase 1, construit d’après les plans d’origine de 1964</span></div>
+  <div class="gal">
+    <figure><a href="img/presentation/bim_se.jpg"><img src="img/presentation/bim_se.jpg" alt="Maquette BIM de la phase 1, vue du sud-est" width="1600" height="1000" loading="lazy"></a><figcaption>Maquette BIM de la phase 1, vue du sud-est</figcaption></figure>
+    <figure><a href="img/presentation/bim_doll.jpg"><img src="img/presentation/bim_doll.jpg" alt="Maquette BIM, rez-de-chaussée en coupe" width="1600" height="1000" loading="lazy"></a><figcaption>Maquette BIM, rez-de-chaussée en coupe</figcaption></figure>
+    <figure><a href="img/presentation/bim_site.jpg"><img src="img/presentation/bim_site.jpg" alt="Maquette BIM dans le quartier, au-dessus de Vevey" width="1600" height="1000" loading="lazy"></a><figcaption>Maquette BIM dans le quartier, au-dessus de Vevey</figcaption></figure>
+  </div>
+</section>
+<section id="budget">
+  <div class="sec-head"><h2>Budget de la phase 1 par CFC</h2><span class="muted">Code des frais de construction · CHF TTC</span></div>
+  <div class="prog-wrap"><table class="prog cost cfc"><thead><tr><th>CFC</th><th></th><th>CHF</th></tr></thead><tbody><tr class="band"><td class="c">1</td><td>Travaux préparatoires : démolitions, chantier, amiante</td><td class="num">38 k</td></tr><tr class="band"><td class="c">2</td><td>Bâtiment</td><td class="num">570 k</td></tr><tr class="sub"><td class="c">21</td><td>Gros œuvre 1 : maçonnerie, ouvertures, toit</td><td class="num">71 k</td></tr><tr class="sub"><td class="c">22</td><td>Gros œuvre 2 : fenêtres, façades, stores</td><td class="num">134 k</td></tr><tr class="sub"><td class="c">23</td><td>Électricité, panneaux solaires, luminaires</td><td class="num">52 k</td></tr><tr class="sub"><td class="c">24</td><td>Chauffage et ventilation</td><td class="num">43 k</td></tr><tr class="sub"><td class="c">25</td><td>Sanitaire et cuisine</td><td class="num">60 k</td></tr><tr class="sub"><td class="c">27</td><td>Aménagements intérieurs 1 : plâtrerie, menuiserie</td><td class="num">49 k</td></tr><tr class="sub"><td class="c">28</td><td>Aménagements intérieurs 2 : sols, peinture, cheminée</td><td class="num">87 k</td></tr><tr class="sub"><td class="c">29</td><td>Honoraires d’architecte et d’ingénieur</td><td class="num">73 k</td></tr><tr class="band"><td class="c">5</td><td>Frais secondaires et réserve pour imprévus</td><td class="num">92 k</td></tr><tr class="tot"><td></td><td>Enveloppe de la phase 1</td><td class="num">700 k</td></tr><tr><td></td><td>Subventions estimées (Programme Bâtiments, Pronovo)</td><td class="num">−37 k</td></tr><tr class="tot"><td></td><td>Après subventions</td><td class="num">663 k</td></tr></tbody></table></div>
+  <p class="muted">Le détail position par position est sur la page <a href="cfc.html">Devis CFC</a>.</p>
+</section>
+<section id="plus">
+  <div class="sec-head"><h2>Pour aller plus loin</h2></div>
+  <div class="links"><a href="index.html">Projet : plans et 3D</a><a href="archi.html">Plans d’architecte</a><a href="cfc.html">Devis CFC</a><a href="realiste.html">Maquette réaliste</a><a href="interieur.html">Intérieur 3D</a><a href="plans.html">La maison aujourd’hui</a></div>
+</section>
+</div>
+<script src="toc.js" defer></script>
+</body>
+</html>

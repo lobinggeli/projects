@@ -8,6 +8,7 @@
     { href: "plans.html", label: "Actuel – Plans et 3D" },   // today's house: plans and 3D model of the existing villa, always first (user)
     { href: "photos.html", label: "Photos de l’annonce" },
     { group: "Projet" },
+    { href: "presentation.html", label: "Projet – Présentation et budget" },   // public site only (public_presentation.py)
     { href: "index.html", label: "Projet – Plans et 3D" },   // the artifact's own page (build.py publishes projet.html as index.html)
     { href: "interieur.html", label: "Projet – Intérieur 3D" },   // full-screen 3D page from galatry-interior/: keeps its own Sommaire, no toc.js
     { href: "realiste.html", label: "Projet – Maquette réaliste" },   // full-screen 3D page from galatry-realiste/ (05.11.2026): own Sommaire, no toc.js

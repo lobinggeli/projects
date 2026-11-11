@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-base="realiste/2026-11-11a/">
+<html lang="fr" data-base="realiste/2026-11-11b/">
 <head>
 <meta charset="utf-8">
 <meta name="robots" content="noindex, nofollow">
@@ -34,7 +34,8 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 .top h1{margin:0;font-size:17px;font-weight:650;font-stretch:85%;letter-spacing:.01em;text-wrap:balance}
 .top p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.lab{font:500 10.5px/1 var(--f-num);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:44px}
+.lab{font:500 10.5px/1 var(--f-num);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);min-width:56px}
+.cost{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
 .seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:8px;overflow:hidden}
 .seg button{all:unset;cursor:pointer;padding:6px 10px;font-size:12.5px;font-weight:550;color:var(--ink);white-space:nowrap}
 .seg button + button{border-left:1px solid var(--line)}
@@ -43,7 +44,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 .btn{all:unset;cursor:pointer;padding:6px 11px;font-size:12.5px;font-weight:550;border:1px solid var(--line);border-radius:8px;white-space:nowrap}
 .btn:hover{background:var(--chip)} .btn:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .sheet{position:fixed;top:calc(12px + env(safe-area-inset-top, 0px));right:max(16px, env(safe-area-inset-right, 0px));
-  width:min(320px, calc(100vw - 32px));padding:12px 14px;display:grid;gap:6px}
+  width:min(320px, calc(100vw - 32px));padding:12px 14px;display:grid;gap:6px;max-height:calc(100vh - 90px);overflow:auto}
 .sheet h2{margin:0;font-size:16px;font-weight:650;font-stretch:85%}
 .sheet p{margin:0;font-size:12.5px;line-height:1.45;color:var(--muted)}
 .sheet small{font-family:var(--f-num);font-size:11px;color:var(--muted)}
@@ -65,7 +66,7 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 .toc-pop a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
 @media (max-width:720px){
   .top p.long{display:none}
-  .sheet{top:auto;bottom:calc(12px + env(safe-area-inset-bottom, 0px))}
+  .sheet{top:auto;bottom:calc(12px + env(safe-area-inset-bottom, 0px));max-height:34vh}
   .dock{display:none}
 }
 @media (prefers-reduced-motion: reduce){ .load i{animation:none} }
@@ -77,15 +78,9 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 <section class="top panel" aria-label="Commandes">
   <div class="row"><a class="btn" href="index.html" title="Retour à la page précédente" onclick="if(document.referrer.startsWith(location.origin)&amp;&amp;history.length&gt;1){history.back();return false}">↩ Retour</a><h1>Galatry 3 · maquette réaliste</h1></div>
   <p class="long">Le vrai terrain et les arbres d’aujourd’hui (relevés swisstopo 2021–2025, orthophoto 2023), la maison et les options d’après la maquette 3D du projet. Matières réalistes ; lumière et ombres calculées dans Blender, soleil d’été en fin de matinée.</p>
-  <div class="row"><span class="lab">État</span>
-    <div class="seg" role="group" aria-label="État" id="seg-st">
-      <button type="button" data-st="ex" aria-pressed="false">Aujourd’hui</button>
-      <button type="button" data-st="n" aria-pressed="false">Rénovée</button>
-      <button type="button" data-st="r" aria-pressed="true">+ Terrasse</button>
-      <button type="button" data-st="r_pool" aria-pressed="false">+ Piscine</button>
-      <button type="button" data-st="gar" aria-pressed="false">+ Garage en haut</button>
-    </div>
-  </div>
+  <div class="row"><span class="lab">Étape</span><div class="seg" role="group" aria-label="Étape" id="seg-ph"></div></div>
+  <div class="row"><span class="lab">Options</span><div class="seg" role="group" aria-label="Options" id="seg-opt"></div></div>
+  <div class="row"><span class="lab">Coût</span><output class="cost" id="cost" aria-live="polite"></output></div>
   <div class="row"><span class="lab">Vue</span>
     <div class="seg" role="group" aria-label="Vue" id="seg-v">
       <button type="button" data-v="d11" aria-pressed="true">Drone</button>
@@ -118,12 +113,23 @@ import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 // Frame: metres, X east, Y up, Z south; origin at the house (plan 1170, 820), Y = 0 at ±0.00 = 483.35 m.
 const BASE = document.documentElement.dataset.base;
 const SUN_AZ = 150, SUN_EL = 58;            // the bake's sun (set on the orthophoto's shadows): from the south-south-east, 58° high
+// the maquette 3D's stages, option costs and button labels (build.py reads them from projet.html: TX.phases, TX.scen, the buttons)
+const SC = {"phases":{"1":{"places":false,"terr":false,"pool":false,"haut":false,"fence":false},"2":{"places":true,"terr":false,"pool":false,"haut":false,"fence":false},"3":{"places":true,"terr":true,"pool":false,"haut":false,"fence":false},"4":{"places":true,"terr":true,"pool":true,"haut":false,"fence":false},"5":{"places":false,"terr":true,"pool":true,"haut":true,"fence":false},"6":{"places":false,"terr":true,"pool":true,"haut":true,"fence":true}},"scen":{"base":1071100.0,"places":28100.0,"terr":57200.0,"pool":132500.0,"haut":451600.0,"hautp":479300.0,"fence":{"r":38800.0,"rp":38500.0,"rh":39700.0,"rhp":38700.0},"stages":{"1":1071100.0,"2":1099200.0,"3":1156400.0,"4":1288900.0,"5":1749000.0,"6":1788700.0}},"phb":[["ex","Existant"],["1","1 Rénovation"],["2","2 Places en bas"],["3","3 Terrasse"],["4","4 Piscine"],["5","5 Garage en haut"],["6","6 Clôture"]],"optb":[["places","2 places en bas"],["terr","Terrasse"],["pool","Piscine"],["haut","Garage en haut"],["fence","Clôture"]]};
+// the description: today's, or the base and one sentence per option that is on (11.11.2026: the options combine as in the maquette 3D)
 const TXT = {
-  ex: ['Aujourd’hui', 'La villa telle qu’elle est : crépi beige, toit en fibrociment, cour et rampe en goudron, parvis au nord de l’entrée et bandes bétonnées le long des façades nord et ouest, haies et arbres actuels.'],
-  n: ['Rénovée, jardin inchangé', 'La base du projet : crépi clair, toit actuel en fibrociment gardé (isolé par l’intérieur) avec 27 panneaux solaires (environ 10,5 kWc, tous au moins à 40 cm des bords du toit), sans fenêtre de toit, souche de la cheminée en pierre sur le pan sud, façade sud vitrée (séjour et salle à manger : baies fixes d’une seule vitre jusqu’au sol, sans ouvrant ni garde-corps ; chambre : porte-fenêtre et garde-corps en verre), porte-fenêtre de la cuisine condamnée (bas muré, fenêtre au-dessus), baie vitrée dans l’ancien garage, unité extérieure de la pompe à chaleur au pignon ouest, derrière un habillage bois. Le jardin, la cour et la rampe restent comme aujourd’hui.'],
-  r: ['+ Terrasse', 'Option : terrasse de 115 m² côté lac (−2.85), prête pour une piscine ; la rampe et la partie bétonnée restent ; on se gare en bas.'],
-  r_pool: ['+ Piscine', 'Piscine de 7 × 3 m à débordement au bord de la terrasse.'],
-  rh_pool: ['+ Garage en haut', 'Grande place de plain-pied (±0.00) devant toute la façade nord (132 m²), son bord nord droit, dans l’alignement de la porte du garage, avec un pan coupé de 4,50 m à l’angle nord-ouest ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 22,7 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès. Les 2 places ouvertes en bas (étape 2) sont enlevées à cette étape et redeviennent du jardin, comme la partie bétonnée au bord du chemin, pour garder au moins 50 % de pleine terre (RPACom) ; garde-corps de 1 m sur les murs où la chute dépasse 1 m. Avec la piscine.'],
+  ex: 'La villa telle qu’elle est : crépi beige, toit en fibrociment, cour et rampe en goudron, parvis au nord de l’entrée et bandes bétonnées le long des façades nord et ouest, haies et arbres actuels.',
+  base: 'Rénovation : crépi clair, toit actuel en fibrociment gardé (isolé par l’intérieur) avec 27 panneaux solaires (environ 10,5 kWc, tous au moins à 40 cm des bords du toit), sans fenêtre de toit, souche de la cheminée en pierre sur le pan sud, façade sud vitrée (séjour et salle à manger : baies fixes d’une seule vitre jusqu’au sol, sans ouvrant ni garde-corps ; chambre : porte-fenêtre et garde-corps en verre), porte-fenêtre de la cuisine condamnée (bas muré, fenêtre au-dessus), baie vitrée dans l’ancien garage, unité extérieure de la pompe à chaleur au pignon ouest, derrière un habillage bois.',
+  same: 'Dehors, rien ne change : le jardin, la cour et la rampe restent comme aujourd’hui ; on se gare en bas, sur la partie bétonnée.',
+  places: '2 places en bas : deux places ouvertes à l’angle sud, reculées de 3 m du chemin (loi sur les routes, art. 37) et à 3,30 m du voisin, avec une bande d’accès de 3 m depuis le chemin ; derrière, la pelouse descend en talus planté, pour des murs bas, sans garde-corps.',
+  keep: 'La rampe d’accès et la partie bétonnée restent comme aujourd’hui.',
+  terr: 'Terrasse de 115 m² côté lac (−2.85), prête pour une piscine.',
+  pool: 'Piscine de 7 × 3 m à débordement au bord de la terrasse.',
+  haut: 'Garage en haut : grande place de plain-pied (±0.00) devant toute la façade nord (132 m²), son bord nord droit, dans l’alignement de la porte du garage, avec un pan coupé de 4,50 m à l’angle nord-ouest ; garage double enterré au bout de l’accès, dans le talus nord-est (7,20 × 6,20 m, 44,6 m², sol +0.10, une seule porte de 6,60 m au sud, pour ressortir en marche arrière en deux manœuvres) ; accès de 3,50 m depuis la partie est du bord du chemin, à environ 22,7 %, arrondi en bas et en haut pour les voitures basses, sans chauffage, puis le long de la limite est, avec des talus plantés à l’ouest au lieu de murs ; un passage pavé relie la terrasse côté lac à l’accès ; garde-corps de 1 m sur les murs où la chute dépasse 1 m.',
+  hautOut: 'Les 2 places ouvertes en bas sont enlevées et redeviennent du jardin, comme la partie bétonnée au bord du chemin, pour garder au moins 50 % de pleine terre (RPACom).',
+  hautKeep: 'Les 2 places du bas sont gardées, avec leur muret : la pleine terre tombe à environ 47 %, sous les 50 % exigés (dérogation à demander).',
+  fence: (haut, places) => 'Clôture de 1,20 m tout autour, haie mélangée derrière' + (places ? ' ; les 2 places du bas restent dehors, la clôture passe en ligne droite derrière leur muret du fond' : '') +
+    (haut ? ' ; portail motorisé à deux battants (2,30 + 1,20 m) en travers de la rampe, à 3 m du chemin.' : ' ; portail à l’entrée est d’aujourd’hui et portillon à l’angle sud' + (places ? ', à côté des 2 places.' : '.')) +
+    ' La clôture et la haie sont dessinées en direct, sans les ombres calculées.',
 };
 const VIEWS = {   // position, target (m), vertical field of view; d11 and d01 are the listing's drone photos 11 and 01 (camera solves)
   d11: [[21.91, 15.59, 33.97], [4.52, -1.45, 2.24], 44.8, 'Point de vue de la photo drone de l’annonce (vue depuis le lac)'],
@@ -223,7 +229,7 @@ async function buildStatic(){
 
 // ---- foliage: cards from the canopy model (geo.py), instanced per kind (tree, conifer, shrub, hedge), lit live
 const kinds = [];
-let cards = null, crowns = null, trunkMesh = null;
+let cards = null, crowns = null, trunkMesh = null, folMat = null;
 async function buildFoliage(){
   const [cj, cb, cr, atlas, alpha, bark] = await Promise.all([json('cards.json'), bin('cards.bin'), json('crowns.json'), tex('atlas.jpg'), tex('atlas_a.png', false), tex('bark.jpg')]);
   const f = cj.fields, n = cj.count;
@@ -231,7 +237,7 @@ async function buildFoliage(){
            color: new Uint8Array(cb, f.color.offset, n * 3), kind: new Uint8Array(cb, f.kind.offset, n), crown: new Uint16Array(cb, f.crown.offset, n)};
   crowns = cr;
   atlas.wrapS = atlas.wrapT = alpha.wrapS = alpha.wrapT = THREE.ClampToEdgeWrapping;
-  const mat = new THREE.MeshLambertMaterial({map: atlas, alphaMap: alpha, alphaTest: 0.42, side: THREE.DoubleSide, alphaToCoverage: true});
+  const mat = folMat = new THREE.MeshLambertMaterial({map: atlas, alphaMap: alpha, alphaTest: 0.42, side: THREE.DoubleSide, alphaToCoverage: true});
   mat.color.setRGB(2.5, 2.5, 2.5);                       // the atlas is a neutral mid green: each card's colour comes from the orthophoto
   const quad = [[0, .5], [.5, .5], [0, 0], [.5, 0]];     // atlas quadrant per kind (UV origin, v up)
   const count = [0, 0, 0, 0]; for (let i = 0; i < n; i++) count[cards.kind[i]]++;
@@ -337,7 +343,6 @@ async function setState(st){
     if (current !== st) return;
     if (shown) shown.visible = false; root.visible = true; shown = root;
     setFoliage(st); setWalls(st);
-    document.getElementById('s-t').textContent = TXT[st][0]; document.getElementById('s-d').textContent = TXT[st][1];
     loadEl.hidden = true; redraw();
   } catch (e) { loadEl.querySelector('span').textContent = 'Chargement impossible (' + e.message + ')'; console.error(e); }
 }
@@ -358,12 +363,122 @@ function go(v, instant){
   })();
 }
 
-// ---- UI
+// ---- option « Clôture »: fence, hedge and gates (fence.py: the maquette's lines on each state's ground), drawn live, not baked
+let fenceData = null, fenceShown = null; const fences = {};
+function rng(a){ return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+let meshMat = null;
+function weldedMesh(){   // welded-mesh panel, anthracite: vertical wires every 5 cm, horizontal every 20 cm (one texture tile = 1 m)
+  if (meshMat) return meshMat;
+  const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+  x.strokeStyle = '#2e3236'; x.lineWidth = 3;
+  for (let i = 0; i <= 20; i++){ const u = i * 12.8; x.beginPath(); x.moveTo(u, 0); x.lineTo(u, 256); x.stroke(); }
+  for (let j = 0; j <= 5; j++){ const v = j * 51.2; x.beginPath(); x.moveTo(0, v); x.lineTo(256, v); x.stroke(); }
+  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = maxAniso;
+  return (meshMat = new THREE.MeshLambertMaterial({map: t, transparent: true, depthWrite: false, side: THREE.DoubleSide}));
+}
+function buildFence(F){
+  const g = new THREE.Group(), P = [], UV = [], I = [], posts = [];
+  const ribbon = (pts, lo, hi) => { let s = 0;   // a vertical band through the points, from lo to hi above each point's ground
+    pts.forEach((p, i) => { if (i) s += Math.hypot(p[0] - pts[i - 1][0], p[2] - pts[i - 1][2]); const k = P.length / 3;
+      P.push(p[0], p[1] + lo, p[2], p[0], p[1] + hi, p[2]); UV.push(s, lo, s, hi);
+      if (i) I.push(k - 2, k, k - 1, k - 1, k, k + 1); }); };
+  F.fence.forEach(pl => {
+    ribbon(pl, -0.10, 1.20);
+    let s = 0, next = 0;   // posts every 2.50 m
+    pl.forEach((p, i) => { if (i) s += Math.hypot(p[0] - pl[i - 1][0], p[2] - pl[i - 1][2]); if (s >= next){ posts.push(p); next = s + 2.5; } });
+    posts.push(pl[pl.length - 1]);
+  });
+  const conc = new THREE.MeshLambertMaterial({color: 0xbdb9b0}), dark = new THREE.MeshLambertMaterial({color: 0x2e3236});
+  F.gates.forEach(([a, b]) => {
+    const g0 = Math.min(a[1], b[1]); ribbon([[a[0], g0, a[2]], [b[0], g0, b[2]]], 0.02, 1.40);
+    const L = Math.hypot(b[0] - a[0], b[2] - a[2]), ang = -Math.atan2(b[2] - a[2], b[0] - a[0]);
+    [0.04, 1.38].forEach(h => { const bar = new THREE.Mesh(new THREE.BoxGeometry(L, 0.05, 0.05), dark); bar.position.set((a[0] + b[0]) / 2, g0 + h, (a[2] + b[2]) / 2); bar.rotation.y = ang; g.add(bar); });
+    [a, b].forEach(p => { const post = new THREE.Mesh(new THREE.BoxGeometry(0.24, 1.70, 0.24), conc); post.position.set(p[0], g0 + 0.75, p[2]); post.rotation.y = ang; g.add(post); });
+  });
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(P, 3)); geo.setAttribute('uv', new THREE.Float32BufferAttribute(UV, 2)); geo.setIndex(I); geo.computeVertexNormals();
+  g.add(new THREE.Mesh(geo, weldedMesh()));
+  const pm = new THREE.InstancedMesh(new THREE.BoxGeometry(0.06, 1.35, 0.06).translate(0, 0.575, 0), dark, Math.max(1, posts.length));
+  const m = new THREE.Matrix4(); posts.forEach((p, i) => pm.setMatrixAt(i, m.makeTranslation(p[0], p[1], p[2]))); pm.count = posts.length; g.add(pm);
+  // the mixed hedge (0.80 m wide, 1.70 m high): foliage cards along its lines, coloured like the parcel's hedges on the orthophoto
+  const R = rng(475), PAL = [[96, 113, 62], [72, 102, 53], [77, 105, 54], [74, 101, 58], [56, 81, 44], [82, 119, 46], [65, 85, 44], [81, 118, 53], [71, 103, 49], [76, 100, 52]];
+  const C = [];
+  F.hedge.forEach(pl => { for (let i = 1; i < pl.length; i++){
+    const [x0, y0, z0] = pl[i - 1], [x1, y1, z1] = pl[i], L = Math.hypot(x1 - x0, z1 - z0); if (L < 1e-3) continue;
+    const nx = -(z1 - z0) / L, nz = (x1 - x0) / L;
+    for (let d = 0; d < L; d += 0.22) for (let c = 0; c < 5; c++){
+      const t = d / L, off = (R() - 0.5) * 0.7, x = x0 + (x1 - x0) * t + nx * off, z = z0 + (z1 - z0) * t + nz * off;
+      C.push([x, y0 + (y1 - y0) * t + 0.12 + R() * 1.25, z, 0.45 + R() * 0.35, PAL[(R() * PAL.length) | 0], 0.85 + R() * 0.3, R(), R(), R()]); } } });
+  if (C.length){
+    const hm = new THREE.InstancedMesh(kinds[3].geometry, folMat, C.length); hm.frustumCulled = false;
+    hm.instanceColor = new THREE.InstancedBufferAttribute(new Float32Array(C.length * 3), 3);
+    const q = new THREE.Quaternion(), e = new THREE.Euler(), p = new THREE.Vector3(), sc = new THREE.Vector3(), col = new THREE.Color();
+    C.forEach(([x, y, z, s, rgb, k, a, b, c], i) => {
+      hm.setMatrixAt(i, m.compose(p.set(x, y, z), q.setFromEuler(e.set(a * 6.283, b * 6.283, c * 6.283)), sc.set(s, s, s)));
+      hm.setColorAt(i, col.setRGB(rgb[0] * k / 255, rgb[1] * k / 255, rgb[2] * k / 255, THREE.SRGBColorSpace)); });
+    g.add(hm);
+  }
+  g.visible = false; scene.add(g); return g;
+}
+async function setFence(st){
+  if (fenceShown){ fenceShown.visible = false; fenceShown = null; redraw(); }
+  if (!st) return;
+  try {
+    if (!fenceData) fenceData = await json('fence.json');
+    if (!fences[st]) fences[st] = buildFence(fenceData[st]);
+  } catch (e) { console.error(e); return; }
+  if (fenceKey() !== st) return;   // the options changed meanwhile
+  fences[st].visible = true; fenceShown = fences[st]; redraw();
+}
+
+// ---- options, as in the maquette 3D: a stage button sets the toggles; the toggles combine freely (pool and garage en haut need the
+// terrace); the cost line shows the stages' cumulated cost when the toggles are a stage, else the scenario's
+const OPT = {places: false, terr: false, pool: false, haut: false, fence: false}; let isEx = false;
+const PH = SC.phases, fmtM = v => v >= 1e6 ? (v / 1e6).toFixed(2) + ' M' : Math.round(v / 1e3) + ' k';
+const modeOf = () => OPT.haut ? (OPT.places ? 'rhp' : 'rh') : (OPT.places ? 'rp' : 'r');
+// the baked state for the toggles (export_states.js): n = the base without terrace, rpx = 2 places en bas without the terrace
+const stateOf = () => isEx ? 'ex' : !OPT.terr ? (OPT.places ? 'rpx' : 'n') : modeOf() + (OPT.pool ? '_pool' : '');
+const fenceKey = () => (!isEx && OPT.fence) ? stateOf() : null;
+const phaseOf = () => isEx ? 'ex' : (Object.keys(PH).find(k => Object.keys(OPT).every(o => !!PH[k][o] === OPT[o])) || '');
+function scenCost(){
+  const S = SC.scen;
+  return S.base + (OPT.haut ? (OPT.places ? S.hautp : S.haut) : (OPT.places ? S.places : 0)) + (OPT.terr ? S.terr : 0) + (OPT.pool ? S.pool : 0) + (OPT.fence ? S.fence[modeOf()] : 0);
+}
+const segPh = document.getElementById('seg-ph'), segOpt = document.getElementById('seg-opt');
+const button = (seg, key, label, val) => { const b = document.createElement('button'); b.type = 'button'; b.dataset[key] = val; b.textContent = label; b.setAttribute('aria-pressed', 'false'); seg.append(b); };
+SC.phb.forEach(([k, l]) => button(segPh, 'ph', l, k));
+SC.optb.forEach(([k, l]) => button(segOpt, 'opt', l, k));
+function sync(){
+  const ph = phaseOf();
+  segPh.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.ph === ph));
+  segOpt.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', !isEx && OPT[b.dataset.opt]));
+  document.getElementById('cost').textContent = isEx ? 'Aujourd’hui : rien n’est encore fait'
+    : ph ? (ph === '1' ? 'Étape 1' : ph === '2' ? 'Étapes 1 et 2' : 'Étapes 1 à ' + ph) + ' : ' + fmtM(SC.scen.stages[ph]) + ' CHF' : 'Ce scénario : ' + fmtM(scenCost()) + ' CHF';
+  const lab = (SC.phb.find(([k]) => k === ph) || [])[1];
+  document.getElementById('s-t').textContent = isEx ? 'Aujourd’hui' : ph ? 'Étape ' + lab.replace(/^(\d+) /, '$1 · ') : 'Scénario à la carte';
+  const t = [];
+  if (isEx) t.push(TXT.ex);
+  else {
+    t.push(TXT.base);
+    if (!OPT.places && !OPT.terr) t.push(TXT.same);
+    if (OPT.places && !OPT.haut) t.push(TXT.places, TXT.keep);
+    if (OPT.terr) t.push(TXT.terr);
+    if (OPT.terr && !OPT.places && !OPT.haut) t.push(TXT.keep);
+    if (OPT.pool) t.push(TXT.pool);
+    if (OPT.haut) t.push(TXT.haut, OPT.places ? TXT.hautKeep : TXT.hautOut);
+    if (OPT.fence) t.push(TXT.fence(OPT.haut, OPT.places));
+  }
+  document.getElementById('s-d').textContent = t.join(' ');
+  setState(stateOf()); setFence(fenceKey());
+}
+segPh.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+  isEx = b.dataset.ph === 'ex'; if (!isEx) Object.keys(OPT).forEach(o => { OPT[o] = !!PH[b.dataset.ph][o]; }); sync(); });
+segOpt.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return;
+  const o = b.dataset.opt, on = isEx || !OPT[o]; isEx = false; OPT[o] = on;
+  if (on && (o === 'pool' || o === 'haut')) OPT.terr = true;
+  if (!on && o === 'terr'){ OPT.pool = false; OPT.haut = false; }
+  sync(); });
 const press = (seg, sel) => seg.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b === sel));
-const segSt = document.getElementById('seg-st');
-const garage = 'rh_pool';   // rb_pool dropped on 08.11.2026, rc_pool (couvert en bas) on 11.11.2026 (user: « on n'en a plus besoin »): no Garage sub-row any more
-segSt.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segSt, b);
-  const st = b.dataset.st; setState(st === 'gar' ? garage : st); });
 const segV = document.getElementById('seg-v');
 segV.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segV, b); go(b.dataset.v); });
 controls.addEventListener('start', () => press(segV, null));
@@ -391,8 +506,10 @@ go('d11', true);
 await buildStatic();
 await buildFoliage();
 await buildWalls();
-await setState('r');
-window.galatryReal = {scene, camera, controls, renderer, setState, go, states, redraw};
+Object.keys(OPT).forEach(o => { OPT[o] = !!PH['1'][o]; }); sync();   // opens on stage 1, like the maquette 3D
+// for scripts: setOpts({ex}) or setOpts({places, terr, pool, haut, fence})
+const setOpts = o => { isEx = !!o.ex; Object.keys(OPT).forEach(k => { OPT[k] = !!o[k]; }); if (OPT.pool || OPT.haut) OPT.terr = true; sync(); };
+window.galatryReal = {scene, camera, controls, renderer, setState, setOpts, go, states, redraw, stateOf};
 </script>
 </body>
 </html>

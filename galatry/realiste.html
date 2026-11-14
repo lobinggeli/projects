@@ -64,8 +64,20 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 .toc-pop a{all:unset;cursor:pointer;padding:6px 8px;border-radius:6px;font-size:13px;font-weight:550;color:var(--accent)}
 .toc-pop a:hover{background:var(--chip)}
 .toc-pop a:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-@media (max-width:720px){
+.ctl{display:contents}
+.mob{display:none}
+.btn[aria-expanded="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+/* phones (narrow, or landscape with little height): the controls and the description start folded, so the model shows;
+   « Réglages » and « Infos » unfold them (14.11.2026) */
+@media (max-width:720px), (max-height:500px){
   .top p.long{display:none}
+  .top{padding:8px 10px}
+  .top .row:first-child{flex-wrap:nowrap}
+  .top h1 .h1-long{display:none}
+  .mob{display:flex;gap:6px;margin-left:auto}
+  .ctl{display:grid;gap:10px}
+  body:not(.show-ctl) .ctl{display:none}
+  body:not(.show-info) .sheet{display:none}
   .sheet{top:auto;bottom:calc(12px + env(safe-area-inset-bottom, 0px));max-height:34vh}
   .dock{display:none}
 }
@@ -76,7 +88,9 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
 <canvas id="c" tabindex="0" aria-label="Maquette 3D réaliste de Galatry 3 sur son terrain, avec les arbres actuels"></canvas>
 
 <section class="top panel" aria-label="Commandes">
-  <div class="row"><a class="btn" href="index.html" title="Retour à la page précédente" onclick="if(document.referrer.startsWith(location.origin)&amp;&amp;history.length&gt;1){history.back();return false}">↩ Retour</a><h1>Galatry 3 · maquette réaliste</h1></div>
+  <div class="row"><a class="btn" href="index.html" title="Retour à la page précédente" onclick="if(document.referrer.startsWith(location.origin)&amp;&amp;history.length&gt;1){history.back();return false}">↩ Retour</a><h1>Galatry 3<span class="h1-long"> · maquette réaliste</span></h1>
+    <span class="mob"><button type="button" class="btn" id="b-ctl" aria-expanded="false" aria-controls="ctl">Réglages</button><button type="button" class="btn" id="b-info" aria-expanded="false" aria-controls="sheet">Infos</button></span></div>
+  <div class="ctl" id="ctl">
   <p class="long">Le vrai terrain et les arbres d’aujourd’hui (relevés swisstopo 2021–2025, orthophoto 2023), la maison et les options d’après la maquette 3D du projet. Matières réalistes ; lumière et ombres calculées dans Blender, soleil d’été en fin de matinée.</p>
   <div class="row"><span class="lab">Étape</span><div class="seg" role="group" aria-label="Étape" id="seg-ph"></div></div>
   <div class="row"><span class="lab">Options</span><div class="seg" role="group" aria-label="Options" id="seg-opt"></div></div>
@@ -93,9 +107,10 @@ body{margin:0;background:var(--stage);color:var(--ink);font-family:var(--f-ui);o
       <div class="toc-pop panel"><b>Galatry 3</b><a href="plans.html">Actuel – Plans et 3D</a><a href="photos.html">Photos de l’annonce</a><a href="index.html">Projet – Plans et 3D</a><a href="interieur.html">Projet – Intérieur 3D</a><a href="archi.html">Plans d’architecte</a><a href="statique.html">Statique</a><a href="cfc.html">Devis CFC</a><a href="metre.html">Métré pour les offres</a></div>
     </details>
   </div>
+  </div>
 </section>
 
-<aside class="sheet panel" aria-live="polite">
+<aside class="sheet panel" id="sheet" aria-live="polite">
   <h2 id="s-t"></h2>
   <p id="s-d"></p>
   <small id="s-v"></small>
@@ -483,6 +498,11 @@ const press = (seg, sel) => seg.querySelectorAll('button').forEach(b => b.setAtt
 const segV = document.getElementById('seg-v');
 segV.addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; press(segV, b); go(b.dataset.v); });
 controls.addEventListener('start', () => press(segV, null));
+// phones: « Réglages » and « Infos » fold and unfold the controls and the description (14.11.2026)
+[['b-ctl', 'show-ctl'], ['b-info', 'show-info']].forEach(([id, cls]) => {
+  const b = document.getElementById(id);
+  b.addEventListener('click', () => b.setAttribute('aria-expanded', document.body.classList.toggle(cls)));
+});
 controls.addEventListener('change', redraw);
 
 function resize(){

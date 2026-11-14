@@ -297,7 +297,7 @@ footer{border-top:1px solid var(--rule);padding-top:14px;font-size:13px;color:va
 <div class="m-row"><span class="m-lab">Coût</span><div class="m-btns"><output id="m-cost" aria-live="polite"></output></div></div>
 <div class="m-row"><span class="m-lab">Vue</span><div class="m-btns"><button type="button" data-view="se" aria-pressed="true">Côté lac</button><button type="button" data-view="ne">Côté colline</button><button type="button" data-view="top">Dessus</button><button type="button" data-view="site">Parcelle</button></div></div>
 <div class="m-row"><span class="m-lab">Niveaux</span><div class="m-btns"><button type="button" id="m-low" aria-pressed="false">Rez-inférieur</button><button type="button" id="m-up" aria-pressed="false">Rez-de-chaussée</button><button type="button" id="m-walk" aria-pressed="false">Vue intérieure</button></div></div>
-<div class="m-row"><span class="m-lab">Afficher</span><div class="m-btns"><button type="button" id="m-ground" aria-pressed="true">Terrain</button><button type="button" id="m-parcel" aria-pressed="true">Cadastre</button></div></div>
+<div class="m-row"><span class="m-lab">Afficher</span><div class="m-btns"><button type="button" id="m-ground" aria-pressed="true">Terrain</button><button type="button" id="m-parcel" aria-pressed="true">Cadastre</button><button type="button" id="m-cars" aria-pressed="false" hidden>Voitures</button></div></div>
 </div></div>
     <div class="m-stage"><canvas id="m-canvas" aria-label="Maquette 3D du projet"></canvas>
       <div class="m-walk" id="m-walk-ui" hidden><div class="m-walk-top"><p class="m-walk-hint">Glisser pour regarder autour · cliquer ou toucher le sol pour s’y rendre · flèches ou WASD (Maj pour aller plus vite) · Échap pour sortir</p><button type="button" id="m-walk-exit">Retour à la maquette</button></div><div class="m-walk-rooms" id="m-walk-rooms" role="group" aria-label="Pièces"></div></div>
@@ -1056,6 +1056,11 @@ function buildSite(H, kind, kerbLines){
   const carve = [];
   for (let i=0;i<gp.count;i++){ const x = gp.getX(i) + CX, z = gp.getZ(i) + CZ; if (inPoly(x, z, D.lower)) carve.push([i, gp.getY(i)]); }
   const setCarve = on => { carve.forEach(([i, y]) => gp.setY(i, on ? -300 : y)); gp.needsUpdate = true; G.computeVertexNormals(); };
+  // nodes over the buried garage (« Voitures », 14.11.2026): lowered under its floor while it is shown cut open
+  const garNodes = [];
+  if (PK && PK.GAR && PK.GAR_BURIED && !PK.GAR_TOP){ const gp2 = offset(PK.GAR, PK.GAR.map(() => 1)); for (let i=0;i<gp.count;i++){ const x = gp.getX(i) + CX, z = gp.getZ(i) + CZ; if (inPoly(x, z, gp2)) garNodes.push([i, gp.getY(i)]); } }
+  let garDug = false;
+  const setGar = on => { if (!garNodes.length || garDug === on) return; garDug = on; garNodes.forEach(([i, y]) => gp.setY(i, on ? Math.min(y, PK.GAR_FLOOR - 25) : y)); gp.needsUpdate = true; G.computeVertexNormals(); };
   // optional pool (options page): the ground inside the pool is dug out when the pool is shown, levelled with the deck otherwise
   const poolNodes = [];
   // infinity pool: the catch gutter beyond the lake-side edge (z1) is dug out too, less deep
@@ -1067,7 +1072,7 @@ function buildSite(H, kind, kerbLines){
   const setPool = on => { if (!poolNodes.length || poolDug === on) return; poolDug = on;
     poolNodes.forEach(([i, y, d]) => gp.setY(i, on ? d : (d < -400 ? Math.max(y, -292) : y))); gp.needsUpdate = true; G.computeVertexNormals(); };
   scene.add(grp);
-  return {grp, cad, paint, gz, setCarve, setPool, ground};
+  return {grp, cad, paint, gz, setCarve, setPool, setGar, ground};
 }
 const siteE = buildSite(HE, 'ex', R.kerb), sites = {ex: siteE};
 Object.keys(PRS).forEach(k => { sites[k] = buildSite(dec(HPD[k]), k, PRS[k].kerb); });
@@ -1164,12 +1169,62 @@ function drawFence(g, F, gz){
     [[x1,z1],[x2,z2]].forEach(([x,z]) => g.add(prism([[x-12,z-12],[x+12,z-12],[x+12,z+12],[x-12,z+12]], () => g0 - 10, () => g0 + 160, M.conc)));
   });
 }
+// 14.11.2026 (user: « montre moi le garage en haut, modéliser une RS4 et une X5 pour voir la place que ça prend », then « ok » to adding
+// them to this maquette): « Voitures » shows a BMW X5 (G05, 4.94 × 2.00 m, h 1.76) and an Audi RS4 Avant (B9, 4.78 × 1.87 m, h 1.41) parked
+// nose in inside the garage en haut, the garage cut open (walls without the roof, door open, the soil over it dug away by the site's
+// setGar). Same layout as manoeuvres/garage_voitures.py: X5 0.92 m from the west wall, 1.00 m between them, bumpers 0.30 m off the back wall
+const CARS3 = [
+  {W: 200.4, Wm: 221.8, L: 493.5, wb: 297.5, fo: 89, wd: 78, ww: 28, tr: 168, mir: 180, belt: 112, color: '#33507A',
+   body: [[0,38],[2,80],[10,98],[120,110],[165,114],[480,118],[493.5,100],[493.5,45],[480,30],[420,21],[80,21],[8,28]],
+   glass: [[165,112],[245,172],[440,175.5],[478,150],[482,116]]},
+  {W: 186.6, Wm: 202.2, L: 478.1, wb: 282.6, fo: 90, wd: 68, ww: 27, tr: 157, mir: 172, belt: 92, color: '#8B9095',
+   body: [[0,24],[1,55],[8,68],[110,80],[155,90],[462,96],[478.1,82],[478.1,32],[466,18],[400,12],[80,12],[6,16]],
+   glass: [[155,89],[240,138],[430,141.4],[464,124],[470,94]]}];
+function garCars(PR, f){
+  const g = new THREE.Group(), xs = PR.GAR.map(p => p[0]), zs = PR.GAR.map(p => p[1]);
+  const gx0 = Math.min(...xs), gz0 = Math.min(...zs), gz1 = Math.max(...zs), WT = 25, top = f + (PR.GAR_H || 255) - 25;
+  const n = PR.GAR.length, inner = offset(PR.GAR, PR.GAR.map(() => -WT));
+  const e = PR.GAR.findIndex((p, i) => p[1] === gz1 && PR.GAR[(i + 1) % n][1] === gz1);   // the door face
+  const a = PR.GAR[e], b = PR.GAR[(e + 1) % n], dxs = [PR.GAR_DOORS[0][0], PR.GAR_DOORS[0][2]];
+  const da = dxs.reduce((u, v) => Math.abs(v - a[0]) < Math.abs(u - a[0]) ? v : u), db = dxs.find(v => v !== da);
+  const ring = [[db, gz1]];   // the walls as one outline: outside from the door round to the door, back along the inside
+  for (let k = 1; k <= n; k++) ring.push(PR.GAR[(e + k) % n]);
+  ring.push([da, gz1], [da, gz1 - WT]);
+  for (let k = 0; k < n; k++) ring.push(inner[(e - k + n) % n]);
+  ring.push([db, gz1 - WT]);
+  g.add(prism(PR.GAR, () => f - 20, () => f, M.conc));
+  g.add(prism(ring, () => f, () => top, M.conc));
+  g.add(prism([[Math.min(da, db), gz1 - WT], [Math.max(da, db), gz1 - WT], [Math.max(da, db), gz1], [Math.min(da, db), gz1]], () => f + (PR.DOOR_H || 210), () => top, M.conc));
+  const SWAP = new THREE.Matrix4().set(0,0,1,0, 0,1,0,0, 1,0,0,0, 0,0,0,1);
+  const extr = (P, w, mat) => { const geo = new THREE.ExtrudeGeometry(new THREE.Shape(P.map(([u, y]) => new THREE.Vector2(u, y))), {depth: w, bevelEnabled: false});
+    geo.applyMatrix4(SWAP); geo.computeVertexNormals(); const m = new THREE.Mesh(geo, mat); m.castShadow = m.receiveShadow = true;
+    const grp = new THREE.Group(); grp.add(m); grp.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 30), M.edge)); return grp; };
+  const glassM = new THREE.MeshLambertMaterial({color: '#2A3A48', transparent: true, opacity: .75, side: THREE.DoubleSide});
+  const tyre = new THREE.MeshLambertMaterial({color: '#151515'}), rim = new THREE.MeshLambertMaterial({color: '#A4A9AE'});
+  let x0 = gx0 + WT + 92;
+  CARS3.forEach(c => {
+    const C3 = new THREE.Group(), [vx, vz] = V(x0, gz0 + WT + 30); C3.position.set(vx, f, vz);
+    const paint = new THREE.MeshLambertMaterial({color: c.color, side: THREE.DoubleSide});
+    const bd = extr(c.body, c.W - 6, paint); bd.position.x = 3; C3.add(bd);
+    const gl = extr(c.glass.concat([[c.glass[4][0], c.belt - 4], [c.glass[0][0], c.belt - 4]]), c.W - 30, glassM); gl.position.x = 15; C3.add(gl);
+    const rf = new THREE.Mesh(new THREE.BoxGeometry(c.W - 36, 4, c.glass[2][0] - c.glass[1][0] + 10), paint);
+    rf.position.set(c.W / 2, (c.glass[1][1] + c.glass[2][1]) / 2 + 3.5, (c.glass[1][0] + c.glass[2][0]) / 2 + 2); rf.castShadow = true; C3.add(rf);
+    [c.fo, c.fo + c.wb].forEach(az => [-1, 1].forEach(s => {
+      const w = new THREE.Mesh(new THREE.CylinderGeometry(c.wd / 2, c.wd / 2, c.ww, 24), tyre); w.rotation.z = Math.PI / 2; w.position.set(c.W / 2 + s * c.tr / 2, c.wd / 2, az); w.castShadow = true; C3.add(w);
+      const r = new THREE.Mesh(new THREE.CylinderGeometry(c.wd / 3.2, c.wd / 3.2, c.ww + 1, 18), rim); r.rotation.z = Math.PI / 2; r.position.copy(w.position); C3.add(r); }));
+    const mo = (c.Wm - c.W) / 2;
+    [-1, 1].forEach(s => { const mr = new THREE.Mesh(new THREE.BoxGeometry(mo, 10, 16), paint); mr.position.set(s < 0 ? -mo / 2 : c.W + mo / 2, c.belt + 6, c.mir); C3.add(mr); });
+    g.add(C3); x0 += c.W + 100;
+  });
+  g.visible = false;
+  return g;
+}
 function buildProj(PR, gz){
   const proj = new THREE.Group(); scene.add(proj);
   drawFence(proj, {FENCE: PR.FENCE, HEDGE: PR.HEDGE, GATES: PR.GATE ? [PR.GATE] : []}, gz);
   if (PR.GAR && PR.GAR_BURIED){
     const f = PR.GAR_FLOOR;   // buried garage: concrete box under the backfill, only the door face shows
-    proj.add(prism(PR.GAR, () => f - 2, () => PR.GAR_TOP || f + (PR.GAR_H || 300), M.conc));   // GAR_H: thin-roofed garage at the bottom
+    const garBox = prism(PR.GAR, () => f - 2, () => PR.GAR_TOP || f + (PR.GAR_H || 300), M.conc); proj.add(garBox);   // GAR_H: thin-roofed garage at the bottom
     if (PR.GROOF) proj.add(prism(PR.GAR, () => f + (PR.GAR_H || 300), () => PR.GROOF, M.green));   // its green roof as a slab with straight edges
     if (PR.GAR_TOP){          // roof terrace: paved roof at the terrace level, glass guard over the doors
       proj.add(prism(PR.GAR, () => PR.GAR_TOP, () => PR.GAR_TOP + 3, M.stone, false));
@@ -1181,7 +1236,9 @@ function buildProj(PR, gz){
       }
       PR.GUARD.slice(1).forEach(([gx2, gz2], i) => { const [gx1, gz1] = PR.GUARD[i]; proj.add(panel(gx1, gz1, gx2, gz2, PR.GAR_TOP, PR.GAR_TOP + 100, M.rail, 0)); });
     }
-    PR.GAR_DOORS.forEach(([x1,z1,x2,z2]) => proj.add(panel(x1,z1,x2,z2,f,f + (PR.DOOR_H || 225),M.wood,3,PR.DOOR_N)));
+    const garDoors = PR.GAR_DOORS.map(([x1,z1,x2,z2]) => { const d = panel(x1,z1,x2,z2,f,f + (PR.DOOR_H || 225),M.wood,3,PR.DOOR_N); proj.add(d); return d; });
+    if (!PR.GAR_TOP && !PR.GROOF){ const cars = garCars(PR, f); proj.add(cars);
+      proj.userData.setCars = on => { cars.visible = on; garBox.visible = !on; garDoors.forEach(d => { d.visible = !on; }); }; }
   } else if (PR.GAR){
     proj.add(prism(PR.GAR, () => -2, () => 272, M.conc));
     proj.add(prism(offset(PR.GAR, [15,15,15,15]), () => 272, () => 300, M.green));
@@ -1247,6 +1304,7 @@ const poolG = new THREE.Group(); scene.add(poolG); let poolOn = false;
 // 06.11.2026 (user: « la maquette 3D "base" ne dispose pas de la terrasse »): the lake-side terrace is an option. Without it, the base
 // shows today's ground and paving (the 'ex' site) round the renovated house; « + Terrasse » brings it in, and so does the pool
 let terrOn = false;
+let carsOn = false; const carsBtn = document.getElementById('m-cars');   // « Voitures » (14.11.2026)
 // 08.11.2026: « + 2 places en bas » (rp) the same way: without the terrace, its own site rpx (today's ground, the places, no terrace)
 const SITE_ALT = {r: 'rx', rp: 'rpx'};
 const siteKey = () => SITE_ALT[mode] && !terrOn && !poolOn ? SITE_ALT[mode] : mode;
@@ -1474,6 +1532,10 @@ function apply(){
   poolG.visible = pool && !alt; poolLabel.visible = pool && !alt && !low && !up; Object.values(sites).forEach(st => st.setPool(pool));
   Object.keys(poolGs).forEach(k => { poolGs[k].visible = pool && k === mode; if (poolLabels[k]) poolLabels[k].visible = pool && k === mode && !low && !up; });
   Object.keys(fenceG).forEach(k => { fenceG[k].visible = fenceOn && k === mode; });
+  const carsHere = !!(projs[sk] && projs[sk].visible && projs[sk].userData.setCars);
+  if (carsBtn) carsBtn.hidden = !carsHere;
+  Object.keys(projs).forEach(k => { if (projs[k].userData.setCars) projs[k].userData.setCars(carsOn && !walk && k === sk && carsHere); });
+  Object.keys(sites).forEach(k => sites[k].setGar(carsOn && !walk && k === sk && carsHere));
   bandLux.visible = glazed; bandEx.visible = !glazed; guardBedD.visible = iv === 'd';
   // inside view: only the current floor's interior; the façades of that floor give way to its own walls and clear glass
   walkLight.visible = walk; scene.background.set(walk ? C.sky : css('--sheet'));
@@ -1490,15 +1552,17 @@ function apply(){
   } else carve(low);
   render();
 }
-const views = { se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700] };
+const views = { se: [1900, 900, 2600], ne: [2600, 1500, -2700], top: [0, 4200, 60], site: [1400, 6400, 5200], low: [700, 2300, 1900], up: [600, 2400, 1700], gar: [-260, 1150, -330] };
+const viewTargets = { gar: [525, 60, -1340] }, homeTarget = [0, -40, 0];
 let anim = null;
 function go(v){
   const from = camera.position.clone(), to = new THREE.Vector3(...views[v]);
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches){ camera.position.copy(to); controls.update(); render(); return; }
+  const tFrom = controls.target.clone(), tTo = new THREE.Vector3(...(viewTargets[v] || (low ? [0, -200, 150] : up ? [0, 0, 150] : homeTarget)));   // « gar » looks at the garage, the others at the house (floorCut's targets)
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches){ camera.position.copy(to); controls.target.copy(tTo); controls.update(); render(); return; }
   const t0 = performance.now(); cancelAnimationFrame(anim);
   (function step(){
     const k = Math.min(1, (performance.now()-t0)/700), e = 1 - Math.pow(1-k, 3);
-    camera.position.lerpVectors(from, to, e); controls.update(); render();
+    camera.position.lerpVectors(from, to, e); controls.target.lerpVectors(tFrom, tTo, e); controls.update(); render();
     if (k < 1) anim = requestAnimationFrame(step);
   })();
 }
@@ -1563,6 +1627,11 @@ optBtns.forEach(b => b.addEventListener('click', () => {
 window.galatryProject.setOpts = o => { isEx = !!o.ex; Object.keys(OPT).forEach(k => { OPT[k] = !!o[k]; }); if (OPT.pool || OPT.haut) OPT.terr = true; syncOpts(); };
 if (phBtns.length) syncOpts();
 const lowBtn = document.getElementById('m-low'), upBtn = document.getElementById('m-up');
+if (carsBtn) carsBtn.addEventListener('click', () => {
+  carsOn = !carsOn; carsBtn.setAttribute('aria-pressed', carsOn);
+  if (carsOn){ if (low || up) floorCut(null); exitWalk(); document.querySelectorAll('.m-ctrl [data-view]').forEach(x => x.setAttribute('aria-pressed', false)); go('gar'); }
+  apply();
+});
 function floorCut(which){   // 'low', 'up' or null: only one floor is cut open at a time
   exitWalk(); low = which === 'low'; up = which === 'up';
   lowBtn.setAttribute('aria-pressed', low); upBtn.setAttribute('aria-pressed', up);

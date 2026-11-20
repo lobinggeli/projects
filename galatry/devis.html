@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Galatry 3 · devis comparés</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Narrow:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one 920px sheet, plan-drawing feel (same system as the Galatry 3 timeline); sections in reading order, the step list is the spine */
+:root{
+  --paper:#F3F5F4; --sheet:#FBFCFB; --ink:#1B2530; --ink-2:#56626E; --rule:#C9D1D4;
+  --room:#E6ECEE; --accent:#2F6690; --accent-soft:rgba(47,102,144,.12);
+  --loic:#2F6690; --audrey:#9A5B2E; --bank:#8C979F;
+  --good:#0C7A3D; --good-soft:rgba(12,122,61,.12); --critical:#B3402A; --critical-soft:rgba(179,64,42,.12); --warning:#9A6F00; --warning-soft:rgba(184,134,11,.16);
+  --f-draw:"Archivo Narrow","Arial Narrow",Arial,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+    --room:#1C262E; --accent:#7DB4E0; --accent-soft:rgba(125,180,224,.16);
+    --loic:#7DB4E0; --audrey:#E0A577; --bank:#5D6A73;
+    --good:#3FBE72; --good-soft:rgba(63,190,114,.16); --critical:#E2725B; --critical-soft:rgba(226,114,91,.16); --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18);
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --paper:#10161B; --sheet:#151D23; --ink:#DCE4E9; --ink-2:#93A1AB; --rule:#2B3740;
+  --room:#1C262E; --accent:#7DB4E0; --accent-soft:rgba(125,180,224,.16);
+  --loic:#7DB4E0; --audrey:#E0A577; --bank:#5D6A73;
+  --good:#3FBE72; --good-soft:rgba(63,190,114,.16); --critical:#E2725B; --critical-soft:rgba(226,114,91,.16); --warning:#E0B93D; --warning-soft:rgba(224,185,61,.18);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.55 var(--f-body);padding-inline:16px;padding-block:28px 64px}
+.wrap{max-width:920px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--f-draw);font-weight:600;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(28px,4.5vw,40px);line-height:1.08}
+h2{font-size:21px;text-transform:uppercase;letter-spacing:.06em}
+h3{font-size:16px;letter-spacing:.02em}
+p{margin:0;max-width:68ch}
+a{color:var(--accent)}
+section{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font:500 12px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.lede{color:var(--ink-2);font-size:16px}
+.sub{color:var(--ink-2);font-size:14px}
+header{display:flex;flex-direction:column;gap:10px;border-bottom:1.5px solid var(--ink);padding-bottom:18px}
+nav{display:flex;flex-wrap:wrap;gap:6px 14px;font:500 13px/1.4 var(--f-mono)}
+nav a{text-decoration:none}
+nav a:hover,nav a:focus-visible{text-decoration:underline}
+.sheet{background:var(--sheet);border:1px solid var(--rule);border-radius:4px;padding:18px}
+ul.k{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:72ch}
+.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono);font-size:13.5px}
+.tbl{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--sheet)}
+table{border-collapse:collapse;width:100%;min-width:600px;font-size:14px}
+th,td{text-align:left;vertical-align:top;padding:9px 12px;border-bottom:1px solid var(--rule)}
+th{font:600 12px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);background:var(--room)}
+tr:last-child td{border-bottom:0}
+td.r,th.r{text-align:right}
+.pill{display:inline-block;font:500 11.5px/1 var(--f-mono);padding:4px 7px;border-radius:99px;white-space:nowrap;letter-spacing:.02em}
+.ok{background:var(--good-soft);color:var(--good)}
+.no{background:var(--critical-soft);color:var(--critical)}
+.wa{background:var(--warning-soft);color:var(--warning)}
+.ac{background:var(--accent-soft);color:var(--accent)}
+.note{border-left:3px solid var(--warning);background:var(--warning-soft);padding:10px 14px;border-radius:0 4px 4px 0;max-width:76ch}
+.note.bad{border-color:var(--critical);background:var(--critical-soft)}
+details{border:1px solid var(--rule);border-radius:4px;padding:10px 14px;margin:8px 0}
+details>summary{cursor:pointer;font-weight:600}
+details[open]>summary{margin-bottom:10px}
+.note.good{border-color:var(--good);background:var(--good-soft)}
+
+
+/* colour code: one colour per estimate, used everywhere (blue = ours, orange = Sarine, green = iGO Light, violet = iGO Totale);
+   a gap takes the colour of the dearer one */
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --ours:#2F6690; --theirs:#B4612A; --igo:#2E7D4F; --igo2:#7B4F9E}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ours:#7DB4E0; --theirs:#E8975A; --igo:#6CC28E; --igo2:#B99BDA}}
+:root[data-theme="dark"]{--ours:#7DB4E0; --theirs:#E8975A; --igo:#6CC28E; --igo2:#B99BDA}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:7px;vertical-align:0}
+body{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap>*{min-width:0}
+.vs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.vs .sheet{display:flex;flex-direction:column;gap:6px}
+.vs .big{font:600 30px/1.1 var(--f-draw);font-variant-numeric:tabular-nums}
+.vs .who{font:500 12px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink-2)}
+.verdict{display:flex;flex-direction:column;gap:10px;max-width:76ch}
+.verdict p{margin:0}
+.stacks{display:flex;flex-direction:column;gap:10px}
+.stk{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center}
+.stk .lab{font:600 13px/1.3 var(--f-mono)}
+.stk .bar{display:flex;height:30px;border-radius:3px;overflow:hidden}
+.stk .bar span{display:flex;align-items:center;justify-content:center;font:500 11.5px/1 var(--f-mono);white-space:nowrap;overflow:hidden;border-right:2px solid var(--paper)}
+.stk .bar span:last-child{border-right:0}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:13px;color:var(--ink-2)}
+.legend i.sw{display:inline-block;width:14px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink-2)}
+.legend .w{background:var(--ink-2)} .legend .f{background:color-mix(in srgb,var(--ink-2) 60%,var(--sheet))} .legend .r{background:color-mix(in srgb,var(--ink-2) 28%,var(--sheet))}
+.switch{display:flex;flex-direction:column;gap:14px}
+.switch>input{position:absolute;opacity:0;width:1px;height:1px;pointer-events:none}
+.seg{display:inline-flex;align-self:flex-start;border:1px solid var(--rule);border-radius:999px;overflow:hidden;background:var(--sheet)}
+.seg label{padding:7px 16px;font:500 13px/1.2 var(--f-mono);cursor:pointer;color:var(--ink-2)}
+#cmp-l:checked~.seg label[for="cmp-l"]{background:var(--igo);color:var(--sheet)}
+#cmp-x:checked~.seg label[for="cmp-x"]{background:var(--igo2);color:var(--sheet)}
+#cmp-l:focus-visible~.seg label[for="cmp-l"],#cmp-x:focus-visible~.seg label[for="cmp-x"]{outline:2px solid var(--accent);outline-offset:2px}
+#cmp-l:checked~.px,#cmp-x:checked~.pl{display:none}
+.panel{display:flex;flex-direction:column;gap:12px}
+.panel p{margin:0;max-width:76ch}
+.dv{display:inline-flex;width:200px;height:12px;vertical-align:middle}
+.dv>span{flex:1;display:flex}
+.dv>span:first-child{justify-content:flex-end;border-right:1px solid var(--ink)}
+.dv b{display:block;height:100%}
+.dv .lo{background:var(--theirs)} .dv .hl{background:var(--igo)} .dv .hx{background:var(--igo2)}
+.why-list{display:flex;flex-direction:column;gap:6px;max-width:720px}
+.why-list div{display:grid;grid-template-columns:1fr 200px 76px;gap:10px;align-items:center;font-size:14px}
+.why-list .num{text-align:right}
+.why-list .hd{font:500 12px/1.3 var(--f-mono)}
+.why-list .hd .ax{grid-column:2 / 4;display:flex;justify-content:space-between;gap:8px;width:200px}
+table.cmp{min-width:740px}
+.cmp td.r,.cmp th.r{text-align:right;white-space:nowrap}
+.cmp tr.grp td{background:var(--room);font-weight:600}
+.cmp tr.grp td.c{font:600 12px/1.3 var(--f-mono);text-transform:uppercase;letter-spacing:.05em}
+.cmp tr.ln td.p{padding-left:26px}
+.cmp tr.ln td.c{font:400 12.5px/1.4 var(--f-mono);color:var(--ink-2)}
+.cmp tr.hn td{border-bottom:0;padding-bottom:3px}
+.cmp tr.nt td{padding-top:0;padding-bottom:12px}
+.cmp tr.nt td.why{padding-left:26px;color:var(--ink-2);font-size:13px;line-height:1.45}
+.cmp tr.sp td{border:0;padding:5px}
+.cmp tr.tot td{background:var(--ink);color:var(--sheet);font-weight:600}
+.cmp .ps{display:block;font:400 11.5px/1.3 var(--f-mono);color:var(--ink-2);white-space:normal}
+.cmp th .ps{font-weight:400;text-transform:none;letter-spacing:0}
+table.pos{min-width:640px}
+ol.q,ul.q{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:8px;max-width:76ch}
+dl.facts{display:flex;flex-direction:column;gap:12px;margin:0;max-width:820px}
+dl.facts div{display:grid;grid-template-columns:230px 1fr;gap:4px 16px}
+dl.facts dt{font-weight:600} dl.facts dd{margin:0}
+.stackq{display:flex;flex-direction:column;gap:12px}
+footer{color:var(--ink-2);font-size:13px;border-top:1px solid var(--rule);padding-top:14px;display:flex;flex-direction:column;gap:6px}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.cmp tr.tot .co,.cmp tr.tot .ct,.cmp tr.tot .cl,.cmp tr.tot .cx{color:var(--sheet)}
+@media (max-width:520px){.stk{grid-template-columns:1fr}.why-list div{grid-template-columns:1fr 110px 64px}.dv{width:110px}.why-list .hd .ax{width:auto;flex-direction:column}dl.facts div{grid-template-columns:1fr}}
+.dot.o{background:var(--ours)} .co{color:var(--ours);font-weight:600} .vs .sheet.o{border-top:4px solid var(--ours)}
+.stk.o .bar{border:1.5px solid var(--ours)} .stk.o .w{background:var(--ours);color:var(--sheet)} .stk.o .f{background:color-mix(in srgb,var(--ours) 60%,var(--sheet));color:var(--ink)} .stk.o .r{background:color-mix(in srgb,var(--ours) 28%,var(--sheet));color:var(--ink)}
+.dot.t{background:var(--theirs)} .ct{color:var(--theirs);font-weight:600} .vs .sheet.t{border-top:4px solid var(--theirs)}
+.stk.t .bar{border:1.5px solid var(--theirs)} .stk.t .w{background:var(--theirs);color:var(--sheet)} .stk.t .f{background:color-mix(in srgb,var(--theirs) 60%,var(--sheet));color:var(--ink)} .stk.t .r{background:color-mix(in srgb,var(--theirs) 28%,var(--sheet));color:var(--ink)}
+.dot.l{background:var(--igo)} .cl{color:var(--igo);font-weight:600} .vs .sheet.l{border-top:4px solid var(--igo)}
+.stk.l .bar{border:1.5px solid var(--igo)} .stk.l .w{background:var(--igo);color:var(--sheet)} .stk.l .f{background:color-mix(in srgb,var(--igo) 60%,var(--sheet));color:var(--ink)} .stk.l .r{background:color-mix(in srgb,var(--igo) 28%,var(--sheet));color:var(--ink)}
+.dot.x{background:var(--igo2)} .cx{color:var(--igo2);font-weight:600} .vs .sheet.x{border-top:4px solid var(--igo2)}
+.stk.x .bar{border:1.5px solid var(--igo2)} .stk.x .w{background:var(--igo2);color:var(--sheet)} .stk.x .f{background:color-mix(in srgb,var(--igo2) 60%,var(--sheet));color:var(--ink)} .stk.x .r{background:color-mix(in srgb,var(--igo2) 28%,var(--sheet));color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Galatry 3 · travaux</div>
+  <h1>Devis comparés</h1>
+  <p class="lede">Les devis généraux de Sarine Parquet Sàrl (Patrick Lourencio, Crésuz) du 9.11.2026 et d’iGO SA (Philippe Karlen, Corseaux) du 18.11.2026, en deux variantes, Light et Totale, comparés poste par poste et classés par CFC. Montants en CHF, k = milliers.</p>
+  <nav aria-label="Pages"><a href="index.html">Projet Galatry 3</a></nav>
+</header>
+<section id="totaux">
+  <h2>Les totaux</h2>
+  <p class="sub">Avant subventions, pour comparer à égalité : iGO n’en déduit aucune.</p>
+  <div class="vs">
+    <div class="sheet t"><span class="who"><i class="dot t"></i>Sarine Parquet</span><span class="big num">726.5 k</span><span class="sub">697.5 k après ses 29 k de subventions, TVA non précisée · travaux 606 k, honoraires et frais 75.5 k, imprévus 45 k</span></div>
+    <div class="sheet l"><span class="who"><i class="dot l"></i>iGO · variante Light</span><span class="big num">797 k</span><span class="sub">TTC, ± 25 %, sans subventions déduites · travaux 598 k, honoraires et frais 139 k, imprévus 60 k</span></div>
+    <div class="sheet x"><span class="who"><i class="dot x"></i>iGO · variante Totale</span><span class="big num">1’009 k</span><span class="sub">TTC, ± 25 %, sans subventions déduites · travaux 773 k, honoraires et frais 153 k, imprévus 83 k</span></div>
+  </div>
+  <div class="stacks" role="img" aria-label="Composition des totaux avant subventions, à la même échelle">
+    <div class="stk t"><span class="lab ct"><i class="dot t"></i>Sarine</span><div class="bar" style="width:72.00%"><span class="w" style="flex:606000.0000" title="Travaux 606 k">Travaux 606 k</span><span class="f" style="flex:75500.0000" title="Honoraires et frais 75.5 k">75.5 k</span><span class="r" style="flex:45000.0000" title="Imprévus 45 k"></span></div></div>
+    <div class="stk l"><span class="lab cl"><i class="dot l"></i>iGO Light</span><div class="bar" style="width:78.99%"><span class="w" style="flex:598000.0000" title="Travaux 598 k">Travaux 598 k</span><span class="f" style="flex:139000.0000" title="Honoraires et frais 139 k">139 k</span><span class="r" style="flex:60000.0000" title="Imprévus 60 k"></span></div></div>
+    <div class="stk x"><span class="lab cx"><i class="dot x"></i>iGO Totale</span><div class="bar" style="width:100.00%"><span class="w" style="flex:773000.0000" title="Travaux 773 k">Travaux 773 k</span><span class="f" style="flex:153000.0000" title="Honoraires et frais 153 k">153 k</span><span class="r" style="flex:83000.0000" title="Imprévus 83 k">83 k</span></div></div>
+  </div>
+  <div class="legend"><span><i class="dot t"></i>Sarine</span><span><i class="dot l"></i>iGO Light</span><span><i class="dot x"></i>iGO Totale</span><span><i class="sw w"></i>Couleur pleine : travaux</span><span><i class="sw f"></i>atténuée : honoraires et frais</span><span><i class="sw r"></i>très atténuée : imprévus</span><span>Avant subventions, même échelle.</span></div>
+  <div class="verdict">
+    <p>Avant subventions, la variante Light d’iGO (797 k) est 70.5 k au-dessus de Sarine (726.5 k), soit +10 %. Sur les travaux, les deux sont proches : 598 k chez iGO, aménagements extérieurs compris, contre 606 k chez Sarine. L’écart vient des honoraires et frais (139 k contre 75.5 k, dont 70 k de direction des travaux chez iGO) et des imprévus (60 k contre 45 k). Après subventions, que Sarine déduit et pas iGO, il passe à 99.5 k.</p>
+    <p>Sarine ne dit pas si son devis comprend la TVA, iGO compte TTC. Si le devis de Sarine est hors taxe, il monte à environ 785.3 k avant subventions, presque le niveau d’iGO Light.</p>
+    <p>La variante Totale ajoute 212 k à la Light, soit 1’009 k au total : 282.5 k de plus que Sarine (+39 %). Elle refait la toiture, l’électricité et les conduites, et ajoute des dressings et du solaire sur tout le toit.</p>
+  </div>
+</section>
+<section id="ecart">
+  <h2>iGO face à Sarine</h2>
+  <p class="sub">Écart = iGO moins Sarine, avant subventions, poste par poste. Choisir la variante d’iGO. Avant que la banque s’appuie sur l’un ou l’autre devis, faire préciser les <a href="#questions">questions plus bas</a>.</p>
+  <div class="switch">
+    <input type="radio" name="cmpv" id="cmp-l" checked>
+    <input type="radio" name="cmpv" id="cmp-x">
+    <div class="seg"><label for="cmp-l">iGO Light</label><label for="cmp-x">iGO Totale</label></div>
+    <div class="panel pl">
+      <p><b>iGO Light : 70.5 k au-dessus de Sarine</b> avant subventions (+10 %). Les plus gros écarts : iGO est plus cher sur l’architecte et la direction des travaux (+30 k), les aménagements extérieurs (+30 k) et les sols (+29 k) ; Sarine sur la menuiserie et les armoires (+44 k), les fenêtres et baies (+30 k) et le chauffage (+20 k). Une partie tient au périmètre : iGO compte la terrasse côté lac et les taxes de raccordement, Sarine un dressing, un escalier en bois, une porte de garage et un poêle.</p>
+      <div class="why-list">
+        <div class="hd"><span></span><span class="ax"><span class="ct">◀ Sarine plus cher</span><span class="cl">iGO Light plus cher ▶</span></span></div>
+        <div><span>Menuiserie intérieure, armoires, escalier</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:68.8%"></b></span><span></span></span><span class="num ct">−44 k</span></div>
+        <div><span>Fenêtres, portes extérieures, baies</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:46.9%"></b></span><span></span></span><span class="num ct">−30 k</span></div>
+        <div><span>Pompe à chaleur et chauffage au sol</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:31.2%"></b></span><span></span></span><span class="num ct">−20 k</span></div>
+        <div><span>Démolition, installation de chantier, amiante, citerne</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:23.4%"></b></span><span></span></span><span class="num ct">−15 k</span></div>
+        <div><span>Stores</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:18.8%"></b></span><span></span></span><span class="num ct">−12 k</span></div>
+        <div><span>Toit isolé par l’intérieur</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Garde-corps, ouvrages métalliques</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Cheminée, poêle</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Ventilation des salles d’eau</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:7.8%"></b></span><span></span></span><span class="num ct">−5 k</span></div>
+        <div><span>Étanchéité de la terrasse du haut</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:7.8%"></b></span></span><span class="num cl">+5 k</span></div>
+        <div><span>Ingénieur civil</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:7.8%"></b></span></span><span class="num cl">+5 k</span></div>
+        <div><span>Taxes de raccordement</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:17.2%"></b></span></span><span class="num cl">+11 k</span></div>
+        <div><span>Sanitaire</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:23.4%"></b></span></span><span class="num cl">+15 k</span></div>
+        <div><span>Imprévus</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:23.4%"></b></span></span><span class="num cl">+15 k</span></div>
+        <div><span>Géomètre, permis, assurance, frais de chantier</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:25.8%"></b></span></span><span class="num cl">+16.5 k</span></div>
+        <div><span>Maçonnerie, ouvertures, structure, échafaudage</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:29.7%"></b></span></span><span class="num cl">+19 k</span></div>
+        <div><span>Plâtrerie, cloisons, peinture</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:35.9%"></b></span></span><span class="num cl">+23 k</span></div>
+        <div><span>Façades isolées crépies, bois extérieur</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:43.8%"></b></span></span><span class="num cl">+28 k</span></div>
+        <div><span>Chapes, isolation des sols, parquet, carrelage</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:45.3%"></b></span></span><span class="num cl">+29 k</span></div>
+        <div><span>Aménagements extérieurs, terrasse côté lac</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:46.9%"></b></span></span><span class="num cl">+30 k</span></div>
+        <div><span>Architecte et direction des travaux</span><span class="dv" aria-hidden="true"><span></span><span><b class="hl" style="width:46.9%"></b></span></span><span class="num cl">+30 k</span></div>
+      </div>
+    </div>
+    <div class="panel px">
+      <p><b>iGO Totale : 282.5 k au-dessus de Sarine</b> avant subventions (+39 %). Les plus gros écarts : iGO est plus cher sur la ferblanterie et la couverture (+64 k), l’architecte et la direction des travaux (+44 k) et les imprévus (+38 k) ; Sarine sur la menuiserie et les armoires (+44 k), les fenêtres et baies (+30 k) et la démolition et l’amiante (+15 k). La Totale refait en plus la couverture et compte les dressings avec la cuisine ; Sarine compte un escalier en bois, une porte de garage et un poêle, iGO la terrasse côté lac et les taxes de raccordement.</p>
+      <div class="why-list">
+        <div class="hd"><span></span><span class="ax"><span class="ct">◀ Sarine plus cher</span><span class="cx">iGO Totale plus cher ▶</span></span></div>
+        <div><span>Menuiserie intérieure, armoires, escalier</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:68.8%"></b></span><span></span></span><span class="num ct">−44 k</span></div>
+        <div><span>Fenêtres, portes extérieures, baies</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:46.9%"></b></span><span></span></span><span class="num ct">−30 k</span></div>
+        <div><span>Démolition, installation de chantier, amiante, citerne</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:23.4%"></b></span><span></span></span><span class="num ct">−15 k</span></div>
+        <div><span>Toit isolé par l’intérieur</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Pompe à chaleur et chauffage au sol</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Garde-corps, ouvrages métalliques</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Cheminée, poêle</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:15.6%"></b></span><span></span></span><span class="num ct">−10 k</span></div>
+        <div><span>Ventilation des salles d’eau</span><span class="dv" aria-hidden="true"><span><b class="lo" style="width:7.8%"></b></span><span></span></span><span class="num ct">−5 k</span></div>
+        <div><span>Étanchéité de la terrasse du haut</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:7.8%"></b></span></span><span class="num cx">+5 k</span></div>
+        <div><span>Ingénieur civil</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:7.8%"></b></span></span><span class="num cx">+5 k</span></div>
+        <div><span>Taxes de raccordement</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:17.2%"></b></span></span><span class="num cx">+11 k</span></div>
+        <div><span>Stores</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:23.4%"></b></span></span><span class="num cx">+15 k</span></div>
+        <div><span>Géomètre, permis, assurance, frais de chantier</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:25.8%"></b></span></span><span class="num cx">+16.5 k</span></div>
+        <div><span>Plâtrerie, cloisons, peinture</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:35.9%"></b></span></span><span class="num cx">+23 k</span></div>
+        <div><span>Maçonnerie, ouvertures, structure, échafaudage</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:37.5%"></b></span></span><span class="num cx">+24 k</span></div>
+        <div><span>Sanitaire</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:39.1%"></b></span></span><span class="num cx">+25 k</span></div>
+        <div><span>Cuisine</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:39.1%"></b></span></span><span class="num cx">+25 k</span></div>
+        <div><span>Façades isolées crépies, bois extérieur</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:43.8%"></b></span></span><span class="num cx">+28 k</span></div>
+        <div><span>Chapes, isolation des sols, parquet, carrelage</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:45.3%"></b></span></span><span class="num cx">+29 k</span></div>
+        <div><span>Électricité et panneaux solaires</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:46.9%"></b></span></span><span class="num cx">+30 k</span></div>
+        <div><span>Aménagements extérieurs, terrasse côté lac</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:46.9%"></b></span></span><span class="num cx">+30 k</span></div>
+        <div><span>Imprévus</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:59.4%"></b></span></span><span class="num cx">+38 k</span></div>
+        <div><span>Architecte et direction des travaux</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:68.8%"></b></span></span><span class="num cx">+44 k</span></div>
+        <div><span>Ferblanterie, couverture</span><span class="dv" aria-hidden="true"><span></span><span><b class="hx" style="width:100.0%"></b></span></span><span class="num cx">+64 k</span></div>
+      </div>
+    </div>
+  </div>
+  <p class="sub">La barre et le chiffre prennent la couleur de l’estimation la plus chère : vert (Light) ou violet (Totale) quand iGO est plus cher, orange quand Sarine l’est. Postes de plus de 5 k, même échelle pour les deux variantes ; électricité et solaire ensemble, comme iGO les compte.</p>
+</section>
+<section id="cfc">
+  <h2>Poste par poste, par CFC</h2>
+  <p class="sub">Les positions des deux devis (en petit sous leurs montants) sont rangées dans des postes communs : c’est notre lecture, pas la leur. Écarts = iGO moins Sarine, en <span class="cl">vert</span> (Light) ou <span class="cx">violet</span> (Totale) quand iGO est plus cher, en <span class="ct">orange</span> quand Sarine l’est.</p>
+  <div class="tbl"><table class="cmp">
+    <thead><tr><th>CFC</th><th>Poste</th><th class="r"><i class="dot t"></i>Sarine</th><th class="r"><i class="dot l"></i>iGO Light</th><th class="r"><i class="dot x"></i>iGO Totale</th><th class="r">Écart<span class="ps">Light − Sarine</span></th><th class="r">Écart<span class="ps">Totale − Sarine</span></th></tr></thead>
+    <tbody>
+      <tr class="grp"><td class="c">CFC 1</td><td>Travaux préparatoires</td><td class="r num">45 k</td><td class="r num">30 k</td><td class="r num">30 k</td><td class="r num ct">−15 k</td><td class="r num ct">−15 k</td></tr>
+      <tr class="ln hn"><td class="c">1</td><td class="p">Démolition, installation de chantier, amiante, citerne</td><td class="r num">45 k<span class="ps">1.3, 2.1.1</span></td><td class="r num">30 k<span class="ps">112</span></td><td class="r num">30 k</td><td class="r num ct">−15 k</td><td class="r num ct">−15 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 30 k de démolition ; son descriptif cite le désamiantage, sans ligne à part. Sarine : 40 k, dont 20 k de bennes, et 5 k d’installation de chantier ; ni amiante ni citerne.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 21</td><td>Gros œuvre 1</td><td class="r num">39 k</td><td class="r num">48 k</td><td class="r num">53 k</td><td class="r num cl">+9 k</td><td class="r num cx">+14 k</td></tr>
+      <tr class="ln hn"><td class="c">211</td><td class="p">Maçonnerie, ouvertures, structure, échafaudage</td><td class="r num">29 k<span class="ps">2.1.6, 2.3</span></td><td class="r num">48 k<span class="ps">201, 211.1, 211.2, 211.5</span></td><td class="r num">53 k</td><td class="r num cl">+19 k</td><td class="r num cx">+24 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : béton armé 30 k, échafaudage 11 k (16 k en Totale), pieds de façade dégagés 5 k, collecteurs 2 k. Sarine : 20 k de maçonnerie et 9 k d’échafaudage.</td></tr>
+      <tr class="ln hn"><td class="c">214</td><td class="p">Toit isolé par l’intérieur</td><td class="r num">10 k<span class="ps">2.2.2</span></td><td class="r num">—<span class="ps">—</span></td><td class="r num">—</td><td class="r num ct">−10 k</td><td class="r num ct">−10 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 10 k. iGO Light isole aussi par l’intérieur, sans ligne à part. La Totale refait la couverture (ligne ferblanterie).</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 22</td><td>Gros œuvre 2</td><td class="r num">133 k</td><td class="r num">120 k</td><td class="r num">215 k</td><td class="r num ct">−13 k</td><td class="r num cx">+82 k</td></tr>
+      <tr class="ln hn"><td class="c">221</td><td class="p">Fenêtres, portes extérieures, baies</td><td class="r num">85 k<span class="ps">3.10, 3.16</span></td><td class="r num">55 k<span class="ps">221</span></td><td class="r num">55 k</td><td class="r num ct">−30 k</td><td class="r num ct">−30 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : fenêtres PVC à 55 k, pas de porte de garage. Sarine : bois-métal à 80 k et une porte de garage à 5 k.</td></tr>
+      <tr class="ln hn"><td class="c">222</td><td class="p">Ferblanterie, couverture</td><td class="r num">6 k<span class="ps">3.1</span></td><td class="r num">2 k<span class="ps">222</span></td><td class="r num">70 k</td><td class="r num ct">−4 k</td><td class="r num cx">+64 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO Light : 2 k. Totale : 70 k, ferblanterie et couverture neuves, toit isolé par l’extérieur. Sarine : 6 k (garnitures, chéneau).</td></tr>
+      <tr class="ln hn"><td class="c">224–225</td><td class="p">Étanchéité de la terrasse du haut</td><td class="r num">—<span class="ps">—</span></td><td class="r num">5 k<span class="ps">224</span></td><td class="r num">5 k</td><td class="r num cl">+5 k</td><td class="r num cx">+5 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 5 k. Sarine : rien.</td></tr>
+      <tr class="ln hn"><td class="c">226</td><td class="p">Façades isolées crépies, bois extérieur</td><td class="r num">27 k<span class="ps">3.15.2, 3.15.3</span></td><td class="r num">55 k<span class="ps">226</span></td><td class="r num">55 k</td><td class="r num cl">+28 k</td><td class="r num cx">+28 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 55 k, parties enterrées isolées par l’intérieur. Sarine : 24 k d’isolation crépie et 3 k pour le bois extérieur.</td></tr>
+      <tr class="ln hn"><td class="c">228</td><td class="p">Stores</td><td class="r num">15 k<span class="ps">3.9</span></td><td class="r num">3 k<span class="ps">228</span></td><td class="r num">30 k</td><td class="r num ct">−12 k</td><td class="r num cx">+15 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO Light : 3 k pour un store toile électrique, les stores existants restent. Totale : 30 k, stores à lamelles remplacés et motorisés. Sarine : 15 k.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 23</td><td>Électricité</td><td class="r num">50 k</td><td class="r num">50 k</td><td class="r num">80 k</td><td class="r num ">—</td><td class="r num cx">+30 k</td></tr>
+      <tr class="ln hn"><td class="c">23</td><td class="p">Électricité et luminaires</td><td class="r num">30 k<span class="ps">3.3</span></td><td class="r num">50 k<span class="ps">230</span></td><td class="r num">80 k</td><td class="r num"></td><td class="r num"></td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO compte électricité et solaire ensemble (230) : 50 k en Light (tableau remis à niveau, solaire minimum), 80 k en Totale (tous les câbles, solaire sur tout le toit, batteries). Sarine : 30 k et 20 k de solaire, soit 50 k aussi. Écart : voir le sous-total CFC 23.</td></tr>
+      <tr class="ln hn"><td class="c">23</td><td class="p">Panneaux solaires</td><td class="r num">20 k<span class="ps">3.4.1</span></td><td class="r num"><span class="ps">dans 230</span></td><td class="r num"><span class="ps">dans 230</span></td><td class="r num"></td><td class="r num"></td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 35 panneaux. iGO : dans la ligne 230.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 24</td><td>Chauffage et ventilation</td><td class="r num">65 k</td><td class="r num">40 k</td><td class="r num">50 k</td><td class="r num ct">−25 k</td><td class="r num ct">−15 k</td></tr>
+      <tr class="ln hn"><td class="c">242–243</td><td class="p">Pompe à chaleur et chauffage au sol</td><td class="r num">60 k<span class="ps">3.5</span></td><td class="r num">40 k<span class="ps">240</span></td><td class="r num">50 k</td><td class="r num ct">−20 k</td><td class="r num ct">−10 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : PAC air-eau et chauffage au sol, 40 k (50 k en Totale, conduites neuves). Sarine : 60 k.</td></tr>
+      <tr class="ln hn"><td class="c">244</td><td class="p">Ventilation des salles d’eau</td><td class="r num">5 k<span class="ps">3.7</span></td><td class="r num">—<span class="ps">—</span></td><td class="r num">—</td><td class="r num ct">−5 k</td><td class="r num ct">−5 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 5 k « si nécessaire ». iGO : rien.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 25</td><td>Sanitaire et cuisine</td><td class="r num">80 k</td><td class="r num">95 k</td><td class="r num">130 k</td><td class="r num cl">+15 k</td><td class="r num cx">+50 k</td></tr>
+      <tr class="ln hn"><td class="c">251–254</td><td class="p">Sanitaire</td><td class="r num">35 k<span class="ps">3.6</span></td><td class="r num">50 k<span class="ps">250</span></td><td class="r num">60 k</td><td class="r num cl">+15 k</td><td class="r num cx">+25 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 50 k, tous les appareils remplacés et les canalisations reprises en partie (60 k en Totale, toutes les conduites). Sarine : 35 k « colonne de chute, distribution ».</td></tr>
+      <tr class="ln hn"><td class="c">258</td><td class="p">Cuisine</td><td class="r num">45 k<span class="ps">3.12.4</span></td><td class="r num">45 k<span class="ps">258</span></td><td class="r num">70 k</td><td class="r num ">—</td><td class="r num cx">+25 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Cuisine à 45 k chez iGO comme chez Sarine. En Totale, la ligne d’iGO (70 k) comprend les dressings.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 27</td><td>Aménagements intérieurs 1</td><td class="r num">126 k</td><td class="r num">95 k</td><td class="r num">95 k</td><td class="r num ct">−31 k</td><td class="r num ct">−31 k</td></tr>
+      <tr class="ln hn"><td class="c">271, 277, 285</td><td class="p">Plâtrerie, cloisons, peinture</td><td class="r num">57 k<span class="ps">3.15.1, 3.15.4, 3.15.5, 3.15.6</span></td><td class="r num">80 k<span class="ps">271, 285</span></td><td class="r num">80 k</td><td class="r num cl">+23 k</td><td class="r num cx">+23 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : plâtrerie 45 k et peinture intérieure et extérieure 35 k. Sarine : 57 k de plâtrerie et peinture.</td></tr>
+      <tr class="ln hn"><td class="c">272</td><td class="p">Garde-corps, ouvrages métalliques</td><td class="r num">15 k<span class="ps">2.5</span></td><td class="r num">5 k<span class="ps">272.1</span></td><td class="r num">5 k</td><td class="r num ct">−10 k</td><td class="r num ct">−10 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 15 k de garde-corps en verre. iGO : 5 k de serrurerie et verre.</td></tr>
+      <tr class="ln hn"><td class="c">273, 275</td><td class="p">Menuiserie intérieure, armoires, escalier</td><td class="r num">54 k<span class="ps">3.11, 3.12.1, 3.12.2, 3.12.3</span></td><td class="r num">10 k<span class="ps">273.1</span></td><td class="r num">10 k</td><td class="r num ct">−44 k</td><td class="r num ct">−44 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 10 k de portes. Sarine : 54 k, dont 30 k de dressing et meuble d’entrée et 10 k d’escalier en bois.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 28</td><td>Aménagements intérieurs 2</td><td class="r num">68 k</td><td class="r num">90 k</td><td class="r num">90 k</td><td class="r num cl">+22 k</td><td class="r num cx">+22 k</td></tr>
+      <tr class="ln hn"><td class="c">281–282</td><td class="p">Chapes, isolation des sols, parquet, carrelage</td><td class="r num">55 k<span class="ps">2.4, 3.13, 3.14</span></td><td class="r num">84 k<span class="ps">281, 281.61, 281.62, 281.7</span></td><td class="r num">84 k</td><td class="r num cl">+29 k</td><td class="r num cx">+29 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : chapes neuves aux deux niveaux 20 k, carrelage 50 k, parquet à 60.–/m² 10 k, dalles 4 k. Sarine : chape 15 k, parquet 25 k, carrelage 15 k.</td></tr>
+      <tr class="ln hn"><td class="c">284</td><td class="p">Cheminée, poêle</td><td class="r num">10 k<span class="ps">3.8</span></td><td class="r num">—<span class="ps">—</span></td><td class="r num">—</td><td class="r num ct">−10 k</td><td class="r num ct">−10 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine garde un poêle (10 k). iGO : rien.</td></tr>
+      <tr class="ln"><td class="c">287</td><td class="p">Nettoyage de fin de chantier</td><td class="r num">3 k<span class="ps">3.17</span></td><td class="r num">6 k<span class="ps">287</span></td><td class="r num">6 k</td><td class="r num cl">+3 k</td><td class="r num cx">+3 k</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 4</td><td>Aménagements extérieurs</td><td class="r num">—</td><td class="r num">30 k</td><td class="r num">30 k</td><td class="r num cl">+30 k</td><td class="r num cx">+30 k</td></tr>
+      <tr class="ln hn"><td class="c">4</td><td class="p">Aménagements extérieurs, terrasse côté lac</td><td class="r num">—<span class="ps">—</span></td><td class="r num">30 k<span class="ps">401, 421, 461</span></td><td class="r num">30 k</td><td class="r num cl">+30 k</td><td class="r num cx">+30 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : terrasse côté lac 20 k, terre végétale 5 k, petites surfaces de circulation 5 k. Sarine : rien.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">CFC 29 et 5</td><td>Honoraires et frais</td><td class="r num">75.5 k</td><td class="r num">139 k</td><td class="r num">153 k</td><td class="r num cl">+63.5 k</td><td class="r num cx">+77.5 k</td></tr>
+      <tr class="ln hn"><td class="c">291</td><td class="p">Architecte et direction des travaux</td><td class="r num">60 k<span class="ps">5.10, 5.14</span></td><td class="r num">90 k<span class="ps">591, 598</span></td><td class="r num">104 k</td><td class="r num cl">+30 k</td><td class="r num cx">+44 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : direction des travaux 70 k (80 k en Totale), son offre de 65 k HT (74 k HT), et 20 k d’architecte (24 k). Sarine : 8 % pour l’architecte et la direction des travaux, plus 10 k d’architecte conseil.</td></tr>
+      <tr class="ln hn"><td class="c">292</td><td class="p">Ingénieur civil</td><td class="r num">5 k<span class="ps">5.11</span></td><td class="r num">10 k<span class="ps">592</span></td><td class="r num">10 k</td><td class="r num cl">+5 k</td><td class="r num cx">+5 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 10 k. Sarine : 5 k, pour des murs ouverts, des baies et un contreventement.</td></tr>
+      <tr class="ln hn"><td class="c">296</td><td class="p">Spécialistes (thermique, énergie)</td><td class="r num">2 k<span class="ps">5.13</span></td><td class="r num">3 k<span class="ps">597.1</span></td><td class="r num">3 k</td><td class="r num cl">+1 k</td><td class="r num cx">+1 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Thermicien : 3 k chez iGO, 2 k chez Sarine.</td></tr>
+      <tr class="ln hn"><td class="c">5</td><td class="p">Géomètre, permis, assurance, frais de chantier</td><td class="r num">8.5 k<span class="ps">5.1, 5.7, 5.9, 5.12</span></td><td class="r num">25 k<span class="ps">137, 511, 521, 596</span></td><td class="r num">25 k</td><td class="r num cl">+16.5 k</td><td class="r num cx">+16.5 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : permis et émoluments 10 k, électricité du chantier 10 k, assurance RC 3 k, géomètre 2 k. Sarine : 8.5 k, géomètre à 0.</td></tr>
+      <tr class="ln hn"><td class="c">5</td><td class="p">Taxes de raccordement</td><td class="r num">—<span class="ps">5.8</span></td><td class="r num">11 k<span class="ps">512.1, 512.3, 512.4</span></td><td class="r num">11 k</td><td class="r num cl">+11 k</td><td class="r num cx">+11 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">iGO : 11 k (électricité, eau potable, égouts). Sarine : 0 pour le téléréseau.</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">Réserve</td><td>Imprévus</td><td class="r num">45 k</td><td class="r num">60 k</td><td class="r num">83 k</td><td class="r num cl">+15 k</td><td class="r num cx">+38 k</td></tr>
+      <tr class="ln hn"><td class="c"></td><td class="p">Divers et imprévus</td><td class="r num">45 k<span class="ps">1.4, 3.19, 5.15</span></td><td class="r num">60 k<span class="ps">581</span></td><td class="r num">83 k</td><td class="r num cl">+15 k</td><td class="r num cx">+38 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 7 % des travaux. iGO : 10 % en Light, 11 % en Totale (le devis indique 8 %).</td></tr>
+      <tr class="sp"><td colspan="7"></td></tr>
+      <tr class="grp"><td class="c">Total</td><td>Avant subventions</td><td class="r num">726.5 k</td><td class="r num">797 k</td><td class="r num">1’009 k</td><td class="r num cl">+70.5 k</td><td class="r num cx">+282.5 k</td></tr>
+      <tr class="ln hn"><td class="c"></td><td class="p">Subventions</td><td class="r num">−29 k<span class="ps">3.4.2, 6</span></td><td class="r num">—</td><td class="r num">—</td><td class="r num cl">+29 k</td><td class="r num cx">+29 k</td></tr>
+      <tr class="nt"><td></td><td colspan="6" class="why">Sarine : 25 k, plus 4 k pour les panneaux. iGO : aucune subvention déduite.</td></tr>
+      <tr class="tot"><td>Total</td><td>Après subventions</td><td class="r num">697.5 k</td><td class="r num">797 k</td><td class="r num">1’009 k</td><td class="r num cl">+99.5 k</td><td class="r num cx">+311.5 k</td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="totale">
+  <h2>Ce que la variante Totale ajoute</h2>
+  <p>Selon le descriptif d’iGO, la Totale reprend toute la Light et ajoute : tous les câbles électriques remplacés, toutes les conduites sanitaires et de chauffage remplacées, ferblanterie et couverture neuves, toit isolé par l’extérieur, armoires et dressings sur mesure, solaire sur tout le toit, avec batteries, stores à lamelles remplacés et motorisés. Elle coûte 212 k de plus, soit 1’009 k au total.</p>
+  <div class="tbl"><table class="pos">
+    <thead><tr><th>CFC</th><th>Désignation</th><th class="r"><i class="dot l"></i>Light</th><th class="r"><i class="dot x"></i>Totale</th><th class="r">En plus</th></tr></thead>
+    <tbody>
+      <tr><td class="num">211.1</td><td>Échafaudages</td><td class="r num">11 k</td><td class="r num">16 k</td><td class="r num cx">+5 k</td></tr>
+      <tr><td class="num">222</td><td>Ferblanterie, couverture</td><td class="r num">2 k</td><td class="r num">70 k</td><td class="r num cx">+68 k</td></tr>
+      <tr><td class="num">228</td><td>Stores à lamelles et stores toile</td><td class="r num">3 k</td><td class="r num">30 k</td><td class="r num cx">+27 k</td></tr>
+      <tr><td class="num">230</td><td>Installations électriques et photovoltaïques</td><td class="r num">50 k</td><td class="r num">80 k</td><td class="r num cx">+30 k</td></tr>
+      <tr><td class="num">240</td><td>Chauffage, PAC air-eau comprise</td><td class="r num">40 k</td><td class="r num">50 k</td><td class="r num cx">+10 k</td></tr>
+      <tr><td class="num">250</td><td>Installations sanitaires</td><td class="r num">50 k</td><td class="r num">60 k</td><td class="r num cx">+10 k</td></tr>
+      <tr><td class="num">258</td><td>Agencement de cuisine (Totale : avec les dressings)</td><td class="r num">45 k</td><td class="r num">70 k</td><td class="r num cx">+25 k</td></tr>
+      <tr><td class="num">581</td><td>Divers et imprévus (8 %)</td><td class="r num">60 k</td><td class="r num">83 k</td><td class="r num cx">+23 k</td></tr>
+      <tr><td class="num">591</td><td>Architecte</td><td class="r num">20 k</td><td class="r num">24 k</td><td class="r num cx">+4 k</td></tr>
+      <tr><td class="num">598</td><td>Direction de travaux</td><td class="r num">70 k</td><td class="r num">80 k</td><td class="r num cx">+10 k</td></tr>
+      <tr><td></td><td><b>Total général</b></td><td class="r num"><b>797 k</b></td><td class="r num"><b>1’009 k</b></td><td class="r num cx"><b>+212 k</b></td></tr>
+    </tbody>
+  </table></div>
+</section>
+<section id="offre-igo">
+  <h2>L’offre de direction des travaux d’iGO</h2>
+  <dl class="facts">
+    <div><dt>Phase 1 · préparer, consulter, décider</dt><dd>18 k HT au forfait, le même pour les deux variantes. Visites avec les entreprises, demandes d’offres par corps de métier, comparatifs, devis CFC mis à jour, puis programme, budget et planning présentés aux propriétaires. Un seul cycle de consultation. Elle se commande seule, sans engager la phase 2 ; payée 30 % à la commande, 40 % au lancement des consultations et 30 % à la remise du budget.</dd></div>
+    <div><dt>Phase 2 · diriger le chantier</dt><dd>47 k HT en Light, 56 k HT en Totale : montants indicatifs, fixés après le choix des travaux et du planning. Facturation mensuelle.</dd></div>
+    <div><dt>Total</dt><dd>65 k HT en Light, 74 k HT en Totale, TVA en sus, soit 70 k et 80 k TTC : c’est la ligne 598 « Direction de travaux » de ses devis.</dd></div>
+    <div><dt>Pas compris</dt><dd>Architecte (plans, mise à l’enquête, plans d’exécution), ingénieurs civil et CVSE, géomètre, physicien du bâtiment, taxes et émoluments. L’offre d’architecte pour la mise à l’enquête et l’exécution doit venir de David Ribes, directeur du bureau Amadis.</dd></div>
+  </dl>
+  <h3>Les pistes d’économies qu’il propose</h3>
+  <ul class="q">
+    <li>Reporter l’isolation périphérique, ou la faire en plusieurs étapes.</li>
+    <li>Garder pour l’instant certaines fenêtres et portes extérieures.</li>
+    <li>Garder les chapes et les radiateurs avec une nouvelle pompe à chaleur, si les installations le permettent.</li>
+    <li>Limiter certaines transformations intérieures ou ouvertures dans la structure.</li>
+    <li>Garder la couverture si son état le permet, et isoler le toit par l’intérieur.</li>
+    <li>Baisser le niveau de finition de certains aménagements intérieurs.</li>
+    <li>Reporter des aménagements extérieurs ou des équipements qui ne sont pas indispensables à la première étape.</li>
+  </ul>
+  <p class="sub">Il propose de revoir les deux devis ensemble, pour choisir ce qui se fait dans la première étape et ce qui peut attendre, sans refaire plus tard ce qui aura été fait.</p>
+</section>
+<section id="questions">
+  <h2>Questions à poser</h2>
+  <div class="stackq">
+  <h3>À iGO</h3>
+  <ol class="q">
+    <li>Le désamiantage est dans son descriptif : est-il compris dans les 30 k de démolition ?</li>
+    <li>Fenêtres PVC à 55 k : les 2 grands vitrages du séjour et la baie de l’ancien garage sont-ils compris ? Quel supplément pour du bois-métal ?</li>
+    <li>Variante Light : où est comptée l’isolation du toit par l’intérieur ?</li>
+    <li>Électricité et solaire, 50 k en Light : quelle puissance de panneaux, et que comprend la remise à niveau du tableau ?</li>
+    <li>Sanitaire, 50 k : combien de salles d’eau, et quels appareils ?</li>
+    <li>Terrasse côté lac à 20 k : que comprend-elle ? Dans notre projet, c’est une étape à part.</li>
+    <li>Architecte à 20 k (24 k en Totale) : pour quelles prestations, à côté de l’offre d’Amadis ?</li>
+    <li>Subventions (isolation, pompe à chaleur, solaire) : quel montant attend-il ? Son devis n’en déduit aucune.</li>
+    <li>Le devis est à ± 25 % : quels postes sont les plus incertains ?</li>
+  </ol>
+  <h3>À Sarine Parquet</h3>
+  <ol class="q">
+    <li>La TVA est-elle comprise ? Le devis d’iGO est TTC.</li>
+    <li>L’ancien garage devient une pièce de vie avec une baie vitrée : pourquoi une porte de garage à 5 k ?</li>
+    <li>Les 80 k de fenêtres comprennent-ils les 2 grands vitrages du séjour et la baie de l’ancien garage ?</li>
+    <li>Les 20 k de maçonnerie couvrent-ils les murs ouverts, les grandes baies et leurs poutres ? Qui calcule la structure pour 5 k d’ingénieur ?</li>
+    <li>Sanitaire : quels appareils, et pour combien de salles d’eau ?</li>
+    <li>Diagnostic et désamiantage, citerne à mazout, étanchéité de la terrasse du haut, luminaires : à ajouter ?</li>
+    <li>Que couvrent les 8 % d’honoraires : plans, dossier de permis, appels d’offres, direction des travaux ? Et le géomètre ?</li>
+    <li>Le poêle compté correspond-il à notre cheminée en pierre neuve (foyer fermé, conduit et souche), ou à l’ancienne cheminée gardée ?</li>
+    <li>Imprévus de 45 k, soit 7 % des travaux : sur quelle base ?</li>
+  </ol>
+  </div>
+</section>
+<section id="devis-recus">
+  <h2>Les devis tels que reçus</h2>
+  <details>
+    <summary>Sarine Parquet · les 45 positions du devis du 9.11.2026, avec le poste où nous les rangeons</summary>
+    <div class="tbl"><table class="pos">
+      <thead><tr><th>Pos.</th><th>Libellé</th><th class="r">Montant</th><th>Remarque du devis</th><th>Rangé dans</th></tr></thead>
+      <tbody>
+        <tr><td class="num">1.3</td><td>Démolition de l’existant</td><td class="r num">40 k</td><td>20’000.- CHF benne de chantier</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">1.4</td><td>Divers et imprévus / PV</td><td class="r num">10 k</td><td></td><td>Imprévus</td></tr>
+        <tr><td class="num">2.1.1</td><td>Installation de chantier</td><td class="r num">5 k</td><td>Toi Toi (WC), chèvre de chantier</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">2.1.6</td><td>Divers travaux de maçonnerie</td><td class="r num">20 k</td><td>ouverture, forage, maçonnerie</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">2.2.2</td><td>Charpente et toiture</td><td class="r num">10 k</td><td>isolation toiture étage</td><td>214 · Toit isolé par l’intérieur</td></tr>
+        <tr><td class="num">2.3</td><td>Échafaudages</td><td class="r num">9 k</td><td>pour solaire et façade</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">2.4</td><td>Chapes ciment et isolation de sol</td><td class="r num">15 k</td><td>chape ciment et isolation</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">2.5</td><td>Constructions métalliques</td><td class="r num">15 k</td><td>garde-corps en verre</td><td>272 · Garde-corps, ouvrages métalliques</td></tr>
+        <tr><td class="num">3.1</td><td>Ferblanterie / couverture</td><td class="r num">6 k</td><td>garniture à changer, chéneau</td><td>222 · Ferblanterie, couverture</td></tr>
+        <tr><td class="num">3.3</td><td>Installations électriques</td><td class="r num">30 k</td><td>tableau et installation électrique</td><td>23 · Électricité et luminaires</td></tr>
+        <tr><td class="num">3.4.1</td><td>Installation photovoltaïque</td><td class="r num">20 k</td><td>35 panneaux</td><td>23 · Panneaux solaires</td></tr>
+        <tr><td class="num">3.4.2</td><td>Subvention photovoltaïque</td><td class="r num">−4 k</td><td></td><td>Subventions</td></tr>
+        <tr><td class="num">3.5</td><td>Installation chauffage PAC</td><td class="r num">60 k</td><td>PAC, chauffage au sol, distribution</td><td>242–243 · Pompe à chaleur et chauffage au sol</td></tr>
+        <tr><td class="num">3.6</td><td>Installations sanitaires</td><td class="r num">35 k</td><td>colonne de chute, distribution</td><td>251–254 · Sanitaire</td></tr>
+        <tr><td class="num">3.7</td><td>Installations de ventilation</td><td class="r num">5 k</td><td>si nécessaire</td><td>244 · Ventilation des salles d’eau</td></tr>
+        <tr><td class="num">3.8</td><td>Canal de fumée et poêle</td><td class="r num">10 k</td><td>modification cheminée</td><td>284 · Cheminée, poêle</td></tr>
+        <tr><td class="num">3.9</td><td>Stores à lamelles électriques</td><td class="r num">15 k</td><td>stores électriques à lamelles</td><td>228 · Stores</td></tr>
+        <tr><td class="num">3.10</td><td>Fenêtres bois-métal + portes d’entrée</td><td class="r num">80 k</td><td>bois métal</td><td>221 · Fenêtres, portes extérieures, baies</td></tr>
+        <tr><td class="num">3.11</td><td>Cylindres et plan de fermeture</td><td class="r num">2 k</td><td>plan de fermeture maison</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">3.12.1</td><td>Portes de communication intérieures</td><td class="r num">12 k</td><td>porte blanche 800.- / pce posée</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">3.12.2</td><td>Agencement intérieur</td><td class="r num">30 k</td><td>dressing et meuble d’entrée</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">3.12.3</td><td>Escaliers intérieurs</td><td class="r num">10 k</td><td>garde-corps et escalier en bois</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">3.12.4</td><td>Agencements de cuisine</td><td class="r num">45 k</td><td>bon budget</td><td>258 · Cuisine</td></tr>
+        <tr><td class="num">3.13</td><td>Revêtements de sol (parquet)</td><td class="r num">25 k</td><td>150.- CHF / m² fourniture + pose</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">3.14</td><td>Carrelage et faïences</td><td class="r num">15 k</td><td>150.- CHF / m² fourniture + pose</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">3.15.1</td><td>Plâtrerie-peinture : travaux préparatoires</td><td class="r num">2 k</td><td>installation, mise en place</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">3.15.2</td><td>Isolation et revêtement extérieur</td><td class="r num">24 k</td><td>isolation, treillis et lissage, crépi</td><td>226 · Façades isolées crépies, bois extérieur</td></tr>
+        <tr><td class="num">3.15.3</td><td>Traitement du bois extérieur</td><td class="r num">3 k</td><td>larmier à sabler ou peindre</td><td>226 · Façades isolées crépies, bois extérieur</td></tr>
+        <tr><td class="num">3.15.4</td><td>Peinture et crépi intérieurs, parois</td><td class="r num">25 k</td><td>lissage des murs, rhabillage, crépi</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">3.15.5</td><td>Peinture et crépi intérieurs, plafonds</td><td class="r num">10 k</td><td>lissage, peinture, Fermacell</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">3.15.6</td><td>Divers traitements et peinture</td><td class="r num">20 k</td><td>sous-face du balcon, cloison</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">3.16</td><td>Porte de garage</td><td class="r num">5 k</td><td>jusqu’à 3 mètres de largeur</td><td>221 · Fenêtres, portes extérieures, baies</td></tr>
+        <tr><td class="num">3.17</td><td>Nettoyage de fin de chantier</td><td class="r num">3 k</td><td>estimation</td><td>287 · Nettoyage de fin de chantier</td></tr>
+        <tr><td class="num">3.19</td><td>Divers et imprévus / PV</td><td class="r num">25 k</td><td></td><td>Imprévus</td></tr>
+        <tr><td class="num">5.1</td><td>Permis de construire</td><td class="r num">3 k</td><td></td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">5.7</td><td>Consommation électrique du chantier</td><td class="r num">3.5 k</td><td></td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">5.8</td><td>Taxe et raccordement téléréseau</td><td class="r num">0</td><td></td><td>5 · Taxes de raccordement</td></tr>
+        <tr><td class="num">5.9</td><td>Assurance de construction</td><td class="r num">2 k</td><td></td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">5.10</td><td>Honoraires architecte et direction des travaux</td><td class="r num">50 k</td><td>forfait, 8 % du coût total</td><td>291 · Architecte et direction des travaux</td></tr>
+        <tr><td class="num">5.11</td><td>Honoraires ingénieur civil</td><td class="r num">5 k</td><td></td><td>292 · Ingénieur civil</td></tr>
+        <tr><td class="num">5.12</td><td>Honoraires ingénieur géomètre</td><td class="r num">0</td><td></td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">5.13</td><td>Honoraires ingénieur thermique</td><td class="r num">2 k</td><td></td><td>296 · Spécialistes (thermique, énergie)</td></tr>
+        <tr><td class="num">5.14</td><td>Architecte conseil</td><td class="r num">10 k</td><td></td><td>291 · Architecte et direction des travaux</td></tr>
+        <tr><td class="num">5.15</td><td>Divers et imprévus</td><td class="r num">10 k</td><td></td><td>Imprévus</td></tr>
+        <tr><td class="num">6</td><td>Subvention</td><td class="r num">−25 k</td><td></td><td>Subventions</td></tr>
+        <tr><td></td><td><b>Total du devis, après subventions</b></td><td class="r num"><b>697.5 k</b></td><td></td><td></td></tr>
+      </tbody>
+    </table></div>
+  </details>
+  <details>
+    <summary>iGO SA · les 58 positions des deux devis du 18.11.2026, avec le poste où nous les rangeons</summary>
+    <div class="tbl"><table class="pos">
+      <thead><tr><th>CFC</th><th>Désignation</th><th class="r">Light</th><th class="r">Totale</th><th>Rangé dans</th></tr></thead>
+      <tbody>
+        <tr><td class="num">100</td><td>Analyses géotechniques (sondages)</td><td class="r num">0</td><td class="r num">0</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">105</td><td>Géomètre, pose de gabarit</td><td class="r num">0</td><td class="r num">0</td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">111</td><td>Défrichage</td><td class="r num">0</td><td class="r num">0</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">112</td><td>Démolition</td><td class="r num">30 k</td><td class="r num">30 k</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">136</td><td>Travaux relatifs à l’introduction</td><td class="r num">0</td><td class="r num">0</td><td>1 · Démolition, installation de chantier, amiante, citerne</td></tr>
+        <tr><td class="num">137</td><td>Consommation d’électricité du chantier, hors gros œuvre</td><td class="r num">10 k</td><td class="r num">10 k</td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">201</td><td>Excavation (décharge type A), remblayages et mise en forme</td><td class="r num">5 k</td><td class="r num">5 k</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">209</td><td>Travaux spéciaux (paroi gunitée clouée)</td><td class="r num">0</td><td class="r num">0</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">211.1</td><td>Échafaudages</td><td class="r num">11 k</td><td class="r num">16 k</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">211.2</td><td>Collecteurs EC et EU</td><td class="r num">2 k</td><td class="r num">2 k</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">211.3</td><td>Canalisations extérieures EP et drains</td><td class="r num">0</td><td class="r num">0</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">211.5</td><td>Béton armé</td><td class="r num">30 k</td><td class="r num">30 k</td><td>211 · Maçonnerie, ouvertures, structure, échafaudage</td></tr>
+        <tr><td class="num">214</td><td>Charpente</td><td class="r num">0</td><td class="r num">0</td><td>214 · Toit isolé par l’intérieur</td></tr>
+        <tr><td class="num">221</td><td>Fenêtres PVC</td><td class="r num">55 k</td><td class="r num">55 k</td><td>221 · Fenêtres, portes extérieures, baies</td></tr>
+        <tr><td class="num">222</td><td>Ferblanterie, couverture</td><td class="r num">2 k</td><td class="r num">70 k</td><td>222 · Ferblanterie, couverture</td></tr>
+        <tr><td class="num">224</td><td>Étanchéité</td><td class="r num">5 k</td><td class="r num">5 k</td><td>224–225 · Étanchéité de la terrasse du haut</td></tr>
+        <tr><td class="num">226</td><td>Isolation des façades</td><td class="r num">55 k</td><td class="r num">55 k</td><td>226 · Façades isolées crépies, bois extérieur</td></tr>
+        <tr><td class="num">228</td><td>Stores à lamelles et stores toile</td><td class="r num">3 k</td><td class="r num">30 k</td><td>228 · Stores</td></tr>
+        <tr><td class="num">230</td><td>Installations électriques et photovoltaïques</td><td class="r num">50 k</td><td class="r num">80 k</td><td>23 · Électricité et luminaires</td></tr>
+        <tr><td class="num">240</td><td>Chauffage, PAC air-eau comprise</td><td class="r num">40 k</td><td class="r num">50 k</td><td>242–243 · Pompe à chaleur et chauffage au sol</td></tr>
+        <tr><td class="num">244</td><td>Ventilation Minergie avec monobloc</td><td class="r num">0</td><td class="r num">0</td><td>244 · Ventilation des salles d’eau</td></tr>
+        <tr><td class="num">247</td><td>MCR, compris dans CVS</td><td class="r num">0</td><td class="r num">0</td><td>242–243 · Pompe à chaleur et chauffage au sol</td></tr>
+        <tr><td class="num">250</td><td>Installations sanitaires</td><td class="r num">50 k</td><td class="r num">60 k</td><td>251–254 · Sanitaire</td></tr>
+        <tr><td class="num">258</td><td>Agencement de cuisine (Totale : avec les dressings)</td><td class="r num">45 k</td><td class="r num">70 k</td><td>258 · Cuisine</td></tr>
+        <tr><td class="num">261</td><td>Ascenseur</td><td class="r num">0</td><td class="r num">0</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">271</td><td>Plâtrerie</td><td class="r num">45 k</td><td class="r num">45 k</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">272.1</td><td>Serrurerie, verre</td><td class="r num">5 k</td><td class="r num">5 k</td><td>272 · Garde-corps, ouvrages métalliques</td></tr>
+        <tr><td class="num">272.2</td><td>Porte de garage</td><td class="r num">0</td><td class="r num">0</td><td>221 · Fenêtres, portes extérieures, baies</td></tr>
+        <tr><td class="num">273.1</td><td>Menuiserie intérieure (portes)</td><td class="r num">10 k</td><td class="r num">10 k</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">273.2</td><td>Boîtes aux lettres</td><td class="r num">0</td><td class="r num">0</td><td>273, 275 · Menuiserie intérieure, armoires, escalier</td></tr>
+        <tr><td class="num">281</td><td>Chapes</td><td class="r num">20 k</td><td class="r num">20 k</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">281.61</td><td>Carrelage 30/60, fourniture comprise</td><td class="r num">50 k</td><td class="r num">50 k</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">281.62</td><td>Dalles 60/60, fourniture comprise</td><td class="r num">4 k</td><td class="r num">4 k</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">281.7</td><td>Parquet à 60.–/m², plinthes</td><td class="r num">10 k</td><td class="r num">10 k</td><td>281–282 · Chapes, isolation des sols, parquet, carrelage</td></tr>
+        <tr><td class="num">285</td><td>Peinture intérieure et extérieure</td><td class="r num">35 k</td><td class="r num">35 k</td><td>271, 277, 285 · Plâtrerie, cloisons, peinture</td></tr>
+        <tr><td class="num">287</td><td>Nettoyage, évacuation des déchets</td><td class="r num">6 k</td><td class="r num">6 k</td><td>287 · Nettoyage de fin de chantier</td></tr>
+        <tr><td class="num">401</td><td>Mise en forme de la terre végétale, ensemencement</td><td class="r num">5 k</td><td class="r num">5 k</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">411</td><td>Enrochements</td><td class="r num">0</td><td class="r num">0</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">412</td><td>Treillis sur le pourtour de la parcelle</td><td class="r num">0</td><td class="r num">0</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">421</td><td>Terrasse côté lac</td><td class="r num">20 k</td><td class="r num">20 k</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">422</td><td>Jardins et plantations</td><td class="r num">0</td><td class="r num">0</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">461</td><td>Petites surfaces de circulation</td><td class="r num">5 k</td><td class="r num">5 k</td><td>4 · Aménagements extérieurs, terrasse côté lac</td></tr>
+        <tr><td class="num">511</td><td>Permis, autorisations, émoluments</td><td class="r num">10 k</td><td class="r num">10 k</td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">512.1</td><td>Taxe électricité (augmentation d’ampérage)</td><td class="r num">5 k</td><td class="r num">5 k</td><td>5 · Taxes de raccordement</td></tr>
+        <tr><td class="num">512.2</td><td>Taxes Swisscom, télécom</td><td class="r num">0</td><td class="r num">0</td><td>5 · Taxes de raccordement</td></tr>
+        <tr><td class="num">512.3</td><td>Taxe eau potable</td><td class="r num">3 k</td><td class="r num">3 k</td><td>5 · Taxes de raccordement</td></tr>
+        <tr><td class="num">512.4</td><td>Taxes EU et EC</td><td class="r num">3 k</td><td class="r num">3 k</td><td>5 · Taxes de raccordement</td></tr>
+        <tr><td class="num">521</td><td>Assurance RC du maître de l’ouvrage</td><td class="r num">3 k</td><td class="r num">3 k</td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">581</td><td>Divers et imprévus (8 %)</td><td class="r num">60 k</td><td class="r num">83 k</td><td>Imprévus</td></tr>
+        <tr><td class="num">591</td><td>Architecte</td><td class="r num">20 k</td><td class="r num">24 k</td><td>291 · Architecte et direction des travaux</td></tr>
+        <tr><td class="num">592</td><td>Ingénieur civil</td><td class="r num">10 k</td><td class="r num">10 k</td><td>292 · Ingénieur civil</td></tr>
+        <tr><td class="num">593</td><td>Ingénieur électricité</td><td class="r num">0</td><td class="r num">0</td><td>296 · Spécialistes (thermique, énergie)</td></tr>
+        <tr><td class="num">594</td><td>Ingénieur CVS</td><td class="r num">0</td><td class="r num">0</td><td>296 · Spécialistes (thermique, énergie)</td></tr>
+        <tr><td class="num">596</td><td>Géomètre (phase enquête)</td><td class="r num">2 k</td><td class="r num">2 k</td><td>5 · Géomètre, permis, assurance, frais de chantier</td></tr>
+        <tr><td class="num">597.1</td><td>Ingénieur thermicien</td><td class="r num">3 k</td><td class="r num">3 k</td><td>296 · Spécialistes (thermique, énergie)</td></tr>
+        <tr><td class="num">597.2</td><td>Ingénieur géologue</td><td class="r num">0</td><td class="r num">0</td><td>296 · Spécialistes (thermique, énergie)</td></tr>
+        <tr><td class="num">598</td><td>Direction de travaux</td><td class="r num">70 k</td><td class="r num">80 k</td><td>291 · Architecte et direction des travaux</td></tr>
+        <tr><td class="num">599</td><td>Suivi des acquéreurs</td><td class="r num">0</td><td class="r num">0</td><td>291 · Architecte et direction des travaux</td></tr>
+        <tr><td></td><td><b>Total général TTC</b></td><td class="r num"><b>797 k</b></td><td class="r num"><b>1’009 k</b></td><td></td></tr>
+      </tbody>
+    </table></div>
+  </details>
+</section>
+<footer>
+  <span>Devis de Sarine Parquet : PDF du 9.11.2026, TVA non précisée. Devis d’iGO SA : deux devis généraux estimatifs du 18.11.2026 (± 25 %, TTC) et une offre de direction des travaux.</span>
+</footer>
+</div>
+</body>
+</html>
